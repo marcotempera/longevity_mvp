@@ -1,0 +1,259 @@
+actions:
+
+  # ====== STORIA FAMILIARE ======
+  fh_patologie_cv:
+    lifestyle:
+      - "Controlla regolarmente pressione, lipidi e glicemia (almeno 1×/anno se >35 anni o familiarità)."
+      - "Attività aerobica 150–300 min/settimana."
+      - "Dieta mediterranea: frutta/verdura, legumi, cereali integrali, pesce; riduci ultraprocessati e carni processate."
+      - "Stop fumo; alcol basso o assente."
+    nutraceutica:
+      - "Omega-3 (EPA/DHA) se assunzione di pesce è scarsa — valuta con il medico."
+    followup:
+      - "Se presenti più eventi in parenti di 1° grado, richiedi stratificazione del rischio cardiovascolare."
+
+  fh_ipertensione:
+    lifestyle:
+      - "Riduci sodio (≈5 g sale/die), aumenta potassio con cibi freschi."
+      - "DASH/mediterranea; attenzione al peso (riduzioni di 5–10% aiutano)."
+      - "Aerobica 150–300 min/sett.; limita alcol."
+      - "Automisurazioni pressorie periodiche."
+    nutraceutica:
+      - "Valuta con il medico: omega-3, nitrati da barbabietola; evita automedicazione."
+    followup:
+      - "Se esordio familiare <40 anni o multipli casi → valutazione precoce e screening mirato."
+
+  fh_diabete:
+    lifestyle:
+      - "Dieta a basso/medio IG, alta in fibre (≥25–30 g/die)."
+      - "Attività fisica: passi 7–9k/die. Aerobica 150–300 min/sett."
+      - "Gestione peso e circonferenza vita."
+    nutraceutica:
+      - "Possibili: inositolo/berberina solo se indicato; verifica interazioni e funzione epatica con il medico."
+    followup:
+      - "Controllo periodico glicemia/HbA1c se familiarità forte."
+
+  fh_tumori_brca:
+    lifestyle:
+      - "BMI nella norma; attività fisica regolare; alcol molto basso/assente."
+      - "Autopalpazione e consapevolezza dei segni d’allarme (senologia preventiva)."
+    medical:
+      - "Consulenza genetica; definire piano di screening personalizzato."
+    followup:
+      - "Programmazione di imaging/screening anticipati se indicato."
+
+  fh_colonretto:
+    lifestyle:
+      - "Fibre 25–30 g/die; aumentare verdure/legumi nella dieta; diminuire carni rosse/processed; attività fisica."
+      - "Peso nella norma; limita alcol."
+    medical:
+      - "Colonoscopia anticipata se familiarità forte o sindrome ereditaria."
+    followup:
+      - "Piano di sorveglianza con specialista in base al rischio."
+
+  fh_demenza:
+    lifestyle:
+      - "Attività fisica combinata ad attvità di mindfulness 4–5×/sett."
+      - "Dieta mediterranea/MIND; sonno 7–9 h; socialità e stimolazione cognitiva."
+      - "Controllo dei fattori vascolari (PA, lipidi, glicemia)."
+    nutraceutica:
+      - "Vitamina D se carente; omega-3 se dieta povera di pesce — sempre con parere medico."
+    followup:
+      - "Se storia familiare precoce o mutazione nota → consulenza specialistica."
+
+  fh_umore:
+    lifestyle:
+      - "Igiene del sonno; attività fisica regolare; gestione dello stress (mindfulness/CBT)."
+      - "Riduci alcol; struttura di routine quotidiana."
+    nutraceutica:
+      - "Discussione col medico su: omega-3 ad alto EPA, magnesio, vitamina D se carente."
+    followup:
+      - "Se sintomi presenti → valutazione psicologica/psichiatrica; piano di supporto personalizzato."
+
+  fh_asma:
+    lifestyle:
+      - "Riduci esposizione a trigger (fumo, allergeni domestici); qualità dell’aria in casa."
+      - "Aderenza a eventuali piani/terapie se già presenti; attività fisica graduale."
+    followup:
+      - "Se episodi gravi/multipli in famiglia → consulenza allergologica/pneumologica per piano d’azione."
+
+  fh_autoimmuni:
+    lifestyle:
+      - "Alimentazione anti-infiammatoria (stile mediterraneo); sonno; gestione stress."
+      - "Attenzione a segnali precoci (cute, articolazioni, intestino, tiroide)."
+    nutraceutica:
+      - "Vitamina D se carente; omega-3 se indicato — con supervisione medica."
+    followup:
+      - "Se più patologie autoimmuni in famiglia → valutazione mirata al primo sintomo."
+
+  fh_trombosi:
+    lifestyle:
+      - "Movimento regolare; idratazione; pause attive in viaggi lunghi; calze a compressione se raccomandate."
+      - "Evitare fumo; discutere con medico contraccettivi/terapie ormonali."
+    medical:
+      - "Valutazione trombofilia se eventi in giovane età/sedi inusuali o aborti ricorrenti."
+    nutraceutica:
+      - "Evita integratori/erbe potenzialmente pro-coagulanti senza parere medico."
+    followup:
+      - "Piano preventivo personalizzato in contesti a rischio (chirurgia, gravidanza, viaggi lunghi)."
+
+  fh_eventi_cardiaci_precoci:
+    lifestyle:
+      - "Attività aerobica 150–300 min/sett."
+      - "Dieta mediterranea; stop fumo; alcol basso."
+    nutraceutica:
+      - "Omega-3 (EPA/DHA) se dieta povera di pesce — valuta con medico."
+    followup:
+      - "Stratificazione del rischio CV (calcolo rischio, ECG, profilo lipidico, eventuale imaging) con MMG/specialista."
+
+  fh_esito_cv:
+    lifestyle:
+      - "Rafforza prevenzione primaria (PA, lipidi, glicemia, fumo, attività)."
+    followup:
+      - "Se esiti familiari gravi (decessi per CV) → confronto medico per piano di sorveglianza."
+
+  fh_decessi_giovane:
+    followup:
+      - "Indagare la causa; se sospetto cardiovascolare/aritmico → valutazione per cardiopatie ereditarie."
+
+  fh_causa_decesso_cv:
+    lifestyle:
+      - "Prevenzione cardiovascolare potenziata (dieta, attività, no fumo)."
+    followup:
+      - "Controlli periodici con MMG; eventuale invio a cardiologia preventiva."
+
+  fh_causa_decesso_note:
+    followup:
+      - "Annotazione utile per il clinico: portala in visita."
+
+  fh_mutazioni_genetiche:
+    medical:
+      - "Consulenza genetica; valutare test in famiglia (cascade testing)."
+    followup:
+      - "Definire con lo specialista un piano di screening per gene/condizione."
+
+  fh_mutazioni_note:
+    followup:
+      - "Se è indicato un gene/variante specifica, portare il referto al consulto genetico."
+
+  fh_longevita:
+    lifestyle:
+      - "Mantieni abitudini protettive familiari (alimentazione, attività, sonno)."
+    followup:
+      - "Nessuna azione clinica specifica: fattore protettivo."
+
+  # ====== NASCITA / SVILUPPO ======
+  nascita_pretermine:
+    lifestyle:
+      - "Monitoraggio cardiometabolico nel tempo (PA, lipidi, glicemia)."
+      - "Attività fisica regolare e dieta equilibrata fin da giovani età."
+    followup:
+      - "Confronto con MMG per frequenza dei controlli."
+
+  tipo_parto:
+    followup:
+      - "Informazione di contesto; nessuna azione se non associate altre criticità."
+
+  complicazioni_nascita:
+    followup:
+      - "Se riportate complicazioni significative, menzionale al medico per anamnesi completa."
+
+  allattamento:
+    lifestyle:
+      - "Se allattamento esclusivo: mantieni buone abitudini nutrizionali in età adulta."
+      - "Se alimentazione artificiale: cura maggiormente stile di vita cardiometabolico."
+
+  tappe_sviluppo:
+    followup:
+      - "Se ritardi significativi e sintomi attuali: valutazione specialistica (neuropsichiatria/endo) se opportuno."
+
+  # ====== SVILUPPO PUBERALE / RIPRODUTTIVO ======
+  puberta_femminile:
+    lifestyle:
+      - "Stile di vita regolare (sonno, attività, alimentazione)."
+    followup:
+      - "In caso di pubertà precoce/ritardata o sintomi → valutazione endocrino-ginecologica."
+
+  puberta_maschile:
+    lifestyle:
+      - "Stile di vita regolare (sonno, attività, alimentazione)."
+    followup:
+      - "In caso di pubertà precoce/ritardata o sintomi → valutazione endocrinologica."
+
+  ciclo_mestruale:
+    lifestyle:
+      - "Dieta equilibrata; attività fisica; gestione dello stress."
+    followup:
+      - "Valutazione ginecologica/endocrina per irregolarità/dismenorrea persistenti."
+
+  menopausa:
+    lifestyle:
+      - "Attività fisica, dieta ricca di calcio/proteine, sonno."
+      - "Prevenzione ossea e cardiometabolica (peso, PA, lipidi)."
+    medical:
+      - "Discussione su terapia ormonale sostitutiva se sintomatica e senza controindicazioni."
+    followup:
+      - "Densitometria ossea e controlli periodici secondo età/rischio."
+
+  menopausa_anni:
+    followup:
+      - "Informazione utile per il clinico per contestualizzare il rischio."
+
+  gravidanze_portate_a_termine:
+    lifestyle:
+      - "Mantieni abitudini salutari; monitora peso e PA in gravidanza (se futura)."
+    followup:
+      - "Se complicanze in passato, segnalarle al ginecologo."
+
+  aborti_spontanei:
+    medical:
+      - "Valutazione ginecologica/endocrina; considerare trombofilia se ≥2 episodi."
+    followup:
+      - "Piano preconcezionale personalizzato prima di una nuova gravidanza."
+
+  # ====== INFO VARIE ADULTE ======
+  servizio_militare_idoneita:
+    lifestyle:
+      - "Mantieni o riprendi regolarità di attività fisica e igiene del sonno."
+    followup:
+      - "Nessuna azione specifica; indicatore funzionale storico."
+
+  riformato_militare:
+    followup:
+      - "Se riforma per motivi fisici/psicologici ha esiti attuali, valuta un controllo clinico mirato."
+
+  salute_partner:
+    followup:
+      - "Informazione di contesto; nessuna azione clinica diretta sull’utente."
+
+  salute_figli:
+    followup:
+      - "Informazione di contesto; se problemi significativi, cura il supporto familiare."
+
+  # ====== ABITUDINI PROTETTIVE (DNA/PROTEINE/MITOCONDRI) ======
+  protezione_dna:
+    lifestyle:
+      - "Protezione solare costante; evita fumo; riduci ultraprocessati."
+      - "Alimenti ricchi di antiossidanti (frutta/verdura colorata, spezie)."
+    nutraceutica:
+      - "Valuta antiossidanti solo se carenze/situazioni specifiche, con parere medico."
+
+  protezione_per_proteine:
+    lifestyle:
+      - "Apporto proteico adeguato e di qualità; attività fisica; sonno regolare."
+      - "Gestione stress per ridurre danno proteico ossidativo."
+    nutraceutica:
+      - "Valuta con il medico integrazioni proteiche solo se necessarie (diete povere, sarcopenia)."
+
+  migliorare_funzione_mitocondriale:
+    lifestyle:
+      - "Allenamento misto (aerobico + intervalli) e forza; gestione stress; sonno."
+      - "Dieta equilibrata con attenzione a qualità dei grassi e carboidrati."
+    nutraceutica:
+      - "Possibili (solo se indicati): coenzima Q10, carnitina, vitamina D — sempre con supervisione medica."
+    followup:
+      - "Se affaticabilità marcata o sintomi specifici, confrontati con il medico."
+
+  migliorare_funzione_mitocondriale_tempo:
+    followup:
+      - "Usa questa nota per personalizzare il piano e verificare aderenza/risposta."

@@ -1,0 +1,329 @@
+map:
+
+  parenti_patologie_cardiovascolari[]:
+    feature: fh_patologie_cv[]
+    values:
+      infarto: infarto
+      aritmie: aritmie
+      ipertensione: ipertensione
+      ictus: ictus
+      malattia_coronarica: coronarica
+      aneurisma: aneurisma
+      altro: altro
+
+  patologie_cardiovascolari[]:
+    feature: fh_patologie_cv[]
+    values:
+      nessuna: nessuna
+
+  familiari_ipertensione:
+    feature: fh_ipertensione
+    values:
+      nessun_caso_noto: nessun_caso
+      diagnosi_dopo_40: dopo_40
+      diagnosi_prima_40: prima_40
+      più_familiari: multipli
+      non_so: non_so
+
+  parenti_diabete:
+    feature: fh_diabete
+    values:
+      nessun_caso_noto: nessun_caso
+      tipo1_familiare: tipo1
+      tipo2_familiare: tipo2
+      più_tipo2: multipli_tipo2
+      gestazionale: gestazionale
+      non_so: non_so
+
+  parenti_tumori_familiari:
+    feature: fh_tumori_brca
+    values:
+      nessun_caso_noto: nessun_caso
+      madre_sorella_tumore_seno: madre_sorella_seno
+      tumore_mammario_bilaterale: mammario_bilaterale
+      tumore_ovaie_endometrio_prostata: ovaio_endo_prostata
+      mutazione_BRCA: mutazione_brca_nota
+      non_so: non_so
+
+  parenti_colonretto:
+    feature: fh_colonretto
+    values:
+      nessun_familiare: nessuno
+      primo_grado_tumore_colonretto: primo_grado
+      più_membri_famiglia: multipli_famiglia
+      diagnosi_prima_50: precoce_prima_50
+      sindrome_genetica: sindrome_genetica
+      non_so: non_so
+
+  parenti_alzheimer:
+    feature: fh_demenza
+    values:
+      nessun_caso: nessun_caso
+      diagnosi_dopo_65: dopo_65
+      diagnosi_prima_65: prima_65
+      più_casi_famiglia: multipli
+      mutazione_genetica: mutazione_nota
+      non_so: non_so
+
+  parenti_disturbi_umore:
+    feature: fh_umore
+    values:
+      nessun_caso: nessun_caso
+      depressione_età_adulta: depressione_adulta
+      esordio_precoce: esordio_precoce
+      più_membri: multipli
+      disturbo_umore: bipolare
+      non_so: non_so
+
+  parenti_asma:
+    feature: fh_asma
+    values:
+      nessun_caso: nessun_caso
+      asma_occasionale: occasionale
+      asma_persistente: persistente
+      più_membri: multipli
+      episodi_acuti_gravi: episodi_gravi
+      non_so: non_so
+
+  parenti_autoimmuni:
+    feature: fh_autoimmuni
+    values:
+      nessun_caso: nessun_caso
+      uno_diagnosi: uno
+      più_familiari: multipli
+      diverse_nella_stessa_persona: diverse_stessa_persona
+      non_so: non_so
+
+  parenti_trombosi:
+    feature: fh_trombosi
+    values:
+      nessun_caso: nessun_caso
+      caso_isolato: isolato
+      più_casi: multipli
+      giovane_età: giovane_eta
+      sedi_inusuali: sedi_inusuali
+      non_so: non_so
+
+  parenti_eventi_cardiaci_precoci:
+    feature: fh_eventi_cardiaci_precoci
+    values:
+      padre_prima_55: padre_prima_55
+      madre_prima_65: madre_prima_65
+      dopo_55_60: dopo_soglia
+      fratello_sorella: fratello_sorella
+      secondo_grado: secondo_grado
+      nessun_caso: nessun_caso
+      non_so: non_so
+
+  esito_malattia_cardiaca_familiare:
+    feature: fh_esito_cv
+    values:
+      ancora_in_vita: in_vita
+      deceduto: deceduto
+      guarito: guarito
+      nessun_caso: nessun_caso
+      non_so: non_so
+
+  parente_morto_giovane:
+    feature: fh_decessi_giovane
+    values:
+      si: si
+      no: no
+      non_so: non_so
+
+  causa_morte_parenti:
+    feature: fh_causa_decesso_cv
+    values:
+      cardiovascolare: cardiovascolare
+      altre_cause: altre
+      no: no
+      non_so: non_so
+  causa_morte_parenti_note:
+    feature: fh_causa_decesso_note
+    passthrough: true
+
+  mutazioni_genetiche:
+    feature: fh_mutazioni_genetiche
+    values:
+      in_me: in_me
+      primo_grado: primo_grado
+      secondo_grado: secondo_grado
+      no: no
+      non_so: non_so
+  mutazioni_genetiche_note:
+    feature: fh_mutazioni_note
+    passthrough: true
+
+  longevità_famiglia[]:
+    feature: fh_longevita[]
+    values:
+      madre: madre
+      padre: padre
+      nonno_paterno: nonno_paterno
+      nonna_paterna: nonna_paterna
+      nonno_materno: nonno_materno
+      nonna_materna: nonna_materna
+      altro_parente_stretto: altro
+      nessuno: nessuno
+      non_so: non_so
+
+  # ====== Nascita / sviluppo ======
+  nascita_pretermine:
+    feature: nascita_pretermine
+    values:
+      termine: termine
+      estremamente: estremamente
+      molto: molto
+      moderatamente: moderatamente
+      tardivo: tardivo
+      non_so: non_so
+
+  tipo_parto:
+    feature: tipo_parto
+    values:
+      naturale: naturale
+      intervento_ostetrico: intervento_ostetrico
+      non_ricordo: non_ricordo
+
+  complicazioni_nascita:
+    feature: complicazioni_nascita
+    values:
+      sì: si
+      no: no
+      non_ricordo: non_ricordo
+
+  allattamento:
+    feature: allattamento
+    values:
+      esclusivo: esclusivo
+      parziale: parziale
+      artificiale: artificiale
+      non_ricordo: non_ricordo
+
+  tappe_sviluppo:
+    feature: tappe_sviluppo
+    values:
+      regolari: regolari
+      lievi_ritardi: lievi_ritardi
+      ritardi_significativi: ritardi_significativi
+      non_ricordo: non_ricordo
+
+  # ====== Pubertà / riproduttivo ======
+  pubertà_femminile:
+    feature: puberta_femminile
+    values:
+      regolare: regolare
+      precoce: precoce
+      ritardata: ritardata
+      non_ricordo: non_ricordo
+      uomo: uomo
+
+  pubertà_maschile:
+    feature: puberta_maschile
+    values:
+      regolare: regolare
+      precoce: precoce
+      ritardata: ritardata
+      non_ricordo: non_ricordo
+      donna: donna
+
+  ciclo_mestruale:
+    feature: ciclo_mestruale
+    values:
+      regolare: regolare
+      irregolare: irregolare
+      doloroso: doloroso
+      uomo: uomo
+
+  menopausa:
+    feature: menopausa
+    values:
+      no: no
+      spontanea: spontanea
+      chirurgica: chirurgica
+      non_so: non_so
+      uomo: uomo
+  menopausa_anni:
+    feature: menopausa_anni
+    passthrough: true
+
+  gravidanze_portate_a_termine:
+    feature: gravidanze_portate_a_termine
+    values:
+      una: una
+      più: piu
+      no: no
+      mai_avuto: mai_avuto
+      uomo: uomo
+
+  aborti_spontanei:
+    feature: aborti_spontanei
+    values:
+      no: no
+      uno: uno
+      due: due
+      più_di_due: piu_di_due
+      uomo: uomo
+
+  # ====== Varie adulte ======
+  servizio_militare_idoneità:
+    feature: servizio_militare_idoneita
+    values:
+      idoneo_senza_limitazioni: idoneo_senza_limitazioni
+      idoneo_con_limitazioni: idoneo_con_limitazioni
+      non_idoneo: non_idoneo
+      non_svolto: non_svolto
+
+  riformato_militare:
+    feature: riformato_militare
+    values:
+      motivi_fisici: motivi_fisici
+      motivi_psicologici: motivi_psicologici
+      entrambi: entrambi
+      idoneo: idoneo
+      non_svolto: non_svolto
+
+  salute_partner:
+    feature: salute_partner
+    values:
+      buona_salute: buona_salute
+      patologia_gestita: patologia_gestita
+      patologie_significative: patologie_significative
+      non_ho_partner: non_ho_partner
+
+  salute_figli:
+    feature: salute_figli
+    values:
+      buona_salute: buona_salute
+      patologia_gestita: patologia_gestita
+      problemi_significativi: problemi_significativi
+      non_ho_figli: non_ho_figli
+
+  # ====== Abitudini protettive ======
+  protezione_dna[]:
+    feature: protezione_dna[]
+    values:
+      uso_antiossidanti: uso_antiossidanti
+      protezione_solari: protezione_solari
+      dieta_antinfiammazione: dieta_antinfiammazione
+      evitare_fumo_alcol: evitare_fumo_alcol
+      nessuna_misura: nessuna_misura
+
+  protezione_per_proteine:
+    feature: protezione_per_proteine
+    values:
+      completo: completo
+      parziale: parziale
+      no_ma_interessato: no_ma_interessato
+      no: no
+
+  migliorare_funzionalità_mitocondriale:
+    feature: migliorare_funzione_mitocondriale
+    values:
+      si_regolare: si_regolare
+      si_saltuario: si_saltuario
+      no_ma_interessato: no_ma_interessato
+      no: no
+  migliorare_funzionalità_mitocondriale_tempo:
+    feature: migliorare_funzione_mitocondriale_tempo
+    passthrough: true

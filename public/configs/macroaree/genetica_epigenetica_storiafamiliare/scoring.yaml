@@ -1,0 +1,159 @@
+macroarea: genetica_epigenetica_storiafamiliare
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # Storia familiare (peso alto)
+    fh_tumori_brca: 1.4
+    fh_colonretto: 1.4
+    fh_eventi_cardiaci_precoci: 1.2
+    fh_trombosi: 1.2
+    fh_diabete: 1.0
+    fh_ipertensione: 0.8
+    fh_autoimmuni: 0.8
+    fh_demenza: 0.6
+    fh_patologie_cv: 1.0
+    fh_umore: 0.5
+    fh_asma: 0.5
+    fh_esito_cv: 0.6
+    fh_decessi_giovane: 0.6
+    fh_causa_decesso_cv: 0.6
+    fh_mutazioni_genetiche: 1.6
+    fh_longevita: 0.6
+
+    # Nascita / sviluppo (peso medio-basso)
+    nascita_pretermine: 0.6
+    tipo_parto: 0.3
+    complicazioni_nascita: 0.4
+    allattamento: 0.3
+    tappe_sviluppo: 0.4
+
+    # Pubertà / riproduttivo (peso medio-basso)
+    puberta_femminile: 0.4
+    puberta_maschile: 0.4
+    ciclo_mestruale: 0.4
+    menopausa: 0.4
+    gravidanze_portate_a_termine: 0.3
+    aborti_spontanei: 0.6
+
+    # Info varie adulte (peso molto basso)
+    servizio_militare_idoneita: 0.2
+    riformato_militare: 0.2
+    salute_partner: 0.0
+    salute_figli: 0.3
+
+    # Abitudini protettive (protezioni = contributi negativi)
+    protezione_dna: 0.4
+    protezione_per_proteine: 0.3
+    migliorare_funzione_mitocondriale: 0.3
+
+  cap_total: 100
+
+# Modulatori da patologie.yaml (MVP: off; puoi attivarli quando li compili)
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  apply_events_factor: false
+  apply_biomarkers_factor: false
+  apply_comorbidities_factor: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  low:    { max: 4 }
+  medium: { min: 5, max: 9 }
+  high:   { min: 10 }
+
+explanations:
+  top_k_drivers: 4
+  include_negative_drivers: true          # mostra anche fattori protettivi (score < 0)
+  min_contribution_pct: 8                 # nascondi driver con impatto marginale
+  show_percent_contribution: true
+  group_by_domain: true                   # raggruppa in: familiare / sviluppo / riproduttivo / abitudini
+
+  overall_narratives:
+    low:    "Il profilo genetico-familiare risulta globalmente rassicurante. Mantieni le abitudini protettive e ripeti il questionario periodicamente."
+    medium: "Sono presenti elementi che suggeriscono una suscettibilità ereditaria/modulatori non ottimali. Intervenire ora può ridurre il rischio."
+    high:   "Sono presenti indicatori forti di rischio familiare/ereditarietà. Valuta un confronto clinico strutturato e uno screening dedicato."
+
+  driver_templates:
+    # ===== Storia familiare (specifiche) =====
+    fh_ipertensione: "Ipertensione in famiglia → anticipare screening pressorio e stile di vita cardioprotettivo."
+    fh_diabete: "Diabete in famiglia → intervenire su peso, dieta a basso IG e attività fisica regolare."
+    fh_tumori_brca: "Pattern BRCA-correlato in famiglia → valutare percorso di genetica medica e screening mirato."
+    fh_colonretto: "Familiarità per tumore colorettale/sindromi ereditarie → considerare sorveglianza anticipata."
+    fh_demenza: "Demenza/Alzheimer in famiglia → cura di sonno, attività fisica e stimolazione cognitiva."
+    fh_umore: "Storia familiare di depressione/disturbi dell’umore → igiene del sonno, stress management, supporto psicologico se indicato."
+    fh_asma: "Allergie/asma in famiglia → attenzione a trigger ambientali e aderenza a profilassi se necessaria."
+    fh_autoimmuni: "Autoimmunità in famiglia → monitora sintomi a esordio (dermatologici, tiroidei, intestinali)."
+    fh_trombosi: "Eventi trombotici in giovane età/sedi inusuali → considerare valutazione per trombofilia."
+    fh_eventi_cardiaci_precoci: "Eventi cardiaci precoci in parenti di 1° grado → stratificazione cardiovascolare."
+    fh_esito_cv: "Esiti avversi cardiovascolari in famiglia → aumentare sorveglianza dei fattori di rischio."
+    fh_decessi_giovane: "Decesso in giovane età in famiglia → indagare cause e rafforzare prevenzione."
+    fh_causa_decesso_cv: "Causa di morte cardiovascolare → rafforzare prevenzione primaria."
+
+    # ===== Nascita / sviluppo =====
+    nascita_pretermine: "Nascita pretermine → monitoraggio cardiometabolico nel tempo."
+    tipo_parto: "Parto con intervento ostetrico: informazione di contesto, non determinante."
+    complicazioni_nascita: "Complicazioni alla nascita riportate → annotazione clinica per anamnesi."
+    allattamento: "Allattamento esclusivo nei primi 6 mesi: fattore protettivo lieve."
+    tappe_sviluppo: "Ritardi nelle tappe dello sviluppo: contestualizzare con il quadro clinico complessivo."
+
+    # ===== Sviluppo puberale / riproduttivo =====
+    puberta_femminile: "Alterazioni dello sviluppo puberale femminile → valutazione endocrino-ginecologica se sintomatica."
+    puberta_maschile: "Alterazioni dello sviluppo puberale maschile → valutazione endocrinologica se sintomatica."
+    ciclo_mestruale: "Ciclo irregolare/doloroso → possibile componente endocrino-infiammatoria."
+    menopausa: "Menopausa (spec. chirurgica) → attenzione a rischio cardiometabolico e osseo."
+    gravidanze_portate_a_termine: "Gravidanze a termine: fattore neutro/protettivo in assenza di complicanze."
+    aborti_spontanei: "Aborti ripetuti → considerare indagini (trombofilia/endocrino)."
+
+    # ===== Info varie adulte =====
+    servizio_militare_idoneita: "Idoneità piena: marker fisico-funzionale positivo (storico)."
+    riformato_militare: "Non idoneità/limitazioni: annotazione da contestualizzare clinicamente."
+    salute_partner: "Salute del partner: informazione non predittiva diretta, utile per counselling."
+    salute_figli: "Salute dei figli: informazione di contesto."
+
+    # ===== Abitudini protettive =====
+    protezione_dna: "Comportamenti di protezione del DNA (fotoprotezione, dieta anti-infiammatoria, no fumo): fattori protettivi cumulativi."
+    protezione_per_proteine: "Abitudini che preservano la qualità proteica (allenamento, sonno, dieta): fattore protettivo."
+    migliorare_funzione_mitocondriale: "Strategie per la funzione mitocondriale: beneficio su energia e resilienza metabolica."
+
+  # opzionale: template per spiegare “perché questa classe”
+  class_explanations:
+    low:    "I principali driver sono deboli o protettivi, con impatto complessivo < {threshold_next}."
+    medium: "Sono presenti driver specifici (es. {top_driver_names}) con impatto moderato; le abitudini protettive possono ridurre il rischio."
+    high:   "Driver forti (es. {top_driver_names}) superano le soglie; raccomandata valutazione clinica e screening dedicato."
+
+red_flags:
+  - condition: "fh_tumori_brca in ['mutazione_brca_nota']"
+    action: "Consulenza genetica medica e percorso di screening."
+  - condition: "fh_colonretto in ['sindrome_genetica','precoce_prima_50']"
+    action: "Valutare colonoscopia anticipata con specialista."
+  - condition: "fh_eventi_cardiaci_precoci in ['padre_prima_55','madre_prima_65']"
+    action: "Stratificazione del rischio cardiovascolare."
+  - condition: "fh_trombosi in ['giovane_eta','sedi_inusuali']"
+    action: "Considerare indagini per trombofilia."
+  - condition: "fh_mutazioni_genetiche in ['in_me','primo_grado']"
+    action: "Richiedere consulenza genetica."
+  - condition: "aborti_spontanei in ['piu_di_due']"
+    action: "Valutazione per trombofilia/disfunzioni endocrino-ginecologiche."
+  - condition: "fh_ipertensione in ['prima_40','multipli']"
+    action: "Screening pressorio e valutazione familiarità per ipertensione."
+  - condition: "fh_diabete in ['tipo1','multipli_tipo2']"
+    action: "Valutare precocemente assetto glicemico e counselling nutrizionale."
+  - condition: "fh_demenza in ['prima_65','mutazione_nota']"
+    action: "Consulenza specialistica cognitiva/genetica; piano di prevenzione mirato."
+  - condition: "fh_autoimmuni in ['diverse_stessa_persona','multipli']"
+    action: "Attenzione clinica a segni/sintomi multi-sistemici; considerare screening mirato."
+  - condition: "fh_asma in ['episodi_gravi','multipli']"
+    action: "Valutare controllo ambientale e piano d’azione per riacutizzazioni."
+  - condition: "fh_decessi_giovane in ['si']"
+    action: "Indagare causa; se cardiovascolare/aritmica → valutare cardiopatie ereditarie."
+  - condition: "fh_causa_decesso_cv in ['cardiovascolare']"
+    action: "Rafforzare prevenzione primaria (lipidi, PA, fumo, attività fisica)."
+  - condition: "allattamento in ['artificiale'] and nascita_pretermine in ['estremamente','molto']"
+    action: "Attenzione a rischio cardiometabolico: follow-up periodico nel tempo."
+  - condition: "menopausa in ['chirurgica']"
+    action: "Valutazione rischio osseo/cardiometabolico; eventuale terapia sostitutiva se indicata."

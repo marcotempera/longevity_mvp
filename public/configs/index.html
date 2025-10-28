@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Health Risk — Prevenzione personalizzata</title>
+  <meta name="description" content="Questionari intelligenti, scoring del rischio e consigli personalizzati su base familiare, genetica ed epigenetica." />
+  <link rel="stylesheet" href="/css/app.css" />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root{
+      --bg: #0b0f14; /* dark navy */
+      --card: #111823;
+      --muted: #94a3b8;
+      --primary: #7c4dff; /* violet */
+      --accent: #36d1dc; /* cyan */
+      --success: #22c55e;
+      --ring: rgba(124,77,255,.35);
+    }
+    html,body{background: var(--bg); color:#e5e7eb; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin-inline:auto; padding-inline:20px}
+    .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.2rem; border-radius:14px; background:linear-gradient(90deg,var(--primary),var(--accent)); color:white; box-shadow:0 10px 30px rgba(54,209,220,.15); font-weight:600}
+    .btn.secondary{background:#0f172a;border:1px solid #1f2937}
+    header{position:sticky; top:0; z-index:40; backdrop-filter:saturate(180%) blur(10px); background:linear-gradient(to bottom, rgba(11,15,20,.8), rgba(11,15,20,.35)); border-bottom:1px solid rgba(124,77,255,.08)}
+    nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    nav .brand{display:flex; align-items:center; gap:.7rem; font-weight:700}
+    nav .brand .logo{width:34px;height:34px; display:grid;place-items:center; border-radius:10px; background:radial-gradient(120px 60px at 30% 20%, var(--accent), transparent 60%), radial-gradient(120px 60px at 80% 80%, var(--primary), transparent 60%); box-shadow:0 0 0 1px rgba(124,77,255,.25) inset}
+    nav ul{display:flex; gap:1.2rem; list-style:none}
+    nav a.link{color:#cbd5e1; font-weight:500}
+    nav a.link:hover{color:white}
+    .hero{position:relative; overflow:hidden}
+    .hero .wrap{display:grid; grid-template-columns:1.2fr 1fr; gap:2rem; align-items:center; padding:70px 0 40px}
+    .badge{display:inline-flex; gap:.5rem; align-items:center; color:#cbd5e1; padding:.35rem .65rem; border-radius:999px; border:1px solid rgba(124,77,255,.25); background:rgba(17,24,35,.6)}
+    h1{font-size: clamp(2rem, 5vw, 3.25rem); line-height:1.1; margin:.6rem 0}
+    .lead{color:#cbd5e1; font-size:1.07rem; max-width:56ch}
+    .cta{display:flex; gap:.8rem; margin-top:1.2rem; flex-wrap:wrap}
+    .glass{background:linear-gradient(180deg, rgba(124,77,255,.08), rgba(54,209,220,.06)); border:1px solid rgba(124,77,255,.12); border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,.25)}
+    .card{padding:18px}
+    .kpi{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.5rem}
+    .kpi .tile{padding:14px 16px}
+    .kpi .tile h3{font-size:.95rem; color:#a5b4fc; font-weight:600}
+    .kpi .tile p{font-size:1.35rem; font-weight:800}
+    .hero-visual{position:relative; aspect-ratio:1/1; border-radius:20px; background:radial-gradient(100% 60% at 30% 10%, rgba(124,77,255,.25), transparent 60%), radial-gradient(90% 70% at 80% 80%, rgba(54,209,220,.18), transparent 60%), linear-gradient(180deg,#0b0f14,#0b1220); border:1px solid rgba(124,77,255,.15)}
+    .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem}
+    section{scroll-margin-top:80px}
+    .section{padding:70px 0}
+    h2{font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: .6rem}
+    .muted{color: var(--muted)}
+    .feature{padding:18px}
+    .feature h3{font-size:1.05rem; margin:.35rem 0}
+    .footer{padding:24px 0; color:#94a3b8; border-top:1px solid rgba(124,77,255,.08)}
+    .chip{display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border-radius:999px; border:1px solid rgba(124,77,255,.25); color:#cbd5e1; font-size:.85rem}
+    .visually-hidden{position:absolute!important; height:1px;width:1px;overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap}
+    @media (max-width: 980px){ .hero .wrap{grid-template-columns:1fr} .grid{grid-template-columns:1fr} .kpi{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <a href="#contenuto" class="visually-hidden">Salta al contenuto</a>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="brand" aria-label="AI Health Risk">
+          <div class="logo" aria-hidden="true">
+            <!-- inline medical + futuristic cross -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 3v18M3 12h18" stroke="#c7d2fe" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="9" stroke="#99f6e4" stroke-opacity=".5"/>
+            </svg>
+          </div>
+          <span>AI Health Risk</span>
+        </div>
+        <ul>
+          <li><a class="link" href="#home">Home</a></li>
+          <li><a class="link" href="#chi-siamo">Chi siamo</a></li>
+          <li><a class="link" href="#contatti">Contatti</a></li>
+        </ul>
+        <div style="display:flex; gap:.5rem">
+          <a class="btn" id="cta-accesso" href="/pages/login.html" aria-label="Accedi">Accedi</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenuto">
+    <!-- HERO / HOME -->
+    <section id="home" class="hero section">
+      <div class="container">
+        <div class="wrap">
+          <div>
+            <span class="badge">🧬 Prevenzione personalizzata con AI</span>
+            <h1>Trasforma la tua storia familiare in <span style="color:var(--accent)">insight clinici</span>.</h1>
+            <p class="lead">Dieci macroaree, un’unica dashboard. Compila i questionari, ottieni <strong>risk score</strong> spiegati in modo chiaro e azioni pratiche su <em>stile di vita</em>, <em>follow‑up</em> e <em>nutraceutica</em> — alimentati da YAML configurabili e LLM.</p>
+            <div class="cta">
+              <a class="btn" href="/pages/login.html">Inizia ora</a>
+              <a class="btn secondary" href="#chi-siamo" aria-label="Scopri come funziona">Come funziona</a>
+            </div>
+
+            <div class="kpi">
+              <div class="glass card tile">
+                <h3>Macroaree</h3>
+                <p>10</p>
+                <span class="muted">Genetica, cardio-metabolico, mente-corpo e altro</span>
+              </div>
+              <div class="glass card tile">
+                <h3>Spiegazioni</h3>
+                <p>Trasparenti</p>
+                <span class="muted">Driver principali + red flags</span>
+              </div>
+              <div class="glass card tile">
+                <h3>Consigli</h3>
+                <p>Mirati</p>
+                <span class="muted">Lifestyle • Follow‑up • Nutraceutica*</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual glass card" aria-hidden="true">
+            <!-- Simple animated grid / pulse dots -->
+            <svg viewBox="0 0 420 420" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#7c4dff" stop-opacity=".9"/>
+                  <stop offset="60%" stop-color="#36d1dc" stop-opacity=".35"/>
+                  <stop offset="100%" stop-color="#0b0f14" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#g1)" opacity=".15"/>
+              <g fill="#99f6e4" fill-opacity=".8">
+                <!-- medical heartbeat polyline -->
+                <polyline points="0,210 40,210 70,150 95,270 130,210 180,210 210,120 240,300 280,210 420,210" stroke="#a78bfa" stroke-width="3" fill="none"/>
+              </g>
+              <!-- nodes -->
+              <g>
+                <circle cx="210" cy="120" r="6">
+                  <animate attributeName="r" values="6;9;6" dur="2.4s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="240" cy="300" r="5">
+                  <animate attributeName="r" values="5;8;5" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="95" cy="270" r="4">
+                  <animate attributeName="r" values="4;7;4" dur="2.6s" repeatCount="indefinite"/>
+                </circle>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHI SIAMO -->
+    <section id="chi-siamo" class="section">
+      <div class="container">
+        <h2>Chi siamo</h2>
+        <p class="muted" style="max-width:70ch">Siamo un team che unisce competenze di <strong>biomedicina</strong>, <strong>data science</strong> e <strong>product design</strong>. La nostra missione è rendere la <em>prevenzione</em> e la <em>consapevolezza del rischio</em> accessibili e comprensibili, con logiche trasparenti basate su <code>YAML</code>, scoring tracciabile e spiegazioni human‑readable.</p>
+        <div class="grid" style="margin-top:1.2rem">
+          <div class="glass feature">
+            <span class="chip">🔍 Trasparenza</span>
+            <h3>Scoring dichiarativo</h3>
+            <p class="muted">Pesi e regole sono definiti in file YAML versionati. Nessun “black box”: sai sempre da dove arriva ogni punto.</p>
+          </div>
+          <div class="glass feature">
+            <span class="chip">🧩 Modulare</span>
+            <h3>10 macroaree</h3>
+            <p class="muted">Ogni macroarea ha questionari dedicati, driver di rischio e azioni mirate (lifestyle, follow‑up, nutraceutica).</p>
+          </div>
+          <div class="glass feature">
+            <span class="chip">🤖 + 🧑‍⚕️</span>
+            <h3>AI al servizio del clinico</h3>
+            <p class="muted">LLM per rendere i risultati chiari; le decisioni finali spettano sempre al professionista sanitario.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATTI -->
+    <section id="contatti" class="section">
+      <div class="container">
+        <h2>Contatti</h2>
+        <p class="muted">Hai domande, vuoi collaborare o testare l’MVP con il tuo team? Scrivici.</p>
+        <form class="glass card" style="margin-top:1rem; display:grid; gap:12px" onsubmit="event.preventDefault(); notify();">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+            <label>Nome<br><input required type="text" name="nome" placeholder="Es. Laura" class="input"/></label>
+            <label>Email<br><input required type="email" name="email" placeholder="laura@email.it" class="input"/></label>
+          </div>
+          <label>Messaggio<br><textarea required rows="4" name="msg" placeholder="Raccontaci brevemente la tua esigenza" class="input"></textarea></label>
+          <div style="display:flex; gap:.6rem; align-items:center; justify-content:space-between">
+            <small class="muted">Risponderemo entro 2–3 giorni lavorativi.</small>
+            <button class="btn" type="submit">Invia</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+      <div style="display:flex; align-items:center; gap:.6rem">
+        <div class="logo" style="width:26px;height:26px" aria-hidden="true"></div>
+        <span>© <span id="anno"></span> AI Health Risk</span>
+      </div>
+      <div style="display:flex; gap:1rem; color:#64748b">
+        <a href="#chi-siamo">Informazioni</a>
+        <a href="#contatti">Contatti</a>
+        <a href="/pages/login.html">Accedi</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script minimi per UX -->
+  <script>
+    // Smooth scroll per anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href');
+        if(id.length>1){ e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); }
+      });
+    });
+
+    // CTA adattivo: se c'è una sessione, punta alla dashboard
+    (function(){
+      try{
+        const token = localStorage.getItem('authToken');
+        const cta = document.getElementById('cta-accesso');
+        if(token){ cta.textContent='Vai alla dashboard'; cta.href='/pages/dashboard.html'; }
+      }catch{ /* ignore */ }
+    })();
+
+    // piccolo feedback "inviato" per il form contatti (placeholder, poi collegherai /api)
+    function notify(){
+      const b = document.createElement('div');
+      b.textContent = 'Messaggio inviato! Ti ricontatteremo a breve.';
+      b.style.position='fixed'; b.style.right='20px'; b.style.bottom='20px'; b.style.padding='12px 14px'; b.style.borderRadius='12px'; b.style.background='linear-gradient(90deg,var(--primary),var(--accent))'; b.style.boxShadow='0 12px 30px rgba(0,0,0,.3)';
+      document.body.appendChild(b);
+      setTimeout(()=>b.remove(), 2600);
+    }
+
+    // Anno footer
+    document.getElementById('anno').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

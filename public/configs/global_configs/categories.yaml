@@ -1,0 +1,37 @@
+macro_categories:
+  - Genetica ed Epigenetica
+  - Dati Clinici e Biochimici
+  - Imaging e Valutazioni Funzionali
+  - Segni Vitali e Monitoraggio Continuo
+  - Attività Fisica, Stile di Vita e Abitudini Ambientali
+  - Nutrizione e Idratazione
+  - Qualità del Sonno e Ritmi Circadiani
+  - Funzioni Cognitive
+  - Salute Mentale e Relazionale
+  - Esposizioni Ambientali e Fattori Socioeconomici
+
+subgroups:
+  genetica_epigenetica:
+    - Cardiovascolare
+    - Endocrina
+    - Metabolica
+    - Ematologica
+    - Neurologica
+    - Ostetrica
+    - Oncologica
+    - Neuropsichiatrica
+    - Immuno-allergica
+    - Autoimmune
+    - Farmacogenomica
+    - Immunitaria
+  nutrizione_idratazione:
+    - Macronutrienti
+    - Micronutrienti
+    - Idratazione
+    - Pattern alimentari
+  dati_clinici_biochimici:
+    - Ematologia
+    - Metabolismo glucidico
+    - Lipidogramma
+    - Funzione epatica
+    - Funzione renale

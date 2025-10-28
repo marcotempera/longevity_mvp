@@ -1,0 +1,229 @@
+macroarea: genetica_epigenetica_storiafamiliare
+version: 1.0
+features:
+
+  # ====== STORIA FAMILIARE ======
+  - name: fh_patologie_cv
+    type: categorical_multi
+    allowed: [infarto, aritmie, ipertensione, ictus, coronarica, aneurisma, altro, nessuna]
+    per_item_score: {infarto: 2, aritmie: 1, ipertensione: 1, ictus: 3, coronarica: 2, aneurisma: 3, altro: 1, nessuna: 0}
+    cap_score: 6
+    missing_policy: "none_is_zero"
+    notes: "Se l'utente seleziona 'nessuna', annulla tutte le altre scelte."
+
+  - name: fh_ipertensione
+    type: categorical
+    allowed: [nessun_caso, dopo_40, prima_40, multipli, non_so]
+    map_to_score: {nessun_caso: 0, dopo_40: 1, prima_40: 2, multipli: 2, non_so: 0}
+    missing_policy: "assume_nessun_caso"
+    related_pathologies: [HER002]
+
+
+  - name: fh_diabete
+    type: categorical
+    allowed: [nessun_caso, tipo1, tipo2, multipli_tipo2, gestazionale, non_so]
+    map_to_score: {nessun_caso: 0, tipo1: 2, tipo2: 1, multipli_tipo2: 2, gestazionale: 1, non_so: 0}
+    missing_policy: "assume_nessun_caso"
+    related_pathologies: [HER005]
+
+
+  - name: fh_tumori_brca
+    type: categorical
+    allowed: [nessun_caso, madre_sorella_seno, mammario_bilaterale, ovaio_endo_prostata, mutazione_brca_nota, non_so]
+    map_to_score: {nessun_caso: 0, madre_sorella_seno: 3, mammario_bilaterale: 4, ovaio_endo_prostata: 3, mutazione_brca_nota: 6, non_so: 0}
+    red_flag_if_in: [mutazione_brca_nota]
+    related_pathologies: [HER013, HER014, HER015, HER016]
+
+  - name: fh_colonretto
+    type: categorical
+    allowed: [nessuno, primo_grado, multipli_famiglia, precoce_prima_50, sindrome_genetica, non_so]
+    map_to_score: {nessuno: 0, primo_grado: 3, multipli_famiglia: 4, precoce_prima_50: 4, sindrome_genetica: 6, non_so: 0}
+    red_flag_if_in: [sindrome_genetica, precoce_prima_50]
+    related_pathologies: [HER017, HER018, HER019]
+
+  - name: fh_demenza
+    type: categorical
+    allowed: [nessun_caso, dopo_65, prima_65, multipli, mutazione_nota, non_so]
+    map_to_score: {nessun_caso: 0, dopo_65: 1, prima_65: 2, multipli: 2, mutazione_nota: 3, non_so: 0}
+    related_pathologies: [HER010, HER011, HER012]
+
+
+  - name: fh_umore
+    type: categorical
+    allowed: [nessun_caso, depressione_adulta, esordio_precoce, multipli, bipolare, non_so]
+    map_to_score: {nessun_caso: 0, depressione_adulta: 1, esordio_precoce: 2, multipli: 2, bipolare: 2, non_so: 0}
+    related_pathologies: [HER041, HER020, HER044]
+
+
+  - name: fh_asma
+    type: categorical
+    allowed: [nessun_caso, occasionale, persistente, multipli, episodi_gravi, non_so]
+    map_to_score: {nessun_caso: 0, occasionale: 1, persistente: 2, multipli: 2, episodi_gravi: 2, non_so: 0}
+
+  - name: fh_autoimmuni
+    type: categorical
+    allowed: [nessun_caso, uno, multipli, diverse_stessa_persona, non_so]
+    map_to_score: {nessun_caso: 0, uno: 1, multipli: 2, diverse_stessa_persona: 3, non_so: 0}
+    related_pathologies: [HER021, HER022, HER023]
+
+
+  - name: fh_trombosi
+    type: categorical
+    allowed: [nessun_caso, isolato, multipli, giovane_eta, sedi_inusuali, non_so]
+    map_to_score: {nessun_caso: 0, isolato: 1, multipli: 2, giovane_eta: 3, sedi_inusuali: 3, non_so: 0}
+    red_flag_if_in: [giovane_eta, sedi_inusuali]
+    related_pathologies: [HER006, HER007, HER008, HER009, HER026]
+
+  - name: fh_eventi_cardiaci_precoci
+    type: categorical
+    allowed: [padre_prima_55, madre_prima_65, dopo_soglia, fratello_sorella, secondo_grado, nessun_caso, non_so]
+    map_to_score: {padre_prima_55: 3, madre_prima_65: 3, dopo_soglia: 1, fratello_sorella: 2, secondo_grado: 1, nessun_caso: 0, non_so: 0}
+    red_flag_if_in: [padre_prima_55, madre_prima_65]
+    related_pathologies: [HER001, HER024, HER025, HER033]
+
+  - name: fh_esito_cv
+    type: categorical
+    allowed: [in_vita, deceduto, guarito, nessun_caso, non_so]
+    map_to_score: {in_vita: 0, deceduto: 2, guarito: 0, nessun_caso: 0, non_so: 0}
+
+  - name: fh_decessi_giovane
+    type: categorical
+    allowed: [si, no, non_so]
+    map_to_score: {si: 2, no: 0, non_so: 0}
+
+  - name: fh_causa_decesso_cv
+    type: categorical
+    allowed: [cardiovascolare, altre, no, non_so]
+    map_to_score: {cardiovascolare: 2, altre: 0, no: 0, non_so: 0}
+
+  - name: fh_causa_decesso_note
+    type: text
+    store: true
+
+  - name: fh_mutazioni_genetiche
+    type: categorical
+    allowed: [in_me, primo_grado, secondo_grado, no, non_so]
+    map_to_score: {in_me: 4, primo_grado: 3, secondo_grado: 2, no: 0, non_so: 0}
+    red_flag_if_in: [in_me, primo_grado]
+
+  - name: fh_mutazioni_note
+    type: text
+    store: true
+
+  - name: fh_longevita
+    type: categorical_multi
+    allowed: [madre, padre, nonno_paterno, nonna_paterna, nonno_materno, nonna_materna, altro, nessuno, non_so]
+    per_item_score: {madre: -1, padre: -1, nonno_paterno: -0.5, nonna_paterna: -0.5, nonno_materno: -0.5, nonna_materna: -0.5, altro: -0.5, nessuno: 0, non_so: 0}
+    cap_score: -2
+    missing_policy: "none_is_zero"
+
+  # ====== NASCITA / SVILUPPO ======
+  - name: nascita_pretermine
+    type: categorical
+    allowed: [termine, estremamente, molto, moderatamente, tardivo, non_so]
+    map_to_score: {termine: 0, estremamente: 2, molto: 1.5, moderatamente: 1, tardivo: 0.5, non_so: 0}
+
+  - name: tipo_parto
+    type: categorical
+    allowed: [naturale, intervento_ostetrico, non_ricordo]
+    map_to_score: {naturale: 0, intervento_ostetrico: 0.5, non_ricordo: 0}
+
+  - name: complicazioni_nascita
+    type: categorical
+    allowed: [si, no, non_ricordo]
+    map_to_score: {si: 1, no: 0, non_ricordo: 0}
+
+  - name: allattamento
+    type: categorical
+    allowed: [esclusivo, parziale, artificiale, non_ricordo]
+    map_to_score: {esclusivo: -0.5, parziale: 0, artificiale: 0, non_ricordo: 0}
+
+  - name: tappe_sviluppo
+    type: categorical
+    allowed: [regolari, lievi_ritardi, ritardi_significativi, non_ricordo]
+    map_to_score: {regolari: 0, lievi_ritardi: 0.5, ritardi_significativi: 1, non_ricordo: 0}
+
+  # ====== SVILUPPO PUBERALE / RIPRODUTTIVO ======
+  - name: puberta_femminile
+    type: categorical
+    allowed: [regolare, precoce, ritardata, non_ricordo, uomo]
+    map_to_score: {regolare: 0, precoce: 1, ritardata: 1, non_ricordo: 0, uomo: null}
+    missing_policy: "ignore_if_null"
+
+  - name: puberta_maschile
+    type: categorical
+    allowed: [regolare, precoce, ritardata, non_ricordo, donna]
+    map_to_score: {regolare: 0, precoce: 1, ritardata: 1, non_ricordo: 0, donna: null}
+    missing_policy: "ignore_if_null"
+
+  - name: ciclo_mestruale
+    type: categorical
+    allowed: [regolare, irregolare, doloroso, uomo]
+    map_to_score: {regolare: 0, irregolare: 0.5, doloroso: 0.5, uomo: null}
+    missing_policy: "ignore_if_null"
+
+  - name: menopausa
+    type: categorical
+    allowed: [no, spontanea, chirurgica, non_so, uomo]
+    map_to_score: {no: 0, spontanea: 0.5, chirurgica: 1, non_so: 0, uomo: null}
+    missing_policy: "ignore_if_null"
+
+  - name: menopausa_anni
+    type: text
+    store: true
+
+  - name: gravidanze_portate_a_termine
+    type: categorical
+    allowed: [una, piu, no, mai_avuto, uomo]
+    map_to_score: {una: -0.5, piu: -0.5, no: 0, mai_avuto: 0, uomo: null}
+    missing_policy: "ignore_if_null"
+
+  - name: aborti_spontanei
+    type: categorical
+    allowed: [no, uno, due, piu_di_due, uomo]
+    map_to_score: {no: 0, uno: 0.5, due: 1, piu_di_due: 1.5, uomo: null}
+    red_flag_if_in: [piu_di_due]
+    missing_policy: "ignore_if_null"
+
+  # ====== INFO VARIE ADULTE ======
+  - name: servizio_militare_idoneita
+    type: categorical
+    allowed: [idoneo_senza_limitazioni, idoneo_con_limitazioni, non_idoneo, non_svolto]
+    map_to_score: {idoneo_senza_limitazioni: -0.5, idoneo_con_limitazioni: 0, non_idoneo: 0.5, non_svolto: 0}
+
+  - name: riformato_militare
+    type: categorical
+    allowed: [motivi_fisici, motivi_psicologici, entrambi, idoneo, non_svolto]
+    map_to_score: {motivi_fisici: 0.5, motivi_psicologici: 0.5, entrambi: 1, idoneo: 0, non_svolto: 0}
+
+  - name: salute_partner
+    type: categorical
+    allowed: [buona_salute, patologia_gestita, patologie_significative, non_ho_partner]
+    map_to_score: {buona_salute: 0, patologia_gestita: 0, patologie_significative: 0, non_ho_partner: 0}
+
+  - name: salute_figli
+    type: categorical
+    allowed: [buona_salute, patologia_gestita, problemi_significativi, non_ho_figli]
+    map_to_score: {buona_salute: 0, patologia_gestita: 0, problemi_significativi: 1, non_ho_figli: 0}
+
+  # ====== ABITUDINI PROTETTIVE (DNA/PROTEINE/MITOCONDRI) ======
+  - name: protezione_dna
+    type: categorical_multi
+    allowed: [uso_antiossidanti, protezione_solari, dieta_antinfiammazione, evitare_fumo_alcol, nessuna_misura]
+    per_item_score: {uso_antiossidanti: -0.3, protezione_solari: -0.3, dieta_antinfiammazione: -0.3, evitare_fumo_alcol: -0.3, nessuna_misura: 0}
+    cap_score: -0.9
+    notes: "Se seleziona 'nessuna_misura' ignorare le altre scelte (score 0)."
+
+  - name: protezione_per_proteine
+    type: categorical
+    allowed: [completo, parziale, no_ma_interessato, no]
+    map_to_score: {completo: -0.6, parziale: -0.3, no_ma_interessato: 0, no: 0}
+
+  - name: migliorare_funzione_mitocondriale
+    type: categorical
+    allowed: [si_regolare, si_saltuario, no_ma_interessato, no]
+    map_to_score: {si_regolare: -0.6, si_saltuario: -0.3, no_ma_interessato: 0, no: 0}
+
+  - name: migliorare_funzione_mitocondriale_tempo
+    type: text
+    store: true

@@ -1,0 +1,37 @@
+rules:
+
+  # Multi esclusivo: se 'nessuna' è presente, annulla il resto
+  - feature: fh_patologie_cv
+    assert_subset_of: [infarto, aritmie, ipertensione, ictus, coronarica, aneurisma, altro, nessuna]
+    on_fail: "drop_invalid"
+  - feature: fh_patologie_cv
+    rule: "if includes 'nessuna' then set to ['nessuna']"
+
+  # Longevità: 'nessuno' esclusivo
+  - feature: fh_longevita
+    assert_subset_of: [madre, padre, nonno_paterno, nonna_paterna, nonno_materno, nonna_materna, altro, nessuno, non_so]
+    on_fail: "drop_invalid"
+  - feature: fh_longevita
+    rule: "if includes 'nessuno' then set to ['nessuno']"
+
+  # Protezione DNA: 'nessuna_misura' esclusivo
+  - feature: protezione_dna
+    assert_subset_of: [uso_antiossidanti, protezione_solari, dieta_antinfiammazione, evitare_fumo_alcol, nessuna_misura]
+    on_fail: "drop_invalid"
+  - feature: protezione_dna
+    rule: "if includes 'nessuna_misura' then set to ['nessuna_misura']"
+
+  # Domande sesso-specifiche: se 'uomo' o 'donna' → ignora (null) nel calcolo
+  - feature: puberta_femminile
+    rule: "if value == 'uomo' then set null"
+  - feature: puberta_maschile
+    rule: "if value == 'donna' then set null"
+  - feature: ciclo_mestruale
+    rule: "if value == 'uomo' then set null"
+  - feature: menopausa
+    rule: "if value == 'uomo' then set null"
+
+missing:
+  strategy: "per_feature_policy"
+defaults:
+  assume_nessun_caso: 0
