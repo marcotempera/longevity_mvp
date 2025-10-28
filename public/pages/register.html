@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrati — Longevity Platform</title>
+  <link rel="stylesheet" href="../css/app.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top right, #0e1726, #060912 60%);
+      color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .register-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 40px;
+      width: 400px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      color: #00ffff;
+      text-align: center;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #dcdcdc;
+      font-size: 0.9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      color: #f5f5f5;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #00ffff;
+      outline: none;
+      box-shadow: 0 0 5px #00ffff60;
+    }
+
+    button {
+      width: 100%;
+      background: linear-gradient(90deg, #00ffff, #0077ff);
+      color: #0e1726;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px #00ffff90;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 25px 0 15px;
+      position: relative;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 35%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+
+    .google-btn {
+      width: 100%;
+      background: #fff;
+      color: #333;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .google-btn:hover {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+    }
+
+    p {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h1>Crea un Account</h1>
+
+    <form id="registerForm">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Crea una password" required />
+
+      <label for="confirm-password">Conferma Password</label>
+      <input type="password" id="confirm-password" name="confirm-password" placeholder="Ripeti la password" required />
+
+      <button type="submit">Registrati</button>
+    </form>
+
+    <div class="divider">oppure</div>
+
+    <button class="google-btn" id="googleSignUp">
+      <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google logo" />
+      Continua con Google
+    </button>
+
+    <p>Hai già un account? <a href="login.html">Accedi</a></p>
+  </div>
+
+  <script>
+    // Placeholder per la futura integrazione Supabase
+    document.getElementById('registerForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Funzione di registrazione ancora in sviluppo.');
+    });
+
+    document.getElementById('googleSignUp').addEventListener('click', () => {
+      alert('Accesso con Google presto disponibile.');
+    });
+  </script>
+</body>
+</html>
