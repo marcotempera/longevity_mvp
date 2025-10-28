@@ -6,6 +6,7 @@
   <title>Registrati — Longevity Platform</title>
   <link rel="stylesheet" href="../css/app.css" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet" />
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -24,7 +25,7 @@
       backdrop-filter: blur(10px);
       border-radius: 16px;
       padding: 40px;
-      width: 400px;
+      width: 420px;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
       animation: fadeIn 0.6s ease-out;
     }
@@ -152,6 +153,15 @@
     <h1>Crea un Account</h1>
 
     <form id="registerForm">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required />
+
+      <label for="cognome">Cognome</label>
+      <input type="text" id="cognome" name="cognome" placeholder="Inserisci il tuo cognome" required />
+
+      <label for="data_nascita">Data di nascita</label>
+      <input type="date" id="data_nascita" name="data_nascita" required />
+
       <label for="email">Email</label>
       <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
 
@@ -175,10 +185,27 @@
   </div>
 
   <script>
-    // Placeholder per la futura integrazione Supabase
-    document.getElementById('registerForm').addEventListener('submit', e => {
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', e => {
       e.preventDefault();
-      alert('Funzione di registrazione ancora in sviluppo.');
+
+      const data = {
+        nome: form.nome.value.trim(),
+        cognome: form.cognome.value.trim(),
+        data_nascita: form.data_nascita.value,
+        email: form.email.value.trim(),
+        password: form.password.value,
+        confirm: form['confirm-password'].value
+      };
+
+      if (data.password !== data.confirm) {
+        alert('Le password non coincidono.');
+        return;
+      }
+
+      // 👇 Placeholder: qui in futuro andrà la chiamata a Supabase Auth
+      console.log('Dati utente registrazione:', data);
+      alert('Registrazione completata (simulazione).');
     });
 
     document.getElementById('googleSignUp').addEventListener('click', () => {
