@@ -21,23 +21,24 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 
 // ---------- AUTH ----------
 export async function signUpWithEmail({ email, password, profile }) {
-  // 1) crea l'utente
+  // 1) crea l'utente (può richiedere conferma email → user può essere null finché non conferma)
   const { data, error } = await supabase.auth.signUp({ email, password });
   if (error) throw error;
 
-  const user = data.user;
-  // 2) crea il profilo (RLS: insert_own_profile consente insert se user_id = auth.uid())
-  if (user && profile) {
-    const { error: upErr } = await supabase
-      .from('profiles')
-      .insert({ user_id: user.id, ...profile });
-    if (upErr) throw upErr;
+  const userId = data?.user?.id;
+
+  // Se l'utente è già disponibile (es. progetto senza email confirmation), bootstrap profilo e progress
+  if (userId) {
+    if (profile) {
+      const { error: upErr } = await supabase
+        .from('profiles')
+        .upsert({ user_id: userId, ...profile }, { onConflict: 'user_id' });
+      if (upErr) throw upErr;
+    }
+    await ensureProgressRow(userId);
   }
 
-  // 3) crea progress “vuoto” (utile per gating)
-  await ensureProgressRow(user.id);
-
-  return user;
+  return data?.user ?? null;
 }
 
 export async function signInWithEmail({ email, password }) {
@@ -84,21 +85,17 @@ export async function fetchProfile(userId) {
 export async function upsertProfile(userId, patch) {
   const { error } = await supabase
     .from('profiles')
-    .upsert({ user_id: userId, ...patch })
-    .eq('user_id', userId);
+    .upsert({ user_id: userId, ...patch }, { onConflict: 'user_id' });
   if (error) throw error;
 }
 
 // ---------- PROGRESS ----------
 async function ensureProgressRow(userId) {
-  // crea riga se non esiste
+  // crea riga se non esiste (idempotente)
   const { error } = await supabase
     .from('progress')
-    .insert({ user_id: userId })
-    .select('user_id')
-    .single()
-    .throwOnError(false); // ignoriamo unique violation
-  // NB: con RLS insert_own_progress lo permette
+    .upsert({ user_id: userId }, { onConflict: 'user_id' });
+  if (error) console.warn('ensureProgressRow warning:', error);
   return true;
 }
 
@@ -173,6 +170,24 @@ export async function fetchAssessment(userId, macroarea) {
   return data || null;
 }
 
+export async function fetchAssessmentsSummary(userId) {
+  const { data, error } = await supabase
+    .from('assessments')
+    .select('macroarea, score, drivers, completed_at')
+    .eq('user_id', userId)
+    .order('completed_at', { ascending: true });
+  if (error) throw error;
+  return data || [];
+}
+
+function asJson(x){
+  if (x == null) return null;
+  if (typeof x === 'string') {
+    try { return JSON.parse(x); } catch { return null; }
+  }
+  return x;
+}
+
 /**
  * Salva una macroarea:
  * - upsert in `assessments`
@@ -185,11 +200,11 @@ export async function saveAssessment({
   const payload = {
     user_id: userId,
     macroarea,
-    answers,             // JSON
-    score,               // number
-    drivers,             // JSON (array/oggetto)
-    red_flags: redFlags, // JSON
-    report,              // text
+    answers: asJson(answers),
+    score,
+    drivers: asJson(drivers),
+    red_flags: asJson(redFlags),
+    report,
     completed_at: new Date().toISOString(),
   };
 
