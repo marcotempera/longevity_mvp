@@ -10,9 +10,16 @@
   <style>body{color:#eaf6ff}</style>
 </head>
 <body>
-  <div class="wrap" style="max-width:900px;margin:30px auto;padding:0 16px">
-    <h1>Genetica, Epigenetica & Storia Familiare</h1>
-    <form id="form">
+  <!-- Sezione dinamica: Questionario Longevity -->
+    <section id="questionario-section" style="display:none; margin-top: 40px;">
+        <div class="card">
+        <h2 style="margin-top:0;">🧬 Genetica, Epigenetica e Storia Familiare</h2>
+        <p style="opacity:.8;">Compila le domande seguenti per aiutarci a valutare il tuo profilo genetico e familiare.</p>
+        <div id="progress-bar" style="background:#1a324a;height:10px;border-radius:5px;margin:15px 0;">
+            <div id="progress-fill" style="background:linear-gradient(90deg,#00ffff,#0077ff);height:100%;width:0%;border-radius:5px;"></div>
+        </div>
+  
+      <form id="questionario-form" class="grid" style="grid-template-columns:1fr;gap:24px;margin-top:20px;">
          <!-- 1) fh_patologie_cv (categorical_multi) -->
         <fieldset>
             <legend><strong>1. Patologie cardiovascolari nei parenti stretti</strong></legend>
