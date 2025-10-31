@@ -91,13 +91,17 @@ export async function upsertProfile(userId, patch) {
 
 // ---------- PROGRESS ----------
 async function ensureProgressRow(userId) {
-  // crea riga se non esiste (idempotente)
-  const { error } = await supabase
-    .from('progress')
-    .upsert({ user_id: userId }, { onConflict: 'user_id' });
-  if (error) console.warn('ensureProgressRow warning:', error);
-  return true;
-}
+    // prova a inserire; se esiste già, ignora l'errore di chiave duplicata
+    const { error } = await supabase
+      .from('progress')
+      .insert({ user_id: userId });
+  
+    // errore 23505 = unique violation (già presente) → ok ignorare
+    if (error && error.code !== '23505') {
+      console.warn('ensureProgressRow error:', error);
+    }
+    return true;
+  }
 
 export async function fetchProgress(userId) {
   // 1) stato globale
