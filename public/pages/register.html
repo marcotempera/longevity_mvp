@@ -3,20 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registrati — Longevity Platform</title>
-  <link rel="stylesheet" href="../css/app.css" />
+  <title>Registrati — HealthInsight</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet" />
-
   <style>
+    :root{
+      --bg:#0c0f14;
+      --panel:#121622;
+      --ink:#e6f0ff;
+      --muted:#a9b7d0;
+      --brand:#8a2be2;
+      --brand-2:#00c2ff;
+      --err:#ff6b6b;
+      --ok:#28c76f;
+    }
+    *{box-sizing:border-box}
     body {
       font-family: 'Poppins', sans-serif;
       background: radial-gradient(circle at top right, #0e1726, #060912 60%);
-      color: #f5f5f5;
+      color: var(--ink);
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      margin:0;
+      padding:20px;
     }
 
     .register-container {
@@ -25,7 +35,8 @@
       backdrop-filter: blur(10px);
       border-radius: 16px;
       padding: 40px;
-      width: 420px;
+      width: 100%;
+      max-width: 480px;
       box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
       animation: fadeIn 0.6s ease-out;
     }
@@ -38,9 +49,9 @@
     h1 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1.8rem;
-      color: #00ffff;
+      color: var(--brand-2);
       text-align: center;
-      margin-bottom: 30px;
+      margin: 0 0 30px;
       letter-spacing: 1px;
     }
 
@@ -51,27 +62,27 @@
       font-size: 0.9rem;
     }
 
-    input {
+    input, select {
       width: 100%;
       padding: 10px;
       margin-bottom: 18px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       background: rgba(255, 255, 255, 0.05);
-      color: #f5f5f5;
+      color: var(--ink);
       border-radius: 8px;
       font-size: 0.95rem;
       transition: all 0.3s ease;
     }
 
-    input:focus {
-      border-color: #00ffff;
+    input:focus, select:focus {
+      border-color: var(--brand-2);
       outline: none;
-      box-shadow: 0 0 5px #00ffff60;
+      box-shadow: 0 0 5px rgba(0, 194, 255, 0.4);
     }
 
     button {
       width: 100%;
-      background: linear-gradient(90deg, #00ffff, #0077ff);
+      background: linear-gradient(90deg, var(--brand-2), #0077ff);
       color: #0e1726;
       padding: 12px;
       border: none;
@@ -82,9 +93,14 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 0 12px #00ffff90;
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .divider {
@@ -139,56 +155,89 @@
     }
 
     a {
-      color: #00ffff;
+      color: var(--brand-2);
       text-decoration: none;
     }
 
     a:hover {
       text-decoration: underline;
     }
+
+    .error, .success {
+      display: none;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 0.9rem;
+    }
+
+    .error {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid var(--err);
+      color: #ffcccc;
+    }
+
+    .success {
+      background: rgba(40, 199, 111, 0.1);
+      border: 1px solid var(--ok);
+      color: #ccffcc;
+    }
   </style>
-  <script src="/js/config.js"></script>
-  <script type="module" src="/js/api.js"></script>
 </head>
 <body>
   <div class="register-container">
     <h1>Crea un Account</h1>
 
+    <div class="error" id="errorBox" role="alert"></div>
+    <div class="success" id="successBox" role="status"></div>
+
     <form id="registerForm">
-      <label for="nome">Nome</label>
+      <label for="nome">Nome *</label>
       <input type="text" id="nome" name="nome" placeholder="Inserisci il tuo nome" required />
 
-      <label for="cognome">Cognome</label>
+      <label for="cognome">Cognome *</label>
       <input type="text" id="cognome" name="cognome" placeholder="Inserisci il tuo cognome" required />
 
-      <label for="data_nascita">Data di nascita</label>
+      <label for="data_nascita">Data di nascita *</label>
       <input type="date" id="data_nascita" name="data_nascita" required />
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Inserisci la tua email" required />
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" placeholder="nome@dominio.it" required />
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Crea una password" required />
+      <label for="password">Password * (minimo 6 caratteri)</label>
+      <input type="password" id="password" name="password" placeholder="Crea una password sicura" minlength="6" required />
 
-      <label for="confirm-password">Conferma Password</label>
+      <label for="confirm-password">Conferma Password *</label>
       <input type="password" id="confirm-password" name="confirm-password" placeholder="Ripeti la password" required />
 
-      <button type="submit">Registrati</button>
+      <button type="submit" id="submitBtn">Registrati</button>
     </form>
 
     <div class="divider">oppure</div>
 
     <button class="google-btn" id="googleSignUp">
-      <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google logo" />
+      <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" />
       Continua con Google
     </button>
 
     <p>Hai già un account? <a href="login.html">Accedi</a></p>
   </div>
 
-  <script>
-    const form = document.getElementById('registerForm');
-    form.addEventListener('submit', e => {
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const $ = (s) => document.querySelector(s);
+    const errorBox = $('#errorBox');
+    const successBox = $('#successBox');
+    const submitBtn = $('#submitBtn');
+
+    const form = $('#registerForm');
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const data = {
@@ -200,18 +249,117 @@
         confirm: form['confirm-password'].value
       };
 
-      if (data.password !== data.confirm) {
-        alert('Le password non coincidono.');
+      errorBox.style.display = 'none';
+      successBox.style.display = 'none';
+
+      // Validazione
+      if (!data.nome || !data.cognome) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = 'Nome e cognome sono obbligatori.';
         return;
       }
 
-      // 👇 Placeholder: qui in futuro andrà la chiamata a Supabase Auth
-      console.log('Dati utente registrazione:', data);
-      alert('Registrazione completata (simulazione).');
+      if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = 'Inserisci un\'email valida.';
+        return;
+      }
+
+      if (data.password.length < 6) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = 'La password deve avere almeno 6 caratteri.';
+        return;
+      }
+
+      if (data.password !== data.confirm) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = 'Le password non coincidono.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Registrazione in corso...';
+
+      try {
+        // 1. Crea utente in Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email: data.email,
+          password: data.password,
+          options: {
+            data: {
+              nome: data.nome,
+              cognome: data.cognome,
+              data_nascita: data.data_nascita
+            }
+          }
+        });
+
+        if (authError) throw authError;
+
+        if (!authData.user) {
+          throw new Error('Registrazione fallita: utente non creato');
+        }
+
+        // 2. Crea profilo nella tabella profiles
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({
+            user_id: authData.user.id,
+            nome: data.nome,
+            cognome: data.cognome,
+            data_nascita: data.data_nascita
+          });
+
+        if (profileError) {
+          console.warn('Profilo non creato:', profileError);
+          // Non blocchiamo per questo, potrebbe avere un trigger DB
+        }
+
+        // 3. Crea riga in progress
+        const { error: progressError } = await supabase
+          .from('progress')
+          .insert({
+            user_id: authData.user.id,
+            completed_macroaree: [],
+            fully_completed: false
+          });
+
+        if (progressError && progressError.code !== '23505') {
+          console.warn('Progress non creato:', progressError);
+        }
+
+        // Successo!
+        successBox.style.display = 'block';
+        successBox.innerHTML = `✅ Registrazione completata! <br><small>Controlla la tua email per confermare l'account.</small>`;
+        
+        // Redirect dopo 3 secondi
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 3000);
+
+      } catch (err) {
+        console.error('Registration error:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = err.message || 'Errore durante la registrazione';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Registrati';
+      }
     });
 
-    document.getElementById('googleSignUp').addEventListener('click', () => {
-      alert('Accesso con Google presto disponibile.');
+    // Google OAuth
+    $('#googleSignUp').addEventListener('click', async () => {
+      try {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: `${window.location.origin}/pages/dashboard.html`
+          }
+        });
+        if (error) throw error;
+      } catch (err) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = err.message;
+      }
     });
   </script>
 </body>
