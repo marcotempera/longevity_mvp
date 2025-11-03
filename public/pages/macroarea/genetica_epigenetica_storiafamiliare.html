@@ -143,25 +143,95 @@
     <div class="error" id="errorBox"></div>
 
     <form id="macroForm">
-      <!-- STORIA FAMILIARE -->
+      <!-- 🩺 STORIA FAMILIARE (CV + altro) -->
       <div class="card">
-        <h2>🩺 Storia familiare cardiovascolare</h2>
+        <h2>🩺 Storia familiare — cardiovascolare</h2>
 
+        <!-- 1) fh_patologie_cv -->
         <div class="field">
-          <label>Patologie cardiovascolari nei parenti stretti</label>
-          <div class="hint">Seleziona tutte le opzioni applicabili. Se "Nessuna" viene selezionata, le altre verranno ignorate.</div>
+          <label>1. Patologie cardiovascolari nei parenti stretti</label>
+          <div class="hint">Seleziona tutte le opzioni applicabili. “Nessuna” disattiva le altre.</div>
           <div class="grid-options">
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="infarto"> Infarto</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="aritmie"> Aritmie</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="ipertensione"> Ipertensione</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="ictus"> Ictus</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="coronarica"> Malattia coronarica</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="aneurisma"> Aneurisma</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="altro"> Altro</label>
-            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="nessuna" id="fh_cv_none"> Nessuna</label>
+            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="infarto" data-none-group="fh_patologie_cv"> Infarto</label>
+            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="aritmie" data-none-group="fh_patologie_cv"> Aritmie</label>
+            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="ipertensione" data-none-group="fh_patologie_cv"> Ipertensione arteriosa</label>
+            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="ictus" data-none-group="fh_patologie_cv"> Ictus</label>
+            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="coronarica" data-none-group="fh_patologie_cv"> Malattia coronarica</label>
+            <label class="option-label"><input type="checkbox" name="fh_patologie_cv" value="aneurisma" data-none-group="fh_patologie_cv"> Aneurisma</label>
+            <label class="option-label"><input type="checkbox" id="fh_cv_altro" name="fh_patologie_cv" value="altro" data-none-group="fh_patologie_cv"> Altro (specifica)</label>
+            <label class="option-label"><input type="checkbox" id="fh_cv_none" name="fh_patologie_cv" value="nessuna" data-none-group="fh_patologie_cv"> Nessuna</label>
+          </div>
+
+          <div id="altro_cardio" class="subcard" style="display:none">
+            <div class="field" style="margin:6px 0">
+              <label>Quale patologia?</label>
+              <input type="text" name="cardio_altro_descrizione" placeholder="Es: Miocardiopatia dilatativa">
+            </div>
+            <div class="field" style="margin:6px 0">
+              <label>Grado di parentela</label>
+              <input type="text" name="cardio_altro_parentela" placeholder="Es: madre, fratello, zio paterno">
+            </div>
+            <div class="field" style="margin:6px 0">
+              <label>Età di insorgenza (se nota)</label>
+              <input type="number" name="cardio_altro_eta" placeholder="Età" min="0">
+            </div>
           </div>
         </div>
 
+        <!-- 11) fh_eventi_cardiaci_precoci -->
+        <div class="field">
+          <label>2. Eventi cardiaci precoci in famiglia</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="padre_prima_55"> Padre &lt; 55 anni</label>
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="madre_prima_65"> Madre &lt; 65 anni</label>
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="fratello_sorella"> Fratello/sorella</label>
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="secondo_grado"> Secondo grado (nonni/zii)</label>
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="dopo_soglia"> Sì, ma dopo le soglie</label>
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_eventi_cardiaci_precoci" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 12) fh_esito_cv -->
+        <div class="field">
+          <label>3. Esito della malattia cardiaca nei familiari affetti</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_esito_cv" value="in_vita"> Ancora in vita</label>
+            <label class="option-label"><input type="radio" name="fh_esito_cv" value="deceduto"> Deceduto per la patologia</label>
+            <label class="option-label"><input type="radio" name="fh_esito_cv" value="guarito"> Guarito/condizione stabilizzata</label>
+            <label class="option-label"><input type="radio" name="fh_esito_cv" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_esito_cv" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 13) fh_decessi_giovane -->
+        <div class="field">
+          <label>4. Hai perso un parente stretto in giovane età?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_decessi_giovane" value="si"> Sì</label>
+            <label class="option-label"><input type="radio" name="fh_decessi_giovane" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="fh_decessi_giovane" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 14) fh_causa_decesso_cv + note -->
+        <div class="field">
+          <label>5. Causa di morte nei parenti stretti (se nota)</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_causa_decesso_cv" value="cardiovascolare"> Cardiovascolare / morte improvvisa</label>
+            <label class="option-label"><input type="radio" name="fh_causa_decesso_cv" value="altre"> Altre cause</label>
+            <label class="option-label"><input type="radio" name="fh_causa_decesso_cv" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="fh_causa_decesso_cv" value="non_so"> Non so / Non ricordo</label>
+          </div>
+          <div class="hint">Se lo sai, specifica la causa</div>
+          <textarea name="fh_causa_decesso_note" rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🧪 Altre familiarità</h2>
+
+        <!-- 2) fh_ipertensione -->
         <div class="field">
           <label>Ipertensione in famiglia</label>
           <div class="grid-options">
@@ -173,6 +243,7 @@
           </div>
         </div>
 
+        <!-- 3) fh_diabete -->
         <div class="field">
           <label>Diabete in famiglia</label>
           <div class="grid-options">
@@ -185,91 +256,365 @@
           </div>
         </div>
 
+        <!-- 4) fh_tumori_brca -->
         <div class="field">
-          <label>Tumori BRCA-correlati in famiglia</label>
+          <label>Tumori BRCA-correlati</label>
           <div class="grid-options">
             <label class="option-label"><input type="radio" name="fh_tumori_brca" value="nessun_caso"> Nessun caso</label>
-            <label class="option-label"><input type="radio" name="fh_tumori_brca" value="madre_sorella_seno"> Madre/sorella: seno</label>
+            <label class="option-label"><input type="radio" name="fh_tumori_brca" value="madre_sorella_seno"> Madre/Sorella: seno</label>
             <label class="option-label"><input type="radio" name="fh_tumori_brca" value="mammario_bilaterale"> Mammario bilaterale</label>
-            <label class="option-label"><input type="radio" name="fh_tumori_brca" value="ovaio_endo_prostata"> Ovaio/endometrio/prostata</label>
-            <label class="option-label"><input type="radio" name="fh_tumori_brca" value="mutazione_brca_nota"> Mutazione BRCA nota</label>
+            <label class="option-label"><input type="radio" name="fh_tumori_brca" value="ovaio_endo_prostata"> Ovaio/Endometrio/Prostata</label>
+            <label class="option-label"><input type="radio" name="fh_tumori_brca" value="mutazione_brca_nota"> Mutazione BRCA1/2 nota</label>
             <label class="option-label"><input type="radio" name="fh_tumori_brca" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 5) fh_colonretto -->
+        <div class="field">
+          <label>Colon-retto / poliposi intestinale</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_colonretto" value="nessuno"> Nessun familiare</label>
+            <label class="option-label"><input type="radio" name="fh_colonretto" value="primo_grado"> Parente di primo grado</label>
+            <label class="option-label"><input type="radio" name="fh_colonretto" value="multipli_famiglia"> Più membri</label>
+            <label class="option-label"><input type="radio" name="fh_colonretto" value="precoce_prima_50"> Diagnosi &lt; 50 anni</label>
+            <label class="option-label"><input type="radio" name="fh_colonretto" value="sindrome_genetica"> Sindrome genetica (Lynch, FAP)</label>
+            <label class="option-label"><input type="radio" name="fh_colonretto" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 6) fh_demenza -->
+        <div class="field">
+          <label>Alzheimer / Demenza</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_demenza" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_demenza" value="dopo_65"> Diagnosi dopo 65 anni</label>
+            <label class="option-label"><input type="radio" name="fh_demenza" value="prima_65"> Diagnosi prima di 65 anni</label>
+            <label class="option-label"><input type="radio" name="fh_demenza" value="multipli"> Più casi</label>
+            <label class="option-label"><input type="radio" name="fh_demenza" value="mutazione_nota"> Mutazione genetica nota</label>
+            <label class="option-label"><input type="radio" name="fh_demenza" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 7) fh_umore -->
+        <div class="field">
+          <label>Disturbi dell’umore</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_umore" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_umore" value="depressione_adulta"> Depressione (età adulta)</label>
+            <label class="option-label"><input type="radio" name="fh_umore" value="esordio_precoce"> Esordio precoce</label>
+            <label class="option-label"><input type="radio" name="fh_umore" value="multipli"> Più membri</label>
+            <label class="option-label"><input type="radio" name="fh_umore" value="bipolare"> Disturbo bipolare</label>
+            <label class="option-label"><input type="radio" name="fh_umore" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 8) fh_asma -->
+        <div class="field">
+          <label>Asma / allergie respiratorie</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_asma" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_asma" value="occasionale"> Asma occasionale</label>
+            <label class="option-label"><input type="radio" name="fh_asma" value="persistente"> Asma persistente</label>
+            <label class="option-label"><input type="radio" name="fh_asma" value="multipli"> Più membri</label>
+            <label class="option-label"><input type="radio" name="fh_asma" value="episodi_gravi"> Episodi acuti gravi</label>
+            <label class="option-label"><input type="radio" name="fh_asma" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 9) fh_autoimmuni -->
+        <div class="field">
+          <label>Malattie autoimmuni</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_autoimmuni" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_autoimmuni" value="uno"> Un familiare</label>
+            <label class="option-label"><input type="radio" name="fh_autoimmuni" value="multipli"> Più familiari</label>
+            <label class="option-label"><input type="radio" name="fh_autoimmuni" value="diverse_stessa_persona"> Diverse nella stessa persona</label>
+            <label class="option-label"><input type="radio" name="fh_autoimmuni" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 10) fh_trombosi -->
+        <div class="field">
+          <label>Eventi trombotici</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_trombosi" value="nessun_caso"> Nessun caso</label>
+            <label class="option-label"><input type="radio" name="fh_trombosi" value="isolato"> Caso isolato</label>
+            <label class="option-label"><input type="radio" name="fh_trombosi" value="multipli"> Più casi</label>
+            <label class="option-label"><input type="radio" name="fh_trombosi" value="giovane_eta"> In giovane età (&lt; 50)</label>
+            <label class="option-label"><input type="radio" name="fh_trombosi" value="sedi_inusuali"> Sedi inusuali</label>
+            <label class="option-label"><input type="radio" name="fh_trombosi" value="non_so"> Non so</label>
+          </div>
+        </div>
+
+        <!-- 15) fh_mutazioni_genetiche + note -->
+        <div class="field">
+          <label>Mutazioni genetiche ereditarie note</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fh_mutazioni_genetiche" value="in_me"> In me</label>
+            <label class="option-label"><input type="radio" name="fh_mutazioni_genetiche" value="primo_grado"> Parente di primo grado</label>
+            <label class="option-label"><input type="radio" name="fh_mutazioni_genetiche" value="secondo_grado"> Parente di secondo grado</label>
+            <label class="option-label"><input type="radio" name="fh_mutazioni_genetiche" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="fh_mutazioni_genetiche" value="non_so"> Non so / mai test</label>
+          </div>
+          <div class="hint">Se sì, indica la mutazione</div>
+          <input type="text" name="fh_mutazioni_note" placeholder="Es: BRCA1 185delAG, HNPCC...">
+        </div>
+
+        <!-- 16) fh_longevita -->
+        <div class="field">
+          <label>Longevi in famiglia (&gt;80 anni senza cronicità rilevanti)</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="madre" data-none-group="fh_longevita"> Madre</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="padre" data-none-group="fh_longevita"> Padre</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="nonno_paterno" data-none-group="fh_longevita"> Nonno paterno</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="nonna_paterna" data-none-group="fh_longevita"> Nonna paterna</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="nonno_materno" data-none-group="fh_longevita"> Nonno materno</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="nonna_materna" data-none-group="fh_longevita"> Nonna materna</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="altro" data-none-group="fh_longevita"> Altro parente stretto</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="nessuno" data-none-group="fh_longevita"> Nessuno</label>
+            <label class="option-label"><input type="checkbox" name="fh_longevita" value="non_so" data-none-group="fh_longevita"> Non so</label>
           </div>
         </div>
       </div>
 
-      <!-- NASCITA E SVILUPPO -->
+      <!-- 👶 NASCITA & SVILUPPO -->
       <div class="card">
         <h2>👶 Nascita e sviluppo</h2>
 
+        <!-- 17) nascita_pretermine -->
         <div class="field">
           <label>Nascita pretermine</label>
           <select name="nascita_pretermine">
             <option value="">Seleziona...</option>
-            <option value="termine">A termine</option>
-            <option value="estremamente">Estremamente pretermine</option>
-            <option value="molto">Molto pretermine</option>
-            <option value="moderatamente">Moderatamente pretermine</option>
-            <option value="tardivo">Tardivo</option>
+            <option value="termine">A termine (37–42)</option>
+            <option value="estremamente">Estremamente pretermine (&lt;28)</option>
+            <option value="molto">Molto pretermine (28–32)</option>
+            <option value="moderatamente">Moderatamente pretermine (32–34)</option>
+            <option value="tardivo">Pretermine tardivo (34–37)</option>
             <option value="non_so">Non so</option>
           </select>
         </div>
 
+        <!-- 18) tipo_parto -->
         <div class="field">
           <label>Tipo di parto</label>
           <div class="grid-options">
             <label class="option-label"><input type="radio" name="tipo_parto" value="naturale"> Naturale</label>
-            <label class="option-label"><input type="radio" name="tipo_parto" value="intervento_ostetrico"> Intervento ostetrico</label>
+            <label class="option-label"><input type="radio" name="tipo_parto" value="intervento_ostetrico"> Intervento ostetrico (cesareo/ventosa/forcipe)</label>
             <label class="option-label"><input type="radio" name="tipo_parto" value="non_ricordo"> Non ricordo</label>
           </div>
         </div>
 
+        <!-- 19) complicazioni_nascita -->
+        <div class="field">
+          <label>Complicazioni alla nascita</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="complicazioni_nascita" value="si"> Sì, complicazioni / cure speciali</label>
+            <label class="option-label"><input type="radio" name="complicazioni_nascita" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="complicazioni_nascita" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+
+        <!-- 20) allattamento -->
         <div class="field">
           <label>Allattamento (primi 6 mesi)</label>
           <div class="grid-options">
-            <label class="option-label"><input type="radio" name="allattamento" value="esclusivo"> Esclusivo</label>
-            <label class="option-label"><input type="radio" name="allattamento" value="parziale"> Parziale</label>
+            <label class="option-label"><input type="radio" name="allattamento" value="esclusivo"> Esclusivo al seno</label>
+            <label class="option-label"><input type="radio" name="allattamento" value="parziale"> Parziale / integrazione</label>
             <label class="option-label"><input type="radio" name="allattamento" value="artificiale"> Artificiale</label>
             <label class="option-label"><input type="radio" name="allattamento" value="non_ricordo"> Non ricordo</label>
           </div>
         </div>
+
+        <!-- 21) tappe_sviluppo -->
+        <div class="field">
+          <label>Tappe dello sviluppo nell’infanzia</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="tappe_sviluppo" value="regolari"> Regolari</label>
+            <label class="option-label"><input type="radio" name="tappe_sviluppo" value="lievi_ritardi"> Lievi ritardi</label>
+            <label class="option-label"><input type="radio" name="tappe_sviluppo" value="ritardi_significativi"> Ritardi significativi</label>
+            <label class="option-label"><input type="radio" name="tappe_sviluppo" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
       </div>
 
-      <!-- ABITUDINI PROTETTIVE -->
+      <!-- 🧑‍⚕️ SVILUPPO PUBERALE / RIPRODUTTIVO -->
       <div class="card">
-        <h2>🛡️ Abitudini protettive</h2>
+        <h2>🧑‍⚕️ Sviluppo puberale e riproduttivo</h2>
 
+        <!-- 22) puberta_femminile -->
         <div class="field">
-          <label>Abitudini per proteggere il DNA</label>
-          <div class="hint">Seleziona tutte le abitudini che pratichi regolarmente</div>
+          <label>Donne — sviluppo puberale</label>
           <div class="grid-options">
-            <label class="option-label"><input type="checkbox" name="protezione_dna" value="uso_antiossidanti"> Antiossidanti</label>
-            <label class="option-label"><input type="checkbox" name="protezione_dna" value="protezione_solari"> Protezione solare</label>
-            <label class="option-label"><input type="checkbox" name="protezione_dna" value="dieta_antinfiammazione"> Dieta antinfiammatoria</label>
-            <label class="option-label"><input type="checkbox" name="protezione_dna" value="evitare_fumo_alcol"> Evito fumo/alcol</label>
-            <label class="option-label"><input type="checkbox" name="protezione_dna" value="nessuna_misura"> Nessuna misura</label>
+            <label class="option-label"><input type="radio" name="puberta_femminile" value="regolare"> Regolare</label>
+            <label class="option-label"><input type="radio" name="puberta_femminile" value="precoce"> Precoce</label>
+            <label class="option-label"><input type="radio" name="puberta_femminile" value="ritardata"> Ritardata</label>
+            <label class="option-label"><input type="radio" name="puberta_femminile" value="non_ricordo"> Non ricordo</label>
+            <label class="option-label"><input type="radio" name="puberta_femminile" value="uomo"> Sono un uomo</label>
           </div>
         </div>
 
+        <!-- 23) puberta_maschile -->
         <div class="field">
-          <label>Strategie per funzione mitocondriale</label>
+          <label>Uomini — sviluppo puberale</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="puberta_maschile" value="regolare"> Regolare</label>
+            <label class="option-label"><input type="radio" name="puberta_maschile" value="precoce"> Precoce</label>
+            <label class="option-label"><input type="radio" name="puberta_maschile" value="ritardata"> Ritardata</label>
+            <label class="option-label"><input type="radio" name="puberta_maschile" value="non_ricordo"> Non ricordo</label>
+            <label class="option-label"><input type="radio" name="puberta_maschile" value="donna"> Sono una donna</label>
+          </div>
+        </div>
+
+        <!-- 24) ciclo_mestruale -->
+        <div class="field">
+          <label>Donne — ciclo mestruale</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="ciclo_mestruale" value="regolare"> Regolare</label>
+            <label class="option-label"><input type="radio" name="ciclo_mestruale" value="irregolare"> Irregolare/assente</label>
+            <label class="option-label"><input type="radio" name="ciclo_mestruale" value="doloroso"> Abbondante/doloroso</label>
+            <label class="option-label"><input type="radio" name="ciclo_mestruale" value="uomo"> Sono un uomo</label>
+          </div>
+        </div>
+
+        <!-- 25) menopausa + anni -->
+        <div class="field">
+          <label>Menopausa</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="menopausa" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="menopausa" value="spontanea"> Sì, spontanea</label>
+            <label class="option-label"><input type="radio" name="menopausa" value="chirurgica"> Sì, chirurgica / RT / CT</label>
+            <label class="option-label"><input type="radio" name="menopausa" value="non_so"> Non so</label>
+            <label class="option-label"><input type="radio" name="menopausa" value="uomo"> Sono un uomo</label>
+          </div>
+          <div class="hint">Se menopausa presente: a che età è iniziata?</div>
+          <textarea name="menopausa_anni" rows="2" placeholder="Es: 51 anni"></textarea>
+        </div>
+
+        <!-- 26) gravidanze_portate_a_termine -->
+        <div class="field">
+          <label>Gravidanze portate a termine (37–42 settimane)</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="gravidanze_portate_a_termine" value="una"> Sì, una</label>
+            <label class="option-label"><input type="radio" name="gravidanze_portate_a_termine" value="piu"> Sì, più di una</label>
+            <label class="option-label"><input type="radio" name="gravidanze_portate_a_termine" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="gravidanze_portate_a_termine" value="mai_avuto"> Mai avute</label>
+            <label class="option-label"><input type="radio" name="gravidanze_portate_a_termine" value="uomo"> Sono un uomo</label>
+          </div>
+        </div>
+
+        <!-- 27) aborti_spontanei -->
+        <div class="field">
+          <label>Aborti spontanei</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="aborti_spontanei" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="aborti_spontanei" value="uno"> Sì, uno</label>
+            <label class="option-label"><input type="radio" name="aborti_spontanei" value="due"> Sì, due</label>
+            <label class="option-label"><input type="radio" name="aborti_spontanei" value="piu_di_due"> Sì, più di due</label>
+            <label class="option-label"><input type="radio" name="aborti_spontanei" value="uomo"> Sono un uomo</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🪖 STATO MILITARE & FAMIGLIA -->
+      <div class="card">
+        <h2>🪖 Stato militare e famiglia attuale</h2>
+
+        <!-- 28) servizio_militare_idoneita -->
+        <div class="field">
+          <label>Servizio militare — idoneità</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="servizio_militare_idoneita" value="idoneo_senza_limitazioni"> Idoneo senza limitazioni</label>
+            <label class="option-label"><input type="radio" name="servizio_militare_idoneita" value="idoneo_con_limitazioni"> Idoneo con limitazioni</label>
+            <label class="option-label"><input type="radio" name="servizio_militare_idoneita" value="non_idoneo"> Non idoneo</label>
+            <label class="option-label"><input type="radio" name="servizio_militare_idoneita" value="non_svolto"> Non svolto</label>
+          </div>
+        </div>
+
+        <!-- 29) riformato_militare -->
+        <div class="field">
+          <label>Riforma dal servizio militare</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="riformato_militare" value="motivi_fisici"> Per motivi fisici</label>
+            <label class="option-label"><input type="radio" name="riformato_militare" value="motivi_psicologici"> Per motivi psicologici</label>
+            <label class="option-label"><input type="radio" name="riformato_militare" value="entrambi"> Entrambi</label>
+            <label class="option-label"><input type="radio" name="riformato_militare" value="idoneo"> No, idoneo</label>
+            <label class="option-label"><input type="radio" name="riformato_militare" value="non_svolto"> Non svolto</label>
+          </div>
+        </div>
+
+        <!-- 30) salute_partner -->
+        <div class="field">
+          <label>Salute partner/coniuge</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_partner" value="buona_salute"> In buona salute</label>
+            <label class="option-label"><input type="radio" name="salute_partner" value="patologia_gestita"> Patologie croniche gestite</label>
+            <label class="option-label"><input type="radio" name="salute_partner" value="patologie_significative"> Patologie significative</label>
+            <label class="option-label"><input type="radio" name="salute_partner" value="non_ho_partner"> Non ho partner/coniuge</label>
+          </div>
+        </div>
+
+        <!-- 31) salute_figli -->
+        <div class="field">
+          <label>Salute dei figli</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_figli" value="buona_salute"> Buona salute / sviluppo regolare</label>
+            <label class="option-label"><input type="radio" name="salute_figli" value="patologia_gestita"> Patologie croniche gestite</label>
+            <label class="option-label"><input type="radio" name="salute_figli" value="problemi_significativi"> Patologie significative o ritardi</label>
+            <label class="option-label"><input type="radio" name="salute_figli" value="non_ho_figli"> Non ho figli</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 🛡️ ABITUDINI PROTETTIVE -->
+      <div class="card">
+        <h2>🛡️ Abitudini protettive</h2>
+
+        <!-- 32) protezione_dna -->
+        <div class="field">
+          <label>Abitudini per proteggere il DNA</label>
+          <div class="hint">Seleziona tutte le abitudini che pratichi regolarmente. “Nessuna misura” disattiva le altre.</div>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="protezione_dna" value="uso_antiossidanti" data-none-group="protezione_dna"> Antiossidanti</label>
+            <label class="option-label"><input type="checkbox" name="protezione_dna" value="protezione_solari" data-none-group="protezione_dna"> Protezione solare</label>
+            <label class="option-label"><input type="checkbox" name="protezione_dna" value="dieta_antinfiammazione" data-none-group="protezione_dna"> Dieta anti-infiammatoria</label>
+            <label class="option-label"><input type="checkbox" name="protezione_dna" value="evitare_fumo_alcol" data-none-group="protezione_dna"> Evito fumo/alcol/tossici</label>
+            <label class="option-label"><input type="checkbox" name="protezione_dna" value="nessuna_misura" data-none-group="protezione_dna"> Nessuna misura</label>
+          </div>
+        </div>
+
+        <!-- 33) protezione_per_proteine -->
+        <div class="field">
+          <label>Abitudini a supporto della salute delle proteine</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="protezione_per_proteine" value="completo"> Più strategie in modo regolare</label>
+            <label class="option-label"><input type="radio" name="protezione_per_proteine" value="parziale"> Alcune / saltuario</label>
+            <label class="option-label"><input type="radio" name="protezione_per_proteine" value="no_ma_interessato"> No, ma voglio migliorare</label>
+            <label class="option-label"><input type="radio" name="protezione_per_proteine" value="no"> No</label>
+          </div>
+        </div>
+
+        <!-- 34) migliorare_funzione_mitocondriale + tempo -->
+        <div class="field">
+          <label>Strategie per migliorare la funzione mitocondriale</label>
           <div class="grid-options">
             <label class="option-label"><input type="radio" name="migliorare_funzione_mitocondriale" value="si_regolare"> Sì, regolare</label>
             <label class="option-label"><input type="radio" name="migliorare_funzione_mitocondriale" value="si_saltuario"> Sì, saltuario</label>
             <label class="option-label"><input type="radio" name="migliorare_funzione_mitocondriale" value="no_ma_interessato"> No, ma interessato</label>
             <label class="option-label"><input type="radio" name="migliorare_funzione_mitocondriale" value="no"> No</label>
           </div>
-          <div class="hint">Se sì, quando e per quanto tempo?</div>
-          <input type="text" name="migliorare_funzione_mitocondriale_tempo" placeholder="Es: Da 3 mesi, 3 volte a settimana"/>
+          <div class="hint">Se sì: quando e per quanto tempo?</div>
+          <input type="text" name="migliorare_funzione_mitocondriale_tempo" placeholder="Es: 1 anno fa per 3 mesi">
         </div>
       </div>
 
       <div class="card actions">
-        <button type="button" class="cta secondary" id="cancelBtn">Annulla</button>
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
         <button type="submit" class="cta">💾 Salva & Prosegui</button>
       </div>
     </form>
   </div>
+
 
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
