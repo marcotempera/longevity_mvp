@@ -245,7 +245,7 @@
         `;
         
         card.addEventListener('click', () => {
-          window.location.href = `/pages/macroaree/${slug}.html`;
+          window.location.href = `/pages/macroarea/${slug}.html`;
         });
 
         list.appendChild(card);
@@ -296,7 +296,7 @@
       // CTA
       $('#startBtn').addEventListener('click', () => {
         const next = MacroFlow.find(m => !completedSet.has(m)) || MacroFlow[0];
-        window.location.href = `/pages/macroaree/${next}.html`;
+        window.location.href = `/pages/macroarea/${next}.html`;
       });
 
       // Logout
