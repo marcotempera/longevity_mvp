@@ -72,9 +72,9 @@ function renderAreasList(assessments, completedSet){
     const btnAction = () => {
       if (completed) {
         // vai alla pagina macroarea per leggere report completo
-        goto(`/pages/macroaree/${slug}.html`);
+        goto(`/pages/macroarea/${slug}.html`);
       } else {
-        goto(`/pages/macroaree/${slug}.html`);
+        goto(`/pages/macroarea/${slug}.html`);
       }
     };
 
@@ -112,7 +112,7 @@ async function init() {
   els.startBtn.addEventListener('click', () => {
     // trova prima macroarea non completata
     const next = MacroFlow.find(m => !completedSet.has(m)) || MacroFlow[0];
-    goto(`/pages/macroaree/${next}.html`);
+    goto(`/pages/macroarea/${next}.html`);
   });
 
   // Logout
