@@ -709,7 +709,7 @@
         updateProgress(60);
 
         // 4. Genera report con LLM
-        const reportResponse = await fetch('/api/generate-report', {
+        const reportResponse = await fetch('/api/generate-report.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
