@@ -16,7 +16,11 @@ export default async function handler(req, res) {
 
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
   if (!OPENAI_API_KEY) {
-    return res.status(500).json({ error: 'Missing OPENAI_API_KEY on server' });
+    console.error('❌ OPENAI_API_KEY non configurata');
+    return res.status(500).json({ 
+      error: 'Missing OPENAI_API_KEY on server',
+      hint: 'Configura la variabile d\'ambiente OPENAI_API_KEY nelle impostazioni Vercel'
+    });
   }
 
   try {
@@ -36,10 +40,14 @@ export default async function handler(req, res) {
     };
 
     const prompt = buildPrompt(macroarea, safeYaml, rawAnswers || {});
+    
+    // ✅ USA UN MODELLO VALIDO (gpt-4o-mini è economico e veloce)
+    const model = process.env.OPENAI_MODEL || 'gpt-5-nano';
+    
     const report = await generateWithOpenAI({
       apiKey: OPENAI_API_KEY,
       prompt,
-      model: process.env.OPENAI_MODEL || 'gpt-5-nano' // puoi cambiare qui
+      model
     });
 
     return res.status(200).json({ report });
@@ -52,7 +60,7 @@ export default async function handler(req, res) {
   }
 }
 
-/** Costruisce il prompt per l’LLM (robusto ai campi mancanti) */
+/** Costruisce il prompt per l'LLM (robusto ai campi mancanti) */
 function buildPrompt(macroarea, yamlOutput, rawAnswers) {
   const { score, riskClass, narrative, topDrivers, redFlags, actions } = yamlOutput;
 
@@ -78,7 +86,6 @@ function buildPrompt(macroarea, yamlOutput, rawAnswers) {
 
   const actionsText = formatActions(actions);
 
-  // Puoi includere alcune risposte grezze, se ti servono, ma evita dati sensibili
   const macroareaLabel = macroarea.replace(/_/g, ' ');
 
   return `Sei un assistente medico specializzato in medicina preventiva. Il tuo compito è generare un report chiaro e comprensibile in italiano per un paziente, basato sui risultati di un questionario sulla macroarea: **${macroareaLabel}**.
@@ -131,7 +138,6 @@ function formatActions(actions = {}) {
   };
 
   let out = '';
-  // actions è atteso come: { featureA: { lifestyle: [...], followup: [...] }, featureB: ... }
   for (const [, actionSet] of Object.entries(actions)) {
     for (const [cat, items] of Object.entries(actionSet || {})) {
       if (!Array.isArray(items) || items.length === 0) continue;
@@ -148,25 +154,29 @@ function formatActions(actions = {}) {
   ].join('\n');
 }
 
-/** Chiamata all’OpenAI Responses API con parsing robusto */
+/** Chiamata all'OpenAI Chat Completions API */
 async function generateWithOpenAI({ apiKey, prompt, model }) {
-  const resp = await fetch('https://api.openai.com/v1/responses', {
+  // ✅ USA L'ENDPOINT CORRETTO: chat/completions
+  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model,
-      input: [
+      model, // es: 'gpt-4o-mini' o 'gpt-4-turbo'
+      messages: [
         {
           role: 'system',
           content: 'Sei un assistente medico specializzato in medicina preventiva. Scrivi report chiari, accurati e comprensibili per i pazienti.'
         },
-        { role: 'user', content: prompt }
+        { 
+          role: 'user', 
+          content: prompt 
+        }
       ],
       temperature: 0.7,
-      max_output_tokens: 1500
+      max_tokens: 1500
     })
   });
 
@@ -177,17 +187,13 @@ async function generateWithOpenAI({ apiKey, prompt, model }) {
 
   const data = await resp.json();
 
-  // Estrattori robusti per diversi schemi possibili
-  const candidates = [
-    data?.output_text,
-    data?.output?.[0]?.content?.[0]?.text,
-    data?.choices?.[0]?.message?.content // fallback compatibilità Chat Completions
-  ].filter(Boolean);
-
-  const text = candidates[0];
+  // Estrai il testo dalla risposta
+  const text = data?.choices?.[0]?.message?.content;
+  
   if (!text) {
-    throw new Error('OpenAI response parsing failed');
+    throw new Error('OpenAI response parsing failed: no content in response');
   }
+  
   return text;
 }
 
