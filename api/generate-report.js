@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     const prompt = buildPrompt(macroarea, safeYaml, rawAnswers || {});
     
     // ✅ USA UN MODELLO VALIDO (gpt-4o-mini è economico e veloce)
-    const model = process.env.OPENAI_MODEL || 'gpt-5-nano';
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
     
     const report = await generateWithOpenAI({
       apiKey: OPENAI_API_KEY,
