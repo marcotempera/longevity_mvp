@@ -709,22 +709,32 @@
         updateProgress(60);
 
         // 4. Genera report con LLM
-        const reportResponse = await fetch('/api/generate-report', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            macroarea,
-            yamlOutput: llmInput,
-            rawAnswers: answers
-          })
-        });
+        const resp = await fetch('/api/generate-report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+            });
 
-        if (!reportResponse.ok) {
-          throw new Error('Errore generazione report LLM');
-        }
+            const text = await resp.text();
+            if (!resp.ok) {
+            console.error('generate-report 404/body:', resp.status, text);
+            throw new Error(`Errore generazione report LLM (${resp.status})`);
+            }
+            const { report } = JSON.parse(text);
 
-        const { report } = await reportResponse.json();
-        updateProgress(80);
+            // salva il report nel tuo assessment
+            const { data: { user } } = await supabase.auth.getUser();
+            await supabase
+            .from('assessments')
+            .upsert({
+                user_id: user.id,
+                macroarea,
+                report,               // <— QUI salvi il report
+                // se vuoi: score, drivers, red_flags, etc...
+            }, { onConflict: 'user_id,macroarea' });
+
+            // vai alla pagina report
+            window.location.href = `/pages/macroaree/report.html?m=${macroarea}`;
 
         // 5. Salva tutto su Supabase
         const { error } = await supabase
