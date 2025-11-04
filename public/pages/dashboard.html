@@ -245,7 +245,13 @@
         `;
         
         card.addEventListener('click', () => {
-          window.location.href = `/pages/macroarea/${slug}.html`;
+            if (completed) {
+                // Vai al report
+                window.location.href = `/pages/macroarea/report.html?m=${slug}`;
+            } else {
+                // Vai al questionario
+                window.location.href = `/pages/macroarea/${slug}.html`;
+            }
         });
 
         list.appendChild(card);

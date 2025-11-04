@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Report Macroarea</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <!-- Marked.js per renderizzare Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@11/marked.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+      --warning:#fbbf24;
+      --danger:#ef4444;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:900px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-block;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{background:#1a324a;color:#eaf6ff}
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    .score-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:16px 24px;
+      border-radius:12px;
+      font-size:1.8rem;
+      font-weight:700;
+      margin:16px 0;
+    }
+    .score-badge.low{background:rgba(34,197,94,.2);border:2px solid var(--success)}
+    .score-badge.medium{background:rgba(251,191,36,.2);border:2px solid var(--warning)}
+    .score-badge.high{background:rgba(239,68,68,.2);border:2px solid var(--danger)}
+    .meta{display:flex;gap:20px;flex-wrap:wrap;margin:16px 0;color:var(--muted)}
+    .meta>div{display:flex;align-items:center;gap:8px}
+    
+    /* Stile per Markdown renderizzato */
+    .markdown-content h2{font-size:1.4rem;margin-top:28px;margin-bottom:12px;border-bottom:2px solid rgba(54,209,220,.3);padding-bottom:8px}
+    .markdown-content h3{font-size:1.1rem;margin-top:20px}
+    .markdown-content ul{padding-left:24px}
+    .markdown-content li{margin:8px 0}
+    .markdown-content code{background:rgba(255,255,255,.1);padding:2px 6px;border-radius:4px;font-size:.9em}
+    .markdown-content blockquote{border-left:4px solid var(--accent);padding-left:16px;margin:16px 0;opacity:.9}
+    
+    .red-flags{background:rgba(239,68,68,.1);border-left:4px solid var(--danger);padding:16px;border-radius:8px;margin:16px 0}
+    .red-flags h3{margin-top:0;color:var(--danger)}
+    
+    .drivers-list{display:grid;gap:12px;margin:16px 0}
+    .driver{background:rgba(255,255,255,.04);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,.08)}
+    .driver-name{font-weight:600;margin-bottom:4px}
+    .driver-contrib{color:var(--accent);font-size:.9rem}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 id="macroareaTitle" style="margin:0">📊 Report Macroarea</h1>
+        <p class="muted" id="macroareaDesc">Caricamento...</p>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div id="loadingBox" class="card">
+      <p>⏳ Caricamento report...</p>
+    </div>
+
+    <div id="errorBox" class="card" style="display:none;background:rgba(239,68,68,.1);border-color:var(--danger)">
+      <p id="errorText"></p>
+    </div>
+
+    <div id="reportContent" style="display:none">
+      <!-- Score Badge -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:16px">
+          <div>
+            <h2 style="margin:0 0 8px">Il tuo score</h2>
+            <div class="score-badge" id="scoreBadge">
+              <span id="scoreValue">—</span>
+              <span style="font-size:1rem;opacity:.8">/ 100</span>
+            </div>
+            <p class="muted" id="riskLabel"></p>
+          </div>
+          <div>
+            <button class="cta" id="editBtn">✏️ Ricompila questionario</button>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div>📅 Completato il: <strong id="completedDate">—</strong></div>
+        </div>
+      </div>
+
+      <!-- Red Flags -->
+      <div id="redFlagsBox" class="card" style="display:none">
+        <div class="red-flags">
+          <h3>⚠️ Segnali che richiedono attenzione</h3>
+          <ul id="redFlagsList"></ul>
+        </div>
+      </div>
+
+      <!-- Top Drivers -->
+      <div class="card">
+        <h2>🎯 Fattori principali</h2>
+        <p class="muted">Questi elementi hanno maggiormente influenzato il tuo score:</p>
+        <div class="drivers-list" id="driversList"></div>
+      </div>
+
+      <!-- Report LLM -->
+      <div class="card">
+        <h2>📄 Report dettagliato</h2>
+        <div class="markdown-content" id="llmReport"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card">
+        <a class="cta" href="/pages/dashboard.html">← Torna alla dashboard</a>
+        <button class="cta secondary" id="exportBtn" style="margin-left:12px">📥 Esporta PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const $ = (s) => document.querySelector(s);
+
+    // Prendi macroarea dall'URL (es: /pages/macroaree/report.html?m=genetica_...)
+    const params = new URLSearchParams(window.location.search);
+    const macroarea = params.get('m') || window.location.pathname.split('/').pop().replace('.html', '');
+
+    const MacroLabels = {
+      "genetica_epigenetica_storiafamiliare": "🧬 Genetica & Storia Familiare",
+      "dati_clinici_biochimici": "🩺 Dati Clinici & Biochimici",
+      "imaging_funzione": "📷 Imaging & Valutazioni",
+      "segni_vitali_monitoraggio": "💓 Segni Vitali",
+      "attivita_stile_vita": "🏃 Attività & Stile di Vita",
+      "nutrizione_idratazione": "🥗 Nutrizione & Idratazione",
+      "sonno_ritmi": "😴 Sonno & Ritmi Circadiani",
+      "funzioni_cognitive": "🧠 Funzioni Cognitive",
+      "salute_mentale": "💚 Salute Mentale",
+      "esposizioni_ambientali": "🌍 Esposizioni Ambientali"
+    };
+
+    function getRiskClass(score) {
+      if (score < 5) return 'low';
+      if (score < 10) return 'medium';
+      return 'high';
+    }
+
+    function getRiskLabel(riskClass) {
+      const labels = {
+        low: '✅ Basso rischio',
+        medium: '⚠️ Rischio moderato',
+        high: '🚨 Richiede attenzione'
+      };
+      return labels[riskClass] || '';
+    }
+
+    async function loadReport() {
+      try {
+        // Verifica utente
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          window.location.href = '/pages/login.html';
+          return;
+        }
+
+        // Carica assessment
+        const { data, error } = await supabase
+          .from('assessments')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('macroarea', macroarea)
+          .single();
+
+        if (error) throw error;
+        if (!data) {
+          throw new Error('Questionario non ancora compilato');
+        }
+
+        // Nascondi loading
+        $('#loadingBox').style.display = 'none';
+        $('#reportContent').style.display = 'block';
+
+        // Popola UI
+        $('#macroareaTitle').textContent = MacroLabels[macroarea] || macroarea;
+        $('#macroareaDesc').textContent = 'Risultati del questionario';
+
+        // Score
+        const score = data.score || 0;
+        const riskClass = getRiskClass(score);
+        $('#scoreValue').textContent = score.toFixed(1);
+        $('#scoreBadge').className = `score-badge ${riskClass}`;
+        $('#riskLabel').textContent = getRiskLabel(riskClass);
+
+        // Data completamento
+        const date = new Date(data.completed_at);
+        $('#completedDate').textContent = date.toLocaleDateString('it-IT', {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric'
+        });
+
+        // Red flags
+        if (data.red_flags && data.red_flags.length > 0) {
+          $('#redFlagsBox').style.display = 'block';
+          const list = $('#redFlagsList');
+          data.red_flags.forEach(rf => {
+            const li = document.createElement('li');
+            li.textContent = rf.action || rf.condition || 'Attenzione richiesta';
+            list.appendChild(li);
+          });
+        }
+
+        // Drivers
+        if (data.drivers && data.drivers.length > 0) {
+          const driversList = $('#driversList');
+          data.drivers.slice(0, 5).forEach(d => {
+            const div = document.createElement('div');
+            div.className = 'driver';
+            div.innerHTML = `
+              <div class="driver-name">${d.feature || d.name}</div>
+              <div class="driver-contrib">Contributo: ${d.contribution?.toFixed(1) || d.score}</div>
+              <div class="muted" style="font-size:.9rem;margin-top:4px">${d.explanation || ''}</div>
+            `;
+            driversList.appendChild(div);
+          });
+        }
+
+        // Report LLM (Markdown)
+        if (data.report) {
+          $('#llmReport').innerHTML = marked.parse(data.report);
+        } else {
+          $('#llmReport').innerHTML = '<p class="muted">Report non ancora generato.</p>';
+        }
+
+        // Pulsante edit
+        $('#editBtn').addEventListener('click', () => {
+          window.location.href = `/pages/macroarea/${macroarea}.html`;
+        });
+
+        // Export PDF (placeholder)
+        $('#exportBtn').addEventListener('click', () => {
+          alert('Funzione esportazione PDF in sviluppo');
+          // TODO: usa jsPDF o html2pdf per generare PDF
+        });
+
+      } catch (err) {
+        console.error('Load error:', err);
+        $('#loadingBox').style.display = 'none';
+        $('#errorBox').style.display = 'block';
+        $('#errorText').textContent = err.message;
+      }
+    }
+
+    loadReport();
+  </script>
+</body>
+</html>
