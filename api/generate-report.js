@@ -1,182 +1,196 @@
 // /api/generate-report.js
-// Endpoint serverless per generare report con LLM (OpenAI/Anthropic)
+// Generazione report LLM (OpenAI) — Vercel Serverless (Node)
 
-export const config = {
-    runtime: 'edge', // Vercel Edge / Cloudflare Workers
-  };
-  
+export default async function handler(req, res) {
+  // CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-  const MODEL = 'gpt-5-nano'; // o 'gpt-4o' per maggiore qualità
-  
-  export default async function handler(req) {
-    // CORS headers
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+  if (!OPENAI_API_KEY) {
+    return res.status(500).json({ error: 'Missing OPENAI_API_KEY on server' });
+  }
+
+  try {
+    const { macroarea, yamlOutput, rawAnswers } = (req.body || {});
+    if (!macroarea || !yamlOutput) {
+      return res.status(400).json({ error: 'Missing required fields: macroarea, yamlOutput' });
+    }
+
+    // Normalizza/Default per evitare crash
+    const safeYaml = {
+      score: yamlOutput?.score ?? 0,
+      riskClass: yamlOutput?.riskClass ?? 'pending',
+      narrative: yamlOutput?.narrative ?? '',
+      topDrivers: Array.isArray(yamlOutput?.topDrivers) ? yamlOutput.topDrivers : [],
+      redFlags: Array.isArray(yamlOutput?.redFlags) ? yamlOutput.redFlags : [],
+      actions: yamlOutput?.actions ?? {}
     };
-  
-    if (req.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders });
-    }
-  
-    if (req.method !== 'POST') {
-      return new Response('Method not allowed', { 
-        status: 405, 
-        headers: corsHeaders 
-      });
-    }
-  
-    try {
-      const body = await req.json();
-      const { macroarea, yamlOutput, rawAnswers } = body;
-  
-      if (!macroarea || !yamlOutput) {
-        return new Response(
-          JSON.stringify({ error: 'Missing required fields' }), 
-          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
-  
-      // Genera prompt per l'LLM
-      const prompt = buildPrompt(macroarea, yamlOutput, rawAnswers);
-  
-      // Chiama OpenAI
-      const report = await generateWithOpenAI(prompt);
-  
-      return new Response(
-        JSON.stringify({ report }), 
-        { 
-          status: 200, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-  
-    } catch (error) {
-      console.error('LLM API Error:', error);
-      return new Response(
-        JSON.stringify({ error: error.message }), 
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-  }
-  
-  /**
-   * Costruisce il prompt per l'LLM
-   */
-  function buildPrompt(macroarea, yamlOutput, rawAnswers) {
-    const { score, riskClass, narrative, topDrivers, redFlags, actions } = yamlOutput;
-  
-    return `Sei un assistente medico specializzato in medicina preventiva. Il tuo compito è generare un report chiaro e comprensibile in italiano per un paziente, basato sui risultati di un questionario sulla macroarea: **${macroarea.replace(/_/g, ' ')}**.
-  
-  ## DATI DEL QUESTIONARIO
-  
-  **Score totale**: ${score}/100
-  **Classe di rischio**: ${riskClass} (${riskClass === 'low' ? 'basso' : riskClass === 'medium' ? 'moderato' : 'alto'})
-  
-  **Narrativa generale**: ${narrative}
-  
-  ## TOP DRIVER (Fattori principali che influenzano lo score)
-  
-  ${topDrivers.map((d, i) => `${i + 1}. **${d.feature}** (contributo: ${d.contribution})
-     - ${d.explanation}`).join('\n\n')}
-  
-  ${redFlags.length > 0 ? `
-  ## ⚠️ RED FLAGS (Segnali che richiedono attenzione)
-  
-  ${redFlags.map((rf, i) => `${i + 1}. ${rf.action || rf.condition}`).join('\n')}
-  ` : ''}
-  
-  ## AZIONI CONSIGLIATE
-  
-  ${formatActions(actions)}
-  
-  ---
-  
-  **ISTRUZIONI PER IL REPORT**:
-  
-  1. **Tono**: Professionale ma empatico, chiaro e rassicurante
-  2. **Struttura**: 
-     - Introduzione breve (2-3 frasi) che contestualizza lo score
-     - Sezione "Cosa significa il tuo score" con spiegazione semplice
-     - Sezione "Fattori chiave" che spiega i top driver in linguaggio naturale
-     ${redFlags.length > 0 ? '- Sezione "⚠️ Segnali da monitorare" per i red flags' : ''}
-     - Sezione "Cosa puoi fare" con consigli pratici divisi per:
-       * 🏃 Stile di vita
-       * 🩺 Follow-up medico
-       * 💊 Nutraceutica (se applicabile)
-     - Conclusione positiva e motivante
-  3. **Lunghezza**: 300-500 parole
-  4. **Linguaggio**: Evita termini tecnici non necessari, usa analogie quando utile
-  5. **Privacy**: Non menzionare dati personali specifici (età, nomi)
-  
-  Genera il report in **formato Markdown**.`;
-  }
-  
-  /**
-   * Formatta le azioni in modo leggibile
-   */
-  function formatActions(actions) {
-    const categories = {
-      lifestyle: '### 🏃 Stile di vita',
-      followup: '### 🩺 Follow-up medico',
-      nutraceutica: '### 💊 Nutraceutica',
-      medical: '### 👨‍⚕️ Consulenze specialistiche'
-    };
-  
-    let formatted = '';
-  
-    for (const [feature, actionSet] of Object.entries(actions)) {
-      for (const [category, items] of Object.entries(actionSet)) {
-        if (!Array.isArray(items) || items.length === 0) continue;
-        
-        if (!formatted.includes(categories[category])) {
-          formatted += `\n${categories[category]}\n\n`;
-        }
-  
-        items.forEach(item => {
-          formatted += `- ${item}\n`;
-        });
-      }
-    }
-  
-    return formatted || '- Mantieni uno stile di vita sano e regolare\n- Consulta il medico per controlli periodici';
-  }
-  
-  /**
-   * Chiama OpenAI API
-   */
-  async function generateWithOpenAI(prompt) {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          {
-            role: 'system',
-            content: 'Sei un assistente medico specializzato in medicina preventiva. Scrivi report chiari, accurati e comprensibili per i pazienti.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 1500
-      })
+
+    const prompt = buildPrompt(macroarea, safeYaml, rawAnswers || {});
+    const report = await generateWithOpenAI({
+      apiKey: OPENAI_API_KEY,
+      prompt,
+      model: process.env.OPENAI_MODEL || 'gpt-5-nano' // puoi cambiare qui
     });
-  
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`OpenAI API error: ${response.status} - ${error}`);
-    }
-  
-    const data = await response.json();
-    return data.choices[0].message.content;
+
+    return res.status(200).json({ report });
+  } catch (err) {
+    console.error('LLM API Error:', err);
+    return res.status(502).json({
+      error: 'Errore generazione report LLM',
+      details: err?.message || String(err)
+    });
   }
-  
-  
+}
+
+/** Costruisce il prompt per l’LLM (robusto ai campi mancanti) */
+function buildPrompt(macroarea, yamlOutput, rawAnswers) {
+  const { score, riskClass, narrative, topDrivers, redFlags, actions } = yamlOutput;
+
+  const riskLabel =
+    riskClass === 'low' ? 'basso' :
+    riskClass === 'medium' ? 'moderato' :
+    riskClass === 'high' ? 'alto' : 'da definire';
+
+  const topDriversText = (topDrivers || [])
+    .map((d, i) => {
+      const feat = d?.feature ?? 'Fattore';
+      const contr = d?.contribution ?? 'n/d';
+      const expl = d?.explanation ?? '';
+      return `${i + 1}. **${feat}** (contributo: ${contr})\n   - ${expl}`;
+    })
+    .join('\n\n');
+
+  const redFlagsText = Array.isArray(redFlags) && redFlags.length > 0
+    ? `\n## ⚠️ RED FLAGS (Segnali che richiedono attenzione)\n\n${
+        redFlags.map((rf, i) => `${i + 1}. ${rf?.action || rf?.condition || 'Segnale da monitorare'}`).join('\n')
+      }\n`
+    : '';
+
+  const actionsText = formatActions(actions);
+
+  // Puoi includere alcune risposte grezze, se ti servono, ma evita dati sensibili
+  const macroareaLabel = macroarea.replace(/_/g, ' ');
+
+  return `Sei un assistente medico specializzato in medicina preventiva. Il tuo compito è generare un report chiaro e comprensibile in italiano per un paziente, basato sui risultati di un questionario sulla macroarea: **${macroareaLabel}**.
+
+## DATI DEL QUESTIONARIO
+
+**Score totale**: ${score}/100  
+**Classe di rischio**: ${riskClass} (${riskLabel})
+
+**Narrativa generale**: ${narrative || '—'}
+
+## TOP DRIVER (Fattori principali che influenzano lo score)
+
+${topDriversText || 'Nessun driver principale identificato.'}
+
+${redFlagsText}
+## AZIONI CONSIGLIATE
+
+${actionsText}
+
+---
+
+**ISTRUZIONI PER IL REPORT**:
+
+1. **Tono**: Professionale ma empatico, chiaro e rassicurante  
+2. **Struttura**: 
+   - Introduzione breve (2–3 frasi) che contestualizza lo score
+   - Sezione "Cosa significa il tuo score" con spiegazione semplice
+   - Sezione "Fattori chiave" che spiega i top driver in linguaggio naturale
+   ${Array.isArray(redFlags) && redFlags.length > 0 ? '- Sezione "⚠️ Segnali da monitorare" per i red flags' : ''}
+   - Sezione "Cosa puoi fare" con consigli pratici divisi per:
+     * 🏃 Stile di vita
+     * 🩺 Follow-up medico
+     * 💊 Nutraceutica (se applicabile)
+   - Conclusione positiva e motivante
+3. **Lunghezza**: 300–500 parole
+4. **Linguaggio**: Evita termini tecnici non necessari, usa analogie quando utile
+5. **Privacy**: Non menzionare dati personali specifici (età, nomi)
+
+Genera il report in **formato Markdown**.`;
+}
+
+/** Rende leggibili le azioni per categoria, ignorando quelle vuote */
+function formatActions(actions = {}) {
+  const titles = {
+    lifestyle: '### 🏃 Stile di vita',
+    followup: '### 🩺 Follow-up medico',
+    nutraceutica: '### 💊 Nutraceutica',
+    medical: '### 👨‍⚕️ Consulenze specialistiche'
+  };
+
+  let out = '';
+  // actions è atteso come: { featureA: { lifestyle: [...], followup: [...] }, featureB: ... }
+  for (const [, actionSet] of Object.entries(actions)) {
+    for (const [cat, items] of Object.entries(actionSet || {})) {
+      if (!Array.isArray(items) || items.length === 0) continue;
+      if (!out.includes(titles[cat])) out += `\n${titles[cat]}\n\n`;
+      items.forEach(item => { out += `- ${item}\n`; });
+    }
+  }
+
+  return out.trim() || [
+    '### 🏃 Stile di vita',
+    '- Mantieni uno stile di vita sano e regolare',
+    '### 🩺 Follow-up medico',
+    '- Programma controlli periodici con il tuo medico'
+  ].join('\n');
+}
+
+/** Chiamata all’OpenAI Responses API con parsing robusto */
+async function generateWithOpenAI({ apiKey, prompt, model }) {
+  const resp = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model,
+      input: [
+        {
+          role: 'system',
+          content: 'Sei un assistente medico specializzato in medicina preventiva. Scrivi report chiari, accurati e comprensibili per i pazienti.'
+        },
+        { role: 'user', content: prompt }
+      ],
+      temperature: 0.7,
+      max_output_tokens: 1500
+    })
+  });
+
+  if (!resp.ok) {
+    const text = await safeRead(resp);
+    throw new Error(`OpenAI API error ${resp.status}: ${text}`);
+  }
+
+  const data = await resp.json();
+
+  // Estrattori robusti per diversi schemi possibili
+  const candidates = [
+    data?.output_text,
+    data?.output?.[0]?.content?.[0]?.text,
+    data?.choices?.[0]?.message?.content // fallback compatibilità Chat Completions
+  ].filter(Boolean);
+
+  const text = candidates[0];
+  if (!text) {
+    throw new Error('OpenAI response parsing failed');
+  }
+  return text;
+}
+
+async function safeRead(resp) {
+  try { return await resp.text(); } catch { return '<no body>'; }
+}
