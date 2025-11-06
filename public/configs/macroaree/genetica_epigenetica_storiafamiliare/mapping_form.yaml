@@ -1,6 +1,6 @@
 map:
 
-  parenti_patologie_cardiovascolari[]:
+  fh_patologie_cv[]:
     feature: fh_patologie_cv[]
     values:
       infarto: infarto
@@ -10,13 +10,21 @@ map:
       malattia_coronarica: coronarica
       aneurisma: aneurisma
       altro: altro
-
-  patologie_cardiovascolari[]:
-    feature: fh_patologie_cv[]
-    values:
       nessuna: nessuna
 
-  familiari_ipertensione:
+  cardio_altro_descrizione:
+  feature: cardio_altro_descrizione
+  passthrough: true
+
+  cardio_altro_parentela:
+    feature: cardio_altro_parentela
+    passthrough: true
+
+  cardio_altro_eta:
+    feature: cardio_altro_eta
+    passthrough: true
+
+  fh_ipertensione:
     feature: fh_ipertensione
     values:
       nessun_caso_noto: nessun_caso
@@ -25,7 +33,7 @@ map:
       più_familiari: multipli
       non_so: non_so
 
-  parenti_diabete:
+  fh_diabete:
     feature: fh_diabete
     values:
       nessun_caso_noto: nessun_caso
@@ -35,7 +43,7 @@ map:
       gestazionale: gestazionale
       non_so: non_so
 
-  parenti_tumori_familiari:
+  fh_tumori_brca:
     feature: fh_tumori_brca
     values:
       nessun_caso_noto: nessun_caso
@@ -45,7 +53,7 @@ map:
       mutazione_BRCA: mutazione_brca_nota
       non_so: non_so
 
-  parenti_colonretto:
+  fh_colonretto:
     feature: fh_colonretto
     values:
       nessun_familiare: nessuno
@@ -55,7 +63,7 @@ map:
       sindrome_genetica: sindrome_genetica
       non_so: non_so
 
-  parenti_alzheimer:
+  fh_demenza:
     feature: fh_demenza
     values:
       nessun_caso: nessun_caso
@@ -65,7 +73,7 @@ map:
       mutazione_genetica: mutazione_nota
       non_so: non_so
 
-  parenti_disturbi_umore:
+  fh_umore:
     feature: fh_umore
     values:
       nessun_caso: nessun_caso
@@ -75,7 +83,7 @@ map:
       disturbo_umore: bipolare
       non_so: non_so
 
-  parenti_asma:
+  fh_asma:
     feature: fh_asma
     values:
       nessun_caso: nessun_caso
@@ -85,7 +93,7 @@ map:
       episodi_acuti_gravi: episodi_gravi
       non_so: non_so
 
-  parenti_autoimmuni:
+  fh_autoimmuni:
     feature: fh_autoimmuni
     values:
       nessun_caso: nessun_caso
@@ -94,7 +102,7 @@ map:
       diverse_nella_stessa_persona: diverse_stessa_persona
       non_so: non_so
 
-  parenti_trombosi:
+  fh_trombosi:
     feature: fh_trombosi
     values:
       nessun_caso: nessun_caso
@@ -104,7 +112,7 @@ map:
       sedi_inusuali: sedi_inusuali
       non_so: non_so
 
-  parenti_eventi_cardiaci_precoci:
+  fh_eventi_cardiaci_precoci:
     feature: fh_eventi_cardiaci_precoci
     values:
       padre_prima_55: padre_prima_55
@@ -115,7 +123,7 @@ map:
       nessun_caso: nessun_caso
       non_so: non_so
 
-  esito_malattia_cardiaca_familiare:
+  fh_esito_cv:
     feature: fh_esito_cv
     values:
       ancora_in_vita: in_vita
@@ -124,25 +132,25 @@ map:
       nessun_caso: nessun_caso
       non_so: non_so
 
-  parente_morto_giovane:
+  fh_decessi_giovane:
     feature: fh_decessi_giovane
     values:
       si: si
       no: no
       non_so: non_so
 
-  causa_morte_parenti:
+  fh_causa_decesso_cv:
     feature: fh_causa_decesso_cv
     values:
       cardiovascolare: cardiovascolare
       altre_cause: altre
       no: no
       non_so: non_so
-  causa_morte_parenti_note:
+  fh_causa_decesso_note:
     feature: fh_causa_decesso_note
     passthrough: true
 
-  mutazioni_genetiche:
+  fh_mutazioni_genetiche:
     feature: fh_mutazioni_genetiche
     values:
       in_me: in_me
@@ -150,11 +158,11 @@ map:
       secondo_grado: secondo_grado
       no: no
       non_so: non_so
-  mutazioni_genetiche_note:
+  fh_mutazioni_note:
     feature: fh_mutazioni_note
     passthrough: true
 
-  longevità_famiglia[]:
+  fh_longevita[]:
     feature: fh_longevita[]
     values:
       madre: madre
@@ -209,7 +217,7 @@ map:
       non_ricordo: non_ricordo
 
   # ====== Pubertà / riproduttivo ======
-  pubertà_femminile:
+  puberta_femminile:
     feature: puberta_femminile
     values:
       regolare: regolare
@@ -218,7 +226,7 @@ map:
       non_ricordo: non_ricordo
       uomo: uomo
 
-  pubertà_maschile:
+  puberta_maschile:
     feature: puberta_maschile
     values:
       regolare: regolare
@@ -300,8 +308,8 @@ map:
       non_ho_figli: non_ho_figli
 
   # ====== Abitudini protettive ======
-  protezione_dna[]:
-    feature: protezione_dna[]
+  protezione_dna:
+    feature: protezione_dna
     values:
       uso_antiossidanti: uso_antiossidanti
       protezione_solari: protezione_solari
