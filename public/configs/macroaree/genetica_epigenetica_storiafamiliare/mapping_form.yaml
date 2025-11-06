@@ -13,8 +13,8 @@ map:
       nessuna: nessuna
 
   cardio_altro_descrizione:
-  feature: cardio_altro_descrizione
-  passthrough: true
+    feature: cardio_altro_descrizione
+    passthrough: true
 
   cardio_altro_parentela:
     feature: cardio_altro_parentela
@@ -274,7 +274,7 @@ map:
       uomo: uomo
 
   # ====== Varie adulte ======
-  servizio_militare_idoneità:
+  servizio_militare_idoneita:
     feature: servizio_militare_idoneita
     values:
       idoneo_senza_limitazioni: idoneo_senza_limitazioni
