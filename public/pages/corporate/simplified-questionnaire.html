@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Questionario semplificato</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h1{font-size:2rem;margin-bottom:10px}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:20px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:.85rem;
+      margin:8px 0 12px;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+    }
+    textarea, input[type="text"], input[type="number"], select{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+    }
+    textarea:focus, input:focus, select:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Questionario semplificato</h1>
+    <p class="muted">
+      Compila il questionario in modo spontaneo e sincero. Le domande riguardano salute, benessere
+      generale, stato psicologico e contesto di vita.
+    </p>
+
+    <div class="progress-bar">
+      <div></div>
+    </div>
+
+    <form id="simplified-questionnaire">
+
+      <!-- ISTRUZIONI -->
+      <div class="card">
+        <h2>📌 Istruzioni</h2>
+        <p>
+          Questo questionario ha lo scopo di raccogliere la tua percezione riguardo alla salute,
+          al benessere generale e psicologico e ad alcuni aspetti della tua vita quotidiana.
+        </p>
+        <p>
+          Ti invitiamo a rispondere in modo spontaneo e sincero: se sei incerto su quale opzione
+          scegliere, seleziona quella che meglio rispecchia la tua situazione personale — spesso
+          la prima risposta che ti viene in mente è anche la più autentica.
+        </p>
+        <p>
+          Nel compilare le domande, considera le tue abitudini, il tuo stile di vita, le tue
+          preoccupazioni e le tue aspettative. Clicca sulla risposta che più rappresenta
+          il tuo punto di vista.
+        </p>
+      </div>
+
+      <!-- DATI BASE -->
+      <div class="card">
+        <h2>👤 Dati anagrafici</h2>
+
+        <div class="field">
+          <label for="">1. Sesso</label>
+          <div class="grid-options">
+            <label class="option-label">
+              <input type="radio" name="sesso" value="maschio">
+              <span>A) Maschio</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="sesso" value="femmina">
+              <span>B) Femmina</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="sesso" value="non_specificato">
+              <span>C) Non voglio specificarlo</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>2. Età</label>
+          <input type="number" name="eta" min="0" max="120" placeholder="Inserisci la tua età">
+        </div>
+
+        <div class="field">
+          <label>3. Scolarità</label>
+          <div class="grid-options">
+            <label class="option-label">
+              <input type="radio" name="scolarita" value="nessun_titolo">
+              <span>A) Nessun titolo di studio</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="scolarita" value="elementare">
+              <span>B) Scuola elementare</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="scolarita" value="media_inferiore">
+              <span>C) Scuola media inferiore</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="scolarita" value="media_superiore">
+              <span>D) Scuola media superiore</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="scolarita" value="laurea">
+              <span>E) Laurea / diploma para-universitario</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="scolarita" value="post_laurea">
+              <span>F) Specializzazione post-laurea</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>4. Stato civile</label>
+          <div class="grid-options">
+            <label class="option-label">
+              <input type="radio" name="stato_civile" value="celibe_nubile">
+              <span>A) Celibe / Nubile</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="stato_civile" value="coniugato">
+              <span>B) Coniugato/a</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="stato_civile" value="convivente">
+              <span>C) Convivente</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="stato_civile" value="separato">
+              <span>D) Separato/a</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="stato_civile" value="divorziato">
+              <span>E) Divorziato/a</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="stato_civile" value="vedovo">
+              <span>F) Vedovo/a</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>5. Situazione abitativa</label>
+          <div class="grid-options">
+            <label class="option-label">
+              <input type="radio" name="abitazione" value="vive_solo">
+              <span>A) Vive solo</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="abitazione" value="vive_con_altri">
+              <span>B) Vive con altri</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SALUTE GENERALE -->
+      <div class="card">
+        <h2>🩺 Salute generale</h2>
+
+        <div class="field">
+          <label>6. Attualmente soffri di qualche malattia o disturbo?</label>
+          <div class="grid-options">
+            <label class="option-label">
+              <input type="radio" name="malattie" value="no">
+              <span>A) No</span>
+            </label>
+            <label class="option-label">
+              <input type="radio" name="malattie" value="si">
+              <span>B) Sì</span>
+            </label>
+          </div>
+          <div class="hint">Se sì, specifica:</div>
+          <input type="text" name="malattie_descrizione" placeholder="Es. diabete, ipertensione, ansia…">
+        </div>
+
+        <div class="field">
+          <label>7. Come valuti complessivamente le tue condizioni di salute fisica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_fisica" value="1"><span>A) Molto scadenti</span></label>
+            <label class="option-label"><input type="radio" name="salute_fisica" value="2"><span>B) Scadenti</span></label>
+            <label class="option-label"><input type="radio" name="salute_fisica" value="3"><span>C) Né scadenti né buone</span></label>
+            <label class="option-label"><input type="radio" name="salute_fisica" value="4"><span>D) Buone</span></label>
+            <label class="option-label"><input type="radio" name="salute_fisica" value="5"><span>E) Molto buone</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>8. Come valuti complessivamente le tue condizioni di salute psicologica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_psicologica" value="1"><span>A) Molto scadenti</span></label>
+            <label class="option-label"><input type="radio" name="salute_psicologica" value="2"><span>B) Scadenti</span></label>
+            <label class="option-label"><input type="radio" name="salute_psicologica" value="3"><span>C) Né scadenti né buone</span></label>
+            <label class="option-label"><input type="radio" name="salute_psicologica" value="4"><span>D) Buone</span></label>
+            <label class="option-label"><input type="radio" name="salute_psicologica" value="5"><span>E) Molto buone</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>9. Come valuti la qualità complessiva della tua vita?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="qualita_vita" value="1"><span>A) Molto cattiva</span></label>
+            <label class="option-label"><input type="radio" name="qualita_vita" value="2"><span>B) Cattiva</span></label>
+            <label class="option-label"><input type="radio" name="qualita_vita" value="3"><span>C) Né cattiva né buona</span></label>
+            <label class="option-label"><input type="radio" name="qualita_vita" value="4"><span>D) Buona</span></label>
+            <label class="option-label"><input type="radio" name="qualita_vita" value="5"><span>E) Molto buona</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>10. In generale diresti che la tua salute è:</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_generale" value="1"><span>A) Scadente</span></label>
+            <label class="option-label"><input type="radio" name="salute_generale" value="2"><span>B) Passabile</span></label>
+            <label class="option-label"><input type="radio" name="salute_generale" value="3"><span>C) Buona</span></label>
+            <label class="option-label"><input type="radio" name="salute_generale" value="4"><span>D) Molto buona</span></label>
+            <label class="option-label"><input type="radio" name="salute_generale" value="5"><span>E) Eccellente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>11. Rispetto a un anno fa, come giudichi la tua salute in generale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_vs_anno" value="1"><span>A) Decisamente peggiore</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_anno" value="2"><span>B) Un po’ peggiore</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_anno" value="3"><span>C) Più o meno uguale</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_anno" value="4"><span>D) Un po’ migliore</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_anno" value="5"><span>E) Decisamente migliore</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONDIZIONE FISICA E FUNZIONALITÀ -->
+      <div class="card">
+        <h2>💪 Condizione fisica e funzionalità</h2>
+
+        <div class="field">
+          <label>12. I dolori fisici ti impediscono di svolgere le attività quotidiane?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="dolore_limita_attivita" value="0"><span>A) No, per niente</span></label>
+            <label class="option-label"><input type="radio" name="dolore_limita_attivita" value="1"><span>B) Sì, mi limitano parzialmente</span></label>
+            <label class="option-label"><input type="radio" name="dolore_limita_attivita" value="2"><span>C) Sì, mi limitano parecchio</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>13. Hai bisogno di trattamenti o interventi medici per affrontare la vita di tutti i giorni?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="trattamenti_quotidiani" value="0"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="trattamenti_quotidiani" value="1"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="trattamenti_quotidiani" value="2"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>14. Hai l’energia necessaria per svolgere le attività quotidiane?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="energia_quotidiana" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="energia_quotidiana" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="energia_quotidiana" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="energia_quotidiana" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="energia_quotidiana" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>15. In che misura riesci a muoverti agevolmente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="mobilita" value="1"><span>A) Molto poco</span></label>
+            <label class="option-label"><input type="radio" name="mobilita" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="mobilita" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="mobilita" value="4"><span>D) Molto</span></label>
+            <label class="option-label"><input type="radio" name="mobilita" value="5"><span>E) Moltissimo</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>16. La tua salute ti limita nello svolgimento di attività fisicamente impegnative (correre, sollevare pesi, fare sport)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="limiti_attivita_fisica_intensa" value="0"><span>A) No, per niente</span></label>
+            <label class="option-label"><input type="radio" name="limiti_attivita_fisica_intensa" value="1"><span>B) Sì, parzialmente</span></label>
+            <label class="option-label"><input type="radio" name="limiti_attivita_fisica_intensa" value="2"><span>C) Sì, parecchio</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>17. La tua salute ti limita in attività di moderato impegno fisico (camminare, spostare oggetti, salire scale)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="limiti_attivita_fisica_moderata" value="0"><span>A) No, per niente</span></label>
+            <label class="option-label"><input type="radio" name="limiti_attivita_fisica_moderata" value="1"><span>B) Sì, parzialmente</span></label>
+            <label class="option-label"><input type="radio" name="limiti_attivita_fisica_moderata" value="2"><span>C) Sì, parecchio</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>18. Hai difficoltà nel vestirti o nel fare il bagno da solo/a?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="autonomia_personale" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="autonomia_personale" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="autonomia_personale" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="autonomia_personale" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="autonomia_personale" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>19. Hai dovuto ridurre il tempo dedicato al lavoro o ad altre attività per motivi di salute fisica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="riduzione_tempo_lavoro" value="0"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="riduzione_tempo_lavoro" value="1"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="riduzione_tempo_lavoro" value="2"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>20. Hai reso meno di quanto avresti voluto a causa della salute fisica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="resa_lavorativa_salute" value="0"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="resa_lavorativa_salute" value="1"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="resa_lavorativa_salute" value="2"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>21. Hai dovuto limitare alcuni tipi di attività o hai avuto difficoltà nel lavoro per motivi fisici?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="limitazioni_attivita_fisiche" value="0"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="limitazioni_attivita_fisiche" value="1"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="limitazioni_attivita_fisiche" value="2"><span>C) Sì</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATO PSICOLOGICO ED EMOTIVO -->
+      <div class="card">
+        <h2>🧠 Stato psicologico ed emotivo</h2>
+
+        <div class="field">
+          <label>22. Quanto ti godi la vita?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="godimento_vita" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="godimento_vita" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="godimento_vita" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="godimento_vita" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="godimento_vita" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>23. La tua vita ha un significato?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="significato_vita" value="0"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="significato_vita" value="1"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="significato_vita" value="2"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>24. Riesci a concentrarti nelle attività che svolgi?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="concentrazione" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="concentrazione" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="concentrazione" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="concentrazione" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="concentrazione" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>25. Sei soddisfatto/a di te stesso/a?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="soddisfazione_se" value="1"><span>A) Molto insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_se" value="2"><span>B) Insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_se" value="3"><span>C) Né soddisfatto/a né insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_se" value="4"><span>D) Soddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_se" value="5"><span>E) Molto soddisfatto/a</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>26. Sei soddisfatto/a della tua capacità di impegnarti nelle attività quotidiane?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="soddisfazione_impegno" value="1"><span>A) Molto insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_impegno" value="2"><span>B) Insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_impegno" value="3"><span>C) Né soddisfatto/a né insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_impegno" value="4"><span>D) Soddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="soddisfazione_impegno" value="5"><span>E) Molto soddisfatto/a</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>27. Quanto spesso provi sentimenti negativi come tristezza, ansia o depressione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="sentimenti_negativi" value="5"><span>A) Sempre</span></label>
+            <label class="option-label"><input type="radio" name="sentimenti_negativi" value="4"><span>B) Spesso</span></label>
+            <label class="option-label"><input type="radio" name="sentimenti_negativi" value="3"><span>C) A volte</span></label>
+            <label class="option-label"><input type="radio" name="sentimenti_negativi" value="2"><span>D) Raramente</span></label>
+            <label class="option-label"><input type="radio" name="sentimenti_negativi" value="1"><span>E) Mai</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>28. Nelle ultime settimane, ti sei sentito/a calmo/a e sereno/a?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="calma" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="calma" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="calma" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>29. Ti sei sentito/a vivace e pieno/a di energia?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="energia_psicologica" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="energia_psicologica" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="energia_psicologica" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>30. Ti sei sentito/a agitato/a o scoraggiato/a?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="agitazione" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="agitazione" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="agitazione" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>31. Ti sei sentito/a stanco/a o sfinito/a?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="stanchezza" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="stanchezza" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="stanchezza" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>32. Ti sei sentito/a felice?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="felicita" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="felicita" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="felicita" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- RELAZIONI SOCIALI -->
+      <div class="card">
+        <h2>❤️ Relazioni e supporto sociale</h2>
+
+        <div class="field">
+          <label>33. Sei soddisfatto/a dei tuoi rapporti personali?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="relazioni_personali" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="relazioni_personali" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="relazioni_personali" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>34. Ottieni dagli altri l’aiuto di cui hai bisogno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="supporto_sociale" value="1"><span>A) Mai</span></label>
+            <label class="option-label"><input type="radio" name="supporto_sociale" value="2"><span>B) Raramente</span></label>
+            <label class="option-label"><input type="radio" name="supporto_sociale" value="3"><span>C) A volte</span></label>
+            <label class="option-label"><input type="radio" name="supporto_sociale" value="4"><span>D) Spesso</span></label>
+            <label class="option-label"><input type="radio" name="supporto_sociale" value="5"><span>E) Sempre</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>35. Sei soddisfatto/a del sostegno che ricevi da amici o familiari?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="sostegno_famiglia" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="sostegno_famiglia" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="sostegno_famiglia" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>36. La salute fisica o emotiva ha interferito con le tue relazioni sociali?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="interferenza_relazioni" value="5"><span>A) Completamente</span></label>
+            <label class="option-label"><input type="radio" name="interferenza_relazioni" value="4"><span>B) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="interferenza_relazioni" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="interferenza_relazioni" value="2"><span>D) Poco</span></label>
+            <label class="option-label"><input type="radio" name="interferenza_relazioni" value="1"><span>E) Per niente</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- AMBIENTE -->
+      <div class="card">
+        <h2>🏠 Ambiente e risorse</h2>
+
+        <div class="field">
+          <label>37. Ti senti al sicuro nella tua vita quotidiana?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="sicurezza" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="sicurezza" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="sicurezza" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>38. L’ambiente in cui vivi è sicuro per la salute?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="ambiente_sicuro" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="ambiente_sicuro" value="2"><span>B) In parte</span></label>
+            <label class="option-label"><input type="radio" name="ambiente_sicuro" value="3"><span>C) Sì</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>39. Le tue risorse economiche bastano per i bisogni quotidiani?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="risorse_economiche" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="risorse_economiche" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="risorse_economiche" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="risorse_economiche" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="risorse_economiche" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>40. Hai abbastanza informazioni per gestire la vita quotidiana?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="informazioni_vita" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="informazioni_vita" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="informazioni_vita" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="informazioni_vita" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="informazioni_vita" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>41. Hai la possibilità di dedicarti ad attività di svago o hobby?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="hobby" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="hobby" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="hobby" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="hobby" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="hobby" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>42. Sei soddisfatto/a delle condizioni della tua abitazione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="abitazione_condizioni" value="1"><span>A) Molto insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="abitazione_condizioni" value="2"><span>B) Insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="abitazione_condizioni" value="3"><span>C) Né soddisfatto/a né insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="abitazione_condizioni" value="4"><span>D) Soddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="abitazione_condizioni" value="5"><span>E) Molto soddisfatto/a</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>43. Sei soddisfatto/a della disponibilità dei servizi sanitari?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="servizi_sanitari" value="1"><span>A) Molto insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="servizi_sanitari" value="2"><span>B) Insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="servizi_sanitari" value="3"><span>C) Né soddisfatto/a né insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="servizi_sanitari" value="4"><span>D) Soddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="servizi_sanitari" value="5"><span>E) Molto soddisfatto/a</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>44. Sei soddisfatto/a dei mezzi di trasporto a disposizione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="trasporti" value="1"><span>A) Molto insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="trasporti" value="2"><span>B) Insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="trasporti" value="3"><span>C) Né soddisfatto/a né insoddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="trasporti" value="4"><span>D) Soddisfatto/a</span></label>
+            <label class="option-label"><input type="radio" name="trasporti" value="5"><span>E) Molto soddisfatto/a</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOLORE + SALUTE PERCEPITA -->
+      <div class="card">
+        <h2>⚡ Dolore, limitazioni e salute percepita</h2>
+
+        <div class="field">
+          <label>45. Quanto dolore fisico hai provato di recente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="dolore_recentemente" value="5"><span>A) Moltissimo</span></label>
+            <label class="option-label"><input type="radio" name="dolore_recentemente" value="4"><span>B) Molto</span></label>
+            <label class="option-label"><input type="radio" name="dolore_recentemente" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="dolore_recentemente" value="2"><span>D) Poco</span></label>
+            <label class="option-label"><input type="radio" name="dolore_recentemente" value="1"><span>E) Per niente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>46. In che misura il dolore ha limitato le tue attività?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="limitazioni_dolore" value="1"><span>A) Per niente</span></label>
+            <label class="option-label"><input type="radio" name="limitazioni_dolore" value="2"><span>B) Poco</span></label>
+            <label class="option-label"><input type="radio" name="limitazioni_dolore" value="3"><span>C) Abbastanza</span></label>
+            <label class="option-label"><input type="radio" name="limitazioni_dolore" value="4"><span>D) In gran parte</span></label>
+            <label class="option-label"><input type="radio" name="limitazioni_dolore" value="5"><span>E) Completamente</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>47. Ti sembra di ammalarti più facilmente degli altri?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="malattie_facili" value="4"><span>A) Assolutamente sì</span></label>
+            <label class="option-label"><input type="radio" name="malattie_facili" value="3"><span>B) Potrebbe essere</span></label>
+            <label class="option-label"><input type="radio" name="malattie_facili" value="2"><span>C) Non ne sono sicuro</span></label>
+            <label class="option-label"><input type="radio" name="malattie_facili" value="1"><span>D) No</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>48. Ti aspetti che la tua salute peggiori?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_peggiora" value="5"><span>A) Sempre</span></label>
+            <label class="option-label"><input type="radio" name="salute_peggiora" value="4"><span>B) Spesso</span></label>
+            <label class="option-label"><input type="radio" name="salute_peggiora" value="3"><span>C) A volte</span></label>
+            <label class="option-label"><input type="radio" name="salute_peggiora" value="2"><span>D) Raramente</span></label>
+            <label class="option-label"><input type="radio" name="salute_peggiora" value="1"><span>E) Mai</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>49. Ti consideri in buona salute?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="buona_salute" value="1"><span>A) Mai</span></label>
+            <label class="option-label"><input type="radio" name="buona_salute" value="2"><span>B) Raramente</span></label>
+            <label class="option-label"><input type="radio" name="buona_salute" value="3"><span>C) A volte</span></label>
+            <label class="option-label"><input type="radio" name="buona_salute" value="4"><span>D) Spesso</span></label>
+            <label class="option-label"><input type="radio" name="buona_salute" value="5"><span>E) Sempre</span></label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>50. La tua salute è paragonabile a quella delle persone della tua età?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="salute_vs_eta" value="1"><span>A) No</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_eta" value="2"><span>B) Non ne sono sicuro</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_eta" value="3"><span>C) Potrebbe essere</span></label>
+            <label class="option-label"><input type="radio" name="salute_vs_eta" value="4"><span>D) Assolutamente sì</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="cta">💾 Salva e genera report</button>
+      </div>
+
+    </form>
+  </div>
+
+</body>
+</html>
