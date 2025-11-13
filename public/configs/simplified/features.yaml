@@ -1,0 +1,255 @@
+features:
+  # ===========================
+  # DATI BASE
+  # ===========================
+  - name: sesso
+    type: categorical
+    allowed: [maschio, femmina, non_specificato]
+    map_to_score: {maschio: 0, femmina: 0, non_specificato: 0}
+
+  - name: eta
+    type: numeric
+    normalize: "age"  # usato solo dal modello per contestualizzare
+    map_to_score: {}
+
+  - name: scolarita
+    type: categorical
+    allowed: [nessun_titolo, elementare, media_inferiore, media_superiore, laurea, post_laurea]
+    map_to_score:
+      nessun_titolo: 1
+      elementare: 2
+      media_inferiore: 3
+      media_superiore: 4
+      laurea: 5
+      post_laurea: 5
+    notes: "Più alta scolarità = migliori outcome di salute"
+
+  - name: stato_civile
+    type: categorical
+    allowed: [celibe_nubile, coniugato, convivente, separato, divorziato, vedovo]
+    map_to_score:
+      celibe_nubile: 1
+      coniugato: 5
+      convivente: 4
+      separato: 2
+      divorziato: 1
+      vedovo: 2
+    notes: "Più stabilità relazionale → migliore salute percepita"
+
+  - name: abitazione
+    type: categorical
+    allowed: [vive_solo, vive_con_altri]
+    map_to_score:
+      vive_solo: 2
+      vive_con_altri: 4
+
+  # ===========================
+  # SALUTE GENERALE
+  # ===========================
+  - name: malattie
+    type: categorical
+    allowed: [no, si]
+    map_to_score: {no: 5, si: 1}
+
+  - name: malattie_descrizione
+    type: text
+
+  - name: salute_fisica
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1, 2:2, 3:3, 4:4, 5:5}
+
+  - name: salute_psicologica
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: qualita_vita
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: salute_generale
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: salute_vs_anno
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  # ===========================
+  # CONDIZIONE FISICA
+  # ===========================
+  - name: dolore_limita_attivita
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5, 1:3, 2:1}
+
+  - name: trattamenti_quotidiani
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5, 1:3, 2:1}
+
+  - name: energia_quotidiana
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: mobilita
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: limiti_attivita_fisica_intensa
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5,1:3,2:1}
+
+  - name: limiti_attivita_fisica_moderata
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5,1:3,2:1}
+
+  - name: autonomia_personale
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:5,2:4,3:3,4:2,5:1}
+
+  - name: riduzione_tempo_lavoro
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5,1:3,2:1}
+
+  - name: resa_lavorativa_salute
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5,1:3,2:1}
+
+  - name: limitazioni_attivita_fisiche
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:5,1:3,2:1}
+
+  # ===========================
+  # PSICOLOGICO
+  # ===========================
+  - name: godimento_vita
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: significato_vita
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:1,1:3,2:5}
+
+  - name: concentrazione
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: soddisfazione_se
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  # ===========================
+  # RELAZIONI SOCIALI
+  # ===========================
+  - name: rapporti_personali
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:1,1:3,2:5}
+
+  - name: aiuto_necessario
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: sostegno_famiglia
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:1,1:3,2:5}
+
+  - name: relazioni_interferenza
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  # ===========================
+  # AMBIENTE E RISORSE
+  # ===========================
+  - name: sicurezza_quotidiana
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:1,1:3,2:5}
+
+  - name: ambiente_sicuro
+    type: categorical
+    allowed: [0,1,2]
+    map_to_score: {0:1,1:3,2:5}
+
+  - name: risorse_economiche
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: info_disponibili
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: hobby_tempo_libero
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: soddisfazione_abitazione
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: soddisfazione_sanitaria
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: soddisfazione_trasporti
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  # ===========================
+  # DOLORE / SALUTE PERCEPITA
+  # ===========================
+  - name: dolore_fisico
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: dolore_limiti_lavoro
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:5,2:4,3:3,4:2,5:1}
+
+  - name: ammalarsi_facilmente
+    type: categorical
+    allowed: [1,2,3,4]
+    map_to_score: {1:1,2:2,3:3,4:5}
+
+  - name: aspettativa_peggioramento
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: buona_salute
+    type: categorical
+    allowed: [1,2,3,4,5]
+    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+
+  - name: salute_vs_coetanei
+    type: categorical
+    allowed: [1,2,3,4]
+    map_to_score: {1:1,2:3,3:4,4:5}
