@@ -1,0 +1,407 @@
+form_id: simplified_qol_v1
+version: 1
+description: >
+  Mappatura tra campi del form HTML (name) e feature logiche utilizzate
+  per il calcolo degli score e dei domini di benessere.
+
+html_form:
+  id: simplified-questionnaire
+  method: post
+
+sections:
+  - id: instructions
+    title: "📌 Istruzioni"
+    type: info
+    fields: []
+
+  - id: demographics
+    title: "👤 Dati anagrafici"
+    fields:
+      - number: 1
+        label: "Sesso"
+        html_name: "sesso"
+        feature: "sesso"
+        input_type: "radio"
+        required: false
+
+      - number: 2
+        label: "Età"
+        html_name: "eta"
+        feature: "eta"
+        input_type: "number"
+        required: true
+        scoring:
+          type: "range_bins"
+          description: "Score età: 3 < 40; 2 tra 40–49; 1 tra 50–59; 0 ≥ 60."
+          bins:
+            - max: 39
+              score: 3
+            - min: 40
+              max: 49
+              score: 2
+            - min: 50
+              max: 59
+              score: 1
+            - min: 60
+              score: 0
+
+      - number: 3
+        label: "Scolarità"
+        html_name: "scolarita"
+        feature: "scolarita"
+        input_type: "radio"
+        required: false
+
+      - number: 4
+        label: "Stato civile"
+        html_name: "stato_civile"
+        feature: "stato_civile"
+        input_type: "radio"
+        required: false
+
+      - number: 5
+        label: "Situazione abitativa"
+        html_name: "abitazione"
+        feature: "abitazione"
+        input_type: "radio"
+        required: false
+
+  - id: physical_general
+    title: "🩺 Salute generale"
+    fields:
+      - number: 6
+        label: "Attualmente soffri di qualche malattia o disturbo?"
+        html_name: "malattie"
+        feature: "malattie"
+        input_type: "radio"
+        required: true
+
+      - number: 6.1
+        label: "Se sì, specifica"
+        html_name: "malattie_descrizione"
+        feature: "malattie_descrizione"
+        input_type: "text"
+        required: false
+
+      - number: 7
+        label: "Come valuti complessivamente le tue condizioni di salute fisica?"
+        html_name: "salute_fisica"
+        feature: "salute_fisica"
+        input_type: "radio"
+        required: true
+
+      - number: 8
+        label: "Come valuti complessivamente le tue condizioni di salute psicologica?"
+        html_name: "salute_psicologica"
+        feature: "salute_psicologica"
+        input_type: "radio"
+        required: true
+
+      - number: 9
+        label: "Come valuti la qualità complessiva della tua vita?"
+        html_name: "qualita_vita"
+        feature: "qualita_vita"
+        input_type: "radio"
+        required: true
+
+      - number: 10
+        label: "In generale diresti che la tua salute è:"
+        html_name: "salute_generale"
+        feature: "salute_generale"
+        input_type: "radio"
+        required: true
+
+      - number: 11
+        label: "Rispetto a un anno fa, come giudichi la tua salute in generale?"
+        html_name: "salute_vs_anno"
+        feature: "salute_vs_anno"
+        input_type: "radio"
+        required: true
+
+  - id: physical_functional
+    title: "💪 Condizione fisica e funzionalità"
+    fields:
+      - number: 12
+        label: "I dolori fisici ti impediscono di svolgere le attività quotidiane?"
+        html_name: "dolore_limita_attivita"
+        feature: "dolore_limita_attivita"
+        input_type: "radio"
+        required: true
+
+      - number: 13
+        label: "Hai bisogno di trattamenti o interventi medici per affrontare la vita di tutti i giorni?"
+        html_name: "trattamenti_quotidiani"
+        feature: "trattamenti_quotidiani"
+        input_type: "radio"
+        required: true
+
+      - number: 14
+        label: "Hai l’energia necessaria per svolgere le attività quotidiane?"
+        html_name: "energia_quotidiana"
+        feature: "energia_quotidiana"
+        input_type: "radio"
+        required: true
+
+      - number: 15
+        label: "In che misura riesci a muoverti agevolmente?"
+        html_name: "mobilita"
+        feature: "mobilita"
+        input_type: "radio"
+        required: true
+
+      - number: 16
+        label: "La tua salute ti limita nello svolgimento di attività fisicamente impegnative?"
+        html_name: "limiti_attivita_fisica_intensa"
+        feature: "limiti_attivita_fisica_intensa"
+        input_type: "radio"
+        required: true
+
+      - number: 17
+        label: "La tua salute ti limita in attività di moderato impegno fisico?"
+        html_name: "limiti_attivita_fisica_moderata"
+        feature: "limiti_attivita_fisica_moderata"
+        input_type: "radio"
+        required: true
+
+      - number: 18
+        label: "Hai difficoltà nel vestirti o nel fare il bagno da solo/a?"
+        html_name: "autonomia_personale"
+        feature: "autonomia_personale"
+        input_type: "radio"
+        required: true
+
+      - number: 19
+        label: "Hai dovuto ridurre il tempo dedicato al lavoro o ad altre attività per motivi di salute fisica?"
+        html_name: "riduzione_tempo_lavoro"
+        feature: "riduzione_tempo_lavoro"
+        input_type: "radio"
+        required: true
+
+      - number: 20
+        label: "Hai reso meno di quanto avresti voluto a causa della salute fisica?"
+        html_name: "resa_lavorativa_salute"
+        feature: "resa_lavorativa_salute"
+        input_type: "radio"
+        required: true
+
+      - number: 21
+        label: "Hai dovuto limitare alcuni tipi di attività o hai avuto difficoltà nel lavoro per motivi fisici?"
+        html_name: "limitazioni_attivita_fisiche"
+        feature: "limitazioni_attivita_fisiche"
+        input_type: "radio"
+        required: true
+
+  - id: psychological
+    title: "🧠 Stato psicologico ed emotivo"
+    fields:
+      - number: 22
+        label: "Quanto ti godi la vita?"
+        html_name: "godimento_vita"
+        feature: "godimento_vita"
+        input_type: "radio"
+        required: true
+
+      - number: 23
+        label: "La tua vita ha un significato?"
+        html_name: "significato_vita"
+        feature: "significato_vita"
+        input_type: "radio"
+        required: true
+
+      - number: 24
+        label: "Riesci a concentrarti nelle attività che svolgi?"
+        html_name: "concentrazione"
+        feature: "concentrazione"
+        input_type: "radio"
+        required: true
+
+      - number: 25
+        label: "Sei soddisfatto/a di te stesso/a?"
+        html_name: "soddisfazione_se"
+        feature: "soddisfazione_se"
+        input_type: "radio"
+        required: true
+
+      - number: 26
+        label: "Sei soddisfatto/a della tua capacità di impegnarti nelle attività quotidiane?"
+        html_name: "soddisfazione_impegno"
+        feature: "soddisfazione_impegno"
+        input_type: "radio"
+        required: true
+
+      - number: 27
+        label: "Quanto spesso provi sentimenti negativi come tristezza, ansia o depressione?"
+        html_name: "sentimenti_negativi"
+        feature: "sentimenti_negativi"
+        input_type: "radio"
+        required: true
+
+      - number: 28
+        label: "Nelle ultime settimane, ti sei sentito/a calmo/a e sereno/a?"
+        html_name: "calma"
+        feature: "calma"
+        input_type: "radio"
+        required: true
+
+      - number: 29
+        label: "Ti sei sentito/a vivace e pieno/a di energia?"
+        html_name: "energia_psicologica"
+        feature: "energia_psicologica"
+        input_type: "radio"
+        required: true
+
+      - number: 30
+        label: "Ti sei sentito/a agitato/a o scoraggiato/a?"
+        html_name: "agitazione"
+        feature: "agitazione"
+        input_type: "radio"
+        required: true
+
+      - number: 31
+        label: "Ti sei sentito/a stanco/a o sfinito/a?"
+        html_name: "stanchezza"
+        feature: "stanchezza"
+        input_type: "radio"
+        required: true
+
+      - number: 32
+        label: "Ti sei sentito/a felice?"
+        html_name: "felicita"
+        feature: "felicita"
+        input_type: "radio"
+        required: true
+
+  - id: social
+    title: "❤️ Relazioni e supporto sociale"
+    fields:
+      - number: 33
+        label: "Sei soddisfatto/a dei tuoi rapporti personali?"
+        html_name: "relazioni_personali"
+        feature: "relazioni_personali"
+        input_type: "radio"
+        required: true
+
+      - number: 34
+        label: "Ottieni dagli altri l’aiuto di cui hai bisogno?"
+        html_name: "supporto_sociale"
+        feature: "supporto_sociale"
+        input_type: "radio"
+        required: true
+
+      - number: 35
+        label: "Sei soddisfatto/a del sostegno che ricevi da amici o familiari?"
+        html_name: "sostegno_famiglia"
+        feature: "sostegno_famiglia"
+        input_type: "radio"
+        required: true
+
+      - number: 36
+        label: "La salute fisica o emotiva ha interferito con le tue relazioni sociali?"
+        html_name: "interferenza_relazioni"
+        feature: "interferenza_relazioni"
+        input_type: "radio"
+        required: true
+
+  - id: environment
+    title: "🏠 Ambiente e risorse"
+    fields:
+      - number: 37
+        label: "Ti senti al sicuro nella tua vita quotidiana?"
+        html_name: "sicurezza"
+        feature: "sicurezza"
+        input_type: "radio"
+        required: true
+
+      - number: 38
+        label: "L’ambiente in cui vivi è sicuro per la salute?"
+        html_name: "ambiente_sicuro"
+        feature: "ambiente_sicuro"
+        input_type: "radio"
+        required: true
+
+      - number: 39
+        label: "Le tue risorse economiche bastano per i bisogni quotidiani?"
+        html_name: "risorse_economiche"
+        feature: "risorse_economiche"
+        input_type: "radio"
+        required: true
+
+      - number: 40
+        label: "Hai abbastanza informazioni per gestire la vita quotidiana?"
+        html_name: "informazioni_vita"
+        feature: "informazioni_vita"
+        input_type: "radio"
+        required: true
+
+      - number: 41
+        label: "Hai la possibilità di dedicarti ad attività di svago o hobby?"
+        html_name: "hobby"
+        feature: "hobby"
+        input_type: "radio"
+        required: true
+
+      - number: 42
+        label: "Sei soddisfatto/a delle condizioni della tua abitazione?"
+        html_name: "abitazione_condizioni"
+        feature: "abitazione_condizioni"
+        input_type: "radio"
+        required: true
+
+      - number: 43
+        label: "Sei soddisfatto/a della disponibilità dei servizi sanitari?"
+        html_name: "servizi_sanitari"
+        feature: "servizi_sanitari"
+        input_type: "radio"
+        required: true
+
+      - number: 44
+        label: "Sei soddisfatto/a dei mezzi di trasporto a disposizione?"
+        html_name: "trasporti"
+        feature: "trasporti"
+        input_type: "radio"
+        required: true
+
+  - id: pain
+    title: "⚡ Dolore, limitazioni e salute percepita"
+    fields:
+      - number: 45
+        label: "Quanto dolore fisico hai provato di recente?"
+        html_name: "dolore_recentemente"
+        feature: "dolore_recentemente"
+        input_type: "radio"
+        required: true
+
+      - number: 46
+        label: "In che misura il dolore ha limitato le tue attività?"
+        html_name: "limitazioni_dolore"
+        feature: "limitazioni_dolore"
+        input_type: "radio"
+        required: true
+
+      - number: 47
+        label: "Ti sembra di ammalarti più facilmente degli altri?"
+        html_name: "malattie_facili"
+        feature: "malattie_facili"
+        input_type: "radio"
+        required: true
+
+      - number: 48
+        label: "Ti aspetti che la tua salute peggiori?"
+        html_name: "salute_peggiora"
+        feature: "salute_peggiora"
+        input_type: "radio"
+        required: true
+
+      - number: 49
+        label: "Ti consideri in buona salute?"
+        html_name: "buona_salute"
+        feature: "buona_salute"
+        input_type: "radio"
+        required: true
+
+      - number: 50
+        label: "La tua salute è paragonabile a quella delle persone della tua età?"
+        html_name: "salute_vs_eta"
+        feature: "salute_vs_eta"
+        input_type: "radio"
+        required: true

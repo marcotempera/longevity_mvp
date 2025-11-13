@@ -1,255 +1,1012 @@
+questionnaire_id: simplified_qol_v1
+version: 1
+description: >
+  Questionario semplificato su salute, benessere psicologico, relazioni sociali
+  e ambiente. Mappatura delle feature per calcolo di punteggi e radar chart.
+
+domains:
+  demographics:
+    label: "Dati anagrafici"
+  physical_health:
+    label: "Salute fisica e funzionale"
+  psychological:
+    label: "Stato psicologico ed emotivo"
+  social:
+    label: "Relazioni e supporto sociale"
+  environment:
+    label: "Ambiente e risorse"
+  pain_perception:
+    label: "Dolore e salute percepita"
+
 features:
-  # ===========================
-  # DATI BASE
-  # ===========================
-  - name: sesso
-    type: categorical
-    allowed: [maschio, femmina, non_specificato]
-    map_to_score: {maschio: 0, femmina: 0, non_specificato: 0}
 
-  - name: eta
+  # =========================
+  # DATI ANAGRAFICI
+  # =========================
+
+  sesso:
+    question: "1. Sesso"
+    domain: demographics
+    type: categorical
+    scored: false
+    options:
+      maschio:
+        label: "Maschio"
+      femmina:
+        label: "Femmina"
+      non_specificato:
+        label: "Non voglio specificarlo"
+
+  eta:
+    question: "2. Età"
+    domain: demographics
     type: numeric
-    normalize: "age"  # usato solo dal modello per contestualizzare
-    map_to_score: {}
+    min: 0
+    max: 120
+    scored: false
 
-  - name: scolarita
+  scolarita:
+    question: "3. Scolarità"
+    domain: demographics
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessun_titolo:
+        label: "Nessun titolo di studio"
+        score: 1
+      elementare:
+        label: "Scuola elementare"
+        score: 2
+      media_inferiore:
+        label: "Scuola media inferiore"
+        score: 3
+      media_superiore:
+        label: "Scuola media superiore"
+        score: 4
+      laurea:
+        label: "Laurea / diploma para-universitario"
+        score: 5
+      post_laurea:
+        label: "Specializzazione post-laurea"
+        score: 6
+
+  stato_civile:
+    question: "4. Stato civile"
+    domain: demographics
     type: categorical
-    allowed: [nessun_titolo, elementare, media_inferiore, media_superiore, laurea, post_laurea]
-    map_to_score:
-      nessun_titolo: 1
-      elementare: 2
-      media_inferiore: 3
-      media_superiore: 4
-      laurea: 5
-      post_laurea: 5
-    notes: "Più alta scolarità = migliori outcome di salute"
+    scored: false
+    options:
+      celibe_nubile:
+        label: "Celibe / Nubile"
+        score: 1
+      coniugato:
+        label: "Coniugato/a"
+        score: 3
+      convivente:
+        label: "Convivente"
+        score: 3
+      separato:
+        label: "Separato/a"
+        score: 1
+      divorziato:
+        label: "Divorziato/a"
+        score: 1
+      vedovo:
+        label: "Vedovo/a"
+        score: 1
 
-  - name: stato_civile
+  abitazione:
+    question: "5. Situazione abitativa"
+    domain: demographics
     type: categorical
-    allowed: [celibe_nubile, coniugato, convivente, separato, divorziato, vedovo]
-    map_to_score:
-      celibe_nubile: 1
-      coniugato: 5
-      convivente: 4
-      separato: 2
-      divorziato: 1
-      vedovo: 2
-    notes: "Più stabilità relazionale → migliore salute percepita"
+    scored: false
+    options:
+      vive_solo:
+        label: "Vive solo"
+        score: 1
+      vive_con_altri:
+        label: "Vive con altri"
+        score: 2
 
-  - name: abitazione
-    type: categorical
-    allowed: [vive_solo, vive_con_altri]
-    map_to_score:
-      vive_solo: 2
-      vive_con_altri: 4
-
-  # ===========================
+  # =========================
   # SALUTE GENERALE
-  # ===========================
-  - name: malattie
-    type: categorical
-    allowed: [no, si]
-    map_to_score: {no: 5, si: 1}
+  # =========================
 
-  - name: malattie_descrizione
+  malattie:
+    question: "6. Attualmente soffri di qualche malattia o disturbo?"
+    domain: physical_health
+    type: categorical
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 0
+      si:
+        label: "Sì"
+        score: 2
+
+  malattie_descrizione:
+    question: "6b. Specifica eventuali malattie o disturbi"
+    domain: physical_health
     type: text
+    scored: false
 
-  - name: salute_fisica
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1, 2:2, 3:3, 4:4, 5:5}
+  salute_fisica:
+    question: "7. Come valuti complessivamente le tue condizioni di salute fisica?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_scadenti:
+        label: "Molto scadenti"
+        score: 1
+      scadenti:
+        label: "Scadenti"
+        score: 2
+      neutrale:
+        label: "Né scadenti né buone"
+        score: 3
+      buone:
+        label: "Buone"
+        score: 4
+      molto_buone:
+        label: "Molto buone"
+        score: 5
 
-  - name: salute_psicologica
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  salute_psicologica:
+    question: "8. Come valuti complessivamente le tue condizioni di salute psicologica?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_scadenti:
+        label: "Molto scadenti"
+        score: 1
+      scadenti:
+        label: "Scadenti"
+        score: 2
+      neutrale:
+        label: "Né scadenti né buone"
+        score: 3
+      buone:
+        label: "Buone"
+        score: 4
+      molto_buone:
+        label: "Molto buone"
+        score: 5
 
-  - name: qualita_vita
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  qualita_vita:
+    question: "9. Come valuti la qualità complessiva della tua vita?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_cattiva:
+        label: "Molto cattiva"
+        score: 1
+      cattiva:
+        label: "Cattiva"
+        score: 2
+      neutrale:
+        label: "Né cattiva né buona"
+        score: 3
+      buona:
+        label: "Buona"
+        score: 4
+      molto_buona:
+        label: "Molto buona"
+        score: 5
 
-  - name: salute_generale
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  salute_generale:
+    question: "10. In generale diresti che la tua salute è:"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      scadente:
+        label: "Scadente"
+        score: 1
+      passabile:
+        label: "Passabile"
+        score: 2
+      buona:
+        label: "Buona"
+        score: 3
+      molto_buona:
+        label: "Molto buona"
+        score: 4
+      eccellente:
+        label: "Eccellente"
+        score: 5
 
-  - name: salute_vs_anno
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  salute_vs_anno:
+    question: "11. Rispetto a un anno fa, come giudichi la tua salute in generale?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      decisamente_peggiore:
+        label: "Decisamente peggiore"
+        score: 1
+      un_po_peggiore:
+        label: "Un po’ peggiore"
+        score: 2
+      uguale:
+        label: "Più o meno uguale"
+        score: 3
+      un_po_migliore:
+        label: "Un po’ migliore"
+        score: 4
+      decisamente_migliore:
+        label: "Decisamente migliore"
+        score: 5
 
-  # ===========================
-  # CONDIZIONE FISICA
-  # ===========================
-  - name: dolore_limita_attivita
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5, 1:3, 2:1}
+  # =========================
+  # CONDIZIONE FISICA E FUNZIONALITÀ
+  # =========================
 
-  - name: trattamenti_quotidiani
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5, 1:3, 2:1}
+  dolore_limita_attivita:
+    question: "12. I dolori fisici ti impediscono di svolgere le attività quotidiane?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessuna_limitazione:
+        label: "No, per niente"
+        score: 1
+      limitano_parzialmente:
+        label: "Sì, mi limitano parzialmente"
+        score: 2
+      limitano_parecchio:
+        label: "Sì, mi limitano parecchio"
+        score: 3
 
-  - name: energia_quotidiana
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  trattamenti_quotidiani:
+    question: "13. Hai bisogno di trattamenti o interventi medici per affrontare la vita di tutti i giorni?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessun_trattamento:
+        label: "No"
+        score: 1
+      trattamenti_in_parte:
+        label: "In parte"
+        score: 2
+      trattamenti_si:
+        label: "Sì"
+        score: 3
 
-  - name: mobilita
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  energia_quotidiana:
+    question: "14. Hai l’energia necessaria per svolgere le attività quotidiane?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 4
+      completamente:
+        label: "Completamente"
+        score: 5
 
-  - name: limiti_attivita_fisica_intensa
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5,1:3,2:1}
+  mobilita:
+    question: "15. In che misura riesci a muoverti agevolmente?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_poco:
+        label: "Molto poco"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      molto:
+        label: "Molto"
+        score: 4
+      moltissimo:
+        label: "Moltissimo"
+        score: 5
 
-  - name: limiti_attivita_fisica_moderata
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5,1:3,2:1}
+  limiti_attivita_fisica_intensa:
+    question: "16. La tua salute ti limita nello svolgimento di attività fisicamente impegnative?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessuna_limitazione:
+        label: "No, per niente"
+        score: 1
+      limitazione_parziale:
+        label: "Sì, parzialmente"
+        score: 2
+      limitazione_importante:
+        label: "Sì, parecchio"
+        score: 3
 
-  - name: autonomia_personale
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:5,2:4,3:3,4:2,5:1}
+  limiti_attivita_fisica_moderata:
+    question: "17. La tua salute ti limita in attività di moderato impegno fisico?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessuna_limitazione:
+        label: "No, per niente"
+        score: 1
+      limitazione_parziale:
+        label: "Sì, parzialmente"
+        score: 2
+      limitazione_importante:
+        label: "Sì, parecchio"
+        score: 3
 
-  - name: riduzione_tempo_lavoro
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5,1:3,2:1}
+  autonomia_personale:
+    question: "18. Hai difficoltà nel vestirti o nel fare il bagno da solo/a?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 5
+      poco:
+        label: "Poco"
+        score: 4
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 2
+      completamente:
+        label: "Completamente"
+        score: 1
 
-  - name: resa_lavorativa_salute
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5,1:3,2:1}
+  riduzione_tempo_lavoro:
+    question: "19. Hai dovuto ridurre il tempo dedicato al lavoro o ad altre attività per motivi di salute fisica?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessuna_riduzione:
+        label: "No"
+        score: 3
+      riduzione_parziale:
+        label: "In parte"
+        score: 2
+      riduzione_significativa:
+        label: "Sì"
+        score: 1
 
-  - name: limitazioni_attivita_fisiche
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:5,1:3,2:1}
+  resa_lavorativa_salute:
+    question: "20. Hai reso meno di quanto avresti voluto a causa della salute fisica?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessun_impedimento:
+        label: "No"
+        score: 3
+      impedimento_parziale:
+        label: "In parte"
+        score: 2
+      impedimento_significativo:
+        label: "Sì"
+        score: 1
 
-  # ===========================
-  # PSICOLOGICO
-  # ===========================
-  - name: godimento_vita
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  limitazioni_attivita_fisiche:
+    question: "21. Hai dovuto limitare alcuni tipi di attività o hai avuto difficoltà nel lavoro per motivi fisici?"
+    domain: physical_health
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessuna_limitazione:
+        label: "No"
+        score: 3
+      limitazione_parziale:
+        label: "In parte"
+        score: 2
+      limitazione_significativa:
+        label: "Sì"
+        score: 1
 
-  - name: significato_vita
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:1,1:3,2:5}
+  # =========================
+  # STATO PSICOLOGICO ED EMOTIVO
+  # =========================
 
-  - name: concentrazione
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  godimento_vita:
+    question: "22. Quanto ti godi la vita?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 4
+      completamente:
+        label: "Completamente"
+        score: 5
 
-  - name: soddisfazione_se
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  significato_vita:
+    question: "23. La tua vita ha un significato?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      nessun_significato:
+        label: "No"
+        score: 1
+      significato_parziale:
+        label: "In parte"
+        score: 2
+      significato_si:
+        label: "Sì"
+        score: 3
 
-  # ===========================
+  concentrazione:
+    question: "24. Riesci a concentrarti nelle attività che svolgi?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 4
+      completamente:
+        label: "Completamente"
+        score: 5
+
+  soddisfazione_se:
+    question: "25. Sei soddisfatto/a di te stesso/a?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_insoddisfatto:
+        label: "Molto insoddisfatto/a"
+        score: 1
+      insoddisfatto:
+        label: "Insoddisfatto/a"
+        score: 2
+      neutrale:
+        label: "Né soddisfatto/a né insoddisfatto/a"
+        score: 3
+      soddisfatto:
+        label: "Soddisfatto/a"
+        score: 4
+      molto_soddisfatto:
+        label: "Molto soddisfatto/a"
+        score: 5
+
+  soddisfazione_impegno:
+    question: "26. Sei soddisfatto/a della tua capacità di impegnarti nelle attività quotidiane?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_insoddisfatto:
+        label: "Molto insoddisfatto/a"
+        score: 1
+      insoddisfatto:
+        label: "Insoddisfatto/a"
+        score: 2
+      neutrale:
+        label: "Né soddisfatto/a né insoddisfatto/a"
+        score: 3
+      soddisfatto:
+        label: "Soddisfatto/a"
+        score: 4
+      molto_soddisfatto:
+        label: "Molto soddisfatto/a"
+        score: 5
+
+  sentimenti_negativi:
+    question: "27. Quanto spesso provi sentimenti negativi come tristezza, ansia o depressione?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true   # punteggio invertito
+    options:
+      sempre:
+        label: "Mai"
+        score: 5
+      spesso:
+        label: "Raramente"
+        score: 4
+      a_volte:
+        label: "A volte"
+        score: 3
+      raramente:
+        label: "Spesso"
+        score: 2
+      mai:
+        label: "Sempre"
+        score: 1
+
+  calma:
+    question: "28. Nelle ultime settimane, ti sei sentito/a calmo/a e sereno/a?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
+
+  energia_psicologica:
+    question: "29. Ti sei sentito/a vivace e pieno/a di energia?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
+
+  agitazione:
+    question: "30. Ti sei sentito/a agitato/a o scoraggiato/a?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true   # punteggio invertito
+    options:
+      no:
+        label: "No"
+        score: 3
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 1
+
+  stanchezza:
+    question: "31. Ti sei sentito/a stanco/a o sfinito/a?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true   # punteggio invertito
+    options:
+      no:
+        label: "No"
+        score: 3
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 1
+
+  felicita:
+    question: "32. Ti sei sentito/a felice?"
+    domain: psychological
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
+
+  # =========================
   # RELAZIONI SOCIALI
-  # ===========================
-  - name: rapporti_personali
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:1,1:3,2:5}
+  # =========================
 
-  - name: aiuto_necessario
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  relazioni_personali:
+    question: "33. Sei soddisfatto/a dei tuoi rapporti personali?"
+    domain: social
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
 
-  - name: sostegno_famiglia
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:1,1:3,2:5}
+  supporto_sociale:
+    question: "34. Ottieni dagli altri l’aiuto di cui hai bisogno?"
+    domain: social
+    type: ordinal
+    higher_is_better: true
+    options:
+      mai:
+        label: "Mai"
+        score: 1
+      raramente:
+        label: "Raramente"
+        score: 2
+      a_volte:
+        label: "A volte"
+        score: 3
+      spesso:
+        label: "Spesso"
+        score: 4
+      sempre:
+        label: "Sempre"
+        score: 5
 
-  - name: relazioni_interferenza
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  sostegno_famiglia:
+    question: "35. Sei soddisfatto/a del sostegno che ricevi da amici o familiari?"
+    domain: social
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
 
-  # ===========================
+  interferenza_relazioni:
+    question: "36. La salute fisica o emotiva ha interferito con le tue relazioni sociali?"
+    domain: social
+    type: ordinal
+    higher_is_better: true   # punteggio invertito
+    options:
+      completamente:
+        label: "Per niente"
+        score: 5
+      in_gran_parte:
+        label: "Poco"
+        score: 4
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      poco:
+        label: "In gran parte"
+        score: 2
+      per_niente:
+        label: "Completamente"
+        score: 1
+
+  # =========================
   # AMBIENTE E RISORSE
-  # ===========================
-  - name: sicurezza_quotidiana
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:1,1:3,2:5}
+  # =========================
 
-  - name: ambiente_sicuro
-    type: categorical
-    allowed: [0,1,2]
-    map_to_score: {0:1,1:3,2:5}
+  sicurezza:
+    question: "37. Ti senti al sicuro nella tua vita quotidiana?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
 
-  - name: risorse_economiche
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  ambiente_sicuro:
+    question: "38. L’ambiente in cui vivi è sicuro per la salute?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      in_parte:
+        label: "In parte"
+        score: 2
+      si:
+        label: "Sì"
+        score: 3
 
-  - name: info_disponibili
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  risorse_economiche:
+    question: "39. Le tue risorse economiche bastano per i bisogni quotidiani?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 4
+      completamente:
+        label: "Completamente"
+        score: 5
 
-  - name: hobby_tempo_libero
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  informazioni_vita:
+    question: "40. Hai abbastanza informazioni per gestire la vita quotidiana?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 4
+      completamente:
+        label: "Completamente"
+        score: 5
 
-  - name: soddisfazione_abitazione
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  hobby:
+    question: "41. Hai la possibilità di dedicarti ad attività di svago o hobby?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 1
+      poco:
+        label: "Poco"
+        score: 2
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 4
+      completamente:
+        label: "Completamente"
+        score: 5
 
-  - name: soddisfazione_sanitaria
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  abitazione_condizioni:
+    question: "42. Sei soddisfatto/a delle condizioni della tua abitazione?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_insoddisfatto:
+        label: "Molto insoddisfatto/a"
+        score: 1
+      insoddisfatto:
+        label: "Insoddisfatto/a"
+        score: 2
+      neutrale:
+        label: "Né soddisfatto/a né insoddisfatto/a"
+        score: 3
+      soddisfatto:
+        label: "Soddisfatto/a"
+        score: 4
+      molto_soddisfatto:
+        label: "Molto soddisfatto/a"
+        score: 5
 
-  - name: soddisfazione_trasporti
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  servizi_sanitari:
+    question: "43. Sei soddisfatto/a della disponibilità dei servizi sanitari?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_insoddisfatto:
+        label: "Molto insoddisfatto/a"
+        score: 1
+      insoddisfatto:
+        label: "Insoddisfatto/a"
+        score: 2
+      neutrale:
+        label: "Né soddisfatto/a né insoddisfatto/a"
+        score: 3
+      soddisfatto:
+        label: "Soddisfatto/a"
+        score: 4
+      molto_soddisfatto:
+        label: "Molto soddisfatto/a"
+        score: 5
 
-  # ===========================
-  # DOLORE / SALUTE PERCEPITA
-  # ===========================
-  - name: dolore_fisico
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  trasporti:
+    question: "44. Sei soddisfatto/a dei mezzi di trasporto a disposizione?"
+    domain: environment
+    type: ordinal
+    higher_is_better: true
+    options:
+      molto_insoddisfatto:
+        label: "Molto insoddisfatto/a"
+        score: 1
+      insoddisfatto:
+        label: "Insoddisfatto/a"
+        score: 2
+      neutrale:
+        label: "Né soddisfatto/a né insoddisfatto/a"
+        score: 3
+      soddisfatto:
+        label: "Soddisfatto/a"
+        score: 4
+      molto_soddisfatto:
+        label: "Molto soddisfatto/a"
+        score: 5
 
-  - name: dolore_limiti_lavoro
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:5,2:4,3:3,4:2,5:1}
+  # =========================
+  # DOLORE + SALUTE PERCEPITA
+  # =========================
 
-  - name: ammalarsi_facilmente
-    type: categorical
-    allowed: [1,2,3,4]
-    map_to_score: {1:1,2:2,3:3,4:5}
+  dolore_recentemente:
+    question: "45. Quanto dolore fisico hai provato di recente?"
+    domain: pain_perception
+    type: ordinal
+    higher_is_better: true   # punteggio invertito (meno dolore = meglio)
+    options:
+      moltissimo:
+        label: "Per niente"
+        score: 5
+      molto:
+        label: "Poco"
+        score: 4
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      poco:
+        label: "Molto"
+        score: 2
+      per_niente:
+        label: "Moltissimo"
+        score: 1
 
-  - name: aspettativa_peggioramento
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  limitazioni_dolore:
+    question: "46. In che misura il dolore ha limitato le tue attività?"
+    domain: pain_perception
+    type: ordinal
+    higher_is_better: true   # meno limitazioni = meglio
+    options:
+      per_niente:
+        label: "Per niente"
+        score: 5
+      poco:
+        label: "Poco"
+        score: 4
+      abbastanza:
+        label: "Abbastanza"
+        score: 3
+      in_gran_parte:
+        label: "In gran parte"
+        score: 2
+      completamente:
+        label: "Completamente"
+        score: 1
 
-  - name: buona_salute
-    type: categorical
-    allowed: [1,2,3,4,5]
-    map_to_score: {1:1,2:2,3:3,4:4,5:5}
+  malattie_facili:
+    question: "47. Ti sembra di ammalarti più facilmente degli altri?"
+    domain: pain_perception
+    type: ordinal
+    higher_is_better: true   # meno percezione di fragilità = meglio
+    options:
+      assolutamente_si:
+        label: "No"
+        score: 4
+      potrebbe_essere:
+        label: "Non ne sono sicuro"
+        score: 3
+      non_sicuro:
+        label: "otrebbe essere"
+        score: 2
+      no:
+        label: "Assolutamente sì"
+        score: 1
 
-  - name: salute_vs_coetanei
-    type: categorical
-    allowed: [1,2,3,4]
-    map_to_score: {1:1,2:3,3:4,4:5}
+  salute_peggiora:
+    question: "48. Ti aspetti che la tua salute peggiori?"
+    domain: pain_perception
+    type: ordinal
+    higher_is_better: true   # meno aspettativa di peggioramento = meglio
+    options:
+      sempre:
+        label: "Mai"
+        score: 5
+      spesso:
+        label: "Raramente"
+        score: 4
+      a_volte:
+        label: "A volte"
+        score: 3
+      raramente:
+        label: "Spesso"
+        score: 2
+      mai:
+        label: "Sempre"
+        score: 1
+
+  buona_salute:
+    question: "49. Ti consideri in buona salute?"
+    domain: pain_perception
+    type: ordinal
+    higher_is_better: true
+    options:
+      mai:
+        label: "Mai"
+        score: 1
+      raramente:
+        label: "Raramente"
+        score: 2
+      a_volte:
+        label: "A volte"
+        score: 3
+      spesso:
+        label: "Spesso"
+        score: 4
+      sempre:
+        label: "Sempre"
+        score: 5
+
+  salute_vs_eta:
+    question: "50. La tua salute è paragonabile a quella delle persone della tua età?"
+    domain: pain_perception
+    type: ordinal
+    higher_is_better: true
+    options:
+      no:
+        label: "No"
+        score: 1
+      non_sicuro:
+        label: "Non ne sono sicuro"
+        score: 2
+      potrebbe_essere:
+        label: "Potrebbe essere"
+        score: 3
+      assolutamente_si:
+        label: "Assolutamente sì"
+        score: 4

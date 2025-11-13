@@ -1,0 +1,326 @@
+questionnaire_id: simplified_qol_v1
+version: 1
+description: >
+  Configurazione centralizzata di scoring per il questionario semplificato
+  sulla qualità della vita: scale, pesi di dominio, fasce interpretative
+  e regole di trasformazione (inclusa la fascia di età).
+
+scales:
+  feature_default:
+    min: 0
+    max: 5
+  domain_default:
+    min: 0
+    max: 5
+  global_index:
+    min: 0
+    max: 5
+  radar:
+    input_min: 0
+    input_max: 5
+    output_min: 0
+    output_max: 5
+
+age_scoring:
+  description: >
+    Trasformazione dell'età cronologica in uno score sintetico (eta_score),
+    usato come moderatore del punteggio globale.
+  feature_id: eta_score
+  buckets:
+    - id: age_lt_40
+      label: "Età < 40 anni"
+      min_age: 0
+      max_age: 39
+      score: 3
+    - id: age_40_49
+      label: "Età 40–49 anni"
+      min_age: 40
+      max_age: 49
+      score: 2
+    - id: age_50_59
+      label: "Età 50–59 anni"
+      min_age: 50
+      max_age: 59
+      score: 1
+    - id: age_60_plus
+      label: "Età ≥ 60 anni"
+      min_age: 60
+      max_age: 120
+      score: 0
+  default_if_missing:
+    score: 2
+    note: "Età non specificata, assegnato valore neutro."
+
+domains:
+  physical_health:
+    label: "Salute fisica"
+    description: >
+      Condizioni fisiche percepite, capacità funzionale, energia e limitazioni
+      nelle attività quotidiane e sportive.
+    target_scale: "domain_default"
+    features:
+      salute_fisica:
+        weight: 1.0
+      salute_generale:
+        weight: 1.0
+      salute_vs_anno:
+        weight: 1.0
+      energia_quotidiana:
+        weight: 1.0
+      mobilita:
+        weight: 1.0
+      limiti_attivita_fisica_intensa:
+        weight: 1.0
+      limiti_attivita_fisica_moderata:
+        weight: 1.0
+      autonomia_personale:
+        weight: 1.0
+      riduzione_tempo_lavoro:
+        weight: 1.0
+      resa_lavorativa_salute:
+        weight: 1.0
+      limitazioni_attivita_fisiche:
+        weight: 1.0
+    bands:
+      - id: low
+        label: "Critico"
+        min: 0.0
+        max: 2.0
+        color: "#ef4444"
+        description: "Limitazioni marcate o scarsa percezione della propria salute fisica."
+      - id: medium
+        label: "Intermedio"
+        min: 2.01
+        max: 3.5
+        color: "#eab308"
+        description: "Condizioni fisiche discrete ma con margini importanti di miglioramento."
+      - id: high
+        label: "Buono"
+        min: 3.51
+        max: 5.0
+        color: "#22c55e"
+        description: "Buon livello di salute e funzionalità fisica percepita."
+
+  psychological:
+    label: "Benessere psicologico"
+    description: >
+      Benessere emotivo, soddisfazione personale, gestione di sentimenti negativi
+      e percezione del significato della propria vita.
+    target_scale: "domain_default"
+    features:
+      salute_psicologica:
+        weight: 1.0
+      qualita_vita:
+        weight: 1.0
+      godimento_vita:
+        weight: 1.0
+      significato_vita:
+        weight: 1.0
+      concentrazione:
+        weight: 1.0
+      soddisfazione_se:
+        weight: 1.0
+      soddisfazione_impegno:
+        weight: 1.0
+      sentimenti_negativi:
+        weight: 1.0
+      calma:
+        weight: 1.0
+      energia_psicologica:
+        weight: 1.0
+      agitazione:
+        weight: 1.0
+      stanchezza:
+        weight: 1.0
+      felicita:
+        weight: 1.0
+    bands:
+      - id: low
+        label: "Fragile"
+        min: 0.0
+        max: 2.0
+        color: "#ef4444"
+        description: "Segnali di disagio emotivo e bassa soddisfazione personale."
+      - id: medium
+        label: "Intermedio"
+        min: 2.01
+        max: 3.5
+        color: "#eab308"
+        description: "Benessere psicologico altalenante, con punti sia di forza che di vulnerabilità."
+      - id: high
+        label: "Buono"
+        min: 3.51
+        max: 5.0
+        color: "#22c55e"
+        description: "Buon equilibrio emotivo e soddisfazione generale."
+
+  social:
+    label: "Relazioni e supporto"
+    description: >
+      Qualità dei rapporti personali, supporto percepito da amici e familiari
+      e impatto della salute sulle relazioni.
+    target_scale: "domain_default"
+    features:
+      relazioni_personali:
+        weight: 1.0
+      supporto_sociale:
+        weight: 1.0
+      sostegno_famiglia:
+        weight: 1.0
+      interferenza_relazioni:
+        weight: 1.0
+    bands:
+      - id: low
+        label: "Isolamento / criticità"
+        min: 0.0
+        max: 2.0
+        color: "#ef4444"
+        description: "Rapporti insoddisfacenti o forte impatto della salute sulla vita sociale."
+      - id: medium
+        label: "Rete discreta"
+        min: 2.01
+        max: 3.5
+        color: "#eab308"
+        description: "Rete sociale presente ma con margini di miglioramento nella qualità o nel supporto."
+      - id: high
+        label: "Buon supporto"
+        min: 3.51
+        max: 5.0
+        color: "#22c55e"
+        description: "Relazioni soddisfacenti e buon sostegno percepito."
+
+  environment:
+    label: "Ambiente e risorse"
+    description: >
+      Sicurezza percepita, adeguatezza delle risorse economiche, qualità
+      dell’abitazione, servizi sanitari e mezzi di trasporto.
+    target_scale: "domain_default"
+    features:
+      sicurezza:
+        weight: 1.0
+      ambiente_sicuro:
+        weight: 1.0
+      risorse_economiche:
+        weight: 1.0
+      informazioni_vita:
+        weight: 1.0
+      hobby:
+        weight: 1.0
+      abitazione_condizioni:
+        weight: 1.0
+      servizi_sanitari:
+        weight: 1.0
+      trasporti:
+        weight: 1.0
+    bands:
+      - id: low
+        label: "Contesto sfavorevole"
+        min: 0.0
+        max: 2.0
+        color: "#ef4444"
+        description: "Ambiente percepito come poco sicuro o con risorse insufficienti."
+      - id: medium
+        label: "Contesto misto"
+        min: 2.01
+        max: 3.5
+        color: "#eab308"
+        description: "Condizioni ambientali discrete ma non pienamente soddisfacenti."
+      - id: high
+        label: "Contesto favorevole"
+        min: 3.51
+        max: 5.0
+        color: "#22c55e"
+        description: "Ambiente percepito come sicuro, supportivo e adeguato ai bisogni."
+
+  pain_perception:
+    label: "Dolore e salute percepita"
+    description: >
+      Intensità del dolore, impatto sulle attività, vulnerabilità percepita
+      alle malattie e aspettative di peggioramento/miglioramento.
+    target_scale: "domain_default"
+    features:
+      dolore_recentemente:
+        weight: 1.0
+      limitazioni_dolore:
+        weight: 1.0
+      malattie_facili:
+        weight: 1.0
+      salute_peggiora:
+        weight: 1.0
+      buona_salute:
+        weight: 1.0
+      salute_vs_eta:
+        weight: 1.0
+    bands:
+      - id: low
+        label: "Dolore/criticità importanti"
+        min: 0.0
+        max: 2.0
+        color: "#ef4444"
+        description: "Dolore frequente o intenso con impatto rilevante sulla vita quotidiana."
+      - id: medium
+        label: "Gestione intermedia"
+        min: 2.01
+        max: 3.5
+        color: "#eab308"
+        description: "Dolore presente ma generalmente gestibile, con impatto moderato."
+      - id: high
+        label: "Dolore contenuto"
+        min: 3.51
+        max: 5.0
+        color: "#22c55e"
+        description: "Dolore ridotto e buona percezione della propria resilienza fisica."
+
+global_index:
+  label: "Indice globale di qualità della vita"
+  description: >
+    Indice sintetico (0–5) che combina i domini principali e include
+    una correzione leggera basata sull'età.
+  method: "weighted_mean_with_age"
+  domain_weights:
+    physical_health: 0.25
+    psychological: 0.25
+    social: 0.20
+    environment: 0.15
+    pain_perception: 0.15
+  age_moderation:
+    enabled: true
+    feature_id: "eta_score"
+    # Correzione lineare semplice: più lo score età è alto, più attenua la penalizzazione.
+    normalize_from:
+      min: 0
+      max: 3
+    max_adjustment:
+      positive: 0.2   # bonus massimo
+      negative: -0.2  # malus massimo
+  bands:
+    - id: very_low
+      label: "Molto basso"
+      min: 0.0
+      max: 1.5
+      color: "#b91c1c"
+      description: "Qualità della vita complessiva molto ridotta, con criticità diffuse."
+    - id: low
+      label: "Basso"
+      min: 1.51
+      max: 2.5
+      color: "#ef4444"
+      description: "Qualità della vita complessiva sotto la media, con diverse aree di fragilità."
+    - id: medium
+      label: "Intermedio"
+      min: 2.51
+      max: 3.5
+      color: "#eab308"
+      description: "Qualità della vita discreta, ma con margini chiari di miglioramento."
+    - id: high
+      label: "Buono"
+      min: 3.51
+      max: 4.3
+      color: "#22c55e"
+      description: "Buona qualità della vita complessiva, con qualche area su cui lavorare."
+    - id: very_high
+      label: "Molto buono"
+      min: 4.31
+      max: 5.0
+      color: "#22c55e"
+      description: "Qualità della vita complessiva molto buona, con prevalenza di fattori positivi."

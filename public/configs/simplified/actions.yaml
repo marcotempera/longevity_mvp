@@ -1,0 +1,225 @@
+questionnaire_id: simplified_qol_v1
+version: 1
+description: >
+  Azioni e pipeline per trasformare le risposte del questionario semplificato
+  in score di benessere (per dominio) e in un report testuale generato via LLM.
+
+inputs:
+  raw_answers:
+    description: >
+      Oggetto chiave-valore proveniente dal form HTML "simplified-questionnaire",
+      in cui ogni chiave è l'attributo "name" e ogni valore è la risposta selezionata.
+    example:
+      sesso: "maschio"
+      eta: 34
+      salute_fisica: "molto_buone"
+      salute_psicologica: "buone"
+      qualita_vita: "buona"
+
+references:
+  features_config: "features.yaml"
+  mapping_form_config: "mapping_form.yaml"
+
+pipelines:
+  # Pipeline principale che userai nella webapp
+  default_report:
+    description: >
+      Pipeline completa: da risposte raw del form a feature_scores, domain_scores,
+      payload per radar chart e prompt per il report LLM.
+    steps:
+      - action: validate_answers
+      - action: compute_feature_scores
+      - action: compute_domain_scores
+      - action: compute_global_index
+      - action: build_radar_payload
+      - action: build_llm_prompt
+
+actions:
+
+  # 1) Validazione base input
+  validate_answers:
+    type: validate
+    description: >
+      Controlla che le risposte contengano tutti i campi richiesti dal mapping_form
+      e che i valori siano ammessi (enum definiti in features.yaml / mapping_form.yaml).
+    config:
+      required_policy: "from_mapping"   # usa mapping_form.yaml per sapere cosa è required
+      on_missing: "warn"                # "error" se vuoi bloccare tutto
+      on_invalid: "coerce_or_null"      # prova a sistemare, altrimenti null
+    input:
+      answers: "@raw_answers"
+    output:
+      valid_answers: "@validated_answers"
+
+  # 2) Calcolo punteggio per ogni feature
+  compute_feature_scores:
+    type: feature_scoring
+    description: >
+      Converte le risposte valide in score numerici per ciascuna feature,
+      usando le definizioni e le regole di scoring in features.yaml.
+    config:
+      features_config: "features.yaml"
+      mapping_form_config: "mapping_form.yaml"
+      missing_policy: "skip"           # se una feature non è calcolabile, viene saltata
+    input:
+      answers: "@validated_answers"
+    output:
+      feature_scores: "@feature_scores"
+      feature_metadata: "@feature_metadata"
+      # esempio di feature_scores:
+      # salute_fisica: 4.0
+      # salute_psicologica: 3.0
+      # sentimenti_negativi: 2.0
+      # eta_score: 3.0
+
+  # 3) Aggregazione per domini (fisico, psicologico, sociale, ambiente, dolore)
+  compute_domain_scores:
+    type: domain_aggregation
+    description: >
+      Aggrega gli score delle singole feature in domini di benessere
+      (physical_health, psychological, social, environment, pain_perception)
+      secondo la definizione dei domini in features.yaml.
+    config:
+      features_config: "features.yaml"
+      method: "weighted_mean"          # usa i pesi delle feature se presenti
+      normalize_to:
+        min: 0
+        max: 5                         # tutti i domini riportati su scala 0–5
+    input:
+      feature_scores: "@feature_scores"
+    output:
+      domain_scores: "@domain_scores"
+      # esempio:
+      # physical_health: 3.7
+      # psychological: 3.9
+      # social: 3.2
+      # environment: 3.5
+      # pain_perception: 2.8
+
+  # 4) Calcolo di uno score globale di benessere
+  compute_global_index:
+    type: global_index
+    description: >
+      Combina i punteggi di dominio in un indice globale di qualità della vita,
+      eventualmente includendo la componente età come fattore moderatore.
+    config:
+      domains:
+        - physical_health
+        - psychological
+        - social
+        - environment
+        - pain_perception
+      method: "mean"                  # media semplice dei domini
+      include_age_feature: true
+      age_feature_id: "eta_score"     # definito in features.yaml come trasformazione di eta
+      age_weight: 0.15                # quanto pesa l'età nella correzione del punteggio globale
+      output_scale:
+        min: 0
+        max: 5
+    input:
+      domain_scores: "@domain_scores"
+      feature_scores: "@feature_scores"
+    output:
+      global_index: "@global_index"
+      # es:
+      # global_index:
+      #   value: 3.6
+      #   adjusted_by_age: true
+
+  # 5) Preparazione payload per radar chart
+  build_radar_payload:
+    type: transform
+    description: >
+      Prepara i dati pronti all’uso per il radar chart (etichette + valori),
+      usando i domini calcolati.
+    config:
+      labels:
+        physical_health: "Salute fisica"
+        psychological: "Benessere psicologico"
+        social: "Relazioni e supporto"
+        environment: "Ambiente e risorse"
+        pain_perception: "Dolore e salute percepita"
+      scale:
+        input_min: 0
+        input_max: 5
+        output_min: 0
+        output_max: 5
+    input:
+      domain_scores: "@domain_scores"
+    output:
+      radar_payload: "@radar_payload"
+      # es:
+      # radar_payload:
+      #   labels:
+      #     - "Salute fisica"
+      #     - "Benessere psicologico"
+      #     - "Relazioni e supporto"
+      #     - "Ambiente e risorse"
+      #     - "Dolore e salute percepita"
+      #   data:
+      #     - 74
+      #     - 82
+      #     - 65
+      #     - 70
+      #     - 56
+
+  # 6) Costruzione prompt per il modello LLM (report testuale)
+  build_llm_prompt:
+    type: llm_prompt
+    description: >
+      Genera il payload testuale da inviare al modello LLM per creare
+      un report personalizzato sulla qualità della vita dell’utente.
+    config:
+      language: "it"
+      system_prompt: |
+        Sei un medico e divulgatore scientifico che analizza dati di benessere
+        psicofisico di un paziente, con tono professionale, empatico e chiaro.
+        Usi esclusivamente le informazioni fornite nei dati numerici e nelle
+        risposte al questionario. Non formulare diagnosi cliniche, ma parla
+        di benessere, rischi generali, possibili aree di miglioramento, ma soprattutto visite specialistiche consigliate.
+      user_template: |
+        Di seguito trovi i risultati di un questionario semplificato
+        sulla qualità della vita di una persona.
+
+        DATI PRINCIPALI
+        - Sesso: {{ sesso }}
+        - Età: {{ eta }}
+        - Indice globale di benessere (0–5): {{ global_index.value }}
+
+        SCORE PER DOMINIO (0–5)
+        - Salute fisica: {{ domain_scores.physical_health }}
+        - Benessere psicologico: {{ domain_scores.psychological }}
+        - Relazioni e supporto: {{ domain_scores.social }}
+        - Ambiente e risorse: {{ domain_scores.environment }}
+        - Dolore e salute percepita: {{ domain_scores.pain_perception }}
+
+        INFORMAZIONI DETTAGLIATE (feature principali)
+        {{ feature_summary_block }}
+
+        Compito:
+        1. Fornisci una lettura integrata dei risultati, spiegando in modo
+           semplice cosa significano per la persona.
+        2. Evidenzia i punti di forza.
+        3. Indica le aree che potrebbero beneficiare di attenzione o cambiamenti
+           nello stile di vita (sonno, movimento, gestione dello stress, relazioni, ecc.).
+        4. Suggerisci 3–5 azioni pratiche, generiche e non mediche, che la persona
+           potrebbe valutare per migliorare la propria qualità di vita.
+        5. Consiglia visite specialistiche mirate per le aree che hanno ottenuto i punteggi minori.
+        6. Usa un tono chiaro, rispettoso, non allarmistico.
+
+        Non inserire raccomandazioni farmacologiche o diagnosi.
+      feature_summary:
+        type: "top_features_by_domain"
+        max_features_per_domain: 4
+        format_line: "- {{ feature_label }}: {{ feature_value }} (score: {{ feature_score }})"
+    input:
+      answers: "@validated_answers"
+      domain_scores: "@domain_scores"
+      feature_scores: "@feature_scores"
+      global_index: "@global_index"
+    output:
+      llm_payload: "@llm_payload"
+      # es:
+      # llm_payload:
+      #   system: "..."
+      #   user: "..."

@@ -1,0 +1,228 @@
+# validation.yaml
+
+schema_version: 1
+
+fields:
+  sesso:
+    type: enum
+    required: true
+    allowed: [maschio, femmina, non_specificato]
+
+  eta:
+    type: integer
+    required: true
+    min: 0
+    max: 120
+
+  scolarita:
+    type: enum
+    required: true
+    # es: nessun_titolo, elementare, media_inferiore, media_superiore, laurea, post_laurea
+    allowed: [nessun_titolo, elementare, media_inferiore, media_superiore, laurea, post_laurea]
+
+  stato_civile:
+    type: enum
+    required: true
+    allowed: [celibe_nubile, coniugato, convivente, separato, divorziato, vedovo]
+
+  abitazione:
+    type: enum
+    required: true
+    allowed: [vive_solo, vive_con_altri]
+
+  malattie:
+    type: enum
+    required: true
+    allowed: [si, no]
+
+  malattie_descrizione:
+    type: string
+    required: false
+    max_length: 500
+
+  salute_fisica:
+    type: enum
+    required: true
+
+  salute_psicologica:
+    type: enum
+    required: true
+
+  qualita_vita:
+    type: enum
+    required: true
+
+  salute_generale:
+    type: enum
+    required: true
+
+  salute_vs_anno:
+    type: enum
+    required: true
+
+  dolore_limita_attivita:
+    type: enum
+    required: true
+
+  trattamenti_quotidiani:
+    type: enum
+    required: true
+
+  energia_quotidiana:
+    type: enum
+    required: true
+
+  mobilita:
+    type: enum
+    required: true
+
+  limiti_attivita_fisica_intensa:
+    type: enum
+    required: true
+
+  limiti_attivita_fisica_moderata:
+    type: enum
+    required: true
+
+  autonomia_personale:
+    type: enum
+    required: true
+
+  riduzione_tempo_lavoro:
+    type: enum
+    required: true
+
+  resa_lavorativa_salute:
+    type: enum
+    required: true
+
+  limitazioni_attivita_fisiche:
+    type: enum
+    required: true
+
+  godimento_vita:
+    type: enum
+    required: true
+
+  significato_vita:
+    type: enum
+    required: true
+
+  concentrazione:
+    type: enum
+    required: true
+
+  soddisfazione_se:
+    type: enum
+    required: true
+
+  soddisfazione_impegno:
+    type: enum
+    required: true
+
+  sentimenti_negativi:
+    type: enum
+    required: true
+
+  calma:
+    type: enum
+    required: true
+
+  energia_psicologica:
+    type: enum
+    required: true
+
+  agitazione:
+    type: enum
+    required: true
+
+  stanchezza:
+    type: enum
+    required: true
+
+  felicita:
+    type: enum
+    required: true
+
+  relazioni_personali:
+    type: enum
+    required: true
+
+  supporto_sociale:
+    type: enum
+    required: true
+
+  sostegno_famiglia:
+    type: enum
+    required: true
+
+  interferenza_relazioni:
+    type: enum
+    required: true
+
+  sicurezza:
+    type: enum
+    required: true
+
+  ambiente_sicuro:
+    type: enum
+    required: true
+
+  risorse_economiche:
+    type: enum
+    required: true
+
+  informazioni_vita:
+    type: enum
+    required: true
+
+  hobby:
+    type: enum
+    required: true
+
+  abitazione_condizioni:
+    type: enum
+    required: true
+
+  servizi_sanitari:
+    type: enum
+    required: true
+
+  trasporti:
+    type: enum
+    required: true
+
+  dolore_recentemente:
+    type: enum
+    required: true
+
+  limitazioni_dolore:
+    type: enum
+    required: true
+
+  malattie_facili:
+    type: enum
+    required: true
+
+  salute_peggiora:
+    type: enum
+    required: true
+
+  buona_salute:
+    type: enum
+    required: true
+
+  salute_vs_eta:
+    type: enum
+    required: true
+
+conditional_rules:
+  - id: require_malattie_descrizione_if_yes
+    description: "Se l'utente dichiara di avere malattie/disturbi, deve specificarli."
+    when:
+      field: malattie
+      equals: si
+    then:
+      field: malattie_descrizione
+      required: true
+      min_length: 3
