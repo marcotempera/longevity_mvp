@@ -1,47 +1,189 @@
 <!DOCTYPE html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Invita utente corporate</title>
-  </head>
-  <body>
-    <h1>Invita utente corporate</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Invita utente corporate</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #111823;
+      --primary: #00c2ff;
+      --success: #22c55e;
+      --error: #ef4444;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: #eaf6ff;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: var(--card);
+      padding: 32px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.8rem; }
+    .hint { color: #94a3b8; font-size: 0.9rem; margin-bottom: 24px; }
+    label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      color: #eaf6ff;
+      font-size: 1rem;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0,194,255,0.2);
+    }
+    button {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: linear-gradient(90deg, var(--primary), #0077ff);
+      color: #0b0f14;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover:not(:disabled) { transform: translateY(-2px); }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .result {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 8px;
+      display: none;
+    }
+    .result.success {
+      background: rgba(34,197,94,0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+    .result.error {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid var(--error);
+      color: var(--error);
+    }
+    pre {
+      background: rgba(0,0,0,0.3);
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 Invita utente corporate</h1>
+    <p class="hint">Invia un magic link a un dipendente per compilare il questionario aziendale</p>
+
     <form id="invite-form">
-      <label>
-        Email dipendente:
-        <input type="email" name="email" required />
-      </label>
-      <br />
-      <label>
-        Nome azienda:
-        <input type="text" name="companyName" />
-      </label>
-      <br />
-      <button type="submit">Invia magic link</button>
+      <label for="email">Email dipendente *</label>
+      <input 
+        type="email" 
+        name="email" 
+        id="email" 
+        placeholder="nome@azienda.it"
+        required 
+      />
+
+      <label for="companyName">Nome azienda (opzionale)</label>
+      <input 
+        type="text" 
+        name="companyName" 
+        id="companyName" 
+        placeholder="es. Acme Corp"
+      />
+
+      <button type="submit" id="submitBtn">Invia magic link</button>
     </form>
 
-    <pre id="result"></pre>
+    <div id="result" class="result"></div>
+  </div>
 
-    <script>
-      const form = document.getElementById("invite-form");
-      const result = document.getElementById("result");
+  <script>
+    const form = document.getElementById("invite-form");
+    const result = document.getElementById("result");
+    const submitBtn = document.getElementById("submitBtn");
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = form.email.value;
-        const companyName = form.companyName.value;
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const email = form.email.value.trim();
+      const companyName = form.companyName.value.trim();
 
-        result.textContent = "Invio in corso...";
+      // Reset UI
+      result.style.display = "none";
+      result.className = "result";
+      submitBtn.disabled = true;
+      submitBtn.textContent = "⏳ Invio in corso...";
 
+      try {
         const resp = await fetch("https://longevity-mvp.vercel.app/api/invite-corporate-user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, companyName }),
+          body: JSON.stringify({ email, companyName })
         });
 
         const data = await resp.json();
-        result.textContent = JSON.stringify(data, null, 2);
-      });
-    </script>
-  </body>
+
+        if (!resp.ok) {
+          throw new Error(data.message || data.error || `HTTP ${resp.status}`);
+        }
+
+        // ✅ Success
+        result.className = "result success";
+        result.innerHTML = `
+          <strong>✅ Magic link inviato!</strong>
+          <p style="margin:8px 0 0">L'utente <strong>${email}</strong> riceverà un'email con il link di accesso.</p>
+          ${data.magicLink ? `<pre>${data.magicLink}</pre>` : ''}
+        `;
+        result.style.display = "block";
+
+        // Reset form
+        form.reset();
+
+      } catch (error) {
+        console.error("❌ Error:", error);
+
+        // ❌ Error
+        result.className = "result error";
+        result.innerHTML = `
+          <strong>❌ Errore</strong>
+          <p style="margin:8px 0 0">${error.message}</p>
+          <details style="margin-top:12px">
+            <summary style="cursor:pointer">Dettagli tecnici</summary>
+            <pre>${JSON.stringify(error, null, 2)}</pre>
+          </details>
+        `;
+        result.style.display = "block";
+
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Invia magic link";
+      }
+    });
+  </script>
+</body>
 </html>
