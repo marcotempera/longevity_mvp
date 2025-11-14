@@ -146,11 +146,21 @@
           body: JSON.stringify({ email, companyName })
         });
 
-        const data = await resp.json();
+        const text = await resp.text();
+        let data = null;
+        try {
+          data = JSON.parse(text);
+        } catch (_) {
+          // non è JSON, va bene così
+        }
 
         if (!resp.ok) {
-          throw new Error(data.message || data.error || `HTTP ${resp.status}`);
-        }
+          const msg =
+            (data && (data.error || data.message)) ||
+            text ||
+            `HTTP ${resp.status}`;
+          throw new Error(msg);
+}
 
         // ✅ Success
         result.className = "result success";
