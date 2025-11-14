@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Invita utente corporate</title>
+  </head>
+  <body>
+    <h1>Invita utente corporate</h1>
+    <form id="invite-form">
+      <label>
+        Email dipendente:
+        <input type="email" name="email" required />
+      </label>
+      <br />
+      <label>
+        Nome azienda:
+        <input type="text" name="companyName" />
+      </label>
+      <br />
+      <button type="submit">Invia magic link</button>
+    </form>
+
+    <pre id="result"></pre>
+
+    <script>
+      const form = document.getElementById("invite-form");
+      const result = document.getElementById("result");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = form.email.value;
+        const companyName = form.companyName.value;
+
+        result.textContent = "Invio in corso...";
+
+        const resp = await fetch("/api/invite-corporate-user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, companyName }),
+        });
+
+        const data = await resp.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      });
+    </script>
+  </body>
+</html>
