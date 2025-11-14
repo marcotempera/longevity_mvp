@@ -765,6 +765,235 @@
 
     </form>
   </div>
+  <script type="module">
+
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { parse as parseYAML } from 'https://esm.sh/yaml@2';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Carica configurazioni YAML per il questionario semplificato
+    async function loadSimplifiedConfigs() {
+    const [features, scoring] = await Promise.all([
+        fetch('/configs/simplified/features.yaml').then(r => r.text()).then(parseYAML),
+        fetch('/configs/simplified/scoring.yaml').then(r => r.text()).then(parseYAML)
+    ]);
+    
+    return { features, scoring };
+    }
+
+    // Calcola score per domini
+    function calculateDomainScores(answers, configs) {
+    const { features, scoring } = configs;
+    const domainScores = {};
+    
+    // Per ogni dominio, calcola la media pesata dei feature score
+    for (const [domainId, domainConfig] of Object.entries(scoring.domains)) {
+        const domainFeatures = domainConfig.features;
+        let totalScore = 0;
+        let totalWeight = 0;
+        
+        for (const [featureName, weight] of Object.entries(domainFeatures)) {
+        const feature = features.features[featureName];
+        if (!feature) continue;
+        
+        const answer = answers[featureName];
+        if (!answer) continue;
+        
+        // Trova lo score dalla configurazione
+        const option = feature.options?.[answer];
+        if (option && option.score !== undefined) {
+            totalScore += option.score * (weight || 1);
+            totalWeight += (weight || 1);
+        }
+        }
+        
+        // Normalizza a scala 0-5
+        domainScores[domainId] = totalWeight > 0 ? totalScore / totalWeight : 0;
+    }
+    
+    return domainScores;
+    }
+
+    // Calcola indice globale
+    function calculateGlobalIndex(domainScores, scoring) {
+    const globalConfig = scoring.global_index;
+    let weightedSum = 0;
+    let totalWeight = 0;
+    
+    for (const [domain, weight] of Object.entries(globalConfig.domain_weights)) {
+        if (domainScores[domain] !== undefined) {
+        weightedSum += domainScores[domain] * weight;
+        totalWeight += weight;
+        }
+    }
+    
+    const baseValue = totalWeight > 0 ? weightedSum / totalWeight : 0;
+    
+    // Aggiustamento età (opzionale)
+    let adjustedValue = baseValue;
+    if (globalConfig.age_moderation?.enabled) {
+        // Implementa logica di moderazione età se necessario
+        // Per ora usiamo valore base
+    }
+    
+    return {
+        value: Math.min(5, Math.max(0, adjustedValue)),
+        adjusted_by_age: false
+    };
+    }
+
+    // Handler submit form
+    document.getElementById('simplified-questionnaire').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Verifica utente loggato
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+        alert('⚠️ Devi effettuare il login per inviare il questionario');
+        window.location.href = '/pages/login.html';
+        return;
+    }
+    
+    // Mostra loading
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = '⏳ Elaborazione in corso...';
+    
+    try {
+        // 1. Raccogli risposte
+        const formData = new FormData(e.target);
+        const answers = {};
+        for (const [key, value] of formData.entries()) {
+        answers[key] = value;
+        }
+        
+        // 2. Carica configurazioni
+        submitBtn.textContent = '📊 Calcolo score...';
+        const configs = await loadSimplifiedConfigs();
+        
+        // 3. Calcola score
+        const domainScores = calculateDomainScores(answers, configs);
+        const globalIndex = calculateGlobalIndex(domainScores, configs.scoring);
+        
+        // 4. Genera report con LLM
+        submitBtn.textContent = '🤖 Generazione report...';
+        const reportResp = await fetch('/api/generate-corporate-report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            userId: user.id,
+            userEmail: user.email,
+            answers,
+            domainScores,
+            globalIndex
+        })
+        });
+        
+        if (!reportResp.ok) {
+        throw new Error('Errore nella generazione del report');
+        }
+        
+        const { report } = await reportResp.json();
+        
+        // 5. Salva su Supabase
+        submitBtn.textContent = '💾 Salvataggio...';
+        const { error: dbError } = await supabase
+        .from('corporate_reports')
+        .insert({
+            user_id: user.id,
+            user_email: user.email,
+            report_data: {
+            answers,
+            domainScores,
+            globalIndex,
+            submittedAt: new Date().toISOString()
+            },
+            llm_report: report,
+            sent_to_admin: true
+        });
+        
+        if (dbError) throw dbError;
+        
+        // 6. Successo!
+        submitBtn.textContent = '✅ Completato!';
+        
+        // Mostra messaggio di successo
+        const successMsg = document.createElement('div');
+        successMsg.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #28c76f, #22c55e);
+        color: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        text-align: center;
+        z-index: 9999;
+        max-width: 500px;
+        `;
+        successMsg.innerHTML = `
+        <h2 style="margin:0 0 16px;font-size:2rem">✅ Questionario Inviato!</h2>
+        <p style="margin:0;font-size:1.1rem;opacity:0.9">
+            Grazie per aver completato il questionario.<br>
+            Il tuo report è stato generato e inviato al team medico.
+        </p>
+        <p style="margin:16px 0 0;font-size:0.9rem;opacity:0.7">
+            Verrai ricontattato a breve con i risultati.
+        </p>
+        `;
+        document.body.appendChild(successMsg);
+        
+        // Redirect dopo 4 secondi
+        setTimeout(() => {
+        window.location.href = '/pages/login.html'; // O pagina thank-you
+        }, 4000);
+        
+    } catch (error) {
+        console.error('Error:', error);
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        
+        alert('❌ Errore: ' + error.message + '\n\nRiprova o contatta il supporto.');
+    }
+    });
+
+    // Aggiorna progress bar durante la compilazione
+    const allInputs = document.querySelectorAll('input, select, textarea');
+    const progressBar = document.querySelector('.progress-bar > div');
+
+    function updateProgress() {
+    const total = allInputs.length;
+    let filled = 0;
+    
+    allInputs.forEach(input => {
+        if (input.type === 'radio' || input.type === 'checkbox') {
+        const name = input.name;
+        if (document.querySelector(`input[name="${name}"]:checked`)) {
+            filled++;
+        }
+        } else if (input.value.trim()) {
+        filled++;
+        }
+    });
+    
+    const percent = (filled / total) * 100;
+    progressBar.style.width = percent + '%';
+    }
+
+    allInputs.forEach(input => {
+    input.addEventListener('change', updateProgress);
+    input.addEventListener('input', updateProgress);
+    });
+
+    updateProgress(); // Initial update
+    </script>
 
 </body>
 </html>

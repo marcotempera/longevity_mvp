@@ -314,6 +314,23 @@
       loginBtn.textContent = 'Accedi';
     }
   });
+  // Dopo il login di successo, modifica questa parte:
+
+  if (!data.user) throw new Error('Accesso fallito');
+
+  // Controlla il tipo di utente
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('user_type')
+    .eq('user_id', data.user.id)
+    .single();
+
+  // Redirect in base al tipo
+  if (profile?.user_type === 'corporate') {
+    window.location.href = '/pages/corporate/simplified-questionnaire.html';
+  } else {
+    window.location.href = '/pages/dashboard.html';
+  }
 </script>
 </body>
 </html>

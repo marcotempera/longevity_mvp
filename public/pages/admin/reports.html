@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Report Corporate</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked@11/marked.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+    }
+    body{
+      background:var(--bg);
+      color:#eaf6ff;
+      font-family:system-ui,-apple-system,sans-serif;
+      margin:0;
+      padding:20px;
+    }
+    .container{max-width:1200px;margin:0 auto}
+    h1{font-size:2rem;margin:0 0 24px}
+    .filters{
+      background:var(--card);
+      padding:20px;
+      border-radius:12px;
+      margin-bottom:24px;
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    input, select{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+    }
+    .reports-grid{
+      display:grid;
+      gap:20px;
+    }
+    .report-card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:12px;
+      padding:24px;
+      cursor:pointer;
+      transition:all 0.2s;
+    }
+    .report-card:hover{
+      border-color:var(--accent);
+      transform:translateY(-2px);
+    }
+    .report-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:start;
+      margin-bottom:16px;
+    }
+    .report-meta{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      font-size:0.9rem;
+      color:var(--muted);
+    }
+    .score-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 16px;
+      border-radius:8px;
+      font-weight:600;
+    }
+    .score-low{background:rgba(34,197,94,0.2);color:#22c55e}
+    .score-med{background:rgba(251,191,36,0.2);color:#fbbf24}
+    .score-high{background:rgba(239,68,68,0.2);color:#ef4444}
+    .btn{
+      padding:10px 20px;
+      border-radius:8px;
+      border:none;
+      cursor:pointer;
+      font-weight:600;
+      transition:all 0.2s;
+    }
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+    }
+    .btn-secondary{
+      background:rgba(255,255,255,0.1);
+      color:#eaf6ff;
+    }
+    .modal{
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.8);
+      z-index:999;
+      overflow:auto;
+      padding:40px 20px;
+    }
+    .modal-content{
+      background:var(--card);
+      max-width:900px;
+      margin:0 auto;
+      border-radius:16px;
+      padding:32px;
+    }
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:24px;
+    }
+    .close{
+      font-size:2rem;
+      cursor:pointer;
+      opacity:0.7;
+    }
+    .close:hover{opacity:1}
+    .markdown-content{line-height:1.8}
+    .markdown-content h2{
+      color:var(--accent);
+      border-bottom:2px solid rgba(54,209,220,0.3);
+      padding-bottom:8px;
+      margin-top:32px;
+    }
+    .markdown-content h3{margin-top:24px}
+    .markdown-content ul{padding-left:24px}
+    .markdown-content li{margin:8px 0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 Report Corporate - Admin Panel</h1>
+
+    <div class="filters">
+      <input type="text" id="searchEmail" placeholder="Cerca per email...">
+      <input type="date" id="filterDate">
+      <select id="filterScore">
+        <option value="">Tutti gli score</option>
+        <option value="low">Basso (0-2)</option>
+        <option value="med">Medio (2-3.5)</option>
+        <option value="high">Alto (3.5-5)</option>
+      </select>
+      <button class="btn btn-primary" onclick="loadReports()">🔄 Aggiorna</button>
+    </div>
+
+    <div id="reportsContainer" class="reports-grid">
+      <p style="color:var(--muted)">Caricamento...</p>
+    </div>
+  </div>
+
+  <!-- Modal per visualizzare report completo -->
+  <div id="reportModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Report Dettagliato</h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div id="modalBody"></div>
+      <div style="margin-top:32px;display:flex;gap:12px">
+        <button class="btn btn-primary" onclick="downloadReport()">📥 Scarica PDF</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Chiudi</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let currentReports = [];
+
+    // Verifica che l'utente sia admin
+    async function checkAdmin() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        alert('⚠️ Accesso negato. Effettua il login come amministratore.');
+        window.location.href = '/pages/login.html';
+        return false;
+      }
+
+      // Controlla se è admin (puoi aggiungere logica personalizzata)
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('user_type')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profile?.user_type !== 'admin') {
+        alert('⚠️ Non hai i permessi per accedere a questa pagina.');
+        window.location.href = '/pages/dashboard.html';
+        return false;
+      }
+
+      return true;
+    }
+
+    // Carica report dal database
+    async function loadReports() {
+      const container = document.getElementById('reportsContainer');
+      container.innerHTML = '<p style="color:var(--muted)">⏳ Caricamento...</p>';
+
+      try {
+        const { data, error } = await supabase
+          .from('corporate_reports')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        currentReports = data || [];
+        renderReports(currentReports);
+
+      } catch (err) {
+        console.error('Error loading reports:', err);
+        container.innerHTML = `<p style="color:#ef4444">❌ Errore: ${err.message}</p>`;
+      }
+    }
+
+    // Renderizza lista report
+    function renderReports(reports) {
+      const container = document.getElementById('reportsContainer');
+      
+      if (reports.length === 0) {
+        container.innerHTML = '<p style="color:var(--muted)">Nessun report trovato</p>';
+        return;
+      }
+
+      container.innerHTML = reports.map(report => {
+        const data = report.report_data || {};
+        const globalScore = data.globalIndex?.value || 0;
+        const scoreClass = globalScore < 2 ? 'low' : globalScore < 3.5 ? 'med' : 'high';
+        const scoreLabel = globalScore < 2 ? 'Basso' : globalScore < 3.5 ? 'Medio' : 'Alto';
+
+        return `
+          <div class="report-card" onclick="showReport('${report.id}')">
+            <div class="report-header">
+              <div>
+                <h3 style="margin:0 0 8px">${report.user_email}</h3>
+                <div class="report-meta">
+                  <span>📅 ${new Date(report.created_at).toLocaleDateString('it-IT')}</span>
+                  <span>👤 ID: ${report.user_id.slice(0, 8)}...</span>
+                </div>
+              </div>
+              <div class="score-badge score-${scoreClass}">
+                Score: ${globalScore.toFixed(1)}/5
+              </div>
+            </div>
+            <div style="color:var(--muted);font-size:0.9rem;margin-top:12px">
+              ${data.domainScores ? Object.entries(data.domainScores).map(([k, v]) => 
+                `${k}: ${v.toFixed(1)}`
+              ).join(' • ') : 'Score non disponibili'}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Mostra report in modal
+    window.showReport = function(reportId) {
+      const report = currentReports.find(r => r.id === reportId);
+      if (!report) return;
+
+      const modal = document.getElementById('reportModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+
+      const data = report.report_data || {};
+      const globalScore = data.globalIndex?.value || 0;
+
+      modalTitle.textContent = `Report: ${report.user_email}`;
+      
+      modalBody.innerHTML = `
+        <div style="background:rgba(255,255,255,0.05);padding:20px;border-radius:12px;margin-bottom:24px">
+          <h3 style="margin:0 0 16px">📊 Riepilogo</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+            <div>
+              <div style="color:var(--muted);font-size:0.9rem">Score Globale</div>
+              <div style="font-size:2rem;font-weight:700;color:var(--accent)">${globalScore.toFixed(1)}/5</div>
+            </div>
+            <div>
+              <div style="color:var(--muted);font-size:0.9rem">Email</div>
+              <div style="font-weight:600">${report.user_email}</div>
+            </div>
+            <div>
+              <div style="color:var(--muted);font-size:0.9rem">Data</div>
+              <div style="font-weight:600">${new Date(report.created_at).toLocaleString('it-IT')}</div>
+            </div>
+          </div>
+        </div>
+
+        ${data.domainScores ? `
+          <div style="background:rgba(255,255,255,0.05);padding:20px;border-radius:12px;margin-bottom:24px">
+            <h3 style="margin:0 0 16px">📈 Score per Domini</h3>
+            ${Object.entries(data.domainScores).map(([domain, score]) => `
+              <div style="display:flex;justify-content:space-between;margin:12px 0">
+                <span>${domain.replace(/_/g, ' ')}</span>
+                <strong>${score.toFixed(1)}/5</strong>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        <div class="markdown-content">
+          ${report.llm_report ? marked.parse(report.llm_report) : '<p style="color:var(--muted)">Report LLM non disponibile</p>'}
+        </div>
+      `;
+
+      modal.style.display = 'block';
+    };
+
+    window.closeModal = function() {
+      document.getElementById('reportModal').style.display = 'none';
+    };
+
+    window.downloadReport = function() {
+      alert('Funzione export PDF in sviluppo');
+      // TODO: Implementa export con jsPDF o html2pdf
+    };
+
+    // Filtri
+    document.getElementById('searchEmail').addEventListener('input', applyFilters);
+    document.getElementById('filterDate').addEventListener('change', applyFilters);
+    document.getElementById('filterScore').addEventListener('change', applyFilters);
+
+    function applyFilters() {
+      const email = document.getElementById('searchEmail').value.toLowerCase();
+      const date = document.getElementById('filterDate').value;
+      const scoreFilter = document.getElementById('filterScore').value;
+
+      let filtered = [...currentReports];
+
+      if (email) {
+        filtered = filtered.filter(r => r.user_email.toLowerCase().includes(email));
+      }
+
+      if (date) {
+        filtered = filtered.filter(r => {
+          const reportDate = new Date(r.created_at).toISOString().split('T')[0];
+          return reportDate === date;
+        });
+      }
+
+      if (scoreFilter) {
+        filtered = filtered.filter(r => {
+          const score = r.report_data?.globalIndex?.value || 0;
+          if (scoreFilter === 'low') return score < 2;
+          if (scoreFilter === 'med') return score >= 2 && score < 3.5;
+          if (scoreFilter === 'high') return score >= 3.5;
+          return true;
+        });
+      }
+
+      renderReports(filtered);
+    }
+
+    // Chiudi modal cliccando fuori
+    window.onclick = function(event) {
+      const modal = document.getElementById('reportModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+
+    // Init
+    (async () => {
+      const isAdmin = await checkAdmin();
+      if (isAdmin) {
+        await loadReports();
+      }
+    })();
+
+    // Esponi loadReports globalmente
+    window.loadReports = loadReports;
+  </script>
+</body>
+</html>
