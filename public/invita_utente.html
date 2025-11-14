@@ -140,7 +140,7 @@
       submitBtn.textContent = "⏳ Invio in corso...";
 
       try {
-        const resp = await fetch("https://longevity-mvp.vercel.app/api/invite-corporate-user", {
+        const resp = await fetch("/api/invite-corporate-user", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, companyName })
