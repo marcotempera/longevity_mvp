@@ -1,42 +1,60 @@
 <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js";
-    
-    // 🔐 Inserisci qui le tue chiavi pubbliche
+  
     const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
-    
+  
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
+  
     async function init() {
-      // 1. Controlla se l’utente è loggato
+      // 0) Se arrivo da magic link, prendo la sessione dall'URL
+      try {
+        if (window.location.hash && window.location.hash.includes("access_token")) {
+          const { data, error } = await supabase.auth.getSessionFromUrl({ storeSession: true });
+          if (error) {
+            console.error("Errore getSessionFromUrl:", error);
+          } else {
+            // Pulisco l'URL togliendo il framento #...
+            window.history.replaceState({}, document.title, "/auth/callback.html");
+          }
+        }
+      } catch (e) {
+        console.warn("getSessionFromUrl ha dato errore (può essere normale se non arrivo da magic link):", e);
+      }
+  
+      // 1) Ora provo a leggere l’utente
       const { data: { user } } = await supabase.auth.getUser();
-    
+  
       if (!user) {
-        // Se non c’è l’utente → torna al login
+        // Nessuna sessione valida → torno al login
         window.location.href = "/pages/login.html";
         return;
       }
-    
-      // 2. Recupera profilo e tipo di utente
+  
+      // 2) Recupero profilo e tipo utente
       const { data: profile, error } = await supabase
         .from("profiles")
         .select("user_type")
         .eq("user_id", user.id)
         .single();
-    
+  
       if (error || !profile) {
         console.error("Errore nel recupero profilo:", error);
         window.location.href = "/pages/login.html";
         return;
       }
-    
-      // 3. Redirect in base al tipo di utente
+  
+      // 3) Redirect in base al tipo di utente
       if (profile.user_type === "corporate") {
+        // 🔹 Utente corporate → questionario semplice
         window.location.href = "/pages/corporate/simplified-questionnaire.html";
       } else {
+        // 🔹 Tutti gli altri, per ora, li rimandi al login
         window.location.href = "/pages/login.html";
+        // Se in futuro vuoi il questionario completo:
+        // window.location.href = "/pages/full-questionnaire.html";
       }
     }
-    
+  
     init();
-    </script>
+  </script>
