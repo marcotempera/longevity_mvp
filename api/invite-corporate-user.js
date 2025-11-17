@@ -103,12 +103,14 @@ export default async function handler(req, res) {
     }
 
     // 4. Genera Magic Link (IMPORTANTE: usa admin API)
+    // Riga ~90
     const { data: magicLinkData, error: magicError } = await supabase.auth.admin.generateLink({
-      type: 'magiclink',
-      email,
-      options: {
-        redirectTo: `${process.env.VERCEL_URL || 'http://localhost:3000'}/pages/corporate/simplified-questionnaire.html`
-      }
+        type: 'magiclink',
+        email,
+        options: {
+        // FIX: Aggiungi https:// e usa il percorso corretto
+        redirectTo: `https://${process.env.VERCEL_URL || 'localhost:3000'}/auth/callback.html`
+        }
     });
 
     if (magicError) {
