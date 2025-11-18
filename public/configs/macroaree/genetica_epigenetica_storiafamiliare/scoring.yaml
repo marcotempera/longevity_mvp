@@ -62,9 +62,13 @@ modulation:
     global_factor_max: 2.0
 
 classification:
-  low:    { max: 4 }
-  medium: { min: 5, max: 9 }
-  high:   { min: 10 }
+  low:
+    max: 40        # 0–40
+  medium:
+    min: 41
+    max: 69        # 41–69
+  high:
+    min: 70        # 70–100
 
 explanations:
   top_k_drivers: 4
