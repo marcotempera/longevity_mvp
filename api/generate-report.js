@@ -131,26 +131,31 @@ Genera il report in **formato Markdown**.`;
 /** Rende leggibili le azioni per categoria, ignorando quelle vuote */
 function formatActions(actions = {}) {
   const titles = {
-    lifestyle: '### 🏃 Stile di vita',
-    followup: '### 🩺 Follow-up medico',
-    nutraceutica: '### 💊 Nutraceutica',
-    medical: '### 👨‍⚕️ Consulenze specialistiche'
+    lifestyle: '### 🏃 Stile di vita e abitudini',
+    nutraceutica: '### 💊 Nutraceutica (sempre previo parere medico)',
+    specialist: '### 👨‍⚕️ Visite e valutazioni specialistiche'
   };
 
   let out = '';
   for (const [, actionSet] of Object.entries(actions)) {
     for (const [cat, items] of Object.entries(actionSet || {})) {
       if (!Array.isArray(items) || items.length === 0) continue;
-      if (!out.includes(titles[cat])) out += `\n${titles[cat]}\n\n`;
-      items.forEach(item => { out += `- ${item}\n`; });
+      if (!titles[cat]) continue; // evita categorie non previste
+
+      if (!out.includes(titles[cat])) {
+        out += `\n${titles[cat]}\n\n`;
+      }
+      items.forEach(item => {
+        out += `- ${item}\n`;
+      });
     }
   }
 
   return out.trim() || [
-    '### 🏃 Stile di vita',
-    '- Mantieni uno stile di vita sano e regolare',
-    '### 🩺 Follow-up medico',
-    '- Programma controlli periodici con il tuo medico'
+    '### 🏃 Stile di vita e abitudini',
+    '- Mantieni uno stile di vita sano e regolare.',
+    '### 👨‍⚕️ Visite e valutazioni specialistiche',
+    '- Concorda con il tuo medico un piano di controlli periodici.'
   ].join('\n');
 }
 
