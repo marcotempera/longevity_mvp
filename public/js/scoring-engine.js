@@ -240,15 +240,18 @@ export function computeScore(rawAnswers, configs) {
     totalScore += score * weight;
   }
 
-  // Applica cap totale
+  // Applica cap totale e SCALA A 0-100
   const cap = scoring.aggregation?.cap_total || 100;
   totalScore = Math.max(0, Math.min(cap, totalScore));
 
-  // 4. Determina classificazione
+  // ✅ AGGIUNGI QUESTA NORMALIZZAZIONE
+  const normalizedScore = (totalScore / cap) * 100; // Ora è 0-100
+
+  // 4. Determina classificazione (usa normalizedScore)
   let riskClass = 'medium';
   const { classification } = scoring;
-  if (totalScore <= (classification.low?.max || 4)) riskClass = 'low';
-  else if (totalScore >= (classification.high?.min || 10)) riskClass = 'high';
+  if (normalizedScore <= (classification.low?.max || 40)) riskClass = 'low';
+  else if (normalizedScore >= (classification.high?.min || 70)) riskClass = 'high';
 
   // 5. Identifica drivers
   const drivers = identifyDrivers(featureScores, weights, scoring.explanations);
@@ -265,7 +268,7 @@ export function computeScore(rawAnswers, configs) {
   }
 
   return {
-    score: Math.round(totalScore * 10) / 10, // arrotonda a 1 decimale
+    score: Math.round(normalizedScore * 10) / 10, // ← USA normalizedScore
     riskClass,
     drivers,
     redFlags,
