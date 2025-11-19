@@ -1,0 +1,652 @@
+macroarea: dati_clinici_biochimici
+version: 1.0
+
+actions:
+
+  # ====== FUNZIONE TIROIDEA ======
+  ipotiroidismo:
+    lifestyle:
+      - "Mantenere un apporto adeguato di iodio con la dieta (sale iodato, pesce, latticini) evitando eccessi non controllati."
+      - "Curare il sonno e la gestione dello stress per ridurre la sensazione di stanchezza e rallentamento metabolico."
+      - "Favorire attività fisica regolare a bassa–moderata intensità per sostenere metabolismo ed energia."
+    nutraceutical:
+      - "Valutare con il medico l’eventuale uso di multivitaminici mirati (es. selenio, zinco, vitamina D) in caso di carenze documentate."
+      - "In assenza di controindicazioni, promuovere una dieta anti-infiammatoria ricca di frutta, verdura e grassi insaturi."
+      - "Evitare integratori ‘pro-tiroide’ fai-da-te ad alto dosaggio senza controllo specialistico."
+    clinical:
+      - "Confrontarsi con il medico/endocrinologo per confermare la diagnosi e calibrare la terapia sostitutiva, se indicata."
+      - "Monitorare periodicamente TSH, FT4 (e FT3 se necessario) secondo indicazioni cliniche."
+      - "In presenza di sintomi importanti (stanchezza intensa, bradicardia, gonfiore) pianificare una rivalutazione precoce."
+
+  ipertiroidismo:
+    lifestyle:
+      - "Limitare stimolanti (eccesso di caffeina, energy drink) che possono peggiorare tachicardia e ansia."
+      - "Favorire attività fisica dolce e frazionata evitando sforzi intensi se presenti palpitazioni o dispnea."
+      - "Curare sonno e tecniche di rilassamento per modulare agitazione e irritabilità."
+    nutraceutical:
+      - "Evitare integratori contenenti iodio ad alto dosaggio o estratti tiroidei senza indicazione specialistica."
+      - "Mantenere un adeguato apporto di calcio e vitamina D (dieta o supplementazione concordata) per proteggere l’osso."
+      - "Privilegiare alimenti ad azione calmante (tisane leggere, alimenti non troppo raffinati) nell’ottica di benessere generale."
+    clinical:
+      - "Valutare con endocrinologo terapia specifica (farmaci antitiroidei, iodio radioattivo o intervento) in base al quadro."
+      - "Monitorare segni di complicanze cardiache (aritmie, fibrillazione atriale, scompenso) e riferirli subito al medico."
+      - "Programmare controlli seriati di TSH/FT4 e, se necessario, ecografia tiroidea e ulteriori esami."
+
+  nodulo_tiroide:
+    lifestyle:
+      - "Mantenere uno stile di vita cardiometabolico sano (peso, attività fisica, no fumo) per ridurre fattori di rischio generali."
+      - "Evitare fumo di sigaretta, che può influire negativamente anche su patologie tiroidee e cardiovascolari."
+      - "Prestare attenzione a eventuali sintomi compressivi (disfagia, sensazione di corpo estraneo, raucedine) e riferirli precocemente."
+    nutraceutical:
+      - "Evitare integratori iodati ad alto dosaggio senza valutazione endocrinologica."
+      - "In caso di carenze, concordare con il medico una integrazione mirata (es. vitamina D, selenio) se ritenuta utile."
+      - "Sostenere una dieta equilibrata ricca di antiossidanti (frutta, verdura, olio extravergine) a supporto del benessere generale."
+    clinical:
+      - "Seguire le indicazioni dell’endocrinologo per ecografia seriata e, se necessario, agoaspirato (FNA) del nodulo."
+      - "In presenza di noduli sospetti o maligni, pianificare un inquadramento oncologico/chiurgico strutturato."
+      - "Monitorare eventuali variazioni dimensionali o sintomi locali tra un controllo e l’altro."
+
+  # ====== APPARATO RESPIRATORIO ======
+  asma:
+    lifestyle:
+      - "Evitare fumo attivo e passivo; limitare l’esposizione a polveri, fumi, allergeni noti e inquinanti domestici."
+      - "Mantenere un’attività fisica regolare, con intensità modulata in base al controllo dell’asma (bronco-dilatazione prima dello sforzo se prescritta)."
+      - "Gestire il peso corporeo e curare l’igiene del sonno, che influenzano il controllo dei sintomi respiratori."
+    nutraceutical:
+      - "Favorire una dieta ricca di frutta e verdura con apporto adeguato di omega-3 (pesce azzurro, frutta secca), in ottica anti-infiammatoria."
+      - "Valutare, con il medico, supplementazione di vitamina D se documentata carenza."
+      - "Evitare prodotti ‘respiratori’ non validati o a base di erbe potenzialmente irritanti senza confronto medico."
+    clinical:
+      - "Verificare con pneumologo/allergologo il corretto schema terapeutico, la tecnica inalatoria e l’aderenza alla terapia."
+      - "Programmare spirometria periodica per monitorare il controllo e il declino funzionale."
+      - "In caso di sintomi frequenti, risvegli notturni o uso eccessivo di broncodilatatore al bisogno, rivalutare il piano terapeutico."
+
+  farmaci_asma:
+    lifestyle:
+      - "Assicurare la corretta conservazione e l’uso regolare dei farmaci inalatori secondo prescrizione."
+      - "Tenere un diario dei sintomi e degli usi al bisogno per capire se l’asma è ben controllata."
+      - "Evitare l’uso sistematico di farmaci da banco che possono peggiorare broncospasmo senza indicazione medica."
+    nutraceutical:
+      - "Supportare l’apparato respiratorio con dieta anti-infiammatoria e idratazione adeguata."
+      - "Valutare l’integrazione solo in presenza di carenze confermate (vitamina D, omega-3) e sotto controllo medico."
+    clinical:
+      - "In caso di mancato uso o bassa aderenza, discutere con il medico ostacoli, effetti collaterali e possibili alternative."
+      - "Se i broncodilatatori vengono usati frequentemente, programmare rivalutazione specialistica per step-up della terapia di fondo."
+      - "Verificare con lo specialista eventuali associazioni fisse ICS/LABA o biologici nei casi moderato-gravi."
+
+  sintomi_asma:
+    lifestyle:
+      - "Identificare e ridurre i trigger (freddo, polvere, pollini, sforzo intenso, infezioni respiratorie)."
+      - "Usare sistemi di monitoraggio (peak-flow se suggerito) per riconoscere precocemente peggioramenti."
+      - "Pianificare l’attività fisica in orari e ambienti favorevoli (aria non inquinata, temperatura moderata)."
+    nutraceutical:
+      - "Dieta ricca di antiossidanti naturali (frutta colorata, verdure, legumi) per contenere l’infiammazione di base."
+      - "Evitare integratori non validati che promettono ‘cura dell’asma’ senza evidenze."
+    clinical:
+      - "Segnalare al medico sintomi frequenti, notturni o limitanti: possono indicare asma non controllata."
+      - "Valutare la necessità di un ‘action plan’ scritto per le riacutizzazioni, condiviso con lo specialista."
+      - "Considerare test allergologici o ulteriori indagini se i trigger non sono chiari."
+
+  spirometria_12_mesi:
+    lifestyle:
+      - "Continuare a evitare fumo e inquinanti, specie se la funzionalità respiratoria è già ridotta."
+      - "Mantenere un buon livello di attività fisica aerobica compatibile con il quadro clinico."
+    nutraceutical:
+      - "Sostenere la salute respiratoria con dieta equilibrata, idratazione e adeguato apporto di micronutrienti."
+    clinical:
+      - "Se non eseguita di recente in presenza di asma o sintomi, pianificare spirometria per valutazione oggettiva."
+      - "Condividere i risultati con medico curante/pneumologo per adattare la terapia."
+      - "Ripetere l’esame secondo le cadenze consigliate (annuale o più frequente nei quadri complessi)."
+
+  bpco:
+    lifestyle:
+      - "Smettere di fumare (o non riprendere), eventualmente con programmi strutturati di cessazione e supporto psicologico."
+      - "Praticare attività fisica regolare e, se indicato, riabilitazione respiratoria supervisionata."
+      - "Prevenire infezioni respiratorie con igiene delle mani, protezione dal freddo e vaccinazioni raccomandate."
+    nutraceutical:
+      - "Prestare attenzione allo stato nutrizionale (né malnutrizione né obesità) con apporto proteico adeguato."
+      - "Valutare integratori calorico-proteici solo in caso di evidente perdita di peso o sarcopenia, sempre con supervisione clinica."
+      - "Curare l’introito di vitamina D, calcio e antiossidanti naturali per supportare muscoli e tessuti."
+    clinical:
+      - "Effettuare o aggiornare la spirometria con broncodilatazione per conferma/staging della BPCO."
+      - "Confrontarsi con il pneumologo per ottimizzare la terapia inalatoria e programmare controlli periodici."
+      - "Valutare la necessità di vaccino antinfluenzale, antipneumococcico e, se indicato, percorsi di riabilitazione respiratoria."
+
+  spirometria_bpco:
+    lifestyle:
+      - "Monitorare quotidianamente tolleranza allo sforzo e sintomi (dispnea, tosse, catarro)."
+      - "Evitare sforzi in ambienti inquinati o molto freddi."
+    nutraceutical:
+      - "Mantenere una dieta che sostenga il peso adeguato e la forza muscolare."
+    clinical:
+      - "Se presenti sintomi respiratori o storia di fumo, programmare spirometria per escludere/confermare BPCO."
+      - "In caso di BPCO nota, ripetere l’esame secondo le raccomandazioni del pneumologo."
+      - "Portare in visita i referti delle precedenti misurazioni per confrontare l’andamento nel tempo."
+
+  fumo_attuale:
+    lifestyle:
+      - "Pianificare un percorso strutturato di cessazione del fumo (data di stop, strategie per gestire la voglia, supporto sociale)."
+      - "Identificare le situazioni in cui si fuma di più (stress, socialità) e trovare alternative sane."
+      - "Associare attività fisica regolare e tecniche di gestione dello stress per ridurre il craving."
+    nutraceutical:
+      - "Sostenere la detossificazione con un’alimentazione ricca di frutta, verdura e acqua; limitare alcol e zuccheri raffinati."
+      - "Valutare solo con il medico eventuali prodotti sostitutivi o integratori di supporto alla cessazione."
+    clinical:
+      - "Discutere con il medico la possibilità di terapia sostitutiva della nicotina o farmaci specifici, se appropriati."
+      - "Considerare screening mirato per tumori e patologie cardiovascolari in base a età e fattori di rischio."
+      - "Monitorare pressione, lipidi, glicemia e sintomi respiratori nel follow-up."
+
+  difficolta_respiratorie_quotidiane:
+    lifestyle:
+      - "Ridurre sforzi intensi e programmare le attività in modo frazionato, con pause adeguate."
+      - "Evitare ambienti fumosi o inquinati che peggiorano la dispnea."
+      - "Iniziare, se possibile, un programma di esercizio guidato (es. cammino) calibrato sulla capacità funzionale."
+    nutraceutical:
+      - "Garantire una buona idratazione e un’alimentazione che non appesantisca la digestione (pasti piccoli e frequenti se dispnea importante)."
+      - "Sostenere massa muscolare con adeguato apporto proteico, previo confronto medico in caso di comorbidità."
+    clinical:
+      - "Segnalare al medico la comparsa o il peggioramento della dispnea nello svolgimento di attività quotidiane."
+      - "Valutare esami di approfondimento: spirometria, ECG, ecocardiogramma o altri, secondo sospetto clinico."
+      - "In presenza di dispnea acuta, dolore toracico o sincope, rivolgersi urgentemente a un servizio di emergenza."
+
+  polmonite:
+    lifestyle:
+      - "Dopo una polmonite, rispettare graduale ritorno all’attività fisica, evitando sforzi intensi nelle prime settimane."
+      - "Smettere di fumare e ridurre esposizione a inquinanti per proteggere il parenchima polmonare."
+      - "Curare l’igiene respiratoria (lavaggio mani, coprire tosse/starnuti) per ridurre nuove infezioni."
+    nutraceutical:
+      - "Sostenere recupero con dieta equilibrata, adeguato apporto proteico e calorico, soprattutto dopo ricovero."
+      - "Considerare integrazioni solo in caso di carenze nutrizionali documentate."
+    clinical:
+      - "In caso di polmoniti ricorrenti o severe, discutere con il medico eventuali indagini per immunodeficienze o patologie sottostanti."
+      - "Valutare esecuzione e aggiornamento delle vaccinazioni raccomandate (influenza, pneumococco)."
+      - "Seguire eventuali indicazioni per radiografia/TC di controllo post-evento quando richiesto."
+
+  rischio_polmonite:
+    lifestyle:
+      - "Evitare fumo e moderare alcol; mantenere buona igiene orale e respiratoria."
+      - "Curare lo stile di vita cardiometabolico (peso, movimento, dieta) per ridurre fragilità generale."
+    nutraceutical:
+      - "Assicurare apporto proteico adeguato, vitamine e minerali per supportare il sistema immunitario."
+      - "Evitare automedicazione prolungata con antinfiammatori o altri farmaci senza confronto medico."
+    clinical:
+      - "Segnalare al medico la presenza di fattori di rischio (età, BPCO, diabete, cardiopatie, immunodepressione)."
+      - "Valutare insieme indicazione a vaccinazioni specifiche e strategie di prevenzione personalizzate."
+      - "In caso di febbre alta, tosse produttiva e dispnea, non ritardare la valutazione medica."
+
+  vaccino_pneumo_influ:
+    lifestyle:
+      - "Continuare a proteggersi da infezioni respiratorie con igiene delle mani, aerazione degli ambienti e uso di mascherina in contesti ad alto rischio."
+      - "Evitare fumo e sovraccarichi fisici durante episodi febbrili."
+    nutraceutical:
+      - "Sostenere la risposta immunitaria con dieta equilibrata e, se necessario, integrazione mirata sotto controllo medico."
+    clinical:
+      - "Se non vaccinato e a rischio, discutere con il medico di vaccino antinfluenzale e antipneumococcico."
+      - "Aggiornare il calendario vaccinale in base all’età e alle comorbidità."
+      - "Valutare timing di eventuali richiami."
+
+  # ====== APPARATO GASTROINTESTINALE ======
+  diarrea_3_mesi:
+    lifestyle:
+      - "Osservare eventuali relazioni con alimenti, stress o farmaci e annotarle (diario sintomi)."
+      - "Mantenere adeguata idratazione, preferendo acqua e soluzioni reidratanti in caso di episodi prolungati."
+      - "Limitare temporaneamente alcol, cibi molto grassi, fritti e prodotti industriali se peggiorano i sintomi."
+    nutraceutical:
+      - "Solo dopo valutazione medica, considerare probiotici con ceppi documentati per diarrea funzionale o post-infettiva."
+      - "Evitare lassativi o integratori ‘detox’ in presenza di diarrea cronica."
+    clinical:
+      - "Se la diarrea persiste oltre alcune settimane, valutare col medico esami ematochimici e delle feci."
+      - "Segnalare subito sangue nelle feci, febbre, calo ponderale o dolore importante: richiedono approfondimento rapido."
+      - "In caso di diarrea cronica, considerare indagini per IBD, celiachia, malassorbimento o altre cause organiche."
+
+  sangue_feci:
+    lifestyle:
+      - "Non trascurare la presenza di sangue nelle feci; evitare automedicazioni prolungate (es. anti-diarroici) senza indicazione."
+      - "Osservare colore e modalità di comparsa (strie su carta, miscelato alle feci, sangue scuro) e comunicarle al medico."
+    nutraceutical:
+      - "Evitare integratori di ferro o altri prodotti che possono scurire le feci prima di una valutazione, a meno che già prescritti."
+    clinical:
+      - "Segnalare tempestivamente al medico la presenza di sangue nelle feci per valutazione proctologica o gastroenterologica."
+      - "In base al quadro, pianificare colonscopia o altri esami di imaging/endoscopia."
+      - "In presenza di anemia, calo ponderale o familiarità per tumore colorettale, considerare percorso di ‘fast track’ diagnostico."
+
+  perdita_peso:
+    lifestyle:
+      - "Monitorare il peso regolarmente (ad es. settimanalmente) annotando variazioni e abitudini alimentari."
+      - "Assicurare pasti regolari, possibilmente piccoli e frequenti, per sostenere l’apporto calorico."
+      - "Favorire alimenti densi di nutrienti (olio EVO, frutta secca, legumi, cereali integrali, proteine di qualità)."
+    nutraceutical:
+      - "Valutare, con il medico o nutrizionista, eventuali supplementi calorico-proteici se l’apporto con la sola dieta è insufficiente."
+      - "Evitare prodotti dimagranti o ‘detox’ in presenza di perdita di peso non intenzionale."
+    clinical:
+      - "Segnalare rapidamente al medico una perdita di peso >5% in 6 mesi non intenzionale."
+      - "Valutare indagini su tiroide, glicemia, funzionalità epatica, renale, markers infiammatori e screening oncologici mirati."
+      - "Se associata a sintomi gastrointestinali, respiratori o neurologici, pianificare percorso diagnostico strutturato."
+
+  associazione_diarrea:
+    lifestyle:
+      - "Se la diarrea è legata a specifici cibi o stress, considerare strategie di gestione (diario alimentare, tecniche di rilassamento)."
+      - "Limitare temporaneamente alimenti fortemente irritanti o sospetti e reintrodurli gradualmente, seguendo indicazioni specialistiche."
+    nutraceutical:
+      - "Solo dopo valutazione medica, eventuale uso di probiotici o fibre solubili per migliorare la regolarità intestinale."
+    clinical:
+      - "Discutere con gastroenterologo o medico curante la possibilità di IBS e la necessità di escludere patologia organica."
+      - "Se presenti red flags (sangue, febbre, calo ponderale), procedere con indagini più approfondite."
+
+  esami_feci:
+    lifestyle:
+      - "Seguire le indicazioni di raccolta dei campioni (contenitore sterile, tempi, conservazione) per risultati affidabili."
+    nutraceutical:
+      - "Adattare dieta e integrazioni solo dopo aver interpretato i risultati con il medico."
+    clinical:
+      - "Portare i referti degli esami delle feci al medico per la corretta interpretazione (es. calprotectina, coprocoltura, test celiachia)."
+      - "In base al risultato, pianificare ulteriori indagini (endoscopia, imaging) o terapia mirata."
+
+  # ====== MALATTIE INFETTIVE - ESANTEMATICHE ======
+  morbillo:
+    lifestyle:
+      - "Verificare stato vaccinale personale e dei conviventi, specie in caso di contatti con soggetti vulnerabili."
+      - "In caso di sospetta esposizione, evitare contatti stretti con persone immunodepresse o donne in gravidanza."
+    nutraceutical:
+      - "Mantenere un buon stato nutrizionale e vitaminico per supportare le difese immunitarie."
+    clinical:
+      - "Se non immunizzato e a rischio, discutere col medico l’opportunità di sierologia e/o vaccinazione."
+      - "Segnalare eventuali sintomi compatibili (rash, febbre, congiuntivite) dopo contatti a rischio."
+
+  varicella:
+    lifestyle:
+      - "Evitare contatto con donne in gravidanza e soggetti immunodepressi se si sospetta infezione in corso."
+    nutraceutical:
+      - "Supportare il recupero con idratazione e dieta leggera durante eventuali episodi acuti."
+    clinical:
+      - "Se non si è certi di aver avuto la varicella, valutare sierologia per IgG e possibile vaccinazione, specie in età adulta."
+      - "Segnalare al medico eventuali decorso complicato (polmonite, febbre alta prolungata)."
+
+  decorso_varicella:
+    lifestyle:
+      - "Prestare attenzione a future infezioni respiratorie o cutanee se in passato il decorso è stato complicato."
+    nutraceutical:
+      - "Mantenere uno stile di vita che sostenga il sistema immunitario nel lungo periodo."
+    clinical:
+      - "In caso di decorso complicato, valutare con il medico eventuali approfondimenti immunologici."
+      - "Considerare profilassi o rapide valutazioni in caso di nuove esposizioni significative."
+
+  scarlattina:
+    lifestyle:
+      - "Curare l’igiene delle mani e la gestione dei contatti ravvicinati in caso di infezioni delle vie aeree."
+    nutraceutical:
+      - "Sostenere il recupero con alimentazione equilibrata e idratazione durante episodi febbrili."
+    clinical:
+      - "Riferire eventuali frequenti infezioni streptococciche al medico per valutare la storia complessiva."
+      - "Verificare eventuale storia di complicanze post-streptococciche."
+
+  decorso_scarlattina:
+    lifestyle:
+      - "Attenzione a comparsa di sintomi articolari o renali dopo infezioni streptococciche."
+    nutraceutical:
+      - "Mantenere uno stile di vita generale sano per ridurre rischio di riacutizzazioni."
+    clinical:
+      - "Se in passato decorso complicato, informare sempre il medico durante nuove infezioni della gola."
+      - "Valutare eventuali esami (funzionalità renale, markers infiammatori) se compaiono sintomi sospetti."
+
+  rosolia:
+    lifestyle:
+      - "Donne in età fertile devono conoscere il proprio stato immunitario prima di programmare una gravidanza."
+    nutraceutical:
+      - "Nessuna indicazione nutraceutica specifica, oltre al mantenimento di buone abitudini generali."
+    clinical:
+      - "Se non immuni, discutere con il medico la vaccinazione pre-concezionale."
+      - "In caso di gravidanza e dubbio contagio, contattare immediatamente il ginecologo/infettivologo."
+
+  vaccino_test_rosolia:
+    lifestyle:
+      - "Integrare la consapevolezza dello stato vaccinale nella pianificazione familiare e riproduttiva."
+    nutraceutical:
+      - "Supportare lo stato nutrizionale pre-gravidanza (acido folico, ecc.) secondo linee guida, sotto supervisione medica."
+    clinical:
+      - "Se test o vaccinazione non sono stati eseguiti, pianificare una valutazione pre-concezionale."
+      - "Aggiornare documentazione vaccinale e tenerla disponibile per i controlli."
+
+  pertosse:
+    lifestyle:
+      - "Limitare esposizione a persone vulnerabili (bambini, anziani) in caso di tosse persistente non spiegata."
+    nutraceutical:
+      - "Sostenere l’organismo con idratazione e dieta leggera durante episodi respiratori prolungati."
+    clinical:
+      - "Segnalare al medico tosse >2 settimane per eventuale test e terapia mirata."
+      - "Valutare richiamo vaccinale dTpa secondo calendario nazionale, specie in età adulta."
+
+  difterite:
+    lifestyle:
+      - "Mantenere adeguate misure igieniche, soprattutto in caso di viaggi in aree a maggiore rischio."
+    nutraceutical:
+      - "Nessuna indicazione specifica oltre al mantenimento di uno stile di vita sano."
+    clinical:
+      - "Verificare stato vaccinale anti-difterite e discutere con il medico se sono necessari richiami."
+      - "In caso di storia di difterite, informare i sanitari in occasione di nuove valutazioni cliniche."
+
+  vaccino_difterite:
+    lifestyle:
+      - "Integrare i richiami vaccinali nella routine di prevenzione personale."
+    nutraceutical:
+      - "Nessuna nutraceutica specifica; concentrarsi su abitudini di vita globalmente sane."
+    clinical:
+      - "Se mai vaccinato o con richiami remoti, discutere con il medico l’opportunità di un richiamo dTpa."
+      - "Mantenere documentazione aggiornata delle vaccinazioni."
+
+  # ====== EPATITI E ALTRE INFEZIONI ======
+  epatite_b_diagnosi:
+    lifestyle:
+      - "Evitare alcol o ridurlo drasticamente per proteggere il fegato."
+      - "Mantenere peso adeguato e dieta povera di zuccheri semplici e grassi saturi per prevenire steatosi."
+      - "Usare sempre precauzioni nei rapporti sessuali e non condividere oggetti taglienti o aghi."
+    nutraceutical:
+      - "Non assumere integratori epatoprotettivi senza valutazione epatologica, specie in presenza di epatopatia."
+      - "Favorire alimenti freschi, poco processati, ricchi di fibre e antiossidanti."
+    clinical:
+      - "Seguire il follow-up epatologico: monitorare transaminasi, HBV-DNA, ecografia epatica, eventuale elastografia."
+      - "Valutare terapia antivirale secondo criteri specialistici."
+      - "Effettuare regolarmente screening HCC secondo indicazioni (es. ecografia + AFP)."
+
+  vaccino_epatite_b:
+    lifestyle:
+      - "Continuare a mantenere comportamenti sicuri (rapporti protetti, attenzione a procedure invasive)."
+    nutraceutical:
+      - "Nessuna indicazione specifica oltre alla protezione epatica con dieta equilibrata."
+    clinical:
+      - "Se non vaccinato, discutere con il medico la vaccinazione, specie se presenti fattori di rischio (sanitario, partner multipli, ecc.)."
+      - "In caso di risposta vaccinale dubbia, valutare dosaggio anti-HBs e richiami se necessari."
+
+  mononucleosi:
+    lifestyle:
+      - "Durante e dopo la mononucleosi, evitare sforzi intensi e sport di contatto finché il medico non li autorizza."
+      - "Curare il sonno e la gestione dello stress per ridurre la fatica cronica residua."
+    nutraceutical:
+      - "Supportare recupero con dieta ricca di nutrienti, buona idratazione ed eventuale supplementazione se indicata."
+    clinical:
+      - "In caso di sintomi persistenti (astenia marcata, linfonodi ingrossati, febbricola), rivalutare con il medico."
+      - "Informare i sanitari di una storia di mononucleosi in caso di quadri ematologici sospetti."
+
+  tubercolosi:
+    lifestyle:
+      - "Evitare fumo e ambienti chiusi poco aerati per proteggere il polmone."
+      - "In caso di pregressa TBC, prestare attenzione a sintomi respiratori persistenti."
+    nutraceutical:
+      - "Curare alimentazione e stato nutrizionale per sostenere le difese immunitarie."
+    clinical:
+      - "Se test positivo senza malattia attiva, discutere con lo specialista l’eventuale profilassi."
+      - "In caso di sintomi (tosse cronica, calo ponderale, sudorazioni notturne), eseguire subito valutazione clinica."
+
+  # ====== COVID-19 ======
+  covid:
+    lifestyle:
+      - "Dopo infezione severa, riprendere gradualmente l’attività fisica con progressione lenta."
+      - "Curare riposo, alimentazione e idratazione per favorire il recupero."
+      - "Mantenere abitudini di prevenzione (igiene mani, evitare ambienti affollati in caso di fragilità)."
+    nutraceutical:
+      - "Supportare il sistema immunitario con dieta ricca di frutta, verdura e proteine di qualità."
+      - "Valutare integrazione di vitamina D o altri micronutrienti solo in caso di carenze documentate."
+    clinical:
+      - "Dopo ricovero o terapia intensiva, programmare un follow-up multidisciplinare (cardio, pneumo, neuro, ecc.)."
+      - "Segnalare sintomi persistenti (fiato corto, palpitazioni, brain fog, dolore toracico) per inquadramento Long COVID."
+
+  sequele_covid:
+    lifestyle:
+      - "Ascoltare i propri limiti fisici, con un programma di recupero graduale e personalizzato."
+      - "Integrare tecniche di gestione dello stress e del sonno per migliorare la qualità di vita."
+    nutraceutical:
+      - "Sostenere energia e recupero con adeguato apporto calorico-proteico e micronutrienti essenziali."
+      - "Evitare integratori stimolanti o ‘miracolosi’ per la stanchezza senza supervisione medica."
+    clinical:
+      - "Se presenti sequele persistenti, valutare percorsi dedicati post-COVID o ambulatori di riabilitazione."
+      - "Monitorare parametri cardio-respiratori e cognitivi secondo indicazioni dello specialista."
+
+  vaccino_covid:
+    lifestyle:
+      - "Continuare ad adottare comportamenti prudenti in presenza di fragilità personali o familiari."
+    nutraceutical:
+      - "Nessuna integrazione specifica necessaria legata al vaccino, oltre a dieta sana e idratazione."
+    clinical:
+      - "Se non vaccinato o con ciclo incompleto, discutere con il medico il bilancio rischio/beneficio della vaccinazione."
+      - "Valutare aggiornamento dei richiami in base all’età e alle comorbidità."
+
+  dosi_vaccino_covid:
+    lifestyle:
+      - "Integrare la protezione vaccinale con uno stile di vita che riduca l’impatto di infezioni respiratorie."
+    nutraceutical:
+      - "Mantenere supporto nutrizionale adeguato per il sistema immunitario."
+    clinical:
+      - "Se è stata effettuata una sola dose o ciclo incompleto, valutare insieme al medico eventuali richiami."
+      - "Documentare e tenere aggiornato il proprio stato vaccinale."
+
+  # ====== HIV ======
+  hiv_test:
+    lifestyle:
+      - "Adottare costantemente pratiche sessuali sicure (preservativo) e non condividere aghi o strumenti taglienti."
+      - "Ridurre consumo di alcol e sostanze che possono favorire comportamenti a rischio."
+    nutraceutical:
+      - "Curare lo stato nutrizionale per sostenere il sistema immunitario."
+    clinical:
+      - "Se il test è positivo, seguire rapidamente un percorso con infettivologo per impostare/ottimizzare la terapia."
+      - "Se mai eseguito e presenti fattori di rischio, programmare uno screening HIV con il medico."
+
+  terapia_antiretrovirale:
+    lifestyle:
+      - "Integrare la terapia con uno stile di vita ordinato (orari regolari, promemoria) per favorire l’aderenza."
+      - "Evitare droghe o alcol in eccesso che possono interferire con la costanza della terapia."
+    nutraceutical:
+      - "Valutare con il medico eventuali interazioni tra integratori e farmaci antiretrovirali."
+      - "Curare dieta bilanciata, con attenzione a peso e metabolismo."
+    clinical:
+      - "In caso di difficoltà nell’assunzione regolare, parlarne apertamente con l’infettivologo per adattare il regime."
+      - "Effettuare controlli periodici di carica virale e CD4 secondo programma."
+      - "Segnalare tempestivamente effetti collaterali importanti per eventuale modifica terapeutica."
+
+  # ====== TRAUMI ======
+  trauma_cranico:
+    lifestyle:
+      - "Evitare sport di contatto o attività a rischio caduta senza adeguate protezioni, soprattutto dopo un trauma cranico."
+      - "Curare la sicurezza domestica e stradale (casco, cinture, dispositivi di protezione)."
+    nutraceutical:
+      - "Sostenere salute cerebrale con dieta equilibrata, ricca di acidi grassi insaturi, frutta e verdura."
+    clinical:
+      - "Segnalare al medico eventuali episodi di perdita di coscienza, convulsioni, cefalea persistente o cambiamenti cognitivi."
+      - "Valutare neuroimaging (TC/RM) e follow-up neurologico in caso di trauma significativo."
+      - "Monitorare nel tempo eventuali disturbi di memoria, umore o attenzione."
+
+  post_trauma_sintomi:
+    lifestyle:
+      - "Ridurre sovraccarico mentale e fisico se i sintomi (cefalea, disturbi cognitivi) sono ancora presenti."
+      - "Organizzare routine con pause e tempi di recupero adeguati."
+    nutraceutical:
+      - "Confrontarsi con il medico prima di usare integratori ‘per la memoria’ o simili."
+    clinical:
+      - "Segnalare al neurologo/medico la presenza di convulsioni o disturbi cognitivi persistenti."
+      - "Valutare EEG, neuroimaging o test neuropsicologici secondo indicazione specialistica."
+
+  fratture_traumi_ortopedici:
+    lifestyle:
+      - "Adottare misure per prevenire nuove cadute (calzature adeguate, ordine domestico, ausili se necessari)."
+      - "Riprendere gradualmente il carico e l’attività fisica secondo indicazioni ortopediche/fisioterapiche."
+    nutraceutical:
+      - "Curare apporto di calcio, vitamina D e proteine per favorire la guarigione ossea, se non controindicato."
+    clinical:
+      - "In caso di fratture da trauma minimo, valutare osteoporosi (MOC) e altre cause di fragilità ossea."
+      - "Seguire il piano di riabilitazione e i controlli radiografici raccomandati."
+
+  trauma_toracico:
+    lifestyle:
+      - "Evitare attività che comprimano il torace o sforzi eccessivi nella fase di recupero."
+      - "Non fumare e limitare l’esposizione a inquinanti per facilitare la respirazione."
+    nutraceutical:
+      - "Mantenere corretta nutrizione e idratazione per sostenere la guarigione."
+    clinical:
+      - "Segnalare al medico dolore toracico, affanno o palpitazioni dopo un trauma toracico."
+      - "Valutare imaging toracico e cardiologico se indicato."
+      - "Seguire l’evoluzione nel tempo, soprattutto se sono state documentate complicanze."
+
+  trauma_addominale:
+    lifestyle:
+      - "Prestare attenzione a comparsa di dolore addominale, gonfiore o disturbi digestivi dopo trauma."
+      - "Evitare sport di contatto finché non autorizzato dal medico."
+    nutraceutical:
+      - "Dieta leggera e ben frazionata se permangono disturbi gastrointestinali."
+    clinical:
+      - "Segnalare al medico eventuali sintomi tardivi (dolore, nausea, alterazioni dell’alvo) dopo trauma addominale."
+      - "Valutare ecografia/TC e follow-up specialistico se vi sono state lesioni d’organo."
+
+  # ====== STORIA CHIRURGICA (solo dove c’è rischio/complicanze) ======
+  complicanze_appendicectomia:
+    lifestyle:
+      - "Prestare attenzione a dolori ricorrenti in sede addominale o disturbi dell’alvo dopo l’intervento."
+    nutraceutical:
+      - "Curare alimentazione e transito intestinale per ridurre stipsi o sforzi eccessivi."
+    clinical:
+      - "Segnalare al medico eventuali aderenze sospette, dolori o episodi sub-occlusivi."
+      - "Valutare indagini di imaging se sintomi persistono."
+
+  motivo_tonsillectomia:
+    lifestyle:
+      - "In caso di storia di apnee/russamento, mantenere peso adeguato e igiene del sonno."
+    nutraceutical:
+      - "Nessuna indicazione specifica oltre alle abitudini sane."
+    clinical:
+      - "Se persiste apnea o russamento nonostante l’intervento, valutare re-inquadramento ORL/pneumologico."
+
+  colecistectomia:
+    lifestyle:
+      - "Moderare grassi saturi e fritti per ridurre sintomi post-colecistectomia."
+      - "Preferire pasti piccoli e frequenti se compaiono disturbi digestivi."
+    nutraceutical:
+      - "Valutare con medico/nutrizionista eventuali accorgimenti dietetici personalizzati."
+    clinical:
+      - "Segnalare dolore biliare ricorrente o diarrea persistente dopo l’intervento."
+      - "Valutare indagini su vie biliari e apparato digerente se i sintomi sono importanti."
+
+  motivo_colecistectomia:
+    lifestyle:
+      - "In caso di storia di colecistite, mantenere abitudini che riducano il rischio di calcoli/infiammazione delle vie biliari residue."
+    nutraceutical:
+      - "Nessuna indicazione specifica oltre a dieta equilibrata."
+    clinical:
+      - "Informare sempre i sanitari del motivo dell’intervento in caso di nuovi sintomi addominali."
+
+  ernia_inguinale:
+    lifestyle:
+      - "Evitare sforzi e sollevamenti eccessivi, soprattutto se sono presenti recidive."
+      - "Mantenere peso corporeo adeguato per ridurre la pressione addominale."
+    nutraceutical:
+      - "Nessuna indicazione nutraceutica specifica oltre allo stile di vita sano."
+    clinical:
+      - "Se recidive o dolore, programmare visita chirurgica per valutare eventuale re-intervento o supporto."
+      - "Segnalare subito dolore intenso improvviso e non riducibilità (sospetto strozzamento)."
+
+  prostatectomia:
+    lifestyle:
+      - "Integrare esercizi per il pavimento pelvico secondo indicazioni per migliorare continenza e funzione sessuale."
+      - "Curare peso, attività fisica e dieta per ridurre rischio cardiovascolare dopo terapia ormonale eventuale."
+    nutraceutical:
+      - "Valutare con l’oncologo/andrologo eventuali supporti nutrizionali specifici, evitando prodotti non validati."
+    clinical:
+      - "Seguire controlli periodici del PSA e le indicazioni dell’oncologo/urologo."
+      - "Segnalare eventuali disturbi urinari o sessuali persistenti per gestione mirata."
+
+  complicanze_prostatectomia:
+    lifestyle:
+      - "In caso di incontinenza, adottare strategie pratiche (orinare regolarmente, ridurre caffeina) e esercizi pelvici."
+      - "Mantenere un dialogo aperto con il partner per gestire l’impatto sulla sfera sessuale."
+    nutraceutical:
+      - "Evita integratori ‘per potenza sessuale’ non controllati; valutare solo prodotti sicuri e condivisi col medico."
+    clinical:
+      - "Confrontarsi con urologo/andrologo per opzioni terapeutiche su incontinenza o disfunzione erettile."
+      - "Valutare percorsi di riabilitazione del pavimento pelvico o terapie mirate se indicato."
+
+  # ====== PARAMETRI VITALI E METABOLICI ======
+  ipertensione:
+    lifestyle:
+      - "Ridurre il sale (<5 g/die), limitare cibi industriali e salumi; aumentare frutta, verdura e legumi."
+      - "Integrare attività fisica regolare (camminata, bici, nuoto) almeno 150 minuti a settimana, se il medico lo consente."
+      - "Limitare alcol, smettere di fumare e curare il sonno."
+    nutraceutical:
+      - "Solo su indicazione medica, considerare integratori che supportano controllo pressorio in caso di dieta inadeguata."
+      - "Evitare prodotti a effetto ‘stimolante’ (alcuni termogenici, pre-workout) che possono alzare la pressione."
+    clinical:
+      - "Misurare regolarmente la pressione a casa con apparecchio validato e portare un diario al medico."
+      - "In caso di valori persistentemente elevati, valutare impostazione o adeguamento terapia antipertensiva."
+      - "Segnalare sintomi come cefalea intensa, dolore toracico, dispnea o disturbi visivi come possibili urgenze."
+
+  trattamento_ipertensione:
+    lifestyle:
+      - "Associare sempre terapia farmacologica a cambiamento dello stile di vita (dieta, attività fisica, peso)."
+      - "Non sospendere autonomamente i farmaci, anche se i valori migliorano."
+    nutraceutical:
+      - "Evitare integratori che interferiscono con la pressione o i farmaci (es. liquirizia in grandi quantità) senza consulto medico."
+    clinical:
+      - "Se non in trattamento nonostante valori elevati, discuterne con il medico per valutare indicazione a terapia."
+      - "In caso di effetti collaterali, parlare col medico per eventuale cambio di molecola, non sospendere da soli."
+
+  glicemia:
+    lifestyle:
+      - "Ridurre zuccheri semplici, bevande zuccherate e farine raffinate; privilegiare fibre, cereali integrali e proteine magre."
+      - "Mantenere o raggiungere un peso adeguato tramite dieta e attività fisica regolare."
+      - "Distribuire i carboidrati durante la giornata, evitando abbuffate."
+    nutraceutical:
+      - "Valutare solo con il medico eventuali integratori (es. fibre, supporti al metabolismo glucidico) in funzione del quadro clinico."
+      - "Evitare prodotti ‘antidiabete naturali’ non controllati."
+    clinical:
+      - "Eseguire controlli di glicemia, HbA1c e altri parametri metabolici con la frequenza indicata."
+      - "Se diagnosi di diabete, definire insieme al medico un piano terapeutico (dieta, farmaci, monitoraggio)."
+      - "Segnalare sintomi di ipoglicemia o iperglicemia marcata (sete intensa, diuresi aumentata, dimagrimento)."
+
+  approccio_glicemia:
+    lifestyle:
+      - "Integrare stabilmente nella routine abitudini alimentari e motorie che migliorano sensibilità insulinica."
+      - "Evitare eccessi di sedentarietà e pasti molto ricchi la sera."
+    nutraceutical:
+      - "Solo in accordo con il diabetologo, valutare supporti nutrizionali mirati se utile al quadro."
+    clinical:
+      - "Se la glicemia è alterata e non si sta seguendo alcun approccio, confrontarsi rapidamente col medico."
+      - "In caso di terapia insulinica o combinata, pianificare educazione all’autogestione (controllo glicemico, correzioni)."
+
+  alterazioni_livelli_colesterolo:
+    lifestyle:
+      - "Ridurre grassi saturi (carni rosse, insaccati, formaggi stagionati) e trans; aumentare fibre, pesce e grassi mono/polinsaturi."
+      - "Aumentare attività fisica aerobica e, se possibile, di forza, per migliorare profilo lipidico."
+      - "Smettere di fumare e limitare l’alcol."
+    nutraceutical:
+      - "Valutare solo col medico eventuali prodotti a base di steroli vegetali, fibre o altri componenti che agiscono sui lipidi."
+      - "Evitare automedicazione con prodotti ipolipemizzanti ‘naturali’ in presenza di terapia farmacologica."
+    clinical:
+      - "Eseguire periodicamente profilo lipidico e valutare con il medico il target LDL in base al rischio cardiovascolare."
+      - "Se i valori restano elevati nonostante stile di vita adeguato, discutere terapia farmacologica o suo potenziamento."
+
+  # ====== ALLERGIE E FARMACI ======
+  allergie:
+    lifestyle:
+      - "Evitare esposizione agli allergeni noti (alimentari, ambientali, insetti) per quanto possibile."
+      - "Portare sempre con sé documentazione delle allergie e, se indicato, un braccialetto identificativo."
+    nutraceutical:
+      - "Evitare integratori o prodotti fitoterapici non controllati che possano contenere allergeni nascosti."
+    clinical:
+      - "Eseguire valutazione allergologica in caso di reazioni importanti o multiple allergie."
+      - "Se storia di anafilassi, avere sempre a disposizione farmaci di emergenza secondo prescrizione medica."
+
+  farmaci_regolari:
+    lifestyle:
+      - "Creare routine e promemoria per assumere correttamente i farmaci prescritti."
+      - "Limitare l’uso di farmaci da banco non necessari, per ridurre polifarmacia."
+    nutraceutical:
+      - "Discutere con il medico eventuali integratori per evitare interazioni con terapie in corso."
+    clinical:
+      - "Revisione periodica della terapia (medication review) per valutare appropriatezza e possibili semplificazioni."
+      - "Segnalare eventi avversi o dubbi sul regime terapeutico."
+
+  stato_generale_influenzato_da_infiammazioni_o_infezioni:
+    lifestyle:
+      - "Curare igiene del sonno, attività fisica regolare e gestione dello stress per ridurre infiammazione sistemica."
+      - "Limitare fumo, alcol e alimenti ultra-processati che possono favorire infiammazione cronica."
+    nutraceutical:
+      - "Valutare con il medico integrazioni mirate (es. vitamina D, omega-3) solo in caso di carenze documentate o indicazioni specifiche."
+    clinical:
+      - "Se infezioni o infiammazioni sono frequenti, discuterne con il medico per eventuali approfondimenti immunologici."
+      - "Eseguire controlli periodici dei principali markers infiammatori e dello stato generale in base al quadro clinico."
