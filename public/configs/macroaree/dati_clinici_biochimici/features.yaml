@@ -1,5 +1,9 @@
 macroarea: dati_clinici_biochimici
-version: 1.0
+version: 1.1
+description: >
+  Configurazione migliorata con red flags aggiuntive e related pathologies 
+  per ogni feature rilevante nella macroarea dati clinici e biochimici
+
 features:
 
   # ====== FUNZIONE TIROIDEA ======
@@ -8,24 +12,32 @@ features:
     allowed: [no, primario, secondario, non_so]
     map_to_score: {no: 0, primario: 3, secondario: 4, non_so: 0}
     red_flag_if_in: [primario, secondario]
-    related_pathologies: [HER002, HER004, HER005, HER033]
-    notes: "Ipotiroidismo aumenta rischio cardiovascolare e metabolico; secondario/terziario richiede approfondimento endocrino"
+    related_pathologies: [HER002, HER004, HER005, HER027, HER033, HER116]
+    notes: >
+      Ipotiroidismo aumenta rischio cardiovascolare e metabolico; 
+      secondario/terziario richiede approfondimento endocrino urgente.
+      TSH >10 mU/L richiede terapia sostitutiva.
 
   - name: ipertiroidismo
     type: categorical
     allowed: [no, attualmente_in_trattamento, trattato_risolto, non_trattato, non_so]
     map_to_score: {no: 0, attualmente_in_trattamento: 2, trattato_risolto: 1, non_trattato: 4, non_so: 0}
     red_flag_if_in: [non_trattato, attualmente_in_trattamento]
-    related_pathologies: [HER001, HER002, HER025, HER031]
-    notes: "Ipertiroidismo non trattato ha rischi cardiovascolari, aritmie e ossei (osteoporosi)"
+    related_pathologies: [HER001, HER002, HER025, HER031, HER088, HER127, HER128]
+    notes: >
+      Ipertiroidismo non trattato: rischi cardiovascolari critici (fibrillazione atriale, 
+      scompenso cardiaco), aritmie mortali e osteoporosi accelerata. TSH <0.1 richiede 
+      trattamento urgente.
 
   - name: nodulo_tiroide
     type: categorical
     allowed: [no, benigno, sospetto, maligno, non_so]
     map_to_score: {no: 0, benigno: 1, sospetto: 3, maligno: 5, non_so: 0}
     red_flag_if_in: [sospetto, maligno]
-    related_pathologies: [HER014, HER015, HER016, HER017]
-    notes: "Noduli sospetti o maligni richiedono follow-up oncologico urgente"
+    related_pathologies: [HER014, HER015, HER016, HER017, HER093]
+    notes: >
+      Noduli sospetti (TI-RADS ≥4) o maligni richiedono follow-up oncologico urgente.
+      Agoaspirato FNA indicato per noduli >1cm con caratteristiche ecografiche sospette.
 
   # ====== APPARATO RESPIRATORIO ======
   - name: asma
@@ -33,8 +45,10 @@ features:
     allowed: [mai, diagnosticata_in_trattamento, episodi_non_diagnosticati, passato_non_sintomatico, non_so]
     map_to_score: {mai: 0, diagnosticata_in_trattamento: 2, episodi_non_diagnosticati: 3, passato_non_sintomatico: 1, non_so: 0}
     red_flag_if_in: [episodi_non_diagnosticati, diagnosticata_in_trattamento]
-    related_pathologies: [HER047]
-    notes: "Episodi non diagnosticati richiedono valutazione pneumologica urgente"
+    related_pathologies: [HER047, HER048]
+    notes: >
+      Episodi non diagnosticati richiedono valutazione pneumologica urgente.
+      Asma non controllato aumenta rischio di exacerbazioni severe e morte improvvisa.
 
   - name: farmaci_asma
     type: categorical
@@ -42,7 +56,10 @@ features:
     map_to_score: {si: 0, no: 2, "": 0}
     red_flag_if_in: [no]
     missing_policy: "assume_zero"
-    notes: "Non usare farmaci quando necessario aumenta significativamente il rischio di riacutizzazioni"
+    related_pathologies: [HER047]
+    notes: >
+      Non usare farmaci quando necessario aumenta significativamente il rischio 
+      di riacutizzazioni, accessi in PS e mortalità asma-correlata.
 
   - name: sintomi_asma
     type: categorical
@@ -50,7 +67,10 @@ features:
     map_to_score: {si: 2, no: 0, "": 0}
     red_flag_if_in: [si]
     missing_policy: "assume_zero"
-    notes: "Peggioramento notturno o da sforzo indica scarso controllo"
+    related_pathologies: [HER047]
+    notes: >
+      Peggioramento notturno o da sforzo indica scarso controllo (ACT <20).
+      Richiede step-up terapeutico secondo linee guida GINA.
 
   - name: spirometria_12_mesi
     type: categorical
@@ -58,15 +78,21 @@ features:
     map_to_score: {si: -1, no: 1, "": 0}
     red_flag_if_in: [no]
     missing_policy: "assume_zero"
-    notes: "Mancanza spirometria recente in asmatici = scarso monitoraggio"
+    related_pathologies: [HER047]
+    notes: >
+      Mancanza spirometria recente in asmatici = scarso monitoraggio.
+      Spirometria annuale raccomandata per valutare funzionalità respiratoria.
 
   - name: bpco
     type: categorical
     allowed: [nessuna_diagnosi, diagnosi_bpco, sintomi_senza_diagnosi, ex_fumatore_con_sintomi, non_so]
     map_to_score: {nessuna_diagnosi: 0, diagnosi_bpco: 4, sintomi_senza_diagnosi: 3, ex_fumatore_con_sintomi: 2, non_so: 0}
     red_flag_if_in: [diagnosi_bpco, sintomi_senza_diagnosi, ex_fumatore_con_sintomi]
-    related_pathologies: [HER001, HER007, HER030, HER032]
-    notes: "BPCO richiede gestione specialistica, riabilitazione respiratoria e screening tumori polmonari"
+    related_pathologies: [HER001, HER007, HER027, HER028, HER030, HER032, HER048]
+    notes: >
+      BPCO richiede gestione specialistica, riabilitazione respiratoria e screening 
+      tumori polmonari. FEV1/FVC <0.7 post-broncodilatatore conferma diagnosi.
+      Aumentato rischio cardiovascolare (x2-3) e tumore polmonare (x4-5).
 
   - name: spirometria_bpco
     type: categorical
@@ -74,16 +100,22 @@ features:
     map_to_score: {si: -1, no: 1, "": 0}
     red_flag_if_in: [no]
     missing_policy: "assume_zero"
-    notes: "Sintomi respiratori senza spirometria = rischio sottodiagnosi"
+    related_pathologies: [HER048]
+    notes: >
+      Sintomi respiratori senza spirometria = rischio sottodiagnosi BPCO.
+      Indicata in tutti i fumatori/ex-fumatori >40 anni con sintomi.
 
   - name: fumo_attuale
     type: categorical
     allowed: [si, no, ex_fumatore, ""]
     map_to_score: {si: 4, no: 0, ex_fumatore: 2, "": 0}
     red_flag_if_in: [si]
-    related_pathologies: [HER001, HER002, HER003, HER005, HER007, HER030, HER032]
+    related_pathologies: [HER001, HER002, HER003, HER005, HER007, HER027, HER028, HER030, HER032, HER033]
     missing_policy: "assume_zero"
-    notes: "Fumo attivo è il principale fattore di rischio modificabile per BPCO, tumori e CVD"
+    notes: >
+      Fumo attivo è il principale fattore di rischio modificabile per BPCO, 
+      tumori (polmone, vescica, rene, pancreas) e CVD. Cessazione riduce 
+      rischio CV del 50% entro 1 anno e tumore polmonare del 50% entro 10 anni.
 
   - name: difficolta_respiratorie_quotidiane
     type: categorical
@@ -91,15 +123,20 @@ features:
     map_to_score: {si: 3, no: 0, "": 0}
     red_flag_if_in: [si]
     missing_policy: "assume_zero"
-    notes: "Dispnea da attività quotidiane indica limitazione funzionale severa"
+    related_pathologies: [HER048]
+    notes: >
+      Dispnea da attività quotidiane (mMRC ≥2) indica limitazione funzionale 
+      severa. Valutare test del cammino 6 minuti e saturazione O2.
 
   - name: polmonite
     type: categorical
     allowed: [mai, una_volta, piu_volte, ricovero, non_ricordo]
     map_to_score: {mai: 0, una_volta: 1, piu_volte: 2, ricovero: 3, non_ricordo: 0}
     red_flag_if_in: [piu_volte, ricovero]
-    related_pathologies: [HER005, HER029, HER030, HER048]
-    notes: "Polmoniti ricorrenti suggeriscono immunodeficienza, BPCO o bronchiectasie"
+    related_pathologies: [HER005, HER029, HER030, HER048, HER065, HER082]
+    notes: >
+      Polmoniti ricorrenti (≥2 in 1 anno) suggeriscono immunodeficienza, 
+      BPCO, bronchiectasie o aspirazione. Richiedono TC torace e immunoglobuline.
 
   - name: rischio_polmonite
     type: categorical
@@ -107,7 +144,10 @@ features:
     map_to_score: {si: 2, no: 0, "": 0}
     red_flag_if_in: [si]
     missing_policy: "assume_zero"
-    notes: "Fattori di rischio: età >65, BPCO, diabete, immunodepressione"
+    related_pathologies: [HER048, HER065]
+    notes: >
+      Fattori di rischio: età >65, BPCO, diabete, scompenso cardiaco, 
+      immunodepressione, disfagia. Indicata vaccinazione pneumococcica.
 
   - name: vaccino_pneumo_influ
     type: categorical
@@ -115,7 +155,10 @@ features:
     map_to_score: {si_recentemente: -1, si_passato: 0, no: 1, non_so: 0, "": 0}
     red_flag_if_in: [no]
     missing_policy: "assume_zero"
-    notes: "Mancata vaccinazione in soggetti a rischio aumenta mortalità"
+    related_pathologies: [HER048, HER065]
+    notes: >
+      Mancata vaccinazione in soggetti a rischio aumenta mortalità da 
+      polmonite e influenza. Vaccino pneumococcico PCV13+PPSV23 raccomandato.
 
   # ====== APPARATO GASTROINTESTINALE ======
   - name: diarrea_3_mesi
@@ -123,40 +166,53 @@ features:
     allowed: [no, episodio_acuto, episodi_brevi, diarrea_cronica, non_so]
     map_to_score: {no: 0, episodio_acuto: 1, episodi_brevi: 2, diarrea_cronica: 4, non_so: 0}
     red_flag_if_in: [diarrea_cronica, episodi_brevi]
-    related_pathologies: [HER005, HER017, HER018, HER019, HER023, HER043]
-    notes: "Diarrea cronica >4 settimane richiede colonscopia e indagini approfondite (IBD, celiachia, tumori)"
+    related_pathologies: [HER005, HER017, HER018, HER019, HER023, HER043, HER094, HER101, HER114]
+    notes: >
+      Diarrea cronica >4 settimane richiede colonscopia e indagini approfondite 
+      (IBD, celiachia, tumori, malassorbimento). Calprotectina fecale >150 µg/g 
+      suggerisce IBD.
 
   - name: sangue_feci
     type: categorical
     allowed: [si, no, ""]
     map_to_score: {si: 4, no: 0, "": 0}
     red_flag_if_in: [si]
-    related_pathologies: [HER017, HER018, HER019, HER023]
+    related_pathologies: [HER017, HER018, HER019, HER023, HER094]
     missing_policy: "assume_zero"
-    notes: "ALARM SYMPTOM: sangue nelle feci richiede colonscopia urgente (esclusione CRC)"
+    notes: >
+      ALARM SYMPTOM: sangue nelle feci richiede colonscopia urgente entro 2 settimane 
+      (esclusione CRC). SOF positivo ha VPP 5-10% per CRC.
 
   - name: perdita_peso
     type: categorical
     allowed: [si, no, ""]
     map_to_score: {si: 3, no: 0, "": 0}
     red_flag_if_in: [si]
-    related_pathologies: [HER005, HER010, HER011, HER013, HER014, HER015, HER016, HER017, HER030]
+    related_pathologies: [HER005, HER010, HER011, HER013, HER014, HER015, HER016, HER017, HER030, HER093, HER123]
     missing_policy: "assume_zero"
-    notes: "Perdita peso involontaria >5% richiede screening oncologico e metabolico"
+    notes: >
+      Perdita peso involontaria >5% in 6 mesi richiede screening oncologico 
+      completo e metabolico. Aumenta rischio mortalità x3-4.
 
   - name: associazione_diarrea
     type: categorical
     allowed: [si, no, ""]
     map_to_score: {si: -1, no: 1, "": 0}
     missing_policy: "assume_zero"
-    notes: "Associazione con trigger (alimenti/stress) suggerisce IBS piuttosto che patologia organica"
+    related_pathologies: [HER094]
+    notes: >
+      Associazione con trigger (alimenti/stress) suggerisce IBS piuttosto che 
+      patologia organica (Criteri Roma IV).
 
   - name: esami_feci
     type: categorical
     allowed: [coprocoltura, calprotectina, test_celiachia, altro, ""]
     map_to_score: {coprocoltura: 0, calprotectina: 0, test_celiachia: 0, altro: 0, "": 0}
     missing_policy: "assume_zero"
-    notes: "Calprotectina elevata suggerisce IBD; test celiachia se diarrea + malassorbimento"
+    related_pathologies: [HER023, HER101]
+    notes: >
+      Calprotectina >150 µg/g suggerisce IBD (sensibilità 95%); 
+      IgA anti-tTG per celiachia (sensibilità 98%).
 
   - name: altri_esami
     type: text
@@ -167,62 +223,100 @@ features:
     type: categorical
     allowed: [bambino_conferma_medico, non_certo, mai_avuto, non_ricordo]
     map_to_score: {bambino_conferma_medico: -1, non_certo: 0, mai_avuto: 1, non_ricordo: 0}
-    notes: "Morbillo conferma = immunità. Mai avuto = rischio se non vaccinato"
+    red_flag_if_in: [mai_avuto]
+    related_pathologies: [HER065, HER082]
+    notes: >
+      Morbillo conferma = immunità. Mai avuto + non vaccinato = rischio alto 
+      (complicanze: encefalite 1/1000, morte 1-3/1000). Indicata sierologia IgG.
 
   - name: varicella
     type: categorical
     allowed: [confermata_medico, non_sicuro, mai_avuta, non_ricordo]
     map_to_score: {confermata_medico: -1, non_sicuro: 0, mai_avuta: 1, non_ricordo: 0}
-    notes: "Varicella conferma = immunità per Herpes Zoster"
+    red_flag_if_in: [mai_avuta]
+    related_pathologies: [HER065, HER079]
+    notes: >
+      Varicella conferma = immunità (ma rischio Herpes Zoster lifetime 30%). 
+      Mai avuta in adulto: vaccinazione indicata (complicanze severe in adulti).
 
   - name: decorso_varicella
     type: categorical
     allowed: [si, no, non_so, ""]
     map_to_score: {si: 2, no: 0, non_so: 0, "": 0}
     missing_policy: "assume_zero"
-    notes: "Decorso complicato suggerisce vulnerabilità immunitaria"
+    red_flag_if_in: [si]
+    related_pathologies: [HER048, HER082]
+    notes: >
+      Decorso complicato (polmonite, encefalite, sovrainfezione batterica) 
+      suggerisce vulnerabilità immunitaria. Indicata valutazione immunologica.
 
   - name: scarlattina
     type: categorical
     allowed: [diagnosticata_medico, senza_conferma, mai_avuta, non_ricordo]
     map_to_score: {diagnosticata_medico: 0, senza_conferma: 0, mai_avuta: 0, non_ricordo: 0}
-    notes: "Informazione anamnestica (non conferisce immunità duratura)"
+    related_pathologies: [HER049, HER065]
+    notes: >
+      Informazione anamnestica (non conferisce immunità duratura). 
+      Complicanze post-streptococciche: febbre reumatica, glomerulonefrite.
 
   - name: decorso_scarlattina
     type: categorical
     allowed: [si, no, non_so, ""]
     map_to_score: {si: 2, no: 0, non_so: 0, "": 0}
     missing_policy: "assume_zero"
+    red_flag_if_in: [si]
+    related_pathologies: [HER049, HER083]
 
   - name: rosolia
     type: categorical
     allowed: [confermata_medico, senza_conferma, mai_avuta, non_ricordo]
     map_to_score: {confermata_medico: -1, senza_conferma: 0, mai_avuta: 1, non_ricordo: 0}
-    notes: "Rosolia critica in gravidanza se non immune"
+    red_flag_if_in: [mai_avuta]
+    related_pathologies: [HER061, HER065]
+    notes: >
+      Rosolia critica in gravidanza (sindrome da rosolia congenita: 
+      cataratta, cardiopatia, sordità). IgG <10 UI/mL = suscettibile.
 
   - name: vaccino_test_rosolia
     type: categorical
     allowed: [vaccinata, test_immune, no_non_so, ""]
     map_to_score: {vaccinata: -1, test_immune: -1, no_non_so: 2, "": 0}
+    red_flag_if_in: [no_non_so]
     missing_policy: "assume_zero"
-    notes: "Donne in età fertile devono essere immuni"
+    related_pathologies: [HER061, HER065]
+    notes: >
+      Donne in età fertile DEVONO essere immuni (IgG ≥10 UI/mL). 
+      Vaccinazione pre-concezionale obbligatoria se suscettibile.
 
   - name: pertosse
     type: categorical
     allowed: [diagnosticata_medico, non_diagnosticata, no, non_ricordo]
     map_to_score: {diagnosticata_medico: 0, non_diagnosticata: 0, no: 0, non_ricordo: 0}
+    red_flag_if_in: [diagnosticata_medico]
+    related_pathologies: [HER047, HER065]
+    notes: >
+      Pertosse in adulto spesso misconosciuta (tosse persistente >2 settimane). 
+      Richiamo dTpa ogni 10 anni + booster gravidanza.
 
   - name: difterite
     type: categorical
     allowed: [confermata_diagnosi, no, non_ricordo]
     map_to_score: {confermata_diagnosi: 1, no: 0, non_ricordo: 0}
-    notes: "Difterite rara ma grave"
+    red_flag_if_in: [confermata_diagnosi]
+    related_pathologies: [HER065, HER079]
+    notes: >
+      Difterite rara ma potenzialmente letale (miocardite, neuropatia). 
+      Mortalità 5-10% anche con trattamento.
 
   - name: vaccino_difterite
     type: categorical
     allowed: [bambino, richiami_adulto, no, non_ricordo]
     map_to_score: {bambino: 0, richiami_adulto: -1, no: 2, non_ricordo: 0}
-    notes: "Richiami adulti mantengono protezione"
+    red_flag_if_in: [no]
+    related_pathologies: [HER065]
+    notes: >
+      Richiami adulti dTpa ogni 10 anni mantengono protezione. 
+      Immunità declina dopo 10 anni dall'ultimo richiamo.
 
   # ====== EPATITI E ALTRE INFEZIONI ======
   - name: epatite_b_diagnosi
@@ -230,26 +324,41 @@ features:
     allowed: [positivo_cronico, risolto, mai, non_so]
     map_to_score: {positivo_cronico: 5, risolto: 1, mai: 0, non_so: 0}
     red_flag_if_in: [positivo_cronico]
-    notes: "HBV cronico richiede monitoraggio epatico e screening HCC"
+    related_pathologies: [HER056, HER092, HER120]
+    notes: >
+      HBV cronico richiede monitoraggio epatico (ALT, HBV-DNA, elastografia) 
+      ogni 6 mesi e screening HCC (eco + AFP) annuale. Rischio cirrosi 20-30%.
 
   - name: vaccino_epatite_b
     type: categorical
     allowed: [bambino, adulto, no, non_so]
     map_to_score: {bambino: -1, adulto: -1, no: 1, non_so: 0}
-    notes: "Vaccinazione conferisce protezione duratura"
+    red_flag_if_in: [no]
+    related_pathologies: [HER056, HER092]
+    notes: >
+      Vaccinazione conferisce protezione duratura (>95% efficacia). 
+      Anti-HBs <10 mIU/mL richiede richiamo.
 
   - name: mononucleosi
     type: categorical
     allowed: [confermata, non_confermata, no, non_so]
     map_to_score: {confermata: 0, non_confermata: 0, no: 0, non_so: 0}
-    notes: "EBV può riattivare in immunodepressione"
+    red_flag_if_in: [confermata]
+    related_pathologies: [HER065, HER079, HER089, HER123]
+    notes: >
+      EBV può riattivare in immunodepressione causando linfomi (Burkitt, Hodgkin). 
+      Sindrome post-EBV: fatica cronica in 10% dei casi.
 
   - name: tubercolosi
     type: categorical
     allowed: [malattia_conclusa, test_positivo_senza_malattia, no, non_so]
     map_to_score: {malattia_conclusa: 1, test_positivo_senza_malattia: 2, no: 0, non_so: 0}
-    red_flag_if_in: [test_positivo_senza_malattia]
-    notes: "LTBI richiede considerazione per profilassi"
+    red_flag_if_in: [test_positivo_senza_malattia, malattia_conclusa]
+    related_pathologies: [HER030, HER048, HER065, HER079, HER082]
+    notes: >
+      LTBI (Quantiferon+/Mantoux+) richiede considerazione per profilassi 
+      isoniazide 9 mesi (riduce rischio TBC attiva del 90%). Controindicato 
+      se epatopatia.
 
   # ====== COVID-19 ======
   - name: covid
@@ -257,16 +366,22 @@ features:
     allowed: [sintomi_lievi, sintomi_moderati_gravi, ricovero, terapia_intensiva, no, non_sicuro]
     map_to_score: {sintomi_lievi: 0, sintomi_moderati_gravi: 1, ricovero: 3, terapia_intensiva: 5, no: 0, non_sicuro: 0}
     red_flag_if_in: [ricovero, terapia_intensiva]
-    related_pathologies: [HER001, HER002, HER005, HER007, HER010, HER011, HER027, HER028, HER045, HER046]
-    notes: "COVID grave aumenta rischio tromboembolico, cardiovascolare, neurologico e Long COVID"
+    related_pathologies: [HER001, HER002, HER005, HER007, HER010, HER011, HER027, HER028, HER045, HER046, HER048, HER123]
+    notes: >
+      COVID grave aumenta rischio tromboembolico (x5), cardiovascolare (IMA x3, 
+      ictus x2), neurologico (demenza x2) e Long COVID (30-50% dei ricoverati). 
+      Follow-up a 3-6-12 mesi raccomandato.
 
   - name: sequele_covid
     type: categorical
     allowed: [no, risolte, persistenti, non_so]
     map_to_score: {no: 0, risolte: 1, persistenti: 4, non_so: 0}
     red_flag_if_in: [persistenti]
-    related_pathologies: [HER010, HER011, HER012, HER032, HER040, HER041, HER042, HER043, HER047, HER048]
-    notes: "Long COVID (>12 sett): stanchezza, brain fog, dispnea, POTS - gestione multidisciplinare"
+    related_pathologies: [HER010, HER011, HER012, HER032, HER040, HER041, HER042, HER043, HER047, HER048, HER123]
+    notes: >
+      Long COVID (>12 sett): fatica cronica (80%), brain fog (60%), dispnea (40%), 
+      POTS (30%). Gestione multidisciplinare: riabilitazione graduale, supporto 
+      psicologico, trattamento sintomatico.
 
   - name: complicanze_covid_descrizione
     type: text
@@ -277,8 +392,10 @@ features:
     allowed: [si, no, parziale, non_so]
     map_to_score: {si: -1, no: 2, parziale: 0, non_so: 0}
     red_flag_if_in: [no]
-    related_pathologies: [HER027, HER028, HER030]
-    notes: "Vaccinazione riduce rischio forme gravi, ospedalizzazione e mortalità >90%"
+    related_pathologies: [HER027, HER028, HER030, HER048]
+    notes: >
+      Vaccinazione riduce rischio forme gravi >90%, ospedalizzazione >95%, 
+      mortalità >97%, Long COVID >50%. Booster annuale raccomandato in fragili.
 
   - name: tipo_vaccino_covid
     type: text
@@ -288,8 +405,12 @@ features:
     type: categorical
     allowed: ["1", "2", "3", "4_plus", ""]
     map_to_score: {"1": 1, "2": 0, "3": -1, "4_plus": -1, "": 0}
+    red_flag_if_in: ["1"]
     missing_policy: "assume_zero"
-    notes: "Ciclo completo + booster mantiene protezione ottimale"
+    related_pathologies: [HER027, HER048]
+    notes: >
+      Ciclo completo (≥2 dosi) + booster mantiene protezione ottimale. 
+      Dose singola conferisce protezione sub-ottimale <50%.
 
   # ====== HIV ======
   - name: hiv_test
@@ -297,17 +418,23 @@ features:
     allowed: [positivo, negativo, no]
     map_to_score: {positivo: 6, negativo: 0, no: 0}
     red_flag_if_in: [positivo]
-    related_pathologies: [HER030, HER048]
-    notes: "HIV richiede HAART immediata, CD4 monitoring e profilassi infezioni opportunistiche"
+    related_pathologies: [HER030, HER048, HER065, HER079, HER082, HER089, HER093]
+    notes: >
+      HIV richiede HAART immediata (entro 24h dalla diagnosi), CD4 monitoring 
+      trimestrale, profilassi infezioni opportunistiche se CD4 <200. U=U: 
+      virosoppressione rende non trasmissibile.
 
   - name: terapia_antiretrovirale
     type: categorical
     allowed: [regolare, difficolta, non_iniziato, ""]
     map_to_score: {regolare: 0, difficolta: 3, non_iniziato: 5, "": 0}
     red_flag_if_in: [difficolta, non_iniziato]
-    related_pathologies: [HER030, HER048]
+    related_pathologies: [HER030, HER048, HER065, HER082, HER089]
     missing_policy: "assume_zero"
-    notes: "CRITICO: Non aderenza HAART → progressione AIDS, resistenze virali, infezioni opportunistiche"
+    notes: >
+      CRITICO: Non aderenza HAART (>95% richiesta) → progressione AIDS, 
+      resistenze virali, infezioni opportunistiche (PCP, toxoplasma, CMV), 
+      tumori (Kaposi, linfomi). Mortalità x10 senza terapia.
 
   # ====== TRAUMI ======
   - name: trauma_cranico
@@ -315,8 +442,11 @@ features:
     allowed: [con_perdita, senza_perdita, no, non_ricordo]
     map_to_score: {con_perdita: 3, senza_perdita: 1, no: 0, non_ricordo: 0}
     red_flag_if_in: [con_perdita]
-    related_pathologies: [HER010, HER011, HER012, HER032]
-    notes: "Trauma cranico con LOC aumenta rischio epilessia (x10), declino cognitivo e demenza precoce"
+    related_pathologies: [HER010, HER011, HER012, HER032, HER040, HER085, HER090]
+    notes: >
+      Trauma cranico con LOC aumenta rischio epilessia x10, declino cognitivo x2, 
+      demenza precoce x2, disturbi psichiatrici x3. TC cranio urgente se LOC >5min, 
+      amnesia, vomito ripetuto.
 
   - name: post_trauma_sintomi
     type: categorical_multi
@@ -324,17 +454,22 @@ features:
     per_item_score: {convulsioni: 3, disturbi_cognitivi: 2, mal_di_testa: 1}
     cap_score: 5
     red_flag_if_in: [convulsioni, disturbi_cognitivi]
-    related_pathologies: [HER010, HER011, HER012, HER032, HER040]
+    related_pathologies: [HER010, HER011, HER012, HER032, HER040, HER084, HER090]
     missing_policy: "none_is_zero"
-    notes: "Convulsioni post-trauma richiedono EEG e valutazione neurologica; disturbi cognitivi persistenti suggeriscono lesione assonale diffusa"
+    notes: >
+      Convulsioni post-trauma: rischio epilessia >50% entro 2 anni, richiedono 
+      EEG e valutazione neurologica urgente. Disturbi cognitivi persistenti 
+      suggeriscono lesione assonale diffusa (DAI) - RM encefalo indicata.
 
   - name: fratture_traumi_ortopedici
     type: categorical
     allowed: [con_intervento, senza_intervento, no, non_ricordo]
     map_to_score: {con_intervento: 2, senza_intervento: 1, no: 0, non_ricordo: 0}
     red_flag_if_in: [con_intervento]
-    related_pathologies: [HER031]
-    notes: "Fratture da fragilità (trauma minore) suggeriscono osteoporosi"
+    related_pathologies: [HER031, HER039]
+    notes: >
+      Fratture da fragilità (trauma minore) suggeriscono osteoporosi: 
+      indicata MOC DEXA (T-score ≤-2.5 = osteoporosi). Rischio refrattura x2-4.
 
   - name: aree_traumi
     type: text
@@ -345,57 +480,78 @@ features:
     allowed: [con_complicanze, senza_complicanze, no, non_ricordo]
     map_to_score: {con_complicanze: 3, senza_complicanze: 1, no: 0, non_ricordo: 0}
     red_flag_if_in: [con_complicanze]
-    related_pathologies: [HER001, HER025]
-    notes: "Pneumotorace/emotorace possono causare aderenze pleuriche e riduzione funzione respiratoria; contusione miocardica aumenta rischio aritmie"
+    related_pathologies: [HER001, HER025, HER048]
+    notes: >
+      Pneumotorace/emotorace possono causare aderenze pleuriche e riduzione 
+      permanente funzione respiratoria (FVC -10-20%). Contusione miocardica 
+      aumenta rischio aritmie e IMA tardivo.
 
   - name: trauma_addominale
     type: categorical
     allowed: [con_lesioni, senza_lesioni, no, non_ricordo]
     map_to_score: {con_lesioni: 3, senza_lesioni: 1, no: 0, non_ricordo: 0}
     red_flag_if_in: [con_lesioni]
-    related_pathologies: [HER017]
-    notes: "Lesioni organi addominali possono causare sequele croniche (fibrosi, occlusioni intestinali)"
+    related_pathologies: [HER017, HER092, HER094, HER120]
+    notes: >
+      Lesioni organi addominali possono causare sequele croniche: 
+      fibrosi epatica/pancreatica, occlusioni intestinali da aderenze, 
+      malassorbimento post-resezione intestinale.
 
   # ====== STORIA CHIRURGICA ======
   - name: appendicectomia
     type: categorical
     allowed: [si, no, non_ricordo]
     map_to_score: {si: 0, no: 0, non_ricordo: 0}
-    notes: "Informazione anamnestica neutra"
+    related_pathologies: [HER094]
+    notes: >
+      Informazione anamnestica neutra. Appendicectomia precoce può alterare 
+      microbiota intestinale.
 
   - name: complicanze_appendicectomia
     type: categorical
     allowed: [si, no, non_so, ""]
     map_to_score: {si: 1, no: 0, non_so: 0, "": 0}
+    red_flag_if_in: [si]
     missing_policy: "assume_zero"
+    related_pathologies: [HER094]
 
   - name: tonsillectomia
     type: categorical
     allowed: [si, no, non_ricordo]
     map_to_score: {si: 0, no: 0, non_ricordo: 0}
+    related_pathologies: [HER048, HER065]
 
   - name: motivo_tonsillectomia
     type: categorical
     allowed: [infezioni_ricorrenti, apnee_russamento, altro, non_ricordo, ""]
     map_to_score: {infezioni_ricorrenti: 1, apnee_russamento: 2, altro: 0, non_ricordo: 0, "": 0}
+    red_flag_if_in: [apnee_russamento]
     missing_policy: "assume_zero"
+    related_pathologies: [HER047, HER048]
 
   - name: colecistectomia
     type: categorical
     allowed: [si, no, non_ricordo]
     map_to_score: {si: 1, no: 0, non_ricordo: 0}
-    notes: "Post-colecistectomia: rischio sindrome post-colecistectomia"
+    related_pathologies: [HER094, HER101]
+    notes: >
+      Post-colecistectomia: rischio sindrome post-colecistectomia (10-30%): 
+      dispepsia, diarrea cronica, dolore biliare ricorrente.
 
   - name: motivo_colecistectomia
     type: categorical
     allowed: [coliche_calcoli, colecistite, altro, non_ricordo, ""]
     map_to_score: {coliche_calcoli: 0, colecistite: 1, altro: 0, non_ricordo: 0, "": 0}
+    red_flag_if_in: [colecistite]
     missing_policy: "assume_zero"
+    related_pathologies: [HER092]
 
   - name: ernia_inguinale
     type: categorical
     allowed: [si, recidive, dolori_occasionali, no, non_ricordo]
     map_to_score: {si: 0, recidive: 2, dolori_occasionali: 1, no: 0, non_ricordo: 0}
+    red_flag_if_in: [recidive]
+    related_pathologies: []
 
   - name: ernia
     type: text
@@ -412,12 +568,18 @@ features:
     allowed: [no, ipertrofia, tumore, non_ricordo]
     map_to_score: {no: 0, ipertrofia: 1, tumore: 3, non_ricordo: 0}
     red_flag_if_in: [tumore]
+    related_pathologies: [HER016, HER093]
+    notes: >
+      Prostatectomia radicale per tumore: rischio recidiva biochimica 
+      (PSA >0.2) 20-40% a 10 anni. Follow-up PSA ogni 3-6 mesi.
 
   - name: complicanze_prostatectomia
     type: categorical
     allowed: [nessuna, incontinenza, disfunzione_erettile, altri_disturbi, ""]
     map_to_score: {nessuna: 0, incontinenza: 2, disfunzione_erettile: 1, altri_disturbi: 2, "": 0}
+    red_flag_if_in: [incontinenza, altri_disturbi]
     missing_policy: "assume_zero"
+    related_pathologies: [HER064]
 
   # ====== PARAMETRI VITALI E METABOLICI ======
   - name: ipertensione
@@ -425,40 +587,54 @@ features:
     allowed: [no, occasionale, diagnosi, non_so]
     map_to_score: {no: 0, occasionale: 2, diagnosi: 3, non_so: 0}
     red_flag_if_in: [diagnosi, occasionale]
-    related_pathologies: [HER001, HER002, HER003, HER004, HER007, HER008, HER027, HER028, HER033]
-    notes: "Ipertensione non controllata è il principale fattore di rischio per ictus, IMA, insufficienza renale e demenza vascolare"
+    related_pathologies: [HER001, HER002, HER003, HER004, HER007, HER008, HER027, HER028, HER033, HER073, HER098, HER124]
+    notes: >
+      Ipertensione non controllata è il principale fattore di rischio per 
+      ictus (x7), IMA (x3), insufficienza renale (x5), demenza vascolare (x2). 
+      Target PA <130/80 mmHg (AHA/ESC 2023). PA ≥180/120 = emergenza ipertensiva.
 
   - name: trattamento_ipertensione
     type: categorical
     allowed: [nessuno, farmaci, dieta, entrambi, ""]
     map_to_score: {nessuno: 3, farmaci: 0, dieta: 1, entrambi: -1, "": 0}
     red_flag_if_in: [nessuno]
-    related_pathologies: [HER001, HER002, HER027, HER028]
+    related_pathologies: [HER001, HER002, HER027, HER028, HER073, HER098]
     missing_policy: "assume_zero"
-    notes: "CRITICO: Ipertensione non trattata aumenta rischio CV x4-5 e ictus x7"
+    notes: >
+      CRITICO: Ipertensione non trattata aumenta rischio CV x4-5, ictus x7, 
+      IRC x5. Ogni riduzione 10 mmHg PA sistolica riduce eventi CV del 20%.
 
   - name: glicemia
     type: categorical
     allowed: [no, occasionalmente, diagnosi, non_so]
     map_to_score: {no: 0, occasionalmente: 2, diagnosi: 4, non_so: 0}
     red_flag_if_in: [diagnosi, occasionalmente]
-    related_pathologies: [HER001, HER002, HER003, HER004, HER005, HER006, HER007, HER008, HER027, HER029, HER033, HER046]
-    notes: "Diabete aumenta rischio CV x2-4, nefropatia, retinopatia, neuropatia e infezioni"
+    related_pathologies: [HER001, HER002, HER003, HER004, HER005, HER006, HER007, HER008, HER027, HER029, HER033, HER046, HER058, HER059, HER069, HER073, HER077, HER098, HER117, HER121, HER124]
+    notes: >
+      Diabete aumenta rischio CV x2-4, nefropatia (30-40%), retinopatia (30%), 
+      neuropatia (50%), infezioni x2-3. HbA1c >6.5% o glicemia ≥126 mg/dL (2 misure) 
+      = diagnosi. Target HbA1c <7% (ADA).
 
   - name: approccio_glicemia
     type: categorical
     allowed: [dieta, esercizio, farmaci, insulina, nessuno, accertamento, ""]
     map_to_score: {dieta: 0, esercizio: 0, farmaci: 0, insulina: 1, nessuno: 3, accertamento: 1, "": 0}
     red_flag_if_in: [nessuno]
-    related_pathologies: [HER005, HER029]
+    related_pathologies: [HER005, HER029, HER058, HER117, HER121]
     missing_policy: "assume_zero"
-    notes: "CRITICO: Diabete non trattato → complicanze microvascolari e macrovascolari entro 5-10 anni"
+    notes: >
+      CRITICO: Diabete non trattato → complicanze microvascolari (retinopatia, 
+      nefropatia, neuropatia) entro 5 anni e macrovascolari (IMA, ictus, 
+      arteriopatia) entro 10 anni. HbA1c >9% richiede terapia combinata urgente.
 
   - name: peso
     type: numeric
     store: true
-    related_pathologies: [HER002, HER003, HER004, HER005, HER027, HER033, HER046]
-    notes: "Utilizzato per calcolo BMI - obesità è fattore di rischio CV, metabolico e oncologico"
+    related_pathologies: [HER002, HER003, HER004, HER005, HER027, HER031, HER033, HER046, HER062]
+    notes: >
+      Utilizzato per calcolo BMI. Obesità è fattore di rischio CV (x2-3), 
+      metabolico (diabete x5, NAFLD x3), oncologico (13 tipi tumore), 
+      osteoarticolare (artrosi x4).
 
   - name: altezza
     type: numeric
@@ -468,16 +644,23 @@ features:
   - name: bmi
     type: numeric
     store: true
-    related_pathologies: [HER001, HER002, HER003, HER004, HER005, HER027, HER031, HER033, HER046]
-    notes: "BMI: <18.5 sottopeso (osteoporosi), 18.5-24.9 normale, 25-29.9 sovrappeso, ≥30 obesità (rischio CV x2-3)"
+    related_pathologies: [HER001, HER002, HER003, HER004, HER005, HER027, HER031, HER033, HER046, HER059, HER062]
+    notes: >
+      BMI: <18.5 sottopeso (osteoporosi, immunodeficit), 18.5-24.9 normale, 
+      25-29.9 sovrappeso (rischio CV +50%), ≥30 obesità (rischio CV x2-3, 
+      diabete x5, morte prematura x1.5-2). BMI ≥40 = obesità severa (mortalità x3).
 
   - name: alterazioni_livelli_colesterolo
     type: categorical
     allowed: [mai, passato_controllo, attuali, in_trattamento, non_so]
     map_to_score: {mai: 0, passato_controllo: 0, attuali: 3, in_trattamento: 1, non_so: 0}
     red_flag_if_in: [attuali]
-    related_pathologies: [HER001, HER002, HER003, HER004, HER007, HER027, HER033]
-    notes: "Dislipidemia non trattata aumenta rischio IMA x2-3; target LDL <70 mg/dL in prevenzione secondaria"
+    related_pathologies: [HER001, HER002, HER003, HER004, HER007, HER027, HER033, HER075, HER100, HER124, HER126]
+    notes: >
+      Dislipidemia non trattata aumenta rischio IMA x2-3, ictus x2. 
+      Target LDL: <100 mg/dL (rischio moderato), <70 mg/dL (alto rischio), 
+      <55 mg/dL (prevenzione secondaria post-IMA/ictus). LDL >190 = ipercolesterolemia 
+      familiare (screening family cascade).
 
   - name: valori_colesterolo
     type: text
@@ -486,12 +669,18 @@ features:
   - name: valore_bap_test
     type: text
     store: true
-    notes: "BAP test <2200 µmol/L indica deficit capacità antiossidante → stress ossidativo"
+    related_pathologies: [HER080, HER097]
+    notes: >
+      BAP test <2200 µmol/L indica deficit capacità antiossidante → stress 
+      ossidativo cronico (aging accelerato, infiammazione, danno vascolare).
 
   - name: valore_droms_test
     type: text
     store: true
-    notes: "d-ROMs >400 U.CARR indica stress ossidativo elevato → rischio infiammazione cronica"
+    related_pathologies: [HER080, HER097, HER124]
+    notes: >
+      d-ROMs >400 U.CARR indica stress ossidativo elevato → rischio infiammazione 
+      cronica, aterosclerosi, danno DNA, invecchiamento accelerato.
 
   # ====== ALLERGIE E FARMACI ======
   - name: allergie
@@ -499,8 +688,14 @@ features:
     allowed: [no, farmaci, alimenti, ambientali, insetti, altre, non_sicuro]
     per_item_score: {no: 0, farmaci: 2, alimenti: 1, ambientali: 1, insetti: 2, altre: 1, non_sicuro: 0}
     cap_score: 5
+    red_flag_if_in: [farmaci, insetti]
     missing_policy: "none_is_zero"
-    notes: "Allergie multiple suggeriscono atopia"
+    related_pathologies: [HER021, HER022, HER036, HER037, HER038, HER047, HER048]
+    notes: >
+      Allergie multiple suggeriscono atopia (rischio asma x3-5). 
+      Allergia farmaci: documentare con skin test/challenge. 
+      Anafilassi (insetti/farmaci): prescrizione adrenalina autoiniettabile 
+      obbligatoria + braccialetto identificativo.
 
   - name: allergie_altre
     type: text
@@ -510,7 +705,12 @@ features:
     type: categorical
     allowed: [no, patologia_cronica, terapia_ormonale, integratori]
     map_to_score: {no: 0, patologia_cronica: 2, terapia_ormonale: 1, integratori: 0}
-    notes: "Farmaci cronici indicano patologie sottostanti"
+    related_pathologies: [HER002, HER003, HER005, HER027, HER034, HER041, HER092, HER116, HER117]
+    notes: >
+      Farmaci cronici indicano patologie sottostanti. Attenzione interazioni 
+      farmacologiche (Beers Criteria per anziani), effetti avversi, 
+      necessità deprescribing. Polypharmacy (≥5 farmaci) aumenta rischio 
+      cadute x2, ospedalizzazioni x1.5.
 
   - name: farmaci_specifica
     type: text
@@ -520,4 +720,11 @@ features:
     type: categorical
     allowed: [frequentemente, qualche_volta, raramente, mai]
     map_to_score: {frequentemente: 3, qualche_volta: 2, raramente: 1, mai: 0}
-    notes: "Influenza sistemica da infezioni locali suggerisce vulnerabilità immunitaria"
+    red_flag_if_in: [frequentemente]
+    related_pathologies: [HER048, HER060, HER065, HER079, HER082, HER097]
+    notes: >
+      Influenza sistemica da infezioni locali suggerisce vulnerabilità 
+      immunitaria o infiammazione cronica low-grade (marker: PCR >3 mg/L, 
+      ferritina >300 ng/mL). Valutare immunoglobuline, complemento, citofluorimetria.
+
+# ====== FINE FEATURES ======
