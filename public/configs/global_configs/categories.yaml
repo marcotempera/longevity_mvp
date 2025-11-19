@@ -24,14 +24,22 @@ subgroups:
     - Autoimmune
     - Farmacogenomica
     - Immunitaria
-  nutrizione_idratazione:
-    - Macronutrienti
-    - Micronutrienti
-    - Idratazione
-    - Pattern alimentari
   dati_clinici_biochimici:
     - Ematologia
     - Metabolismo glucidico
     - Lipidogramma
+    - Assetto del ferro
+    - Coagulazione
+    - Marker infiammatori
+    - Stato nutrizionale / proteico
+    - Metabolismo osseo
+    - Elettroliti
     - Funzione epatica
     - Funzione renale
+    - Ormoni tiroidei
+    - Ormoni sessuali
+    - Funzione surrenalica
+    - Marker cardiaci
+    - Autoimmunità / autoanticorpi
+    - Marker tumorali
+

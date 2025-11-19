@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Dati Clinici e Biochimici</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:20px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:.85rem;
+      margin:8px 0 12px;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+    }
+    textarea, input[type="text"], input[type="number"], select{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+    }
+    textarea:focus, input:focus, select:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+    .subcard{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:10px;
+      padding:16px;
+      margin-top:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">🩺 Dati Clinici e Biochimici</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <!-- SEZIONE TIROIDE -->
+      <div class="card">
+        <h2>🦋 Funzione tiroidea</h2>
+
+        <div class="field">
+          <label>35. Hai mai ricevuto una diagnosi di ipotiroidismo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="ipotiroidismo" value="no"> No, mai diagnosticato</label>
+            <label class="option-label"><input type="radio" name="ipotiroidismo" value="primario"> Sì, ipotiroidismo primario</label>
+            <label class="option-label"><input type="radio" name="ipotiroidismo" value="secondario"> Sì, ipotiroidismo secondario/terziario</label>
+            <label class="option-label"><input type="radio" name="ipotiroidismo" value="non_so"> Non so / In attesa di valutazione</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>36. Hai mai ricevuto una diagnosi di ipertiroidismo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="ipertiroidismo" value="no"> No, mai diagnosticato</label>
+            <label class="option-label"><input type="radio" name="ipertiroidismo" value="attualmente_in_trattamento"> Sì, attualmente in trattamento</label>
+            <label class="option-label"><input type="radio" name="ipertiroidismo" value="trattato_risolto"> Sì, trattato in passato e risolto</label>
+            <label class="option-label"><input type="radio" name="ipertiroidismo" value="non_trattato"> Sì, ma non sto seguendo alcun trattamento</label>
+            <label class="option-label"><input type="radio" name="ipertiroidismo" value="non_so"> Non so / In attesa di valutazione</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>37. Ti è mai stato diagnosticato un nodulo alla tiroide?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="nodulo_tiroide" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="nodulo_tiroide" value="benigno"> Sì, nodulo benigno e monitorato</label>
+            <label class="option-label"><input type="radio" name="nodulo_tiroide" value="sospetto"> Sì, nodulo sospetto/in attesa di accertamenti</label>
+            <label class="option-label"><input type="radio" name="nodulo_tiroide" value="maligno"> Sì, nodulo maligno (carcinoma tiroideo)</label>
+            <label class="option-label"><input type="radio" name="nodulo_tiroide" value="non_so"> Non so / mai fatto controlli specifici</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE APPARATO RESPIRATORIO -->
+      <div class="card">
+        <h2>🫁 Apparato respiratorio</h2>
+
+        <div class="field">
+          <label>38. Ti è mai stata diagnosticata una forma di asma bronchiale o hai mai avuto episodi ricorrenti di respiro sibilante, tosse secca o fiato corto?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="asma" value="mai"> No, mai avuto sintomi</label>
+            <label class="option-label"><input type="radio" name="asma" value="diagnosticata_in_trattamento"> Sì, asma diagnosticata e attualmente in trattamento</label>
+            <label class="option-label"><input type="radio" name="asma" value="episodi_non_diagnosticati"> Sì, episodi ricorrenti ma non diagnosticati</label>
+            <label class="option-label"><input type="radio" name="asma" value="passato_non_sintomatico"> Sì, in passato ma non più sintomatico</label>
+            <label class="option-label"><input type="radio" name="asma" value="non_so"> Non so / in attesa di valutazione</label>
+          </div>
+
+          <div id="asma_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Utilizzi inalatori o farmaci per l'asma?</label>
+              <select name="farmaci_asma">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>I sintomi peggiorano con lo sforzo fisico o durante la notte?</label>
+              <select name="sintomi_asma">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hai effettuato spirometria o test respiratori negli ultimi 12 mesi?</label>
+              <select name="spirometria_12_mesi">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>39. Hai mai ricevuto una diagnosi di BPCO (bronchite cronica, enfisema) o presenti sintomi respiratori cronici?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="bpco" value="nessuna_diagnosi"> No, nessuna diagnosi né sintomi</label>
+            <label class="option-label"><input type="radio" name="bpco" value="diagnosi_bpco"> Sì, ho una diagnosi di BPCO</label>
+            <label class="option-label"><input type="radio" name="bpco" value="sintomi_senza_diagnosi"> Presento sintomi cronici ma non ho una diagnosi</label>
+            <label class="option-label"><input type="radio" name="bpco" value="ex_fumatore_con_sintomi"> Ex fumatore con sintomi respiratori</label>
+            <label class="option-label"><input type="radio" name="bpco" value="non_so"> Non so / in attesa di accertamenti</label>
+          </div>
+
+          <div id="bpco_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Hai mai effettuato una spirometria?</label>
+              <select name="spirometria_bpco">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Attualmente fumi sigarette o altri prodotti del tabacco?</label>
+              <select name="fumo_attuale">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+                <option value="ex_fumatore">Ex fumatore</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hai difficoltà respiratorie nello svolgimento di attività quotidiane?</label>
+              <select name="difficolta_respiratorie_quotidiane">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>40. Hai mai avuto una diagnosi di polmonite con necessità di terapia antibiotica o ricovero?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="polmonite" value="mai"> No, mai</label>
+            <label class="option-label"><input type="radio" name="polmonite" value="una_volta"> Sì, una sola volta</label>
+            <label class="option-label"><input type="radio" name="polmonite" value="piu_volte"> Sì, più di una volta</label>
+            <label class="option-label"><input type="radio" name="polmonite" value="ricovero"> Sì, con ricovero ospedaliero</label>
+            <label class="option-label"><input type="radio" name="polmonite" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>41. Hai condizioni che aumentano il rischio di polmonite (BPCO, diabete, età >65, fumo, immunodepressione)?</label>
+          <select name="rischio_polmonite">
+            <option value="">-- Seleziona --</option>
+            <option value="si">Sì</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>42. Hai effettuato il vaccino antinfluenzale?</label>
+          <select name="vaccino_pneumo_influ">
+            <option value="">-- Seleziona --</option>
+            <option value="si_recentemente">Sì, negli ultimi 2 anni</option>
+            <option value="si_passato">Sì, in passato ma non recentemente</option>
+            <option value="no">No, mai effettuato</option>
+            <option value="non_so">Non so / Non ricordo</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SEZIONE APPARATO GASTROINTESTINALE -->
+      <div class="card">
+        <h2>🫃 Apparato gastrointestinale</h2>
+
+        <div class="field">
+          <label>43. Hai avuto episodi ricorrenti o prolungati di diarrea negli ultimi 3 mesi?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="diarrea_3_mesi" value="no"> No, mai</label>
+            <label class="option-label"><input type="radio" name="diarrea_3_mesi" value="episodio_acuto"> Sì, un episodio acuto (durato meno di 4 giorni)</label>
+            <label class="option-label"><input type="radio" name="diarrea_3_mesi" value="episodi_brevi"> Sì, episodi brevi (durati 1-3 settimane)</label>
+            <label class="option-label"><input type="radio" name="diarrea_3_mesi" value="diarrea_cronica"> Sì, diarrea cronica (da più di 4 settimane)</label>
+            <label class="option-label"><input type="radio" name="diarrea_3_mesi" value="non_so"> Non so</label>
+          </div>
+
+          <div id="diarrea_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Hai notato la presenza di sangue, muco o pus nelle feci?</label>
+              <select name="sangue_feci">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hai perso peso involontariamente?</label>
+              <select name="perdita_peso">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hai associato gli episodi a farmaci, alimenti specifici o stress?</label>
+              <select name="associazione_diarrea">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Hai mai effettuato uno dei seguenti esami?</label>
+              <select name="esami_feci">
+                <option value="">-- Seleziona --</option>
+                <option value="coprocoltura">Coprocoltura</option>
+                <option value="calprotectina">Calprotectina fecale</option>
+                <option value="test_celiachia">Test per la celiachia</option>
+                <option value="altro">Altro</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Se altro, specifica:</label>
+              <textarea name="altri_esami" rows="3" placeholder="Es. Dosaggio della Zonulina fecale"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE MALATTIE INFETTIVE -->
+      <div class="card">
+        <h2>🦠 Malattie infettive e vaccinazioni</h2>
+
+        <div class="field">
+          <label>44. Hai mai avuto il morbillo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="morbillo" value="bambino_conferma_medico"> Sì, confermata dal medico</label>
+            <label class="option-label"><input type="radio" name="morbillo" value="non_certo"> Sì, ma non sono certo/a</label>
+            <label class="option-label"><input type="radio" name="morbillo" value="mai_avuto"> No, non l'ho mai avuto</label>
+            <label class="option-label"><input type="radio" name="morbillo" value="non_ricordo"> Non so / Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>45. Hai avuto la varicella?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="varicella" value="confermata_medico"> Sì, confermata dal medico</label>
+            <label class="option-label"><input type="radio" name="varicella" value="non_sicuro"> Sì, ma non sono certo/a</label>
+            <label class="option-label"><input type="radio" name="varicella" value="mai_avuta"> No, non l'ho mai avuta</label>
+            <label class="option-label"><input type="radio" name="varicella" value="non_ricordo"> Non so / Non ricordo</label>
+          </div>
+
+          <div id="varicella_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Il decorso è stato complicato?</label>
+              <select name="decorso_varicella">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+                <option value="non_so">Non so</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>46. Hai mai avuto la scarlattina?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="scarlattina" value="diagnosticata_medico"> Sì, diagnosticata da un medico</label>
+            <label class="option-label"><input type="radio" name="scarlattina" value="senza_conferma"> Sì, ma senza conferma medica</label>
+            <label class="option-label"><input type="radio" name="scarlattina" value="mai_avuta"> No, non l'ho mai avuta</label>
+            <label class="option-label"><input type="radio" name="scarlattina" value="non_ricordo"> Non ricordo</label>
+          </div>
+
+          <div id="scarlattina_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Il decorso è stato complicato?</label>
+              <select name="decorso_scarlattina">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+                <option value="non_so">Non so</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>47. Hai mai avuto la rosolia?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="rosolia" value="confermata_medico"> Sì, confermata da un medico</label>
+            <label class="option-label"><input type="radio" name="rosolia" value="senza_conferma"> Sì, ma senza conferma medica</label>
+            <label class="option-label"><input type="radio" name="rosolia" value="mai_avuta"> No, non l'ho mai avuta</label>
+            <label class="option-label"><input type="radio" name="rosolia" value="non_ricordo"> Non so / Non ricordo</label>
+          </div>
+
+          <div id="rosolia_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sei una donna: Sei vaccinata contro la rosolia o hai eseguito il test di immunità (IgG)?</label>
+              <select name="vaccino_test_rosolia">
+                <option value="">-- Seleziona --</option>
+                <option value="vaccinata">Sì, vaccinata</option>
+                <option value="test_immune">Sì, ho eseguito il test e sono immune</option>
+                <option value="no_non_so">No / Non so</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>48. Hai mai contratto la pertosse (tosse convulsa) durante l'infanzia?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="pertosse" value="diagnosticata_medico"> Sì, diagnosticata da un medico</label>
+            <label class="option-label"><input type="radio" name="pertosse" value="non_diagnosticata"> Sì, ma non diagnosticata ufficialmente</label>
+            <label class="option-label"><input type="radio" name="pertosse" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="pertosse" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>49. Hai mai contratto la difterite durante l'infanzia o l'adolescenza?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="difterite" value="confermata_diagnosi"> Sì, confermata da diagnosi medica</label>
+            <label class="option-label"><input type="radio" name="difterite" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="difterite" value="non_ricordo"> Non so / Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>50. Hai completato il ciclo vaccinale previsto contro la difterite (DTPa o DTP)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="vaccino_difterite" value="bambino"> Sì, da bambino</label>
+            <label class="option-label"><input type="radio" name="vaccino_difterite" value="richiami_adulto"> Sì, anche con richiami in età adulta</label>
+            <label class="option-label"><input type="radio" name="vaccino_difterite" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="vaccino_difterite" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>51. Hai mai ricevuto una diagnosi di epatite B o sei risultato positivo al test per HBsAg?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="epatite_b_diagnosi" value="positivo_cronico"> Sì, attualmente positivo (cronico)</label>
+            <label class="option-label"><input type="radio" name="epatite_b_diagnosi" value="risolto"> Sì, in passato ma risolto</label>
+            <label class="option-label"><input type="radio" name="epatite_b_diagnosi" value="mai"> No, mai</label>
+            <label class="option-label"><input type="radio" name="epatite_b_diagnosi" value="non_so"> Non so / Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>52. Hai effettuato il vaccino contro l'epatite B?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="vaccino_epatite_b" value="bambino"> Sì, da bambino (vaccinazione obbligatoria)</label>
+            <label class="option-label"><input type="radio" name="vaccino_epatite_b" value="adulto"> Sì, da adulto</label>
+            <label class="option-label"><input type="radio" name="vaccino_epatite_b" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="vaccino_epatite_b" value="non_so"> Non so / Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>53. Hai mai avuto la mononucleosi infettiva?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="mononucleosi" value="confermata"> Sì, confermata con esami del sangue</label>
+            <label class="option-label"><input type="radio" name="mononucleosi" value="non_confermata"> Sì, ma senza conferma diagnostica</label>
+            <label class="option-label"><input type="radio" name="mononucleosi" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="mononucleosi" value="non_so"> Non so / Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>54. Hai mai avuto una diagnosi di tubercolosi (TBC) o sei mai risultato positivo al test Mantoux o Quantiferon?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="tubercolosi" value="malattia_conclusa"> Sì, ho avuto la TBC e ho completato la terapia</label>
+            <label class="option-label"><input type="radio" name="tubercolosi" value="test_positivo_senza_malattia"> Sì, test positivo ma senza malattia attiva</label>
+            <label class="option-label"><input type="radio" name="tubercolosi" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="tubercolosi" value="non_so"> Non so / Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>55. Hai mai contratto il COVID-19 (SARS-CoV-2)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="covid" value="sintomi_lievi"> Sì, con sintomi lievi</label>
+            <label class="option-label"><input type="radio" name="covid" value="sintomi_moderati_gravi"> Sì, con sintomi moderati/gravi ma senza ricovero</label>
+            <label class="option-label"><input type="radio" name="covid" value="ricovero"> Sì, ho avuto un ricovero ospedaliero</label>
+            <label class="option-label"><input type="radio" name="covid" value="terapia_intensiva"> Sì, ho avuto un ricovero in terapia intensiva</label>
+            <label class="option-label"><input type="radio" name="covid" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="covid" value="non_sicuro"> Non sono sicuro/a</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>56. Se hai avuto il COVID, hai avuto sequele o complicazioni persistenti (Long COVID)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="sequele_covid" value="no"> No, nessuna</label>
+            <label class="option-label"><input type="radio" name="sequele_covid" value="risolte"> Sì, ma si sono risolte</label>
+            <label class="option-label"><input type="radio" name="sequele_covid" value="persistenti"> Sì, ancora persistenti</label>
+            <label class="option-label"><input type="radio" name="sequele_covid" value="non_so"> Non so / Non ricordo</label>
+          </div>
+
+          <div id="sequele_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se hai avuto complicazioni, quali? (es. stanchezza cronica, problemi respiratori, brain fog, perdita olfatto/gusto...)</label>
+              <textarea name="complicanze_covid_descrizione" rows="3" placeholder="Scrivi qui le complicazioni post-COVID..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>57. Sei stato vaccinato contro il COVID-19?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="vaccino_covid" value="si"> Sì</label>
+            <label class="option-label"><input type="radio" name="vaccino_covid" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="vaccino_covid" value="parziale"> Solo alcune dosi</label>
+            <label class="option-label"><input type="radio" name="vaccino_covid" value="non_so"> Non so / Non ricordo</label>
+          </div>
+
+          <div id="vaccino_covid_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, che tipo di vaccino hai ricevuto? (es. Pfizer, Moderna, AstraZeneca, Johnson...)</label>
+              <input type="text" name="tipo_vaccino_covid" placeholder="Es. Pfizer, Moderna, ecc.">
+            </div>
+            <div class="field">
+              <label>Quante dosi hai ricevuto?</label>
+              <select name="dosi_vaccino_covid">
+                <option value="">-- Seleziona --</option>
+                <option value="1">1 dose</option>
+                <option value="2">2 dosi</option>
+                <option value="3">3 dosi</option>
+                <option value="4_plus">4 o più dosi</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>58. Ti è mai stata diagnosticata un'infezione da HIV o ti è mai stato consigliato di fare un test per l'HIV?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="hiv_test" value="positivo"> Sì, sono risultato/a positivo/a</label>
+            <label class="option-label"><input type="radio" name="hiv_test" value="negativo"> Sì, ma il test è risultato negativo</label>
+            <label class="option-label"><input type="radio" name="hiv_test" value="no"> No</label>
+          </div>
+
+          <div id="hiv_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, stai attualmente seguendo una terapia antiretrovirale (HAART)?</label>
+              <div class="grid-options">
+                <label class="option-label"><input type="radio" name="terapia_antiretrovirale" value="regolare"> Sì, in modo regolare</label>
+                <label class="option-label"><input type="radio" name="terapia_antiretrovirale" value="difficolta"> Sì, ma con difficoltà di aderenza</label>
+                <label class="option-label"><input type="radio" name="terapia_antiretrovirale" value="non_iniziato"> No, non ho iniziato ancora</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE TRAUMI -->
+      <div class="card">
+        <h2>🩹 Storia traumatica</h2>
+
+        <div class="field">
+          <label>59. Hai mai riportato un trauma cranico significativo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="trauma_cranico" value="con_perdita"> Sì, con perdita di coscienza</label>
+            <label class="option-label"><input type="radio" name="trauma_cranico" value="senza_perdita"> Sì, senza perdita di coscienza</label>
+            <label class="option-label"><input type="radio" name="trauma_cranico" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="trauma_cranico" value="non_ricordo"> Non ricordo</label>
+          </div>
+
+          <div id="trauma_cranico_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, dopo il trauma hai mai avuto:</label>
+              <div class="grid-options">
+                <label class="option-label"><input type="checkbox" name="post_trauma_sintomi" value="convulsioni"> Convulsioni o crisi epilettiche</label>
+                <label class="option-label"><input type="checkbox" name="post_trauma_sintomi" value="disturbi_cognitivi"> Disturbi cognitivi o della memoria</label>
+                <label class="option-label"><input type="checkbox" name="post_trauma_sintomi" value="mal_di_testa"> Mal di testa ricorrenti o cambiamenti del comportamento</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>60. Hai mai subito fratture ossee o traumi ortopedici significativi?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="fratture_traumi_ortopedici" value="con_intervento"> Sì, con intervento chirurgico</label>
+            <label class="option-label"><input type="radio" name="fratture_traumi_ortopedici" value="senza_intervento"> Sì, senza intervento chirurgico</label>
+            <label class="option-label"><input type="radio" name="fratture_traumi_ortopedici" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="fratture_traumi_ortopedici" value="non_ricordo"> Non ricordo</label>
+          </div>
+
+          <div id="fratture_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, quali aree del corpo sono state coinvolte?</label>
+              <textarea name="aree_traumi" rows="3" placeholder="Es. braccio, gamba, bacino..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>61. Hai mai avuto un trauma toracico importante?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="trauma_toracico" value="con_complicanze"> Sì, con complicanze (es. pneumotorace, emotorace)</label>
+            <label class="option-label"><input type="radio" name="trauma_toracico" value="senza_complicanze"> Sì, senza complicanze significative</label>
+            <label class="option-label"><input type="radio" name="trauma_toracico" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="trauma_toracico" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>62. Hai mai subito un trauma addominale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="trauma_addominale" value="con_lesioni"> Sì, con lesioni agli organi interni</label>
+            <label class="option-label"><input type="radio" name="trauma_addominale" value="senza_lesioni"> Sì, ma senza lesioni rilevanti</label>
+            <label class="option-label"><input type="radio" name="trauma_addominale" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="trauma_addominale" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE INTERVENTI CHIRURGICI -->
+      <div class="card">
+        <h2>⚕️ Storia chirurgica</h2>
+
+        <div class="field">
+          <label>63. Hai mai subito un'appendicectomia (rimozione dell'appendice)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="appendicectomia" value="si"> Sì</label>
+            <label class="option-label"><input type="radio" name="appendicectomia" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="appendicectomia" value="non_ricordo"> Non ricordo</label>
+          </div>
+
+          <div id="appendicectomia_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, ricordi se ci sono state complicanze post-operatorie?</label>
+              <select name="complicanze_appendicectomia">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+                <option value="non_so">Non so</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>64. Hai mai subito una tonsillectomia (rimozione delle tonsille)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="tonsillectomia" value="si"> Sì</label>
+            <label class="option-label"><input type="radio" name="tonsillectomia" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="tonsillectomia" value="non_ricordo"> Non ricordo</label>
+          </div>
+
+          <div id="tonsillectomia_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, ricordi il motivo dell'intervento?</label>
+              <select name="motivo_tonsillectomia">
+                <option value="">-- Seleziona --</option>
+                <option value="infezioni_ricorrenti">Infezioni ricorrenti (più di 5 all'anno)</option>
+                <option value="apnee_russamento">Apnee notturne o russamento grave</option>
+                <option value="altro">Altro</option>
+                <option value="non_ricordo">Non ricordo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>65. Hai mai subito un intervento di colecistectomia (rimozione della colecisti)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="colecistectomia" value="si"> Sì</label>
+            <label class="option-label"><input type="radio" name="colecistectomia" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="colecistectomia" value="non_ricordo"> Non ricordo</label>
+          </div>
+
+          <div id="colecistectomia_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, ricordi il motivo dell'intervento?</label>
+              <select name="motivo_colecistectomia">
+                <option value="">-- Seleziona --</option>
+                <option value="coliche_calcoli">Coliche biliari o calcoli</option>
+                <option value="colecistite">Colecistite (infiammazione della colecisti)</option>
+                <option value="altro">Altro</option>
+                <option value="non_ricordo">Non ricordo</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>66. Hai mai subito un intervento di riparazione dell'ernia inguinale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="ernia_inguinale" value="si"> Sì</label>
+            <label class="option-label"><input type="radio" name="ernia_inguinale" value="recidive"> Sì, con recidive</label>
+            <label class="option-label"><input type="radio" name="ernia_inguinale" value="dolori_occasionali"> Sì ed ho ancora dolori occasionali</label>
+            <label class="option-label"><input type="radio" name="ernia_inguinale" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="ernia_inguinale" value="non_ricordo"> Non ricordo</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Hai mai avuto altre ernie? Hai mai subito un intervento per un altro tipo di ernia?</label>
+          <textarea name="ernia" rows="3" placeholder="Descrivi eventuali altre ernie..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>67. Hai mai subito un intervento di chirurgia estetica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="chirurgia_estetica" value="si_uno"> Sì, uno</label>
+            <label class="option-label"><input type="radio" name="chirurgia_estetica" value="si_piu_di_uno"> Sì, più di uno</label>
+            <label class="option-label"><input type="radio" name="chirurgia_estetica" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>68. Hai mai subito un intervento di prostatectomia?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="prostatectomia" value="no"> No</label>
+            <label class="option-label"><input type="radio" name="prostatectomia" value="ipertrofia"> Sì, per ipertrofia prostatica benigna</label>
+            <label class="option-label"><input type="radio" name="prostatectomia" value="tumore"> Sì, per tumore della prostata</label>
+            <label class="option-label"><input type="radio" name="prostatectomia" value="non_ricordo"> Non ricordo / Non so</label>
+          </div>
+
+          <div id="prostatectomia_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, hai riscontrato complicanze dopo l'intervento?</label>
+              <select name="complicanze_prostatectomia">
+                <option value="">-- Seleziona --</option>
+                <option value="nessuna">Nessuna</option>
+                <option value="incontinenza">Incontinenza urinaria</option>
+                <option value="disfunzione_erettile">Disfunzione erettile</option>
+                <option value="altri_disturbi">Altri disturbi urinari o sessuali</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEZIONE PARAMETRI VITALI -->
+      <div class="card">
+        <h2>📊 Parametri vitali e metabolici</h2>
+
+        <div class="field">
+          <label>69. Hai mai avuto valori elevati di pressione arteriosa (ipertensione)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="ipertensione" value="no"> No, mai rilevati valori anomali</label>
+            <label class="option-label"><input type="radio" name="ipertensione" value="occasionale"> Sì, occasionalmente valori elevati</label>
+            <label class="option-label"><input type="radio" name="ipertensione" value="diagnosi"> Sì, ho ricevuto diagnosi di ipertensione</label>
+            <label class="option-label"><input type="radio" name="ipertensione" value="non_so"> Non so / mai misurata</label>
+          </div>
+
+          <div id="ipertensione_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, stai seguendo un trattamento?</label>
+              <select name="trattamento_ipertensione">
+                <option value="">-- Seleziona --</option>
+                <option value="nessuno">No</option>
+                <option value="farmaci">Sì, con farmaci antipertensivi</option>
+                <option value="dieta">Sì, con dieta e stile di vita</option>
+                <option value="entrambi">Sì, con entrambi</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>70. Hai mai riscontrato valori elevati di glicemia a digiuno (superiori a 99 mg/dL)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="glicemia" value="no"> No, mai</label>
+            <label class="option-label"><input type="radio" name="glicemia" value="occasionalmente"> Sì, occasionalmente (tra 100-125 mg/dL)</label>
+            <label class="option-label"><input type="radio" name="glicemia" value="diagnosi"> Sì, valori costantemente superiori a 125 mg/dL</label>
+            <label class="option-label"><input type="radio" name="glicemia" value="non_so"> Non so / non ho mai fatto l'esame</label>
+          </div>
+
+          <div id="glicemia_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, attualmente stai seguendo uno dei seguenti approcci?</label>
+              <select name="approccio_glicemia">
+                <option value="">-- Seleziona --</option>
+                <option value="dieta">Dieta a basso contenuto di zuccheri</option>
+                <option value="esercizio">Esercizio fisico regolare</option>
+                <option value="farmaci">Farmaci ipoglicemizzanti orali</option>
+                <option value="insulina">Insulina</option>
+                <option value="nessuno">Nessuno</option>
+                <option value="accertamento">In fase di accertamento/diagnosi</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Peso (kg):</label>
+          <input type="number" id="peso" name="peso" min="20" max="300" step="0.1" placeholder="Es. 70.5">
+        </div>
+
+        <div class="field">
+          <label>Altezza (cm):</label>
+          <input type="number" id="altezza" name="altezza" min="100" max="250" step="1" placeholder="Es. 175">
+        </div>
+
+        <div class="field">
+          <label>BMI (calcolato automaticamente):</label>
+          <input type="text" id="bmi" name="bmi" readonly placeholder="Inserisci peso e altezza">
+          <p id="risultatoBMI" class="muted"></p>
+          <div class="hint">
+            Categorie BMI:<br>
+            • Sottopeso: &lt; 18.5<br>
+            • Normopeso: 18.5 – 24.9<br>
+            • Sovrappeso: 25 – 29.9<br>
+            • Obesità: ≥ 30
+          </div>
+        </div>
+
+        <div class="field">
+          <label>71. Hai mai avuto alterazioni nei livelli di colesterolo, LDL o HDL?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="alterazioni_livelli_colesterolo" value="mai"> No, sempre risultati normali</label>
+            <label class="option-label"><input type="radio" name="alterazioni_livelli_colesterolo" value="passato_controllo"> Sì, alterati in passato ma ora rientrati nella norma</label>
+            <label class="option-label"><input type="radio" name="alterazioni_livelli_colesterolo" value="attuali"> Sì, attualmente ho livelli alterati</label>
+            <label class="option-label"><input type="radio" name="alterazioni_livelli_colesterolo" value="in_trattamento"> Sì, sono in trattamento farmacologico o dietetico</label>
+            <label class="option-label"><input type="radio" name="alterazioni_livelli_colesterolo" value="non_so"> Non so / Non ho mai eseguito esami specifici</label>
+          </div>
+
+          <div id="colesterolo_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se vuoi, specifica il valore più recente:</label>
+              <input type="text" name="valori_colesterolo" placeholder="Es. Colesterolo totale: 220 mg/dL, LDL: 140 mg/dL, HDL: 45 mg/dL">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>72. Ricordi il valore del tuo BAP test (test antiossidanti)?</label>
+          <input type="text" name="valore_bap_test" placeholder="Inserisci valore se disponibile">
+        </div>
+
+        <div class="field">
+          <label>73. Ricordi il valore del tuo d-ROMs test (stress ossidativo)?</label>
+          <input type="text" name="valore_droms_test" placeholder="Inserisci valore se disponibile">
+        </div>
+      </div>
+
+      <!-- SEZIONE ALLERGIE E FARMACI -->
+      <div class="card">
+        <h2>💊 Allergie e terapie farmacologiche</h2>
+
+        <div class="field">
+          <label>74. Hai mai avuto reazioni allergiche o sei allergico a qualcosa?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="allergie" value="no" data-none-group="allergie"> No, non ho mai avuto reazioni allergiche</label>
+            <label class="option-label"><input type="checkbox" name="allergie" value="farmaci" data-none-group="allergie"> Sì, a farmaci</label>
+            <label class="option-label"><input type="checkbox" name="allergie" value="alimenti" data-none-group="allergie"> Sì, ad alimenti</label>
+            <label class="option-label"><input type="checkbox" name="allergie" value="ambientali" data-none-group="allergie"> Sì, ad allergeni ambientali</label>
+            <label class="option-label"><input type="checkbox" name="allergie" value="insetti" data-none-group="allergie"> Sì, a punture di insetti</label>
+            <label class="option-label"><input type="checkbox" name="allergie" value="altre" data-none-group="allergie"> Sì, altre</label>
+            <label class="option-label"><input type="checkbox" name="allergie" value="non_sicuro" data-none-group="allergie"> Non sono sicuro / Non ho mai fatto test allergologici</label>
+          </div>
+
+          <div id="allergie_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Specifica le allergie:</label>
+              <textarea name="allergie_altre" rows="3" placeholder="Es. Penicillina, lattosio, polline, nichel..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>75. Assumi attualmente farmaci su base regolare o continuativa?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="farmaci_regolari" value="no"> No, non assumo farmaci regolarmente</label>
+            <label class="option-label"><input type="radio" name="farmaci_regolari" value="patologia_cronica"> Sì, per una patologia cronica diagnosticata</label>
+            <label class="option-label"><input type="radio" name="farmaci_regolari" value="terapia_ormonale"> Sì, come terapia ormonale o contraccettiva</label>
+            <label class="option-label"><input type="radio" name="farmaci_regolari" value="integratori"> Sì, integratori o prodotti da banco</label>
+          </div>
+
+          <div id="farmaci_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Se sì, specifica il nome del farmaco, la posologia e il motivo dell'assunzione:</label>
+              <textarea name="farmaci_specifica" rows="3" placeholder="Es: Metformina 500 mg, 2 volte al giorno, diabete tipo 2"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>76. Ti capita spesso che un'infiammazione o un'infezione locale sembri influire sul tuo stato generale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="radio" name="stato_generale_influenzato_da_infiammazioni_o_infezioni" value="frequentemente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="radio" name="stato_generale_influenzato_da_infiammazioni_o_infezioni" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="radio" name="stato_generale_influenzato_da_infiammazioni_o_infezioni" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="radio" name="stato_generale_influenzato_da_infiammazioni_o_infezioni" value="mai"> Mai</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const macroarea = 'dati_clinici_biochimici';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Gestione sottosezioni condizionali
+    const conditionalSections = {
+      asma: ['mai'],
+      bpco: ['nessuna_diagnosi'],
+      diarrea_3_mesi: ['no'],
+      varicella: ['mai_avuta', 'non_ricordo'],
+      scarlattina: ['mai_avuta', 'non_ricordo'],
+      rosolia: ['mai_avuta', 'non_ricordo'],
+      sequele_covid: ['no', 'non_so'],
+      vaccino_covid: ['no', 'non_so'],
+      hiv_test: ['negativo', 'no'],
+      trauma_cranico: ['no', 'non_ricordo'],
+      fratture_traumi_ortopedici: ['no', 'non_ricordo'],
+      appendicectomia: ['no', 'non_ricordo'],
+      tonsillectomia: ['no', 'non_ricordo'],
+      colecistectomia: ['no', 'non_ricordo'],
+      prostatectomia: ['no', 'non_ricordo'],
+      ipertensione: ['no', 'non_so'],
+      glicemia: ['no', 'non_so'],
+      alterazioni_livelli_colesterolo: ['mai', 'non_so'],
+      allergie: ['no'],
+      farmaci_regolari: ['no']
+    };
+
+    // Setup toggle per sottosezioni
+    Object.keys(conditionalSections).forEach(name => {
+      const radios = document.querySelectorAll(`input[name="${name}"]`);
+      const detailsId = `${name}_details`;
+      const detailsSection = document.getElementById(detailsId);
+      
+      if (!detailsSection) return;
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          const hideValues = conditionalSections[name];
+          detailsSection.style.display = hideValues.includes(radio.value) ? 'none' : 'block';
+        });
+      });
+    });
+
+    // Gestione checkbox esclusivi per allergie
+    function setupExclusiveCheckboxes(groupName) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      const noneValues = ['no'];
+      
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const isNone = noneValues.includes(cb.value);
+          if (isNone && cb.checked) {
+            checkboxes.forEach(other => {
+              if (other !== cb) other.checked = false;
+            });
+          } else if (cb.checked) {
+            checkboxes.forEach(other => {
+              if (noneValues.includes(other.value)) other.checked = false;
+            });
+          }
+        });
+      });
+    }
+
+    setupExclusiveCheckboxes('allergie');
+
+    // Calcolo BMI automatico
+    const pesoInput = $('#peso');
+    const altezzaInput = $('#altezza');
+    const bmiInput = $('#bmi');
+    const risultatoBMI = $('#risultatoBMI');
+
+    function calcolaBMI() {
+      const peso = parseFloat(pesoInput.value);
+      const altezza = parseFloat(altezzaInput.value);
+
+      if (peso > 0 && altezza > 0) {
+        const altezzaM = altezza / 100;
+        const bmi = peso / (altezzaM * altezzaM);
+        bmiInput.value = bmi.toFixed(1);
+
+        let categoria = '';
+        let colore = '';
+        if (bmi < 18.5) {
+          categoria = 'Sottopeso';
+          colore = '#fbbf24';
+        } else if (bmi < 25) {
+          categoria = 'Normopeso';
+          colore = '#22c55e';
+        } else if (bmi < 30) {
+          categoria = 'Sovrappeso';
+          colore = '#f97316';
+        } else {
+          categoria = 'Obesità';
+          colore = '#ef4444';
+        }
+
+        risultatoBMI.innerHTML = `<strong style="color:${colore}">Categoria: ${categoria}</strong>`;
+      } else {
+        bmiInput.value = '';
+        risultatoBMI.innerHTML = '';
+      }
+    }
+
+    pesoInput?.addEventListener('input', calcolaBMI);
+    altezzaInput?.addEventListener('input', calcolaBMI);
+
+    // Progress bar
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Submit con calcolo score e LLM
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Verifica utente
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      // Serializza risposte
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        // 1. Carica configurazioni YAML
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        // 2. Calcola score
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        // 3. Prepara dati per LLM
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        // 4. Genera report con LLM
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        const text = await resp.text();
+        if (!resp.ok) {
+          console.error('generate-report error:', resp.status, text);
+          throw new Error(`Errore generazione report LLM (${resp.status})`);
+        }
+        const { report } = JSON.parse(text);
+        updateProgress(70);
+
+        // 5. Salva tutto su Supabase
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score,
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        // 6. Aggiorna progress
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        // 7. Redirect al report
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Processing error:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>
