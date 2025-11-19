@@ -1,0 +1,20 @@
+rules:
+
+  # Allergie: multi esclusivo, 'no' annulla tutto il resto
+  - feature: allergie
+    assert_subset_of: [no, farmaci, alimenti, ambientali, insetti, altre, non_sicuro]
+    on_fail: "drop_invalid"
+
+  - feature: allergie
+    rule: "if includes 'no' then set to ['no']"
+
+  # Sintomi post-trauma cranico: multi, solo valori consentiti
+  - feature: post_trauma_sintomi
+    assert_subset_of: [convulsioni, disturbi_cognitivi, mal_di_testa]
+    on_fail: "drop_invalid"
+
+missing:
+  strategy: "per_feature_policy"
+
+defaults:
+  assume_nessun_caso: 0
