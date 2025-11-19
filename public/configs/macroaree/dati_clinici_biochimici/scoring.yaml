@@ -1,0 +1,457 @@
+macroarea: dati_clinici_biochimici
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+
+    # ===== FUNZIONE TIROIDEA (peso medio) =====
+    ipotiroidismo: 0.8
+    ipertiroidismo: 0.9
+    nodulo_tiroide: 1.0
+
+    # ===== APPARATO RESPIRATORIO (peso medio-alto) =====
+    asma: 0.9
+    farmaci_asma: 0.6
+    sintomi_asma: 0.9
+    spirometria_12_mesi: 0.4
+    bpco: 1.2
+    spirometria_bpco: 0.6
+    fumo_attuale: 1.4
+    difficolta_respiratorie_quotidiane: 1.0
+    polmonite: 0.8
+    rischio_polmonite: 0.8
+    vaccino_pneumo_influ: 0.5
+
+    # ===== APPARATO GASTROINTESTINALE (peso medio) =====
+    diarrea_3_mesi: 0.8
+    sangue_feci: 1.4
+    perdita_peso: 1.0
+    associazione_diarrea: 0.3
+    esami_feci: 0.2
+
+    # ===== MALATTIE INFETTIVE ESANTEMATICHE (peso basso-medio) =====
+    morbillo: 0.4
+    varicella: 0.4
+    decorso_varicella: 0.4
+    scarlattina: 0.2
+    decorso_scarlattina: 0.3
+    rosolia: 0.5
+    vaccino_test_rosolia: 0.6
+    pertosse: 0.3
+    difterite: 0.4
+    vaccino_difterite: 0.4
+
+    # ===== EPATITI E ALTRE INFEZIONI (peso medio-alto) =====
+    epatite_b_diagnosi: 1.4
+    vaccino_epatite_b: 0.6
+    mononucleosi: 0.4
+    tubercolosi: 1.0
+
+    # ===== COVID-19 (peso medio-alto) =====
+    covid: 1.2
+    sequele_covid: 1.2
+    vaccino_covid: 0.8
+    dosi_vaccino_covid: 0.6
+
+    # ===== HIV (peso alto) =====
+    hiv_test: 2.0
+    terapia_antiretrovirale: 1.6
+
+    # ===== TRAUMI (peso medio-alto) =====
+    trauma_cranico: 1.2
+    post_trauma_sintomi: 1.0
+    fratture_traumi_ortopedici: 0.6
+    trauma_toracico: 0.8
+    trauma_addominale: 0.8
+
+    # ===== STORIA CHIRURGICA (peso basso-medio) =====
+    appendicectomia: 0.1
+    complicanze_appendicectomia: 0.3
+    tonsillectomia: 0.1
+    motivo_tonsillectomia: 0.4
+    colecistectomia: 0.3
+    motivo_colecistectomia: 0.4
+    ernia_inguinale: 0.3
+    chirurgia_estetica: 0.0
+    prostatectomia: 0.8
+    complicanze_prostatectomia: 0.8
+
+    # ===== PARAMETRI VITALI E METABOLICI (peso alto) =====
+    ipertensione: 1.6
+    trattamento_ipertensione: 1.4
+    glicemia: 1.6
+    approccio_glicemia: 1.4
+    bmi: 1.6
+    alterazioni_livelli_colesterolo: 1.4
+
+    # ===== ALLERGIE, FARMACI, INFIAMMAZIONE (peso medio) =====
+    allergie: 0.8
+    farmaci_regolari: 0.8
+    stato_generale_influenzato_da_infiammazioni_o_infezioni: 0.8
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  apply_events_factor: false
+  apply_biomarkers_factor: false
+  apply_comorbidities_factor: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  low:
+    max: 40        # 0–40
+  medium:
+    min: 41
+    max: 69        # 41–69
+  high:
+    min: 70        # 70–100
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 8
+  show_percent_contribution: true
+  group_by_domain: true   # domini clinici: tiroide, respiro, infettivo, metabolico, ecc.
+
+  overall_narratives:
+    low: >
+      Il profilo clinico e biochimico appare globalmente rassicurante. I fattori di rischio
+      rilevati sono limitati o ben compensati, con presenza eventuale di elementi protettivi
+      (vaccinazioni, assenza di comorbidità maggiori, stile di vita favorevole).
+      Mantieni i controlli di routine e ripeti il questionario periodicamente.
+    medium: >
+      Sono presenti condizioni cliniche e/o abitudini che aumentano il rischio globale,
+      pur in assenza di quadri francamente critici. È il momento ideale per intervenire
+      su pressione, metabolismo, respirazione, peso corporeo e prevenzione infettiva,
+      così da ridurre in modo significativo il rischio nei prossimi anni.
+    high: >
+      Il profilo clinico-biochimico mostra diversi driver di rischio importanti
+      (cardiometabolici, respiratori, infettivi o traumatici) che superano le soglie
+      di sicurezza. È fortemente raccomandata una valutazione clinica strutturata,
+      con approfondimenti diagnostici mirati e un piano di intervento personalizzato.
+
+  driver_templates:
+
+    # ==== FUNZIONE TIROIDEA ====
+    ipotiroidismo: >
+      Ipotiroidismo diagnosticato → possibile impatto su metabolismo, peso e rischio cardiovascolare;
+      utile ottimizzare la terapia sostitutiva e monitorare periodicamente TSH/FT4.
+    ipertiroidismo: >
+      Ipertiroidismo attuale o non trattato → aumenta il rischio di aritmie, osteoporosi e
+      scompenso cardiaco; raccomandata valutazione endocrinologica e controllo stretto.
+    nodulo_tiroide: >
+      Nodulo tiroideo sospetto o maligno → richiede follow-up specialistico ed eventuali
+      approfondimenti oncologici (ecografia, agoaspirato, valutazione chirurgica).
+
+    # ==== APPARATO RESPIRATORIO ====
+    asma: >
+      Storia di asma o episodi compatibili → importante valutare il controllo dei sintomi
+      e l’aderenza alla terapia inalatoria per prevenire riacutizzazioni.
+    farmaci_asma: >
+      Assenza di farmaci di fondo per asma in presenza di sintomi → aumenta il rischio di
+      riacutizzazioni e accessi in pronto soccorso; da riconsiderare il piano terapeutico.
+    sintomi_asma: >
+      Sintomi respiratori compatibili con asma (sforzo, notte) → indicano scarso controllo
+      o possibile asma non ancora diagnosticata.
+    spirometria_12_mesi: >
+      Mancanza di spirometria recente nei pazienti con asma o sintomi respiratori →
+      suggerisce monitoraggio funzionale insufficiente.
+    bpco: >
+      BPCO diagnosticata o sospetta → impatta fortemente su funzione respiratoria,
+      rischio di riacutizzazioni e complicanze cardiovascolari.
+    spirometria_bpco: >
+      Sintomi respiratori senza spirometria → rischio di BPCO non diagnosticata,
+      utile programmare una valutazione funzionale respiratoria.
+    fumo_attuale: >
+      Fumo attivo → driver di rischio trasversale (cardiovascolare, oncologico,
+      respiratorio); la cessazione ha un impatto immediato sulla riduzione del rischio.
+    difficolta_respiratorie_quotidiane: >
+      Dispnea nelle attività di tutti i giorni → indica limitazione funzionale importante
+      e richiede approfondimento cardiopolmonare.
+    polmonite: >
+      Polmoniti ricorrenti o con ricovero → suggeriscono vulnerabilità polmonare
+      o immunitaria e richiedono approfondimenti mirati.
+    rischio_polmonite: >
+      Presenza di fattori di rischio per polmonite (età, comorbidità, immunodepressione) →
+      da integrare con un piano vaccinale e di prevenzione.
+    vaccino_pneumo_influ: >
+      Assenza di vaccinazione anti-influenzale/pneumococcica in soggetti a rischio →
+      aumenta la probabilità di complicanze respiratorie e ricoveri.
+
+    # ==== APPARATO GASTROINTESTINALE ====
+    diarrea_3_mesi: >
+      Diarrea cronica o episodi ricorrenti → possibili patologie intestinali organiche
+      (IBD, celiachia, malassorbimento) da approfondire.
+    sangue_feci: >
+      Presenza di sangue nelle feci → sintomo di allarme che richiede indagine endoscopica
+      e valutazione gastroenterologica.
+    perdita_peso: >
+      Perdita di peso non intenzionale → possibile indicatore di patologia cronica,
+      infiammatoria o neoplastica; necessaria valutazione sistematica.
+    associazione_diarrea: >
+      Diarrea legata a alimenti o stress → può orientare verso IBS, ma va sempre integrata
+      con altri sintomi e indagini di base.
+    esami_feci: >
+      Esecuzione di esami fecali mirati (calprotectina, test celiachia) → supporta una
+      definizione più precisa dell’origine dei sintomi intestinali.
+
+    # ==== MALATTIE INFETTIVE ESANTEMATICHE / VACCINI ====
+    morbillo: >
+      Mancata immunità per morbillo → espone a infezioni potenzialmente severe;
+      da considerare verifica sierologica o vaccino se indicato.
+    varicella: >
+      Mancata immunità per varicella in età adulta → rischio di decorso severo in caso
+      di infezione; utile discutere eventuale vaccinazione.
+    decorso_varicella: >
+      Decorso complicato della varicella → possibile indicatore di maggiore vulnerabilità
+      immunitaria o infiammatoria.
+    scarlattina: >
+      Pregressa scarlattina → informazione anamnestica da integrare solo in presenza
+      di sequele reumatiche o renali.
+    decorso_scarlattina: >
+      Scarlattina complicata → può orientare verso pregresso interessamento cardiaco
+      o renale da valutare in anamnesi.
+    rosolia: >
+      Mancata immunità per rosolia (soprattutto in donne in età fertile) → richiede
+      attenzione per la prevenzione in caso di gravidanza futura.
+    vaccino_test_rosolia: >
+      Assenza di vaccinazione o test di immunità per rosolia → da correggere con
+      un piano vaccinale, in particolare prima di una gravidanza.
+    pertosse: >
+      Pertosse o assenza di richiami → rilevante in ottica di prevenzione respiratoria
+      e protezione di soggetti fragili nel contesto familiare.
+    difterite: >
+      Storia di difterite o assenza di protezione → patologia rara ma severa; importante
+      verificare stato vaccinale.
+    vaccino_difterite: >
+      Mancanza di richiami dTpa in età adulta → può ridurre la protezione contro difterite,
+      tetano e pertosse; da allineare al calendario vaccinale.
+
+    # ==== EPATITI E ALTRE INFEZIONI ====
+    epatite_b_diagnosi: >
+      Epatite B cronica → importante driver di rischio per cirrosi ed epatocarcinoma;
+      richiede follow-up strutturato e aderenza alle linee guida.
+    vaccino_epatite_b: >
+      Assenza di vaccinazione per HBV in soggetti a rischio → aumenta la possibilità
+      di infezione; valutare profilassi attiva.
+    mononucleosi: >
+      Mononucleosi pregressa → può essere neutra oppure rilevante in caso di disturbi
+      cronici (fatica, linfonodi, rischio linfomi) da correlare con altri dati.
+    tubercolosi: >
+      Tubercolosi attiva o latente → condizione rilevante per immunità, apparato
+      respiratorio e rischio di riattivazione; richiede follow-up specialistico.
+
+    # ==== COVID-19 ====
+    covid: >
+      COVID-19 moderato, grave o con ricovero/terapia intensiva → aumenta il rischio
+      di sequele cardiovascolari, respiratorie e trombotiche nel medio-lungo termine.
+    sequele_covid: >
+      Sintomi persistenti dopo COVID (Long COVID) → impatto su energia, respiro,
+      concentrazione; utile approccio multidisciplinare e riabilitativo.
+    vaccino_covid: >
+      Mancata vaccinazione o protezione incompleta contro COVID → maggiore rischio
+      di forme severe e complicanze.
+    dosi_vaccino_covid: >
+      Numero di dosi ridotto rispetto alle raccomandazioni → protezione sub-ottimale,
+      specialmente in presenza di comorbidità.
+
+    # ==== HIV ====
+    hiv_test: >
+      HIV positivo → driver di rischio sistemico che richiede presa in carico
+      specialistica continuativa e terapia antiretrovirale.
+    terapia_antiretrovirale: >
+      Difficoltà o mancata aderenza alla terapia antiretrovirale → aumenta nettamente
+      il rischio di progressione di malattia e infezioni opportunistiche.
+
+    # ==== TRAUMI ====
+    trauma_cranico: >
+      Trauma cranico con perdita di coscienza → possibile impatto su rischio di epilessia,
+      disturbi cognitivi e fragilità neurologica.
+    post_trauma_sintomi: >
+      Convulsioni, disturbi cognitivi o cefalea persistente dopo trauma → indicano
+      possibili esiti a lungo termine che richiedono attenzione specialistica.
+    fratture_traumi_ortopedici: >
+      Fratture, soprattutto da trauma minimo, possono indicare fragilità ossea e
+      necessità di valutazione per osteoporosi.
+    trauma_toracico: >
+      Pregresso trauma toracico con complicanze → possibile impatto su capacità
+      respiratoria e funzione cardiaca.
+    trauma_addominale: >
+      Trauma addominale con lesioni viscerali → possibile relazione con disturbi
+      digestivi o epatici nel tempo.
+
+    # ==== STORIA CHIRURGICA ====
+    appendicectomia: >
+      Appendicectomia → in genere neutra, ma utile come informazione di contesto
+      in eventuali quadri addominali.
+    complicanze_appendicectomia: >
+      Complicanze dopo appendicectomia → possono associarsi a aderenze e disturbi
+      addominali cronici.
+    tonsillectomia: >
+      Tonsillectomia → indicativa di pregressi problemi respiratori/infettivi
+      in età pediatrica, da collegare al quadro attuale.
+    motivo_tonsillectomia: >
+      Apnee o russamento come motivo di tonsillectomia → suggeriscono pregresso
+      disturbo respiratorio notturno (OSA) da monitorare nel tempo.
+    colecistectomia: >
+      Colecistectomia → può correlarsi a disturbi digestivi e diarrea cronica
+      in una quota di pazienti.
+    motivo_colecistectomia: >
+      Colecistite o complicanze → indicano un pregresso quadro infiammatorio
+      biliare significativo.
+    ernia_inguinale: >
+      Ernia con recidive o sintomi → può richiedere ulteriore valutazione chirurgica
+      se ancora sintomatica.
+    prostatectomia: >
+      Prostatectomia per tumore → richiede follow-up urologico (PSA, funzionalità)
+      e attenzione a eventuali sequele.
+    complicanze_prostatectomia: >
+      Incontinenza o altri disturbi dopo prostatectomia → impattano sulla qualità
+      di vita e meritano gestione dedicata.
+
+    # ==== PARAMETRI VITALI E METABOLICI ====
+    ipertensione: >
+      Ipertensione (anche occasionale) → driver di rischio cardiovascolare e cerebrale
+      tra i più importanti; da controllare con stile di vita e terapia mirata.
+    trattamento_ipertensione: >
+      Ipertensione non trattata o trattata solo parzialmente → aumenta sensibilmente
+      il rischio di ictus, infarto e danno renale.
+    glicemia: >
+      Glicemia alterata o diabete → impatta su cuore, reni, retina, sistema nervoso;
+      richiede gestione continuativa.
+    approccio_glicemia: >
+      Assenza di trattamento strutturato per diabete o iperglicemia → favorisce
+      lo sviluppo di complicanze micro- e macrovascolari.
+    bmi: >
+      BMI elevato o molto basso → indice di squilibrio nutrizionale con impatto
+      su rischio cardiometabolico, articolare e infiammatorio.
+    alterazioni_livelli_colesterolo: >
+      Dislipidemia non controllata → aumenta il rischio di eventi cardiovascolari;
+      importante valutare terapia e target LDL.
+
+    # ==== ALLERGIE, FARMACI, INFIAMMAZIONE ====
+    allergie: >
+      Allergie multiple, soprattutto a farmaci o insetti → richiedono attenzione
+      a rischio di reazioni gravi e necessità di piani di emergenza.
+    farmaci_regolari: >
+      Assunzione cronica di farmaci → indica la presenza di patologie di base
+      che contribuiscono al rischio complessivo e richiede revisione periodica
+      delle terapie.
+    stato_generale_influenzato_da_infiammazioni_o_infezioni: >
+      Stato generale frequentemente influenzato da infezioni o infiammazioni →
+      suggerisce possibile vulnerabilità immunitaria o infiammazione cronica
+      di basso grado.
+
+  class_explanations:
+    low: >
+      I principali driver clinici e biochimici sono deboli o compensati, con impatto
+      complessivo inferiore alla soglia di attenzione successiva ({threshold_next}).
+    medium: >
+      Alcune condizioni (es. {top_driver_names}) contribuiscono in modo significativo
+      al rischio, ma in un quadro ancora modificabile con interventi su stile di vita,
+      terapia e prevenzione.
+    high: >
+      Driver forti (es. {top_driver_names}) superano le soglie di sicurezza; è indicata
+      una valutazione clinica strutturata con approfondimenti diagnostici e piano
+      terapeutico personalizzato.
+
+red_flags:
+
+  # ==== Tiroide ====
+  - condition: "ipertiroidismo in ['non_trattato','attualmente_in_trattamento']"
+    action: "Valutazione endocrinologica per controllo dell'ipertiroidismo e prevenzione di aritmie e complicanze cardiovascolari."
+  - condition: "nodulo_tiroide in ['sospetto','maligno']"
+    action: "Follow-up oncologico/endochirurgico con imaging e, se indicato, agoaspirato o intervento."
+
+  # ==== Respiratorio / Fumo ====
+  - condition: "asma in ['diagnosticata_in_trattamento','episodi_non_diagnosticati']"
+    action: "Valutazione pneumologica per confermare diagnosi, ottimizzare terapia e definire un piano di gestione dell'asma."
+  - condition: "bpco in ['diagnosi_bpco','sintomi_senza_diagnosi','ex_fumatore_con_sintomi']"
+    action: "Spirometria e inquadramento della BPCO con eventuale avvio di terapia inalatoria e riabilitazione respiratoria."
+  - condition: "fumo_attuale in ['si']"
+    action: "Programma strutturato di cessazione del fumo (counselling, farmaci, supporto) per ridurre il rischio cardiovascolare e oncologico."
+  - condition: "difficolta_respiratorie_quotidiane in ['si']"
+    action: "Valutazione cardiopolmonare per dispnea (ECG, ecocardiogramma, spirometria, saturimetria)."
+  - condition: "polmonite in ['piu_volte','ricovero']"
+    action: "Approfondimento per cause di infezioni respiratorie ricorrenti (BPCO, immunodeficienza, bronchiectasie) e aggiornamento piano vaccinale."
+  - condition: "vaccino_pneumo_influ in ['no']"
+    action: "Considerare vaccinazione anti-influenzale e pneumococcica, soprattutto in presenza di fattori di rischio."
+
+  # ==== Gastrointestinale ====
+  - condition: "diarrea_3_mesi in ['diarrea_cronica']"
+    action: "Valutazione gastroenterologica con eventuale colonscopia e test specifici per IBD, celiachia e malassorbimento."
+  - condition: "sangue_feci in ['si']"
+    action: "Colonscopia o altra indagine endoscopica per escludere lesioni significative (polipi, IBD, neoplasie)."
+  - condition: "perdita_peso in ['si']"
+    action: "Bilancio nutrizionale e screening per cause organiche (endocrine, infiammatorie, oncologiche)."
+
+  # ==== Infettive / Vaccini classici ====
+  - condition: "rosolia in ['mai_avuta']"
+    action: "Valutare immunità (IgG) e eventuale vaccinazione, soprattutto in donne in età fertile."
+  - condition: "vaccino_test_rosolia in ['no_non_so']"
+    action: "Verificare stato sierologico e completare la protezione contro la rosolia in vista di future gravidanze."
+  - condition: "morbillo in ['mai_avuto']"
+    action: "Valutare stato vaccinale o sierologico per morbillo e considerare immunizzazione se non protetto."
+  - condition: "varicella in ['mai_avuta']"
+    action: "Considerare vaccinazione contro varicella in età adulta se a rischio, per prevenire forme severe."
+  - condition: "vaccino_difterite in ['no']"
+    action: "Eseguire o aggiornare i richiami dTpa in età adulta."
+
+  # ==== Epatiti, TBC ====
+  - condition: "epatite_b_diagnosi in ['positivo_cronico']"
+    action: "Follow-up epatologico periodico (funzionalità epatica, HBV-DNA, elastografia, screening HCC)."
+  - condition: "vaccino_epatite_b in ['no']"
+    action: "Valutare vaccinazione HBV nei soggetti non immuni, in particolare se a rischio (sanitari, partner multipli, ecc.)."
+  - condition: "tubercolosi in ['malattia_conclusa','test_positivo_senza_malattia']"
+    action: "Consulto pneumologico/infettivologico per definire necessità di profilassi o monitoraggio per TBC."
+
+  # ==== COVID / Long COVID ====
+  - condition: "covid in ['ricovero','terapia_intensiva']"
+    action: "Follow-up post-COVID per valutazione respiratoria, cardiologica e trombotica nel medio periodo."
+  - condition: "sequele_covid in ['persistenti']"
+    action: "Percorso dedicato per Long COVID (riabilitazione, supporto cognitivo, valutazione multidisciplinare)."
+  - condition: "vaccino_covid in ['no']"
+    action: "Consigliano aggiornamento della vaccinazione anti-COVID, specialmente in presenza di comorbidità."
+
+  # ==== HIV ====
+  - condition: "hiv_test in ['positivo']"
+    action: "Presa in carico infettivologica con avvio o ottimizzazione della terapia antiretrovirale (HAART)."
+  - condition: "terapia_antiretrovirale in ['difficolta','non_iniziato']"
+    action: "Intervento di aderenza terapeutica e counselling per ridurre il rischio di progressione e complicanze."
+
+  # ==== Traumi ====
+  - condition: "trauma_cranico in ['con_perdita']"
+    action: "Valutazione neurologica e neuroradiologica (TC/RM) e monitoraggio per epilessia o deficit cognitivi."
+  - condition: "post_trauma_sintomi in ['convulsioni','disturbi_cognitivi']"
+    action: "Approfondimento neurologico urgente per esiti di trauma cranico."
+  - condition: "fratture_traumi_ortopedici in ['con_intervento']"
+    action: "Valutare fragilità ossea e necessità di prevenzione di nuove fratture."
+  - condition: "trauma_toracico in ['con_complicanze']"
+    action: "Controllo pneumologico/cardiologico per possibili sequele (aderenze, contusione cardiaca)."
+  - condition: "trauma_addominale in ['con_lesioni']"
+    action: "Follow-up per eventuali sequele epatiche, pancreatiche o intestinali post-trauma."
+
+  # ==== Parametri vitali / Metabolico ====
+  - condition: "ipertensione in ['diagnosi','occasionale']"
+    action: "Conferma diagnostica, monitoraggio pressorio e definizione di un piano terapeutico e di stile di vita."
+  - condition: "trattamento_ipertensione in ['nessuno']"
+    action: "Avviare o ottimizzare il trattamento dell'ipertensione per prevenire ictus, infarto e danno renale."
+  - condition: "glicemia in ['diagnosi','occasionalmente']"
+    action: "Approfondire controllo glicemico (HbA1c, profilo glicemico) e valutare terapia per prevenire complicanze."
+  - condition: "approccio_glicemia in ['nessuno']"
+    action: "Impostare un percorso terapeutico/nutrizionale per correggere l'alterazione glicemica."
+  - condition: "alterazioni_livelli_colesterolo in ['attuali']"
+    action: "Valutare indicazione a terapia ipolipemizzante e definire target LDL in base al profilo di rischio complessivo."
+
+  # ==== Allergie, Farmaci, Infiammazione ====
+  - condition: "allergie in ['farmaci','insetti']"
+    action: "Inquadramento allergologico e definizione di un piano di emergenza (es. adrenalina autoiniettabile in caso di rischio anafilassi)."
+  - condition: "farmaci_regolari in ['patologia_cronica','terapia_ormonale']"
+    action: "Revisione periodica della terapia cronica per ottimizzare il controllo delle patologie di base e ridurre interazioni/effetti avversi."
+  - condition: "stato_generale_influenzato_da_infiammazioni_o_infezioni in ['frequentemente']"
+    action: "Valutare assetto immunitario e marcatori di infiammazione cronica, con eventuali approfondimenti specialistici."
