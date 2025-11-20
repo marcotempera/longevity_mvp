@@ -44,18 +44,32 @@ function drawRadar(scores){
     data: {
       labels,
       datasets: [{
-        label: 'Rischio (0–100)',
+        label: 'Indice di Salute', // ✅ Etichetta aggiornata
         data: scores,
-        fill: true
+        fill: true,
+        // ✅ Colori aggiornati per indicare "Salute" (Verde/Teal)
+        backgroundColor: 'rgba(54, 209, 220, 0.2)', // Colore --accent trasparente
+        borderColor: 'rgba(54, 209, 220, 1)',       // Colore --accent solido
+        pointBackgroundColor: 'rgba(54, 209, 220, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(54, 209, 220, 1)'
       }]
     },
     options: {
       responsive: true,
       scales: {
-        r: { suggestedMin: 0, suggestedMax: 100, ticks: { stepSize: 20 } }
+        // Manteniamo 0-100 perché computeMacroScoresForRadar moltiplica x10
+        r: { 
+            suggestedMin: 0, 
+            suggestedMax: 100, 
+            ticks: { stepSize: 20, backdropColor: 'transparent' }, // backdropColor pulisce la griglia
+            grid: { color: 'rgba(255, 255, 255, 0.1)' },           // Griglia sottile
+            pointLabels: { color: '#cbd5e1', font: { size: 12 } }  // Etichette leggibili
+        }
       },
       plugins: {
-        legend: { display: false }
+        legend: { display: true, labels: { color: '#cbd5e1' } } // Mostriamo la legenda
       }
     }
   });

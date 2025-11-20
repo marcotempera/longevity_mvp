@@ -224,7 +224,7 @@ export function computeScore(rawAnswers, configs) {
   // 1. Mappa risposte
   const mappedAnswers = mapAnswersToFeatures(rawAnswers, mapping);
 
-  // 2. Calcola score per ogni feature
+  // 2. Calcola score per ogni feature (Punti alti = problema)
   const featureScores = {};
   for (const feature of features.features || []) {
     const value = mappedAnswers[feature.name];
@@ -244,14 +244,15 @@ export function computeScore(rawAnswers, configs) {
   const cap = scoring.aggregation?.cap_total || 100;
   totalScore = Math.max(0, Math.min(cap, totalScore));
 
-  // ✅ AGGIUNGI QUESTA NORMALIZZAZIONE
-  const normalizedScore = (totalScore / cap) * 100; // Ora è 0-100
+  // Calcolo del RISK SCORE (0 = Sano, 100 = Rischio Alto)
+  const normalizedRiskScore = (totalScore / cap) * 100; 
 
-  // 4. Determina classificazione (usa normalizedScore)
+  // 4. Determina classificazione (usa normalizedRiskScore come previsto dal YAML)
   let riskClass = 'medium';
   const { classification } = scoring;
-  if (normalizedScore <= (classification.low?.max || 40)) riskClass = 'low';
-  else if (normalizedScore >= (classification.high?.min || 70)) riskClass = 'high';
+  // 'low' nel YAML significa "Basso Rischio" (quindi Salute Alta)
+  if (normalizedRiskScore <= (classification.low?.max || 40)) riskClass = 'low';
+  else if (normalizedRiskScore >= (classification.high?.min || 70)) riskClass = 'high';
 
   // 5. Identifica drivers
   const drivers = identifyDrivers(featureScores, weights, scoring.explanations);
@@ -267,9 +268,14 @@ export function computeScore(rawAnswers, configs) {
     }
   }
 
+  // 8. CALCOLO HEALTH SCORE (Inversione finale)
+  // Trasformiamo il rischio (0-100) in salute (10-0)
+  let healthScore = 10 - (normalizedRiskScore / 10);
+  healthScore = Math.round(healthScore * 10) / 10; // Arrotonda a 1 decimale (es. 9.5)
+
   return {
-    score: Math.round(normalizedScore * 10) / 10, // ← USA normalizedScore
-    riskClass,
+    score: healthScore, // Ora restituisce 10.0 per un utente sano
+    riskClass,          // 'low' = Verde (Basso Rischio), 'high' = Rosso (Alto Rischio)
     drivers,
     redFlags,
     featureScores,
