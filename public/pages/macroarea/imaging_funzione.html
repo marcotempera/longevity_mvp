@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Imaging & Valutazioni Funzionali</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h5{font-weight:400;color:var(--muted);margin-top:-10px;margin-bottom:20px;line-height:1.5}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:24px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      width: 16px; 
+      height: 16px;
+    }
+    textarea{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      margin-top: 12px;
+      resize: vertical;
+    }
+    textarea:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">📷 Imaging & Valutazioni</h1>
+        <p class="muted">Se disponi di test recenti, inseriscili qui per un report più preciso.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>🫀 Valutazioni Cardiache</h2>
+        
+        <div class="field">
+          <label>77. Hai mai eseguito un ecocardiogramma (a riposo o sotto sforzo)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="eco_cardio" value="mai_eseguito" data-none-group="eco_cardio"> No, mai eseguito</label>
+            <label class="option-label"><input type="checkbox" name="eco_cardio" value="normale" data-none-group="eco_cardio"> Sì, risultato nella norma</label>
+            <label class="option-label"><input type="checkbox" name="eco_cardio" value="alterazioni_valvole" data-none-group="eco_cardio"> Sì, alterazioni valvole/pareti</label>
+            <label class="option-label"><input type="checkbox" name="eco_cardio" value="ipertrofia" data-none-group="eco_cardio"> Sì, ipertrofia/sforzo cardiaco</label>
+            <label class="option-label"><input type="checkbox" name="eco_cardio" value="non_ricordo" data-none-group="eco_cardio"> Non ricordo</label>
+          </div>
+          <textarea name="note_eco_cardio" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>79. Hai mai eseguito un elettrocardiogramma (ECG)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="ecg" value="mai_ecg" data-none-group="ecg"> No, mai fatto</label>
+            <label class="option-label"><input type="checkbox" name="ecg" value="ecg_normale" data-none-group="ecg"> Sì, ECG normale</label>
+            <label class="option-label"><input type="checkbox" name="ecg" value="aritmie" data-none-group="ecg"> Sì, aritmie/anomalie ritmo</label>
+            <label class="option-label"><input type="checkbox" name="ecg" value="ischemia" data-none-group="ecg"> Sì, ischemia/blocchi</label>
+            <label class="option-label"><input type="checkbox" name="ecg" value="non_so" data-none-group="ecg"> Non so/Non ricordo</label>
+          </div>
+          <textarea name="note_ecg" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>80. Hai mai svolto un test da sforzo (treadmill o cyclette)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="test_sforzo" value="mai_svolto" data-none-group="test_sforzo"> No, mai fatto</label>
+            <label class="option-label"><input type="checkbox" name="test_sforzo" value="normale" data-none-group="test_sforzo"> Sì, risultato regolare</label>
+            <label class="option-label"><input type="checkbox" name="test_sforzo" value="alterato" data-none-group="test_sforzo"> Sì, alterazioni FC/pressione</label>
+            <label class="option-label"><input type="checkbox" name="test_sforzo" value="sospeso" data-none-group="test_sforzo"> Sì, sospeso per sintomi</label>
+            <label class="option-label"><input type="checkbox" name="test_sforzo" value="non_ricordo" data-none-group="test_sforzo"> Non ricordo</label>
+          </div>
+          <textarea name="note_test_sforzo" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>83. Conosci la tua frequenza cardiaca a riposo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="non_misurata" data-none-group="fc_riposo"> No, mai misurata</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="normale" data-none-group="fc_riposo"> Sì, normale (60-80 bpm)</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="alta" data-none-group="fc_riposo"> Sì, alta (>90 bpm)</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="bassa" data-none-group="fc_riposo"> Sì, bassa (<50 bpm)</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="non_ricordo" data-none-group="fc_riposo"> Non ricordo</label>
+          </div>
+          <textarea name="note_fc_riposo" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>85. Hai mai effettuato un Holter cardiaco (24h o più)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="holter" value="mai" data-none-group="holter"> No, mai eseguito</label>
+            <label class="option-label"><input type="checkbox" name="holter" value="normale" data-none-group="holter"> Sì, normale</label>
+            <label class="option-label"><input type="checkbox" name="holter" value="anomalie" data-none-group="holter"> Sì, rilevate anomalie</label>
+            <label class="option-label"><input type="checkbox" name="holter" value="non_ricordo" data-none-group="holter"> Non ricordo</label>
+          </div>
+          <textarea name="note_holter" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>86. Hai mai svolto un monitoraggio pressorio delle 24 ore (Holter pressorio)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="holter_pressorio" value="mai" data-none-group="holter_pressorio"> No, mai eseguito</label>
+            <label class="option-label"><input type="checkbox" name="holter_pressorio" value="nella_norma" data-none-group="holter_pressorio"> Sì, valori nella norma</label>
+            <label class="option-label"><input type="checkbox" name="holter_pressorio" value="pressione_alta" data-none-group="holter_pressorio"> Sì, valori elevati</label>
+            <label class="option-label"><input type="checkbox" name="holter_pressorio" value="pressione_bassa" data-none-group="holter_pressorio"> Sì, tendenza ipotensiva</label>
+            <label class="option-label"><input type="checkbox" name="holter_pressorio" value="non_ricordo" data-none-group="holter_pressorio"> Non ricordo</label>
+          </div>
+          <textarea name="note_holter_pressorio" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>92. Hai mai fatto una valutazione della variabilità della frequenza cardiaca (HRV)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="hrv" value="mai" data-none-group="hrv"> No, mai fatta</label>
+            <label class="option-label"><input type="checkbox" name="hrv" value="normale" data-none-group="hrv"> Sì, nella norma</label>
+            <label class="option-label"><input type="checkbox" name="hrv" value="ridotta" data-none-group="hrv"> Sì, HRV ridotta (stress/squilibrio)</label>
+            <label class="option-label"><input type="checkbox" name="hrv" value="non_ricordo" data-none-group="hrv"> Non ricordo</label>
+          </div>
+          <textarea name="note_hrv" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🫁 Valutazioni Respiratorie</h2>
+
+        <div class="field">
+          <label>78. Hai mai effettuato una spirometria o test di funzionalità respiratoria?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="test_respiro" value="mai_eseguito" data-none-group="test_respiro"> No, mai effettuato</label>
+            <label class="option-label"><input type="checkbox" name="test_respiro" value="normale" data-none-group="test_respiro"> Sì, normale</label>
+            <label class="option-label"><input type="checkbox" name="test_respiro" value="ostruttivo" data-none-group="test_respiro"> Sì, pattern ostruttivo (asma/BPCO)</label>
+            <label class="option-label"><input type="checkbox" name="test_respiro" value="restrittivo" data-none-group="test_respiro"> Sì, pattern restrittivo</label>
+            <label class="option-label"><input type="checkbox" name="test_respiro" value="non_so" data-none-group="test_respiro"> Non so/Non ricordo</label>
+          </div>
+          <textarea name="note_test_respiro" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>82. Ti è mai stata misurata la saturazione dell’ossigeno nel sangue?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="saturazione" value="mai" data-none-group="saturazione"> No, mai misurata</label>
+            <label class="option-label"><input type="checkbox" name="saturazione" value="normale" data-none-group="saturazione"> Sì, nella norma (>95%)</label>
+            <label class="option-label"><input type="checkbox" name="saturazione" value="bassa" data-none-group="saturazione"> Sì, valori bassi</label>
+            <label class="option-label"><input type="checkbox" name="saturazione" value="non_ricordo" data-none-group="saturazione"> Non ricordo</label>
+          </div>
+          <textarea name="note_saturazione" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>91. Hai mai eseguito una polisonnografia (monitoraggio sonno)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="polisonnografia" value="mai" data-none-group="polisonnografia"> No, mai eseguita</label>
+            <label class="option-label"><input type="checkbox" name="polisonnografia" value="nella_norma" data-none-group="polisonnografia"> Sì, normale</label>
+            <label class="option-label"><input type="checkbox" name="polisonnografia" value="apnee" data-none-group="polisonnografia"> Sì, apnee/russamento</label>
+            <label class="option-label"><input type="checkbox" name="polisonnografia" value="non_ricordo" data-none-group="polisonnografia"> Non ricordo</label>
+          </div>
+          <textarea name="note_polisonnografia" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>93. Valutazione capacità polmonare (DLCO)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="dlco" value="mai" data-none-group="dlco"> No, mai eseguita</label>
+            <label class="option-label"><input type="checkbox" name="dlco" value="nella_norma" data-none-group="dlco"> Sì, normale</label>
+            <label class="option-label"><input type="checkbox" name="dlco" value="ridotta" data-none-group="dlco"> Sì, capacità ridotta</label>
+            <label class="option-label"><input type="checkbox" name="dlco" value="non_ricordo" data-none-group="dlco"> Non ricordo</label>
+          </div>
+          <textarea name="note_dlco" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>⚙️ Altre Valutazioni Funzionali & Imaging</h2>
+
+        <div class="field">
+          <label>81. Hai mai effettuato imaging funzionale (RMN cardiaca/polmonare, PET)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="imaging_funzionale" value="mai_fatto" data-none-group="imaging_funzionale"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="imaging_funzionale" value="normale" data-none-group="imaging_funzionale"> Sì, nella norma</label>
+            <label class="option-label"><input type="checkbox" name="imaging_funzionale" value="alterazioni_funzionali" data-none-group="imaging_funzionale"> Sì, anomalie</label>
+            <label class="option-label"><input type="checkbox" name="imaging_funzionale" value="esame_incompleto" data-none-group="imaging_funzionale"> Sì, incompleto</label>
+            <label class="option-label"><input type="checkbox" name="imaging_funzionale" value="non_ricordo" data-none-group="imaging_funzionale"> Non ricordo</label>
+          </div>
+          <textarea name="note_imaging_funzionale" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>84. Hai mai eseguito una RMN cardiaca o polmonare specifica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="rmn_cuore_polmoni" value="mai" data-none-group="rmn_cuore_polmoni"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="rmn_cuore_polmoni" value="normale" data-none-group="rmn_cuore_polmoni"> Sì, nella norma</label>
+            <label class="option-label"><input type="checkbox" name="rmn_cuore_polmoni" value="alterazioni" data-none-group="rmn_cuore_polmoni"> Sì, alterazioni</label>
+            <label class="option-label"><input type="checkbox" name="rmn_cuore_polmoni" value="non_ricordo" data-none-group="rmn_cuore_polmoni"> Non ricordo</label>
+          </div>
+          <textarea name="note_rmn_cuore_polmoni" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>87. Hai mai eseguito una prova da sforzo cardiopolmonare (CPET)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="cpet" value="mai" data-none-group="cpet"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="cpet" value="normale" data-none-group="cpet"> Sì, regolare</label>
+            <label class="option-label"><input type="checkbox" name="cpet" value="soglia_bassa" data-none-group="cpet"> Sì, soglia bassa/VO2 ridotto</label>
+            <label class="option-label"><input type="checkbox" name="cpet" value="non_ricordo" data-none-group="cpet"> Non ricordo</label>
+          </div>
+          <textarea name="note_cpet" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>88. Hai mai eseguito un test del cammino di 6 minuti (6MWT)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="6mwt" value="mai" data-none-group="6mwt"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="6mwt" value="nella_norma" data-none-group="6mwt"> Sì, nella norma</label>
+            <label class="option-label"><input type="checkbox" name="6mwt" value="cammino_ridotto" data-none-group="6mwt"> Sì, cammino ridotto</label>
+            <label class="option-label"><input type="checkbox" name="6mwt" value="non_ricordo" data-none-group="6mwt"> Non ricordo</label>
+          </div>
+          <textarea name="note_6mwt" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>89. Valutazione ecografica fegato/addome superiore?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="eco_fegato" value="mai" data-none-group="eco_fegato"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="eco_fegato" value="normale" data-none-group="eco_fegato"> Sì, nella norma</label>
+            <label class="option-label"><input type="checkbox" name="eco_fegato" value="steatosi" data-none-group="eco_fegato"> Sì, steatosi</label>
+            <label class="option-label"><input type="checkbox" name="eco_fegato" value="lesioni" data-none-group="eco_fegato"> Sì, lesioni/altro</label>
+            <label class="option-label"><input type="checkbox" name="eco_fegato" value="non_ricordo" data-none-group="eco_fegato"> Non ricordo</label>
+          </div>
+          <textarea name="note_eco_fegato" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>90. Test riflesso autonomico (es. Valsalva, ortostatico)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="riflesso_autonomico" value="mai" data-none-group="riflesso_autonomico"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="riflesso_autonomico" value="nella_norma" data-none-group="riflesso_autonomico"> Sì, normale</label>
+            <label class="option-label"><input type="checkbox" name="riflesso_autonomico" value="anomalie" data-none-group="riflesso_autonomico"> Sì, anomalie/sintomi</label>
+            <label class="option-label"><input type="checkbox" name="riflesso_autonomico" value="non_ricordo" data-none-group="riflesso_autonomico"> Non ricordo</label>
+          </div>
+          <textarea name="note_riflesso_autonomico" rows="2" placeholder="Note aggiuntive (facoltative)"></textarea>
+        </div>
+
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    // IMPORTANTE: Inserisci qui le tue chiavi Supabase o importale da config centralizzato se preferisci
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Slug della macroarea come definito in MacroFlow (js/state.js)
+    const macroarea = 'imaging_funzione';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Gestione esclusività delle checkbox (es. se clicco "Mai", deseleziona gli altri)
+    function setupExclusiveCheckboxes(groupName, noneValues = ['mai', 'mai_eseguito', 'mai_svolto', 'mai_ecg', 'mai_fatto', 'non_misurata', 'no', 'non_ricordo']) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const isNone = noneValues.includes(cb.value);
+          
+          if (isNone && cb.checked) {
+            // Se seleziono un valore esclusivo (es. Mai), deseleziona tutti gli altri
+            checkboxes.forEach(other => {
+              if (other !== cb) other.checked = false;
+            });
+          } else if (cb.checked) {
+            // Se seleziono un valore normale, deseleziona i valori esclusivi
+            checkboxes.forEach(other => {
+              if (noneValues.includes(other.value)) other.checked = false;
+            });
+          }
+        });
+      });
+    }
+
+    // Inizializza comportamento checkbox per tutte le domande
+    const questionNames = [
+      'eco_cardio', 'test_respiro', 'ecg', 'test_sforzo', 'imaging_funzionale',
+      'saturazione', 'fc_riposo', 'rmn_cuore_polmoni', 'holter', 'holter_pressorio',
+      'cpet', '6mwt', 'eco_fegato', 'riflesso_autonomico', 'polisonnografia', 'hrv', 'dlco'
+    ];
+
+    questionNames.forEach(name => setupExclusiveCheckboxes(name));
+
+    // Progress bar
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Submit form
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Verifica utente
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      // Serializza risposte
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        // 1. Carica configurazioni YAML (Assicurati che i file esistano prima di testare!)
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        // 2. Calcola score (motore aggiornato con logica 10=Salute)
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        // 3. Prepara dati per LLM
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        // 4. Genera report con LLM
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        if (!resp.ok) {
+          const text = await resp.text();
+          console.error('generate-report error:', resp.status, text);
+          throw new Error(`Errore generazione report LLM (${resp.status})`);
+        }
+
+        const { report } = await resp.json();
+        updateProgress(70);
+
+        // 5. Salva su Supabase
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score, // Health Score (0-10)
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        // 6. Aggiorna progress
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        // 7. Redirect
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Processing error:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>
