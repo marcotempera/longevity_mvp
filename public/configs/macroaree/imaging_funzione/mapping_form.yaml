@@ -1,0 +1,196 @@
+map:
+  eco_cardio[]:
+    feature: eco_cardio
+    values:
+      mai_eseguito: mai_eseguito
+      normale: normale
+      alterazioni_valvole: alterazioni_valvole
+      ipertrofia: ipertrofia
+      non_ricordo: non_ricordo
+      
+  note_eco_cardio:
+    feature: note_eco_cardio
+    passthrough: true
+
+  test_respiro[]:
+    feature: test_respiro
+    values:
+      mai_eseguito: mai_eseguito
+      normale: normale
+      ostruttivo: ostruttivo
+      restrittivo: restrittivo
+      non_so: non_so
+  note_test_respiro:
+    feature: note_test_respiro
+    passthrough: true
+
+  ecg[]:
+    feature: ecg
+    values:
+      mai_ecg: mai_ecg
+      ecg_normale: ecg_normale
+      aritmie: aritmie
+      ischemia: ischemia
+      non_so: non_so
+  note_ecg:
+    feature: note_ecg
+    passthrough: true
+
+  test_sforzo[]:
+    feature: test_sforzo
+    values:
+      mai_svolto: mai_svolto
+      normale: normale
+      alterato: alterato
+      sospeso: sospeso
+      non_ricordo: non_ricordo
+  note_test_sforzo:
+    feature: note_test_sforzo
+    passthrough: true
+
+  imaging_funzionale[]:
+    feature: imaging_funzionale
+    values:
+      mai_fatto: mai_fatto
+      normale: normale
+      alterazioni_funzionali: alterazioni_funzionali
+      esame_incompleto: esame_incompleto
+      non_ricordo: non_ricordo
+  note_imaging_funzionale:
+    feature: note_imaging_funzionale
+    passthrough: true
+
+  saturazione[]:
+    feature: saturazione
+    values:
+      mai: mai
+      normale: normale
+      bassa: bassa
+      non_ricordo: non_ricordo
+  note_saturazione:
+    feature: note_saturazione
+    passthrough: true
+
+  fc_riposo[]:
+    feature: fc_riposo
+    values:
+      non_misurata: non_misurata
+      normale: normale
+      alta: alta
+      bassa: bassa
+      non_ricordo: non_ricordo
+  note_fc_riposo:
+    feature: note_fc_riposo
+    passthrough: true
+
+  rmn_cuore_polmoni[]:
+    feature: rmn_cuore_polmoni
+    values:
+      mai: mai
+      normale: normale
+      alterazioni: alterazioni
+      non_ricordo: non_ricordo
+  note_rmn_cuore_polmoni:
+    feature: note_rmn_cuore_polmoni
+    passthrough: true
+
+  holter[]:
+    feature: holter
+    values:
+      mai: mai
+      normale: normale
+      anomalie: anomalie
+      non_ricordo: non_ricordo
+  note_holter:
+    feature: note_holter
+    passthrough: true
+
+  holter_pressorio[]:
+    feature: holter_pressorio
+    values:
+      mai: mai
+      nella_norma: nella_norma
+      pressione_alta: pressione_alta
+      pressione_bassa: pressione_bassa
+      non_ricordo: non_ricordo
+  note_holter_pressorio:
+    feature: note_holter_pressorio
+    passthrough: true
+
+  cpet[]:
+    feature: cpet
+    values:
+      mai: mai
+      normale: normale
+      soglia_bassa: soglia_bassa
+      non_ricordo: non_ricordo
+  note_cpet:
+    feature: note_cpet
+    passthrough: true
+
+  6mwt[]:
+    feature: 6mwt
+    values:
+      mai: mai
+      nella_norma: nella_norma
+      cammino_ridotto: cammino_ridotto
+      non_ricordo: non_ricordo
+  note_6mwt:
+    feature: note_6mwt
+    passthrough: true
+
+  eco_fegato[]:
+    feature: eco_fegato
+    values:
+      mai: mai
+      normale: normale
+      steatosi: steatosi
+      lesioni: lesioni
+      non_ricordo: non_ricordo
+  note_eco_fegato:
+    feature: note_eco_fegato
+    passthrough: true
+
+  riflesso_autonomico[]:
+    feature: riflesso_autonomico
+    values:
+      mai: mai
+      nella_norma: nella_norma
+      anomalie: anomalie
+      non_ricordo: non_ricordo
+  note_riflesso_autonomico:
+    feature: note_riflesso_autonomico
+    passthrough: true
+
+  polisonnografia[]:
+    feature: polisonnografia
+    values:
+      mai: mai
+      nella_norma: nella_norma
+      apnee: apnee
+      non_ricordo: non_ricordo
+  note_polisonnografia:
+    feature: note_polisonnografia
+    passthrough: true
+
+  hrv[]:
+    feature: hrv
+    values:
+      mai: mai
+      normale: normale
+      ridotta: ridotta
+      non_ricordo: non_ricordo
+  note_hrv:
+    feature: note_hrv
+    passthrough: true
+
+  dlco[]:
+    feature: dlco
+    values:
+      mai: mai
+      nella_norma: nella_norma
+      ridotta: ridotta
+      non_ricordo: non_ricordo
+  note_dlco:
+    feature: note_dlco
+    passthrough: true

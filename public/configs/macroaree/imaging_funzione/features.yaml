@@ -1,0 +1,183 @@
+macroarea: imaging_funzione
+version: 1.0
+description: >
+  Configurazione per le valutazioni funzionali e di imaging.
+  Logica di scoring: Punteggio Alto = Rischio Alto (anomalie riscontrate).
+
+features:
+
+  # ====== CARDIOVASCOLARE ======
+  - name: eco_cardio
+    type: categorical
+    allowed: [mai_eseguito, normale, alterazioni_valvole, ipertrofia, non_ricordo]
+    map_to_score: {mai_eseguito: 0, normale: 0, alterazioni_valvole: 3, ipertrofia: 4, non_ricordo: 0}
+    red_flag_if_in: [ipertrofia, alterazioni_valvole]
+    notes: "Ecocardiogramma: ipertrofia o alterazioni valvolari indicano stress cardiaco o patologia strutturale."
+
+  - name: note_eco_cardio
+    type: text
+    store: true
+
+  - name: ecg
+    type: categorical
+    allowed: [mai_ecg, ecg_normale, aritmie, ischemia, non_so]
+    map_to_score: {mai_ecg: 0, ecg_normale: 0, aritmie: 3, ischemia: 5, non_so: 0}
+    red_flag_if_in: [ischemia, aritmie]
+    notes: "ECG: l'ischemia è un segnale di allarme critico per la salute coronarica."
+
+  - name: note_ecg
+    type: text
+    store: true
+
+  - name: test_sforzo
+    type: categorical
+    allowed: [mai_svolto, normale, alterato, sospeso, non_ricordo]
+    map_to_score: {mai_svolto: 0, normale: 0, alterato: 4, sospeso: 3, non_ricordo: 0}
+    red_flag_if_in: [alterato]
+    notes: "Test da sforzo alterato suggerisce ischemia inducibile o scarsa riserva coronarica."
+
+  - name: note_test_sforzo
+    type: text
+    store: true
+
+  - name: fc_riposo
+    type: categorical
+    allowed: [non_misurata, normale, alta, bassa, non_ricordo]
+    map_to_score: {non_misurata: 0, normale: 0, alta: 2, bassa: 1, non_ricordo: 0}
+    notes: "FC riposo >90 bpm è fattore di rischio cardiovascolare indipendente."
+
+  - name: note_fc_riposo
+    type: text
+    store: true
+
+  - name: holter
+    type: categorical
+    allowed: [mai, normale, anomalie, non_ricordo]
+    map_to_score: {mai: 0, normale: 0, anomalie: 3, non_ricordo: 0}
+    red_flag_if_in: [anomalie]
+
+  - name: note_holter
+    type: text
+    store: true
+
+  - name: holter_pressorio
+    type: categorical
+    allowed: [mai, nella_norma, pressione_alta, pressione_bassa, non_ricordo]
+    map_to_score: {mai: 0, nella_norma: 0, pressione_alta: 3, pressione_bassa: 1, non_ricordo: 0}
+    red_flag_if_in: [pressione_alta]
+
+  - name: note_holter_pressorio
+    type: text
+    store: true
+
+  - name: hrv
+    type: categorical
+    allowed: [mai, normale, ridotta, non_ricordo]
+    map_to_score: {mai: 0, normale: 0, ridotta: 2, non_ricordo: 0}
+    notes: "HRV ridotta indica squilibrio autonomico e minore resilienza allo stress."
+
+  - name: note_hrv
+    type: text
+    store: true
+
+  # ====== RESPIRATORIO ======
+  - name: test_respiro
+    type: categorical
+    allowed: [mai_eseguito, normale, ostruttivo, restrittivo, non_so]
+    map_to_score: {mai_eseguito: 0, normale: 0, ostruttivo: 4, restrittivo: 3, non_so: 0}
+    red_flag_if_in: [ostruttivo, restrittivo]
+    notes: "Pattern ostruttivo tipico di asma/BPCO; restrittivo di fibrosi o problemi gabbia toracica."
+
+  - name: note_test_respiro
+    type: text
+    store: true
+
+  - name: saturazione
+    type: categorical
+    allowed: [mai, normale, bassa, non_ricordo]
+    map_to_score: {mai: 0, normale: 0, bassa: 4, non_ricordo: 0}
+    red_flag_if_in: [bassa]
+    notes: "Ipossia cronica o desaturazione sotto sforzo richiedono indagine immediata."
+
+  - name: note_saturazione
+    type: text
+    store: true
+
+  - name: polisonnografia
+    type: categorical
+    allowed: [mai, nella_norma, apnee, non_ricordo]
+    map_to_score: {mai: 0, nella_norma: 0, apnee: 3, non_ricordo: 0}
+    red_flag_if_in: [apnee]
+    notes: "OSAS (Apnee ostruttive) è un forte fattore di rischio per ipertensione e aritmie."
+
+  - name: note_polisonnografia
+    type: text
+    store: true
+
+  - name: dlco
+    type: categorical
+    allowed: [mai, nella_norma, ridotta, non_ricordo]
+    map_to_score: {mai: 0, nella_norma: 0, ridotta: 3, non_ricordo: 0}
+
+  - name: note_dlco
+    type: text
+    store: true
+
+  # ====== IMAGING AVANZATO / FUNZIONALE ======
+  - name: imaging_funzionale
+    type: categorical
+    allowed: [mai_fatto, normale, alterazioni_funzionali, esame_incompleto, non_ricordo]
+    map_to_score: {mai_fatto: 0, normale: 0, alterazioni_funzionali: 4, esame_incompleto: 0, non_ricordo: 0}
+    red_flag_if_in: [alterazioni_funzionali]
+
+  - name: note_imaging_funzionale
+    type: text
+    store: true
+
+  - name: rmn_cuore_polmoni
+    type: categorical
+    allowed: [mai, normale, alterazioni, non_ricordo]
+    map_to_score: {mai: 0, normale: 0, alterazioni: 4, non_ricordo: 0}
+    red_flag_if_in: [alterazioni]
+
+  - name: note_rmn_cuore_polmoni
+    type: text
+    store: true
+
+  - name: cpet
+    type: categorical
+    allowed: [mai, normale, soglia_bassa, non_ricordo]
+    map_to_score: {mai: 0, normale: 0, soglia_bassa: 2, non_ricordo: 0}
+    notes: "CPET: soglia anaerobica bassa indica scarsa capacità funzionale cardiopolmonare."
+
+  - name: note_cpet
+    type: text
+    store: true
+
+  - name: 6mwt
+    type: categorical
+    allowed: [mai, nella_norma, cammino_ridotto, non_ricordo]
+    map_to_score: {mai: 0, nella_norma: 0, cammino_ridotto: 3, non_ricordo: 0}
+
+  - name: note_6mwt
+    type: text
+    store: true
+
+  # ====== ALTRI ORGANI ======
+  - name: eco_fegato
+    type: categorical
+    allowed: [mai, normale, steatosi, lesioni, non_ricordo]
+    map_to_score: {mai: 0, normale: 0, steatosi: 2, lesioni: 3, non_ricordo: 0}
+
+  - name: note_eco_fegato
+    type: text
+    store: true
+
+  - name: riflesso_autonomico
+    type: categorical
+    allowed: [mai, nella_norma, anomalie, non_ricordo]
+    map_to_score: {mai: 0, nella_norma: 0, anomalie: 2, non_ricordo: 0}
+
+  - name: note_riflesso_autonomico
+    type: text
+    store: true

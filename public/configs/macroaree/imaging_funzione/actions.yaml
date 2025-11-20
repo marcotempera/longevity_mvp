@@ -1,0 +1,173 @@
+macroarea: imaging_funzione
+version: 1.1
+description: "Azioni complete per tutte le anomalie di imaging e funzionali."
+
+actions:
+
+  # ====== CARDIOVASCOLARE ======
+  eco_cardio:
+    alterazioni_valvole:
+      clinical:
+        - "Programmare ecocardiogramma di controllo (follow-up) secondo le tempistiche indicate dal cardiologo (solitamente ogni 6-12 mesi per difetti moderati)."
+        - "Discutere con il medico la necessità di profilassi antibiotica per procedure odontoiatriche o chirurgiche (endocardite)."
+      lifestyle:
+        - "Monitorare sintomi come affanno, palpitazioni o gonfiore alle caviglie e riferirli subito al medico."
+    ipertrofia:
+      clinical:
+        - "Monitorare rigorosamente la pressione arteriosa (diario pressorio o Holter pressorio)."
+        - "Valutare con il cardiologo screening per cause secondarie se l'ipertrofia è severa."
+      lifestyle:
+        - "Riduzione drastica del sale nella dieta (<5g/die)."
+        - "Attività fisica aerobica regolare, evitando sforzi isometrici intensi (pesistica massimale) se non autorizzati."
+
+  ecg:
+    ischemia:
+      clinical:
+        - "CONSULTO CARDIOLOGICO URGENTE se non già in trattamento."
+        - "Valutare test di secondo livello per ischemia inducibile (scintigrafia miocardica, ecostress o angio-TC coronarica)."
+      lifestyle:
+        - "Evitare sforzi fisici intensi fino al nulla osta medico."
+    aritmie:
+      clinical:
+        - "Eseguire un Holter ECG 24-48h per caratterizzare il carico e il tipo di aritmia."
+        - "Ecocardiogramma per escludere cardiopatie strutturali sottostanti."
+      lifestyle:
+        - "Ridurre o eliminare stimolanti (caffeina, nicotina, alcol)."
+        - "Gestione dello stress (tecniche di rilassamento, sonno regolare)."
+
+  test_sforzo:
+    alterato:
+      clinical:
+        - "Approfondimento diagnostico obbligatorio (Angio-TC, Coronarografia o Imaging di perfusione)."
+        - "Ottimizzazione della terapia anti-ischemica con il curante."
+      lifestyle:
+        - "Attività fisica solo sotto soglia ischemica (concordata con cardiologo)."
+    sospeso:
+      clinical:
+        - "Indagare le cause della sospensione (sintomi, pressione, aritmie) con test alternativi (es. eco-stress farmacologico)."
+
+  fc_riposo:
+    alta:
+      clinical:
+        - "Escludere cause secondarie: anemia, ipertiroidismo, decondizionamento fisico o ansia."
+        - "Valutare ECG per escludere tachicardie inappropriate."
+      lifestyle:
+        - "Programma di training aerobico graduale per migliorare il tono vagale."
+        - "Tecniche di respirazione profonda."
+    bassa:
+      clinical:
+        - "Se sintomatica (vertigini, svenimenti), eseguire Holter ECG per escludere malattia del nodo del seno o blocchi."
+      lifestyle:
+        - "Nessuna azione se asintomatico e sportivo; attenzione a farmaci bradicardizzanti."
+
+  holter:
+    anomalie:
+      clinical:
+        - "Valutazione elettrofisiologica se presenti pause patologiche, blocchi avanzati o aritmie ventricolari."
+        - "Se fibrillazione atriale: valutare punteggio di rischio trombotico (CHA2DS2-VASc) per anticoagulante."
+
+  holter_pressorio:
+    pressione_alta:
+      clinical:
+        - "Valutare con il medico l'avvio o il potenziamento della terapia antipertensiva (copertura 24h)."
+        - "Indagare eventuale ipertensione notturna (non-dipping) legata ad apnee del sonno."
+      lifestyle:
+        - "Dieta DASH: ricca di frutta, verdura, potassio e povera di sodio e grassi saturi."
+    pressione_bassa:
+      lifestyle:
+        - "Idratazione abbondante (2-2.5L/die) e aumento leggero del sale se non controindicato."
+        - "Evitare cambi di postura bruschi."
+
+  hrv:
+    ridotta:
+      lifestyle:
+        - "Migliorare la gestione dello stress cronico (mindfulness, yoga, biofeedback)."
+        - "Attività fisica aerobica a moderata intensità per riequilibrare il sistema autonomico."
+      clinical:
+        - "Valutare stato infiammatorio cronico o sovrallenamento (negli atleti)."
+
+  # ====== RESPIRATORIO ======
+  test_respiro:
+    ostruttivo:
+      clinical:
+        - "Valutare con pneumologo terapia inalatoria (broncodilatatori LAMA/LABA/ICS)."
+        - "Spirometria globale con DLCO per diagnosi differenziale (Asma vs BPCO)."
+      lifestyle:
+        - "CESSAZIONE IMMEDIATA del fumo."
+        - "Vaccinazione antinfluenzale e antipneumococcica."
+    restrittivo:
+      clinical:
+        - "Approfondimento con TC Torace ad Alta Risoluzione (HRCT) per escludere interstiziopatie."
+        - "Valutare cause extrapolmonari (es. obesità, cifoscoliosi, patologie neuromuscolari)."
+
+  saturazione:
+    bassa:
+      clinical:
+        - "Eseguire emogasanalisi arteriosa (EGA) per valutare scambi gassosi."
+        - "Test del cammino (6MWT) per valutare desaturazione da sforzo."
+        - "Valutare ossigenoterapia domiciliare se indicata."
+
+  polisonnografia:
+    apnee:
+      clinical:
+        - "Valutare con specialista del sonno l'indicazione a CPAP (ventilazione notturna) o dispositivi di avanzamento mandibolare."
+        - "Visita ORL per valutare ostruzioni meccaniche."
+      lifestyle:
+        - "Calo ponderale se in sovrappeso (spesso risolutivo)."
+        - "Evitare alcol e sedativi la sera; dormire sul fianco."
+
+  dlco:
+    ridotta:
+      clinical:
+        - "Indica un danno alla membrana alveolo-capillare (enfisema o fibrosi) o vascolare (ipertensione polmonare)."
+        - "Richiede inquadramento pneumologico specialistico e TC torace."
+
+  # ====== IMAGING E FUNZIONALE AVANZATO ======
+  imaging_funzionale:
+    alterazioni_funzionali:
+      clinical:
+        - "Confrontarsi con lo specialista che ha richiesto l'esame (Cardiologo/Oncologo/Neurologo) per il piano terapeutico."
+        - "Non trascurare follow-up radiologici consigliati nel referto."
+
+  rmn_cuore_polmoni:
+    alterazioni:
+      clinical:
+        - "Valutazione specialistica per caratterizzazione tissutale (es. presenza di cicatrice, edema, infiltrazione)."
+
+  cpet:
+    soglia_bassa:
+      clinical:
+        - "Indica ridotta capacità funzionale: distinguere cause cardiache (insufficienza cronotropa) da respiratorie o muscolari."
+      lifestyle:
+        - "Programma di riabilitazione cardiopolmonare supervisionato."
+
+  6mwt:
+    cammino_ridotto:
+      clinical:
+        - "Monitorare saturazione durante il test."
+        - "Utile come baseline per valutare l'efficacia delle terapie nel tempo (scompenso cardiaco o BPCO)."
+
+  # ====== ALTRI ORGANI ======
+  eco_fegato:
+    steatosi:
+      clinical:
+        - "Screening metabolico completo (glicemia, profilo lipidico, transaminasi)."
+        - "Valutare Fibroscan per escludere fibrosi epatica avanzata."
+      lifestyle:
+        - "Perdita di peso graduale (5-10% del peso iniziale)."
+        - "Eliminare alcol e fruttosio (bevande zuccherate) dalla dieta."
+      nutraceutical:
+        - "Valutare antiossidanti epatici (es. vitamina E, cardo mariano) sotto controllo medico."
+    lesioni:
+      clinical:
+        - "Caratterizzazione con TC o RM addome con mezzo di contrasto."
+        - "Follow-up stretto se lesioni benigne (es. angiomi, cisti)."
+
+  riflesso_autonomico:
+    anomalie:
+      clinical:
+        - "Valutazione neurologica per disautonomia (es. neuropatia diabetica, Parkinsonismi)."
+        - "Revisione farmaci che possono causare ipotensione ortostatica."
+      lifestyle:
+        - "Bere almeno 2-2.5L di acqua al giorno; aumentare apporto salino se pressione bassa."
+        - "Utilizzo di calze elastiche a compressione graduata."

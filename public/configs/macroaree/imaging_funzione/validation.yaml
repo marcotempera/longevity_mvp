@@ -1,0 +1,25 @@
+rules:
+  # Checkbox esclusivi: Se 'mai' è selezionato, deve essere l'unico
+  - feature: eco_cardio
+    rule: "if includes 'mai_eseguito' then set to ['mai_eseguito']"
+    
+  - feature: test_respiro
+    rule: "if includes 'mai_eseguito' then set to ['mai_eseguito']"
+
+  - feature: ecg
+    rule: "if includes 'mai_ecg' then set to ['mai_ecg']"
+
+  - feature: test_sforzo
+    rule: "if includes 'mai_svolto' then set to ['mai_svolto']"
+
+  - feature: imaging_funzionale
+    rule: "if includes 'mai_fatto' then set to ['mai_fatto']"
+
+  - feature: saturazione
+    rule: "if includes 'mai' then set to ['mai']"
+    
+  - feature: rmn_cuore_polmoni
+    rule: "if includes 'mai' then set to ['mai']"
+
+missing:
+  strategy: "per_feature_policy" # Se manca, usa valore neutro (0)
