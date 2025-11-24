@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Nutrizione & Idratazione</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h5{font-weight:400;color:var(--muted);margin-top:-10px;margin-bottom:20px;line-height:1.5}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:24px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      width: 16px; 
+      height: 16px;
+    }
+    textarea, input[type="text"]{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      margin-top: 12px;
+      resize: vertical;
+    }
+    textarea:focus, input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">🥗 Nutrizione & Idratazione</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>⚖️ Equilibrio e Abitudini</h2>
+        <h5 style="margin-bottom: 24px;">Se disponi di un test o di un’analisi recente relativa alla nutrizione, le risposte aiuteranno a personalizzare il report.</h5>
+
+        <div class="field">
+          <label>129. Ritieni di seguire una dieta equilibrata che ti garantisce tutti i nutrienti necessari?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="dieta_equilibrata" value="dieta_varia"> Sì, dieta varia e bilanciata</label>
+            <label class="option-label"><input type="checkbox" name="dieta_equilibrata" value="potrei_migliorare"> Abbastanza, ma migliorabile</label>
+            <label class="option-label"><input type="checkbox" name="dieta_equilibrata" value="dieta_sbilanciata"> No, spesso sbilanciata</label>
+            <label class="option-label"><input type="checkbox" name="dieta_equilibrata" value="non_so"> Non so / Mai valutato</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>130. Quale affermazione descrive meglio le tue abitudini alimentari attuali?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="abitudini_alimentari" value="equilibrata"> Dieta equilibrata</label>
+            <label class="option-label"><input type="checkbox" name="abitudini_alimentari" value="cerco_ma_sgarro"> Cerco di mangiare sano, ma sgarro spesso</label>
+            <label class="option-label"><input type="checkbox" name="abitudini_alimentari" value="salto_o_monotona"> Salto pasti o dieta monotona</label>
+            <label class="option-label"><input type="checkbox" name="abitudini_alimentari" value="disordinate"> Abitudini disordinate</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>131. Quante porzioni di frutta e verdura consumi in media al giorno? (1 frutto o 100g verdura)</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="porzioni_frutta_verdura" value="0_1"> 0-1</label>
+            <label class="option-label"><input type="checkbox" name="porzioni_frutta_verdura" value="2_3"> 2-3</label>
+            <label class="option-label"><input type="checkbox" name="porzioni_frutta_verdura" value="4_5"> 4-5</label>
+            <label class="option-label"><input type="checkbox" name="porzioni_frutta_verdura" value="6_plus"> 6 o più</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>132. Quanto pensi che il tuo stile alimentare influisca sulla tua efficienza metabolica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="influenza_stile_alimentare_su_efficienza_metabolica" value="alto"> Elevatamente (seguo protocolli specifici)</label>
+            <label class="option-label"><input type="checkbox" name="influenza_stile_alimentare_su_efficienza_metabolica" value="moderato"> Moderatamente (mangio sano senza strategie)</label>
+            <label class="option-label"><input type="checkbox" name="influenza_stile_alimentare_su_efficienza_metabolica" value="basso"> Poco (abitudini irregolari)</label>
+            <label class="option-label"><input type="checkbox" name="influenza_stile_alimentare_su_efficienza_metabolica" value="ignoto"> Non ne ho idea</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>148. In che misura controlli le etichette nutrizionali e gli ingredienti?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="etichette" value="sempre"> Sempre</label>
+            <label class="option-label"><input type="checkbox" name="etichette" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="etichette" value="mai"> Raramente o mai</label>
+            <label class="option-label"><input type="checkbox" name="etichette" value="non_so"> Non so interpretarle</label>
+          </div>
+          <input type="text" name="note_etichette" placeholder="Note su abitudini di acquisto">
+        </div>
+
+        <div class="field">
+          <label>149. Quanti pasti principali (colazione, pranzo, cena) consumi ogni giorno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="pasti_giornalieri" value="3"> Tre pasti regolari</label>
+            <label class="option-label"><input type="checkbox" name="pasti_giornalieri" value="2"> Due pasti principali</label>
+            <label class="option-label"><input type="checkbox" name="pasti_giornalieri" value="1"> Un solo pasto completo</label>
+            <label class="option-label"><input type="checkbox" name="pasti_giornalieri" value="variabile"> Variabile</label>
+          </div>
+          <input type="text" name="note_pasti_giornalieri" placeholder="Note su orari e regolarità">
+        </div>
+
+        <div class="field">
+          <label>153. Ti capita di saltare spesso la colazione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="colazione" value="mai"> Mai / quasi mai</label>
+            <label class="option-label"><input type="checkbox" name="colazione" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="colazione" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="colazione" value="non_so"> Non ci ho mai fatto caso</label>
+          </div>
+          <input type="text" name="note_colazione" placeholder="Motivi (es. tempo, mancanza appetito)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🔥 Strategie Metaboliche</h2>
+
+        <div class="field">
+          <label>133. Hai mai seguito pratiche come: il digiuno intermittente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="digiuno_intermittente" value="attualmente"> Sì, attualmente</label>
+            <label class="option-label"><input type="checkbox" name="digiuno_intermittente" value="in_passato"> In passato</label>
+            <label class="option-label"><input type="checkbox" name="digiuno_intermittente" value="ne_ho_sentito"> Ne ho sentito parlare</label>
+            <label class="option-label"><input type="checkbox" name="digiuno_intermittente" value="non_le_conosco"> No / Non lo conosco</label>
+          </div>
+          <textarea name="digiuno_intermittente_note" rows="2" placeholder="Se sì, specifica protocollo e durata"></textarea>
+        </div>
+
+        <div class="field">
+          <label>134. Hai mai seguito pratiche come: la restrizione calorica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="restrizione_calorica" value="attualmente"> Sì, attualmente</label>
+            <label class="option-label"><input type="checkbox" name="restrizione_calorica" value="in_passato"> In passato</label>
+            <label class="option-label"><input type="checkbox" name="restrizione_calorica" value="ne_ho_sentito"> Ne ho sentito parlare</label>
+            <label class="option-label"><input type="checkbox" name="restrizione_calorica" value="non_le_conosco"> No / Non la conosco</label>
+          </div>
+          <textarea name="restrizione_calorica_note" rows="2" placeholder="Se sì, specifica dettagli"></textarea>
+        </div>
+
+        <div class="field">
+          <label>135. Ti capita di avere tremori, agitazione o tachicardia a digiuno prolungato (ipoglicemia)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="ipoglicemia" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="ipoglicemia" value="raro"> Sì, raramente</label>
+            <label class="option-label"><input type="checkbox" name="ipoglicemia" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="ipoglicemia" value="solo_con_attività"> Solo post attività/stress</label>
+            <label class="option-label"><input type="checkbox" name="ipoglicemia" value="non_so"> Non so riconoscerlo</label>
+          </div>
+          <input type="text" name="note_ipoglicemia" placeholder="Quando si verifica?">
+        </div>
+
+        <div class="field">
+          <label>146. Hai mai monitorato glicemia, insulina o emoglobina glicata?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="monitoraggio_glicemia" value="no"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="monitoraggio_glicemia" value="in_passato"> Sì, in passato</label>
+            <label class="option-label"><input type="checkbox" name="monitoraggio_glicemia" value="regolarmente"> Sì, regolarmente</label>
+            <label class="option-label"><input type="checkbox" name="monitoraggio_glicemia" value="non_so"> Non so cosa siano</label>
+          </div>
+          <input type="text" name="note_monitoraggio_glicemia" placeholder="Valori se noti">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🍎 Qualità della Dieta</h2>
+
+        <div class="field">
+          <label>139. Qual è la tua fonte proteica principale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="fonte_proteica" value="carne"> Carne</label>
+            <label class="option-label"><input type="checkbox" name="fonte_proteica" value="pesce"> Pesce</label>
+            <label class="option-label"><input type="checkbox" name="fonte_proteica" value="vegetale"> Legumi / Vegetale</label>
+            <label class="option-label"><input type="checkbox" name="fonte_proteica" value="uova_formaggi"> Uova / Latticini</label>
+            <label class="option-label"><input type="checkbox" name="fonte_proteica" value="non_regolare"> Nessuna costante</label>
+          </div>
+          <input type="text" name="note_fonte_proteica" placeholder="Note su frequenza">
+        </div>
+
+        <div class="field">
+          <label>140. Fai uso di dolcificanti artificiali o prodotti 'light'?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="dolcificanti" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="dolcificanti" value="occasionalmente"> Occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="dolcificanti" value="frequente"> Frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="dolcificanti" value="non_so"> Non so</label>
+          </div>
+          <input type="text" name="note_dolcificanti" placeholder="Prodotti consumati">
+        </div>
+
+        <div class="field">
+          <label>147. Consumi cibi ultra-processati (snack, fast food, confezionati)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="junk_food" value="mai"> Mai / quasi mai</label>
+            <label class="option-label"><input type="checkbox" name="junk_food" value="occasionale"> Occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="junk_food" value="frequente"> Frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="junk_food" value="non_so"> Non so valutare</label>
+          </div>
+          <input type="text" name="note_junk_food" placeholder="Prodotti più consumati">
+        </div>
+
+        <div class="field">
+          <label>152. Quanto frequentemente consumi bevande zuccherate o gassate?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="bevande_zuccherate" value="mai"> Mai / quasi mai</label>
+            <label class="option-label"><input type="checkbox" name="bevande_zuccherate" value="settimanale"> 1-2 a settimana</label>
+            <label class="option-label"><input type="checkbox" name="bevande_zuccherate" value="giornaliero"> Quasi ogni giorno</label>
+            <label class="option-label"><input type="checkbox" name="bevande_zuccherate" value="non_so"> Non so dire</label>
+          </div>
+          <input type="text" name="note_bevande_zuccherate" placeholder="Tipo (es. cola, succhi)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>💧 Idratazione e Micronutrienti</h2>
+
+        <div class="field">
+          <label>136. Bevi almeno 1,5–2 litri di acqua al giorno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="acqua_giornaliera" value="si_regolare"> Sì, regolarmente</label>
+            <label class="option-label"><input type="checkbox" name="acqua_giornaliera" value="meno_di_1_litro"> No, meno di 1L</label>
+            <label class="option-label"><input type="checkbox" name="acqua_giornaliera" value="solo_quando_sete"> Solo quando ho sete</label>
+            <label class="option-label"><input type="checkbox" name="acqua_giornaliera" value="non_so"> Non controllo</label>
+          </div>
+          <input type="text" name="note_acqua_giornaliera" placeholder="Tipo acqua">
+        </div>
+
+        <div class="field">
+          <label>137. Hai mai avuto carenze documentate (ferro, B12, D, magnesio)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="carenze_micronutrienti" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="carenze_micronutrienti" value="si_corrette"> Sì, corrette</label>
+            <label class="option-label"><input type="checkbox" name="carenze_micronutrienti" value="attuali"> Sì, attuali</label>
+            <label class="option-label"><input type="checkbox" name="carenze_micronutrienti" value="non_testate"> Mai testate</label>
+          </div>
+          <input type="text" name="note_carenze_micronutrienti" placeholder="Quali carenze?">
+        </div>
+
+        <div class="field">
+          <label>150. Durante l’attività fisica, bevi regolarmente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="idratazione_attività" value="si"> Sì, sempre</label>
+            <label class="option-label"><input type="checkbox" name="idratazione_attività" value="solo_se_sento_sete"> Solo se ho sete</label>
+            <label class="option-label"><input type="checkbox" name="idratazione_attività" value="no"> No, raramente</label>
+            <label class="option-label"><input type="checkbox" name="idratazione_attività" value="non_faccio_attività"> Non faccio attività</label>
+          </div>
+          <input type="text" name="note_idratazione_attività" placeholder="Attività e durata">
+        </div>
+
+        <div class="field">
+          <label>151. Hai avvertito crampi o mal di testa post sforzo (sintomi disidratazione)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="sintomi_disidratazione" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_disidratazione" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_disidratazione" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_disidratazione" value="non_pratico_sport"> Non pratico sport</label>
+          </div>
+          <input type="text" name="note_sintomi_disidratazione" placeholder="Contesto episodi">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🤢 Digestione e Sintomi</h2>
+
+        <div class="field">
+          <label>138. Hai mai notato variazioni nel colore della tua lingua?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="rosa_normale"> Rosa normale</label>
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="biancastra"> Biancastra/patinata</label>
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="rossa"> Rossa accesa</label>
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="giallastra"> Giallastra</label>
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="violacea"> Violacea</label>
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="nerastra"> Nerastra</label>
+            <label class="option-label"><input type="checkbox" name="colore_lingua" value="non_osservo"> Non osservo</label>
+          </div>
+          <textarea name="colore_lingua_note" rows="2" placeholder="Dettagli..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>142. Mangi lentamente e masticando bene?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="masticazione" value="si_sempre"> Sì, quasi sempre</label>
+            <label class="option-label"><input type="checkbox" name="masticazione" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="masticazione" value="velocemente"> No, mangio in fretta</label>
+            <label class="option-label"><input type="checkbox" name="masticazione" value="non_so"> Non ci ho fatto caso</label>
+          </div>
+          <input type="text" name="note_masticazione" placeholder="Note">
+        </div>
+
+        <div class="field">
+          <label>143. Hai intolleranze diagnosticate (es. lattosio, glutine)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="intolleranze" value="nessuna"> No, nessuna</label>
+            <label class="option-label"><input type="checkbox" name="intolleranze" value="si_diagnosticate"> Sì, diagnosticate</label>
+            <label class="option-label"><input type="checkbox" name="intolleranze" value="sospette"> Sì, sospette</label>
+            <label class="option-label"><input type="checkbox" name="intolleranze" value="non_so"> Non so / mai testato</label>
+          </div>
+          <textarea name="note_intolleranze" rows="2" placeholder="Quali e da quando?"></textarea>
+        </div>
+
+        <div class="field">
+          <label>144. Hai spesso gonfiore addominale post pasto?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="gonfiore_post_pasto" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="gonfiore_post_pasto" value="saltuario"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="gonfiore_post_pasto" value="frequente"> Sì, frequente</label>
+            <label class="option-label"><input type="checkbox" name="gonfiore_post_pasto" value="cronico"> Sì, cronico</label>
+          </div>
+          <input type="text" name="note_gonfiore_post_pasto" placeholder="Alimenti o orari">
+        </div>
+
+        <div class="field">
+          <label>154. Ti senti assonnato o poco lucido dopo i pasti?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="post_prandiale" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="post_prandiale" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="post_prandiale" value="spesso"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="post_prandiale" value="sempre"> Sì, quasi sempre</label>
+          </div>
+          <input type="text" name="note_post_prandiale" placeholder="Note">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>💊 Integrazione e Ritmi</h2>
+
+        <div class="field">
+          <label>141. Ti capita di mangiare durante la notte (dopo le 23)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="spuntini_notturni" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="spuntini_notturni" value="saltuario"> Occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="spuntini_notturni" value="frequente"> Frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="spuntini_notturni" value="non_so"> Non saprei</label>
+          </div>
+          <input type="text" name="note_spuntini_notturni" placeholder="Cosa mangi?">
+        </div>
+
+        <div class="field">
+          <label>145. Assumi regolarmente integratori alimentari?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="integratori" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="integratori" value="saltuariamente"> Saltuariamente</label>
+            <label class="option-label"><input type="checkbox" name="integratori" value="regolarmente"> Sì, regolarmente</label>
+            <label class="option-label"><input type="checkbox" name="integratori" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_integratori" rows="2" placeholder="Quali e frequenza?"></textarea>
+        </div>
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const macroarea = 'nutrizione_idratazione';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Helper per checkbox esclusivi
+    function setupExclusiveCheckboxes(groupName, noneValues = ['no', 'mai', 'nessuna', 'non_so', 'ignoto', 'non_le_conosco', 'non_faccio_attività', 'non_pratico_sport']) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const isNone = noneValues.includes(cb.value);
+          if (isNone && cb.checked) {
+            checkboxes.forEach(other => { if (other !== cb) other.checked = false; });
+          } else if (cb.checked) {
+            checkboxes.forEach(other => { if (noneValues.includes(other.value)) other.checked = false; });
+          }
+        });
+      });
+    }
+
+    // Applica comportamento esclusivo
+    const exclusiveGroups = [
+      'dieta_equilibrata', 'abitudini_alimentari', 'influenza_stile_alimentare_su_efficienza_metabolica',
+      'digiuno_intermittente', 'restrizione_calorica', 'ipoglicemia', 'acqua_giornaliera',
+      'carenze_micronutrienti', 'colore_lingua', 'dolcificanti', 'spuntini_notturni',
+      'masticazione', 'intolleranze', 'gonfiore_post_pasto', 'integratori', 'monitoraggio_glicemia',
+      'junk_food', 'etichette', 'idratazione_attività', 'sintomi_disidratazione',
+      'bevande_zuccherate', 'colazione', 'post_prandiale'
+    ];
+
+    exclusiveGroups.forEach(group => setupExclusiveCheckboxes(group));
+
+    // Barra di avanzamento
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Tasto Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Gestione Invio Form
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        if (!resp.ok) {
+          const text = await resp.text();
+          throw new Error(`Errore generazione report LLM (${resp.status})`);
+        }
+
+        const { report } = await resp.json();
+        updateProgress(70);
+
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score, 
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Errore:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+macroarea: nutrizione_idratazione
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # ===== EQUILIBRIO E ABITUDINI (Peso Alto) =====
+    dieta_equilibrata: 2.0
+    abitudini_alimentari: 2.0
+    porzioni_frutta_verdura: 2.5
+    influenza_stile_alimentare_su_efficienza_metabolica: 0.5
+    etichette: 0.5
+    pasti_giornalieri: 0.8
+    colazione: 0.8
+
+    # ===== STRATEGIE METABOLICHE (Peso Medio - Strategico) =====
+    digiuno_intermittente: 0.5      # Bonus se ben fatto
+    restrizione_calorica: 0.5       # Bonus se ben fatto
+    ipoglicemia: 1.5                # Segnale di instabilità glicemica
+    monitoraggio_glicemia: 0.5
+
+    # ===== QUALITÀ E SCELTE (Peso Alto - Rischio) =====
+    fonte_proteica: 1.2
+    dolcificanti: 0.8
+    junk_food: 2.5                  # Driver critico negativo
+    bevande_zuccherate: 2.0         # Driver critico negativo
+
+    # ===== IDRATAZIONE E MICRONUTRIENTI (Peso Alto) =====
+    acqua_giornaliera: 2.5          # Driver critico
+    carenze_micronutrienti: 1.5
+    idratazione_attività: 1.0
+    sintomi_disidratazione: 1.2
+
+    # ===== DIGESTIONE E SINTOMI (Peso Medio) =====
+    colore_lingua: 0.5
+    masticazione: 1.0               # Importante per la digestione
+    intolleranze: 1.0
+    gonfiore_post_pasto: 1.2
+    post_prandiale: 1.5             # Indicatore di picco glicemico/infiammazione
+
+    # ===== INTEGRAZIONE E RITMI (Peso Basso) =====
+    spuntini_notturni: 1.0          # Disturba il ritmo circadiano
+    integratori: 0.5
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  # Risk Score: 0 = Ottimo (Sano), 100 = Pessimo (Rischio)
+  low:
+    max: 25        # Nutrizione ottimale e idratazione corretta
+  medium:
+    min: 26
+    max: 60        # Abitudini migliorabili o disordinate
+  high:
+    min: 61        # Gravi carenze, eccesso di junk food o dismetabolismi
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 5
+  show_percent_contribution: true
+  group_by_domain: true
+
+  overall_narratives:
+    low: >
+      La tua alimentazione e idratazione sono eccellenti. Fornisci al tuo corpo i nutrienti 
+      e l'acqua necessari per funzionare al meglio, mantenendo stabili i livelli di energia 
+      e riducendo l'infiammazione.
+    medium: >
+      La tua nutrizione presenta alti e bassi. Sebbene ci siano buone abitudini, alcuni fattori 
+      (come il consumo di zuccheri, l'idratazione insufficiente o la qualità del cibo) stanno 
+      limitando il tuo potenziale di salute e longevità.
+    high: >
+      Sono presenti criticità nutrizionali importanti. L'eccesso di cibi processati, la scarsa 
+      idratazione o la disorganizzazione dei pasti rappresentano un rischio significativo per 
+      il metabolismo e la salute a lungo termine. È necessario un cambiamento strutturato.
+
+  driver_templates:
+    # ==== Equilibrio ====
+    dieta_equilibrata: >
+      La percezione di una dieta sbilanciata suggerisce carenze di macro o micronutrienti essenziali.
+    porzioni_frutta_verdura: >
+      Scarso apporto di vegetali, riducendo l'assunzione di fibre, polifenoli e antiossidanti protettivi.
+    
+    # ==== Qualità Cibo ====
+    junk_food: >
+      Consumo frequente di cibi ultra-processati, legati a infiammazione cronica e rischio metabolico.
+    bevande_zuccherate: >
+      L'assunzione di zuccheri liquidi provoca rapidi picchi glicemici e stress metabolico.
+    
+    # ==== Idratazione ====
+    acqua_giornaliera: >
+      Idratazione insufficiente (<1.5L), che compromette le funzioni cognitive, renali e la detossificazione.
+    
+    # ==== Metabolismo ====
+    ipoglicemia: >
+      Segni di instabilità glicemica (cali di zuccheri), indicativi di una gestione non ottimale dei carboidrati.
+    post_prandiale: >
+      Sonnolenza dopo i pasti, spesso legata a pasti troppo abbondanti o ricchi di carboidrati raffinati.
+    spuntini_notturni: >
+      Mangiare tardi la sera interferisce con i ritmi circadiani, il riposo digestivo e la qualità del sonno.
+
+  class_explanations:
+    low: >
+      Nutrizione pro-longevità e ben bilanciata.
+    medium: >
+      Dieta con margini di miglioramento su qualità o regolarità (es. {top_driver_names}).
+    high: >
+      Abitudini alimentari a rischio metabolico elevato, trainate da (es. {top_driver_names}).
+
+red_flags:
+  # ==== Idratazione Grave ====
+  - condition: "acqua_giornaliera in ['meno_di_1_litro']"
+    action: "Aumentare immediatamente l'apporto idrico a piccoli sorsi frequenti."
+  
+  - condition: "sintomi_disidratazione in ['frequente']"
+    action: "Valutare l'integrazione di elettroliti e rivedere l'idratazione durante lo sport."
+
+  # ==== Metabolismo e Zuccheri ====
+  - condition: "ipoglicemia in ['frequente']"
+    action: "Consultare un medico o nutrizionista per stabilizzare la glicemia ed escludere patologie."
+
+  - condition: "bevande_zuccherate in ['giornaliero']"
+    action: "Eliminare le bevande zuccherate è la singola azione più impattante per la salute metabolica."
+
+  # ==== Qualità Dieta ====
+  - condition: "junk_food in ['frequente']"
+    action: "Ridurre drasticamente i cibi ultra-processati per abbassare l'infiammazione sistemica."
+
+  - condition: "porzioni_frutta_verdura in ['0_1']"
+    action: "Introdurre almeno una porzione di verdura a ogni pasto principale."
+
+  # ==== Sintomi Digestivi ====
+  - condition: "gonfiore_post_pasto in ['cronico']"
+    action: "Valutare intolleranze alimentari o disbiosi con un gastroenterologo."

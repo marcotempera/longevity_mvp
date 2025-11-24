@@ -1,0 +1,129 @@
+macroarea: nutrizione_idratazione
+version: 1.0
+description: "Azioni correttive per dieta, idratazione e salute metabolica."
+
+actions:
+
+  # ============================
+  # EQUILIBRIO E QUALITÀ
+  # ============================
+  dieta_equilibrata:
+    dieta_sbilanciata:
+      lifestyle:
+        - "Adottare la regola del 'Piatto Sano': 50% vegetali, 25% proteine, 25% carboidrati integrali."
+        - "Pianificare i pasti settimanali (meal prep) per evitare scelte impulsive."
+      nutraceutical:
+        - "Valutare un multivitaminico di base di alta qualità per coprire eventuali gap nutrizionali (parlarne col medico)."
+      clinical:
+        - "VISITA NUTRIZIONALE per elaborare un piano alimentare personalizzato e sostenibile."
+
+  porzioni_frutta_verdura:
+    0_1:
+      lifestyle:
+        - "Introdurre obbligatoriamente una porzione di verdura (cruda o cotta) a pranzo e a cena."
+        - "Sostituire gli snack processati con un frutto intero o verdura cruda."
+      nutraceutical:
+        - "Considerare integratori di fibre (es. psyllium, glucomannano) se l'introito alimentare non aumenta rapidamente."
+      clinical:
+        - "Monitorare i livelli di infiammazione (PCR) e stress ossidativo."
+
+  junk_food:
+    frequente:
+      lifestyle:
+        - "Eliminare i cibi ultra-processati dalla dispensa domestica per ridurre le tentazioni."
+        - "Leggere le etichette: evitare prodotti con più di 5 ingredienti o nomi impronunciabili."
+      clinical:
+        - "Valutazione metabolica completa (profilo lipidico, glicemico, epatico) per quantificare il danno metabolico."
+
+  bevande_zuccherate:
+    giornaliero:
+      lifestyle:
+        - "Sostituire gradualmente con acqua aromatizzata (limone, menta, cetriolo) o tè non zuccherato."
+        - "Eliminare totalmente i soft drink: è l'intervento singolo più potente per la salute metabolica."
+      clinical:
+        - "Screening per steatosi epatica (NAFLD) e insulino-resistenza."
+
+  # ============================
+  # METABOLISMO E GLICEMIA
+  # ============================
+  ipoglicemia:
+    frequente:
+      lifestyle:
+        - "Non saltare i pasti e includere sempre una quota proteica e di grassi sani per stabilizzare la glicemia."
+        - "Evitare carboidrati semplici (zuccheri, farine bianche) a stomaco vuoto."
+      nutraceutical:
+        - "Valutare integrazione di Cromo Picolinato o Magnesio per il controllo glicemico (sotto controllo medico)."
+      clinical:
+        - "VISITA DIABETOLOGICA/ENDOCRINOLOGICA: escludere iperinsulinismo o pre-diabete. Utile curva da carico o CGM."
+
+  post_prandiale:
+    sempre:
+      lifestyle:
+        - "Praticare una passeggiata di 10-15 minuti subito dopo i pasti per abbassare il picco glicemico."
+        - "Ridurre il carico di carboidrati nel pasto che causa sonnolenza."
+      clinical:
+        - "Indagare l'insulino-resistenza (HOMA Index) e la tolleranza al glucosio."
+
+  monitoraggio_glicemia:
+    no:
+      lifestyle:
+        - "Considerare l'utilizzo di un sensore continuo di glicemia (CGM) per 14 giorni per capire la risposta personale ai cibi."
+
+  spuntini_notturni:
+    frequente:
+      lifestyle:
+        - "Chiudere la 'finestra alimentare' almeno 3 ore prima di andare a dormire."
+        - "Bere una tisana calda (senza zucchero) se si avverte fame nervosa serale."
+      clinical:
+        - "Se fame notturna incontrollabile, valutare disturbi del sonno o disregolazione del cortisolo."
+
+  # ============================
+  # IDRATAZIONE
+  # ============================
+  acqua_giornaliera:
+    meno_di_1_litro:
+      lifestyle:
+        - "Bere 2 bicchieri d'acqua appena svegli per reidratare l'organismo."
+        - "Utilizzare app di promemoria o bottiglie graduate per tracciare i consumi."
+      clinical:
+        - "Controllare funzionalità renale (Creatinina, eGFR) e densità urinaria."
+
+  sintomi_disidratazione:
+    frequente:
+      lifestyle:
+        - "Aumentare l'apporto idrico prima, durante e dopo l'attività fisica."
+      nutraceutical:
+        - "Utilizzare soluzioni elettrolitiche (senza zuccheri eccessivi) durante lo sport intenso o nei mesi caldi."
+
+  # ============================
+  # DIGESTIONE E SINTOMI
+  # ============================
+  gonfiore_post_pasto:
+    cronico:
+      lifestyle:
+        - "Masticare lentamente e mangiare in ambiente tranquillo."
+        - "Tenere un diario alimentare per identificare i cibi che scatenano il gonfiore (es. latticini, glutine, legumi)."
+      nutraceutical:
+        - "Probiotici specifici (es. Bifidobatteri, L. Plantarum) o enzimi digestivi possono aiutare."
+      clinical:
+        - "VISITA GASTROENTEROLOGICA: valutare test per intolleranze (Lattosio, SIBO) o Celiachia."
+
+  masticazione:
+    velocemente:
+      lifestyle:
+        - "Praticare il 'Mindful Eating': posare la forchetta tra un boccone e l'altro."
+        - "Masticare ogni boccone almeno 20-30 volte prima di deglutire."
+
+  intolleranze:
+    sospette:
+      lifestyle:
+        - "Evitare diete di esclusione 'fai da te' che possono causare carenze."
+      clinical:
+        - "Eseguire test diagnostici validati (Breath Test, test ematici) prescritti dal medico per confermare o escludere intolleranze."
+
+  carenze_micronutrienti:
+    attuali:
+      nutraceutical:
+        - "Assumere l'integrazione specifica prescritta dal medico e non interromperla arbitrariamente."
+      clinical:
+        - "Ripetere gli esami del sangue dopo 3-6 mesi per verificare il ripristino dei valori."

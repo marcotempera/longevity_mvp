@@ -1,0 +1,288 @@
+macroarea: nutrizione_idratazione
+version: 1.0
+
+map:
+  # ===== EQUILIBRIO E ABITUDINI =====
+  dieta_equilibrata[]:
+    feature: dieta_equilibrata
+    values:
+      dieta_varia: dieta_varia
+      potrei_migliorare: potrei_migliorare
+      dieta_sbilanciata: dieta_sbilanciata
+      non_so: non_so
+
+  abitudini_alimentari[]:
+    feature: abitudini_alimentari
+    values:
+      equilibrata: equilibrata
+      cerco_ma_sgarro: cerco_ma_sgarro
+      salto_o_monotona: salto_o_monotona
+      disordinate: disordinate
+
+  porzioni_frutta_verdura[]:
+    feature: porzioni_frutta_verdura
+    values:
+      0_1: 0_1
+      2_3: 2_3
+      4_5: 4_5
+      6_plus: 6_plus
+
+  influenza_stile_alimentare_su_efficienza_metabolica[]:
+    feature: influenza_stile_alimentare_su_efficienza_metabolica
+    values:
+      alto: alto
+      moderato: moderato
+      basso: basso
+      ignoto: ignoto
+
+  etichette[]:
+    feature: etichette
+    values:
+      sempre: sempre
+      a_volte: a_volte
+      mai: mai
+      non_so: non_so
+  note_etichette:
+    feature: note_etichette
+    passthrough: true
+
+  pasti_giornalieri[]:
+    feature: pasti_giornalieri
+    values:
+      "3": "3"
+      "2": "2"
+      "1": "1"
+      variabile: variabile
+  note_pasti_giornalieri:
+    feature: note_pasti_giornalieri
+    passthrough: true
+
+  colazione[]:
+    feature: colazione
+    values:
+      mai: mai
+      a_volte: a_volte
+      frequente: frequente
+      non_so: non_so
+  note_colazione:
+    feature: note_colazione
+    passthrough: true
+
+  # ===== STRATEGIE METABOLICHE =====
+  digiuno_intermittente[]:
+    feature: digiuno_intermittente
+    values:
+      attualmente: attualmente
+      in_passato: in_passato
+      ne_ho_sentito: ne_ho_sentito
+      non_le_conosco: non_le_conosco
+  digiuno_intermittente_note:
+    feature: digiuno_intermittente_note
+    passthrough: true
+
+  restrizione_calorica[]:
+    feature: restrizione_calorica
+    values:
+      attualmente: attualmente
+      in_passato: in_passato
+      ne_ho_sentito: ne_ho_sentito
+      non_le_conosco: non_le_conosco
+  restrizione_calorica_note:
+    feature: restrizione_calorica_note
+    passthrough: true
+
+  ipoglicemia[]:
+    feature: ipoglicemia
+    values:
+      mai: mai
+      raro: raro
+      frequente: frequente
+      solo_con_attività: solo_con_attività
+      non_so: non_so
+  note_ipoglicemia:
+    feature: note_ipoglicemia
+    passthrough: true
+
+  monitoraggio_glicemia[]:
+    feature: monitoraggio_glicemia
+    values:
+      no: no
+      in_passato: in_passato
+      regolarmente: regolarmente
+      non_so: non_so
+  note_monitoraggio_glicemia:
+    feature: note_monitoraggio_glicemia
+    passthrough: true
+
+  # ===== QUALITÀ E SCELTE =====
+  fonte_proteica[]:
+    feature: fonte_proteica
+    values:
+      carne: carne
+      pesce: pesce
+      vegetale: vegetale
+      uova_formaggi: uova_formaggi
+      non_regolare: non_regolare
+  note_fonte_proteica:
+    feature: note_fonte_proteica
+    passthrough: true
+
+  dolcificanti[]:
+    feature: dolcificanti
+    values:
+      mai: mai
+      occasionalmente: occasionalmente
+      frequente: frequente
+      non_so: non_so
+  note_dolcificanti:
+    feature: note_dolcificanti
+    passthrough: true
+
+  junk_food[]:
+    feature: junk_food
+    values:
+      mai: mai
+      occasionale: occasionale
+      frequente: frequente
+      non_so: non_so
+  note_junk_food:
+    feature: note_junk_food
+    passthrough: true
+
+  bevande_zuccherate[]:
+    feature: bevande_zuccherate
+    values:
+      mai: mai
+      settimanale: settimanale
+      giornaliero: giornaliero
+      non_so: non_so
+  note_bevande_zuccherate:
+    feature: note_bevande_zuccherate
+    passthrough: true
+
+  # ===== IDRATAZIONE E MICRONUTRIENTI =====
+  acqua_giornaliera[]:
+    feature: acqua_giornaliera
+    values:
+      si_regolare: si_regolare
+      meno_di_1_litro: meno_di_1_litro
+      solo_quando_sete: solo_quando_sete
+      non_so: non_so
+  note_acqua_giornaliera:
+    feature: note_acqua_giornaliera
+    passthrough: true
+
+  carenze_micronutrienti[]:
+    feature: carenze_micronutrienti
+    values:
+      mai: mai
+      si_corrette: si_corrette
+      attuali: attuali
+      non_testate: non_testate
+  note_carenze_micronutrienti:
+    feature: note_carenze_micronutrienti
+    passthrough: true
+
+  idratazione_attività[]:
+    feature: idratazione_attività
+    values:
+      si: si
+      solo_se_sento_sete: solo_se_sento_sete
+      no: no
+      non_faccio_attività: non_faccio_attività
+  note_idratazione_attività:
+    feature: note_idratazione_attività
+    passthrough: true
+
+  sintomi_disidratazione[]:
+    feature: sintomi_disidratazione
+    values:
+      mai: mai
+      qualche_volta: qualche_volta
+      frequente: frequente
+      non_pratico_sport: non_pratico_sport
+  note_sintomi_disidratazione:
+    feature: note_sintomi_disidratazione
+    passthrough: true
+
+  # ===== DIGESTIONE E SINTOMI =====
+  colore_lingua[]:
+    feature: colore_lingua
+    values:
+      rosa_normale: rosa_normale
+      biancastra: biancastra
+      rossa: rossa
+      giallastra: giallastra
+      violacea: violacea
+      nerastra: nerastra
+      non_osservo: non_osservo
+  colore_lingua_note:
+    feature: colore_lingua_note
+    passthrough: true
+
+  masticazione[]:
+    feature: masticazione
+    values:
+      si_sempre: si_sempre
+      a_volte: a_volte
+      velocemente: velocemente
+      non_so: non_so
+  note_masticazione:
+    feature: note_masticazione
+    passthrough: true
+
+  intolleranze[]:
+    feature: intolleranze
+    values:
+      nessuna: nessuna
+      si_diagnosticate: si_diagnosticate
+      sospette: sospette
+      non_so: non_so
+  note_intolleranze:
+    feature: note_intolleranze
+    passthrough: true
+
+  gonfiore_post_pasto[]:
+    feature: gonfiore_post_pasto
+    values:
+      mai: mai
+      saltuario: saltuario
+      frequente: frequente
+      cronico: cronico
+  note_gonfiore_post_pasto:
+    feature: note_gonfiore_post_pasto
+    passthrough: true
+
+  post_prandiale[]:
+    feature: post_prandiale
+    values:
+      mai: mai
+      a_volte: a_volte
+      spesso: spesso
+      sempre: sempre
+  note_post_prandiale:
+    feature: note_post_prandiale
+    passthrough: true
+
+  # ===== INTEGRAZIONE E RITMI =====
+  spuntini_notturni[]:
+    feature: spuntini_notturni
+    values:
+      mai: mai
+      saltuario: saltuario
+      frequente: frequente
+      non_so: non_so
+  note_spuntini_notturni:
+    feature: note_spuntini_notturni
+    passthrough: true
+
+  integratori[]:
+    feature: integratori
+    values:
+      mai: mai
+      saltuariamente: saltuariamente
+      regolarmente: regolarmente
+      non_so: non_so
+  note_integratori:
+    feature: note_integratori
+    passthrough: true

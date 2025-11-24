@@ -1,0 +1,274 @@
+macroarea: nutrizione_idratazione
+version: 1.0
+description: >
+  Configurazione per nutrizione e idratazione.
+  Scoring: Punteggi positivi indicano RISCHIO (carenze, eccessi nocivi),
+  punteggi negativi indicano PROTEZIONE (abitudini sane).
+
+features:
+
+  # ============================
+  # EQUILIBRIO E ABITUDINI
+  # ============================
+  - name: dieta_equilibrata
+    type: categorical
+    allowed: [dieta_varia, potrei_migliorare, dieta_sbilanciata, non_so]
+    map_to_score: {dieta_varia: -2, potrei_migliorare: 1, dieta_sbilanciata: 3, non_so: 0}
+    notes: "Una dieta varia è alla base della prevenzione primaria."
+
+  - name: abitudini_alimentari
+    type: categorical
+    allowed: [equilibrata, cerco_ma_sgarro, salto_o_monotona, disordinate]
+    map_to_score: {equilibrata: -2, cerco_ma_sgarro: 1, salto_o_monotona: 2, disordinate: 3}
+
+  - name: porzioni_frutta_verdura
+    type: categorical
+    allowed: [0_1, 2_3, 4_5, 6_plus]
+    map_to_score: {0_1: 3, 2_3: 1, 4_5: -1, 6_plus: -2}
+    red_flag_if_in: [0_1]
+    related_pathologies: [HER005, HER017, HER030]
+    notes: "Il consumo di vegetali è inversamente proporzionale al rischio di mortalità all-cause."
+
+  - name: influenza_stile_alimentare_su_efficienza_metabolica
+    type: categorical
+    allowed: [alto, moderato, basso, ignoto]
+    map_to_score: {alto: -1, moderato: 0, basso: 1, ignoto: 0}
+
+  - name: etichette
+    type: categorical
+    allowed: [sempre, a_volte, mai, non_so]
+    map_to_score: {sempre: -1, a_volte: 0, mai: 1, non_so: 1}
+
+  - name: note_etichette
+    type: text
+    store: true
+
+  - name: pasti_giornalieri
+    type: categorical
+    allowed: ["3", "2", "1", variabile]
+    map_to_score: {"3": 0, "2": 0, "1": 1, variabile: 2}
+    notes: "La regolarità dei pasti aiuta a mantenere stabili i ritmi circadiani e glicemici."
+
+  - name: note_pasti_giornalieri
+    type: text
+    store: true
+
+  - name: colazione
+    type: categorical
+    allowed: [mai, a_volte, frequente, non_so]
+    map_to_score: {mai: 0, a_volte: 1, frequente: 2, non_so: 0}
+    notes: "Saltare la colazione è associato a maggior rischio metabolico in alcuni fenotipi."
+
+  - name: note_colazione
+    type: text
+    store: true
+
+  # ============================
+  # STRATEGIE METABOLICHE
+  # ============================
+  - name: digiuno_intermittente
+    type: categorical
+    allowed: [attualmente, in_passato, ne_ho_sentito, non_le_conosco]
+    map_to_score: {attualmente: -1, in_passato: 0, ne_ho_sentito: 0, non_le_conosco: 0}
+    notes: "Il digiuno intermittente può migliorare la sensibilità insulinica e l'autofagia."
+
+  - name: digiuno_intermittente_note
+    type: text
+    store: true
+
+  - name: restrizione_calorica
+    type: categorical
+    allowed: [attualmente, in_passato, ne_ho_sentito, non_le_conosco]
+    map_to_score: {attualmente: -1, in_passato: 0, ne_ho_sentito: 0, non_le_conosco: 0}
+
+  - name: restrizione_calorica_note
+    type: text
+    store: true
+
+  - name: ipoglicemia
+    type: categorical
+    allowed: [mai, raro, frequente, solo_con_attività, non_so]
+    map_to_score: {mai: 0, raro: 1, frequente: 4, solo_con_attività: 1, non_so: 0}
+    red_flag_if_in: [frequente]
+    related_pathologies: [HER069, HER058, HER005]
+    notes: "Ipoglicemie reattive frequenti possono indicare pre-diabete o disregolazione insulinica."
+
+  - name: note_ipoglicemia
+    type: text
+    store: true
+
+  - name: monitoraggio_glicemia
+    type: categorical
+    allowed: [no, in_passato, regolarmente, non_so]
+    map_to_score: {no: 0, in_passato: 0, regolarmente: -1, non_so: 0}
+
+  - name: note_monitoraggio_glicemia
+    type: text
+    store: true
+
+  # ============================
+  # QUALITÀ E SCELTE
+  # ============================
+  - name: fonte_proteica
+    type: categorical
+    allowed: [carne, pesce, vegetale, uova_formaggi, non_regolare]
+    map_to_score: {carne: 1, pesce: -1, vegetale: -1, uova_formaggi: 0, non_regolare: 1}
+    notes: "Fonti vegetali e pesce sono associate a minore infiammazione rispetto a eccesso di carni rosse."
+
+  - name: note_fonte_proteica
+    type: text
+    store: true
+
+  - name: dolcificanti
+    type: categorical
+    allowed: [mai, occasionalmente, frequente, non_so]
+    map_to_score: {mai: 0, occasionalmente: 1, frequente: 2, non_so: 0}
+    notes: "L'uso cronico di dolcificanti può alterare il microbiota intestinale."
+
+  - name: note_dolcificanti
+    type: text
+    store: true
+
+  - name: junk_food
+    type: categorical
+    allowed: [mai, occasionale, frequente, non_so]
+    map_to_score: {mai: -1, occasionale: 1, frequente: 4, non_so: 0}
+    red_flag_if_in: [frequente]
+    related_pathologies: [HER004, HER059, HER018]
+    notes: "I cibi ultra-processati sono driver primari di obesità e infiammazione."
+
+  - name: note_junk_food
+    type: text
+    store: true
+
+  - name: bevande_zuccherate
+    type: categorical
+    allowed: [mai, settimanale, giornaliero, non_so]
+    map_to_score: {mai: -1, settimanale: 1, giornaliero: 4, non_so: 0}
+    red_flag_if_in: [giornaliero]
+    related_pathologies: [HER005, HER008, HER059]
+
+  - name: note_bevande_zuccherate
+    type: text
+    store: true
+
+  # ============================
+  # IDRATAZIONE E MICRONUTRIENTI
+  # ============================
+  - name: acqua_giornaliera
+    type: categorical
+    allowed: [si_regolare, meno_di_1_litro, solo_quando_sete, non_so]
+    map_to_score: {si_regolare: -2, meno_di_1_litro: 4, solo_quando_sete: 2, non_so: 0}
+    red_flag_if_in: [meno_di_1_litro]
+    related_pathologies: [HER057, HER047]
+    notes: "La disidratazione cronica compromette le funzioni cognitive e renali."
+
+  - name: note_acqua_giornaliera
+    type: text
+    store: true
+
+  - name: carenze_micronutrienti
+    type: categorical
+    allowed: [mai, si_corrette, attuali, non_testate]
+    map_to_score: {mai: 0, si_corrette: 0, attuali: 2, non_testate: 0}
+    related_pathologies: [HER039, HER087, HER104, HER105]
+
+  - name: note_carenze_micronutrienti
+    type: text
+    store: true
+
+  - name: idratazione_attività
+    type: categorical
+    allowed: [si, solo_se_sento_sete, no, non_faccio_attività]
+    map_to_score: {si: 0, solo_se_sento_sete: 1, no: 2, non_faccio_attività: 0}
+
+  - name: note_idratazione_attività
+    type: text
+    store: true
+
+  - name: sintomi_disidratazione
+    type: categorical
+    allowed: [mai, qualche_volta, frequente, non_pratico_sport]
+    map_to_score: {mai: 0, qualche_volta: 1, frequente: 3, non_pratico_sport: 0}
+    red_flag_if_in: [frequente]
+
+  - name: note_sintomi_disidratazione
+    type: text
+    store: true
+
+  # ============================
+  # DIGESTIONE E SINTOMI
+  # ============================
+  - name: colore_lingua
+    type: categorical
+    allowed: [rosa_normale, biancastra, rossa, giallastra, violacea, nerastra, non_osservo]
+    map_to_score: {rosa_normale: 0, biancastra: 1, rossa: 1, giallastra: 2, violacea: 2, nerastra: 2, non_osservo: 0}
+    notes: "Indicatore tradizionale di salute digestiva e idratazione."
+
+  - name: colore_lingua_note
+    type: text
+    store: true
+
+  - name: masticazione
+    type: categorical
+    allowed: [si_sempre, a_volte, velocemente, non_so]
+    map_to_score: {si_sempre: -1, a_volte: 0, velocemente: 2, non_so: 0}
+    notes: "Masticare male riduce l'assorbimento dei nutrienti e causa gonfiore."
+
+  - name: note_masticazione
+    type: text
+    store: true
+
+  - name: intolleranze
+    type: categorical
+    allowed: [nessuna, si_diagnosticate, sospette, non_so]
+    map_to_score: {nessuna: 0, si_diagnosticate: 1, sospette: 1, non_so: 0}
+    related_pathologies: [HER101, HER094, HER203, HER204]
+
+  - name: note_intolleranze
+    type: text
+    store: true
+
+  - name: gonfiore_post_pasto
+    type: categorical
+    allowed: [mai, saltuario, frequente, cronico]
+    map_to_score: {mai: 0, saltuario: 1, frequente: 2, cronico: 3}
+    red_flag_if_in: [cronico]
+    related_pathologies: [HER094, HER114, HER067]
+
+  - name: note_gonfiore_post_pasto
+    type: text
+    store: true
+
+  - name: post_prandiale
+    type: categorical
+    allowed: [mai, a_volte, spesso, sempre]
+    map_to_score: {mai: 0, a_volte: 1, spesso: 2, sempre: 3}
+    notes: "La sonnolenza post-prandiale è spesso segno di carico glicemico eccessivo o infiammazione."
+
+  - name: note_post_prandiale
+    type: text
+    store: true
+
+  # ============================
+  # INTEGRAZIONE E RITMI
+  # ============================
+  - name: spuntini_notturni
+    type: categorical
+    allowed: [mai, saltuario, frequente, non_so]
+    map_to_score: {mai: 0, saltuario: 1, frequente: 2, non_so: 0}
+    notes: "Mangiare tardi peggiora la qualità del sonno e la glicemia a digiuno."
+
+  - name: note_spuntini_notturni
+    type: text
+    store: true
+
+  - name: integratori
+    type: categorical
+    allowed: [mai, saltuariamente, regolarmente, non_so]
+    map_to_score: {mai: 0, saltuariamente: 0, regolarmente: 0, non_so: 1}
+    notes: "L'integrazione dovrebbe essere mirata e non casuale."
+
+  - name: note_integratori
+    type: text
+    store: true

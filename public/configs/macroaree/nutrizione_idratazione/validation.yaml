@@ -1,0 +1,108 @@
+macroarea: nutrizione_idratazione
+version: 1.0
+
+rules:
+  # ===== EQUILIBRIO E ABITUDINI =====
+  - feature: dieta_equilibrata
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: influenza_stile_alimentare_su_efficienza_metabolica
+    rule: "if includes 'ignoto' then set to ['ignoto']"
+
+  # ===== STRATEGIE METABOLICHE =====
+  - feature: digiuno_intermittente
+    rule: "if includes 'non_le_conosco' then set to ['non_le_conosco']"
+
+  - feature: restrizione_calorica
+    rule: "if includes 'non_le_conosco' then set to ['non_le_conosco']"
+
+  - feature: ipoglicemia
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: ipoglicemia
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: monitoraggio_glicemia
+    rule: "if includes 'no' then set to ['no']"
+  - feature: monitoraggio_glicemia
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== QUALITÀ E SCELTE =====
+  - feature: fonte_proteica
+    rule: "if includes 'non_regolare' then set to ['non_regolare']"
+
+  - feature: dolcificanti
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: dolcificanti
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: junk_food
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: junk_food
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: bevande_zuccherate
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: bevande_zuccherate
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: etichette
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: etichette
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== IDRATAZIONE E MICRONUTRIENTI =====
+  - feature: acqua_giornaliera
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: carenze_micronutrienti
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: carenze_micronutrienti
+    rule: "if includes 'non_testate' then set to ['non_testate']"
+
+  - feature: idratazione_attività
+    rule: "if includes 'non_faccio_attività' then set to ['non_faccio_attività']"
+
+  - feature: sintomi_disidratazione
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: sintomi_disidratazione
+    rule: "if includes 'non_pratico_sport' then set to ['non_pratico_sport']"
+
+  # ===== DIGESTIONE E SINTOMI =====
+  - feature: colore_lingua
+    rule: "if includes 'rosa_normale' then set to ['rosa_normale']"
+  - feature: colore_lingua
+    rule: "if includes 'non_osservo' then set to ['non_osservo']"
+
+  - feature: masticazione
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: intolleranze
+    rule: "if includes 'nessuna' then set to ['nessuna']"
+  - feature: intolleranze
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: gonfiore_post_pasto
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: post_prandiale
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== INTEGRAZIONE E RITMI =====
+  - feature: spuntini_notturni
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: spuntini_notturni
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: integratori
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: integratori
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: colazione
+    # "mai" qui intende "mai la salto" (quindi positivo), ma va comunque gestito come esclusivo
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: colazione
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+missing:
+  strategy: "per_feature_policy"
