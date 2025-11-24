@@ -1,0 +1,117 @@
+macroarea: esposizioni_ambientali
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # ===== AMBIENTE LAVORATIVO E RISCHI (Peso Alto) =====
+    rischi_lavorativi: 1.5
+    sostanze_tossiche: 2.5          # Esposizione diretta a tossine: rischio critico
+    ritmi_lavorativi: 1.0
+
+    # ===== AMBIENTE DOMESTICO E URBANO (Peso Alto) =====
+    inquinamento_zona: 2.0          # Inquinamento atmosferico: rischio sistemico
+    ambiente_salubre: 1.5
+    area_abitata: 1.0
+    rumore_abitazione: 1.2          # Stress cronico da rumore
+
+    # ===== QUALITÀ ARIA E MATERIALI (Peso Medio) =====
+    qualita_aria_casa: 1.5
+    dispositivi_aria: 0.5           # Fattore protettivo
+    ventilazione_casa: 0.8
+    materiali_tessuti: 0.5
+
+    # ===== STILE DI VITA E ACCESSO (Peso Medio) =====
+    ambienti_chiusi: 1.2            # Sick Building Syndrome / Carenza Vit D
+    accesso_natura: 1.0             # Fattore protettivo (Green space)
+    filtraggio_acqua: 0.5
+
+    # ===== FATTORI SOCIOECONOMICI (Peso Alto - Determinanti di Salute) =====
+    barriere_accesso: 2.5           # Basso SES è un predittore di mortalità
+    percorso_scolastico: 1.0        # Proxy per Health Literacy
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  # Risk Score: 0 = Ottimo (Ambiente Sano), 100 = Pessimo (Alto Rischio Ambientale/Sociale)
+  low:
+    max: 25        # Ambiente protettivo e salubre
+  medium:
+    min: 26
+    max: 55        # Esposizioni moderate o rischi urbani comuni
+  high:
+    min: 56        # Esposizioni tossiche, barriere economiche o degrado ambientale
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 5
+  show_percent_contribution: true
+  group_by_domain: true
+
+  overall_narratives:
+    low: >
+      Vivi e lavori in un ambiente sano e protettivo. La bassa esposizione a inquinanti, 
+      unita all'accesso alla natura e alle cure, costituisce una solida base per la tua longevità.
+    medium: >
+      Il tuo ambiente presenta alcune sfide. L'esposizione a inquinamento urbano, rumore o 
+      stress lavorativo potrebbe impattare sulla tua salute nel tempo. 
+      Piccoli miglioramenti nella qualità dell'aria domestica e nello stile di vita possono mitigare questi rischi.
+    high: >
+      Sono presenti fattori di rischio ambientale o socioeconomico significativi. 
+      L'esposizione a sostanze nocive, barriere nell'accesso alle cure o un ambiente insalubre 
+      richiedono attenzione prioritaria per prevenire patologie croniche.
+
+  driver_templates:
+    # ==== Rischi Diretti ====
+    sostanze_tossiche: >
+      Esposizione diretta a sostanze chimiche o tossiche, un fattore di rischio rilevante per patologie respiratorie e sistemiche.
+    rischi_lavorativi: >
+      Condizioni lavorative che comportano rischi per la salute o la sicurezza fisica.
+    inquinamento_zona: >
+      Residenza in aree con elevati livelli di inquinamento atmosferico o industriale.
+
+    # ==== Ambiente Indoor ====
+    qualita_aria_casa: >
+      Scarsa qualità dell'aria indoor (muffe, polveri, scarsa ventilazione), legata a allergie e problemi respiratori.
+    ambienti_chiusi: >
+      Eccessivo tempo trascorso al chiuso, che riduce l'esposizione alla luce naturale e aumenta il rischio di "Sick Building Syndrome".
+    rumore_abitazione: >
+      Inquinamento acustico costante, un fattore di stress cronico che impatta sul sistema cardiovascolare e sul sonno.
+
+    # ==== Socioeconomico ====
+    barriere_accesso: >
+      Difficoltà economiche o logistiche nell'accesso a cure mediche o alimentazione di qualità.
+    ritmi_lavorativi: >
+      Turni o orari di lavoro stressanti che deregolano i ritmi biologici naturali.
+
+  class_explanations:
+    low: >
+      Contesto ambientale favorevole alla salute.
+    medium: >
+      Esposizione a fattori di stress ambientale moderati (es. {top_driver_names}).
+    high: >
+      Contesto ambientale o lavorativo ad alto rischio (es. {top_driver_names}).
+
+red_flags:
+  # ==== Esposizioni Tossiche ====
+  - condition: "sostanze_tossiche in ['attualmente']"
+    action: "Verificare l'uso corretto dei DPI (Dispositivi di Protezione) e programmare sorveglianza sanitaria specifica."
+  
+  - condition: "inquinamento_zona in ['attualmente'] and ambiente_salubre in ['ambiente_nocivo']"
+    action: "Utilizzare purificatori d'aria HEPA in casa e limitare attività fisica all'aperto nei giorni di picco di inquinamento."
+
+  # ==== Barriere Socioeconomiche ====
+  - condition: "barriere_accesso in ['spesso']"
+    action: "Valutare supporto sociale o programmi di assistenza sanitaria per garantire i controlli essenziali."
+
+  # ==== Ambiente Indoor ====
+  - condition: "qualita_aria_casa in ['scarsa']"
+    action: "Bonificare eventuali muffe e migliorare la ventilazione per prevenire asma e allergie."

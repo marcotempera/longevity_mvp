@@ -1,0 +1,150 @@
+macroarea: esposizioni_ambientali
+version: 1.0
+
+map:
+  # ===== AMBIENTE LAVORATIVO E RISCHI =====
+  rischi_lavorativi[]:
+    feature: rischi_lavorativi
+    values:
+      basso_rischio: basso_rischio
+      rischi_sotto_controllo: rischi_sotto_controllo
+      rischi_regolari: rischi_regolari
+      non_lavoro: non_lavoro
+
+  sostanze_tossiche[]:
+    feature: sostanze_tossiche
+    values:
+      attualmente: attualmente
+      passato: passato
+      no: no
+  note_sostanze_tossiche:
+    feature: note_sostanze_tossiche
+    passthrough: true
+
+  ritmi_lavorativi[]:
+    feature: ritmi_lavorativi
+    values:
+      frequente: frequente
+      occasionale: occasionale
+      mai: mai
+  note_ritmi_lavorativi:
+    feature: note_ritmi_lavorativi
+    passthrough: true
+
+  # ===== AMBIENTE DOMESTICO E URBANO =====
+  ambiente_salubre[]:
+    feature: ambiente_salubre
+    values:
+      ambiente_salubre: ambiente_salubre
+      alcuni_fattori: alcuni_fattori
+      ambiente_nocivo: ambiente_nocivo
+      non_so: non_so
+
+  inquinamento_zona[]:
+    feature: inquinamento_zona
+    values:
+      attualmente: attualmente
+      passato: passato
+      no: no
+      non_so: non_so
+  note_inquinamento_zona:
+    feature: note_inquinamento_zona
+    passthrough: true
+
+  area_abitata[]:
+    feature: area_abitata
+    values:
+      centro_urbano: centro_urbano
+      zona_semi_urbana: zona_semi_urbana
+      zona_rurale: zona_rurale
+      costiera_montana: costiera_montana
+
+  rumore_abitazione[]:
+    feature: rumore_abitazione
+    values:
+      molto: molto
+      moderato: moderato
+      poco: poco
+      no: no
+  note_rumore_abitazione:
+    feature: note_rumore_abitazione
+    passthrough: true
+
+  # ===== QUALITÀ ARIA E MATERIALI =====
+  qualita_aria_casa[]:
+    feature: qualita_aria_casa
+    values:
+      buona: buona
+      moderata: moderata
+      scarsa: scarsa
+
+  dispositivi_aria[]:
+    feature: dispositivi_aria
+    values:
+      regolarmente: regolarmente
+      occasionalmente: occasionalmente
+      mai: mai
+
+  ventilazione_casa[]:
+    feature: ventilazione_casa
+    values:
+      naturale: naturale
+      climatizzazione: climatizzazione
+      ventilazione_meccanica: ventilazione_meccanica
+      nessuna: nessuna
+
+  materiali_tessuti[]:
+    feature: materiali_tessuti
+    values:
+      naturali: naturali
+      misti: misti
+      sintetici: sintetici
+
+  # ===== STILE DI VITA E ACCESSO =====
+  filtraggio_acqua[]:
+    feature: filtraggio_acqua
+    values:
+      depuratore: depuratore
+      rubinetto: rubinetto
+      bottiglia: bottiglia
+
+  ambienti_chiusi[]:
+    feature: ambienti_chiusi
+    values:
+      meno_4: meno_4
+      tra_4_8: tra_4_8
+      oltre_8: oltre_8
+      non_so: non_so
+  note_ambienti_chiusi:
+    feature: note_ambienti_chiusi
+    passthrough: true
+
+  accesso_natura[]:
+    feature: accesso_natura
+    values:
+      quotidiano: quotidiano
+      settimanale: settimanale
+      raramente: raramente
+      mai: mai
+  note_accesso_natura:
+    feature: note_accesso_natura
+    passthrough: true
+
+  # ===== FATTORI SOCIOECONOMICI =====
+  barriere_accesso[]:
+    feature: barriere_accesso
+    values:
+      spesso: spesso
+      a_volte: a_volte
+      mai: mai
+      non_so: non_so
+  note_barriere_accesso:
+    feature: note_barriere_accesso
+    passthrough: true
+
+  percorso_scolastico[]:
+    feature: percorso_scolastico
+    values:
+      regolare: regolare
+      difficoltà: difficoltà
+      irregolare: irregolare

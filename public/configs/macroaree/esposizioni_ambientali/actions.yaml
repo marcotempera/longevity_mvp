@@ -1,0 +1,107 @@
+macroarea: esposizioni_ambientali
+version: 1.0
+description: "Interventi per mitigare i rischi ambientali, lavorativi e socioeconomici."
+
+actions:
+
+  # ============================
+  # AMBIENTE LAVORATIVO E RISCHI
+  # ============================
+  rischi_lavorativi:
+    rischi_regolari:
+      lifestyle:
+        - "Rispettare rigorosamente i protocolli di sicurezza e l'uso dei DPI (Dispositivi di Protezione Individuale)."
+        - "Partecipare attivamente ai corsi di formazione sulla sicurezza sul lavoro."
+      clinical:
+        - "Non saltare mai le visite di sorveglianza sanitaria periodica previste dal medico competente."
+
+  sostanze_tossiche:
+    attualmente:
+      lifestyle:
+        - "Assicurare una ventilazione ottimale degli ambienti di lavoro o hobbistici."
+        - "Lavarsi accuratamente e cambiare abiti dopo l'esposizione per evitare contaminazione domestica."
+      nutraceutical:
+        - "Valutare con il medico antiossidanti (Glutatione, NAC) per supportare i processi di detossificazione epatica."
+      clinical:
+        - "Monitoraggio biologico specifico (es. metalli pesanti nelle urine/sangue) se indicato dal medico del lavoro."
+
+  ritmi_lavorativi:
+    frequente:
+      lifestyle:
+        - "Adottare strategie di 'ancoraggio' dei ritmi circadiani (pasti a orari fissi, sonno in camera buia) anche durante i turni."
+        - "Utilizzare occhiali per bloccare la luce blu tornando a casa dopo un turno di notte."
+      clinical:
+        - "Consultare un esperto del sonno se compare insonnia persistente o eccessiva sonnolenza (Shift Work Sleep Disorder)."
+
+  # ============================
+  # AMBIENTE DOMESTICO E URBANO
+  # ============================
+  inquinamento_zona:
+    attualmente:
+      lifestyle:
+        - "Evitare attività fisica intensa all'aperto nelle ore di punta del traffico."
+        - "Utilizzare app per monitorare la qualità dell'aria (AQI) e pianificare le uscite."
+        - "Considerare l'uso di purificatori d'aria HEPA in casa."
+      clinical:
+        - "Per soggetti asmatici o cardiopatici: revisione periodica della terapia in base alla stagione e ai livelli di inquinanti."
+
+  rumore_abitazione:
+    molto:
+      lifestyle:
+        - "Utilizzare tappi per le orecchie o macchine per il rumore bianco per favorire il sonno."
+        - "Creare un'area di 'decompressione acustica' in casa (insonorizzazione, doppi vetri)."
+      clinical:
+        - "Monitorare la pressione arteriosa, poiché l'inquinamento acustico è un fattore di rischio ipertensivo."
+
+  # ============================
+  # QUALITÀ ARIA E MATERIALI
+  # ============================
+  qualita_aria_casa:
+    scarsa:
+      lifestyle:
+        - "Identificare e rimuovere le fonti di muffa o umidità eccessiva."
+        - "Ventilare gli ambienti aprendo le finestre più volte al giorno (se l'aria esterna lo consente)."
+        - "Evitare profumatori d'ambiente chimici e candele di paraffina."
+      clinical:
+        - "Valutazione allergologica se presenti sintomi respiratori persistenti (rinite, tosse)."
+
+  # ============================
+  # STILE DI VITA E ACCESSO
+  # ============================
+  ambienti_chiusi:
+    oltre_8:
+      lifestyle:
+        - "Introdurre pause all'aperto di almeno 10-15 minuti durante la giornata."
+        - "Utilizzare lampade a spettro solare se la luce naturale è insufficiente."
+      nutraceutical:
+        - "Supplementazione di Vitamina D è quasi sempre necessaria (verificare livelli ematici)."
+
+  accesso_natura:
+    mai:
+      lifestyle:
+        - "Pianificare almeno un'uscita settimanale in un parco o area verde ('Nature Prescription')."
+        - "Introdurre piante in casa o in ufficio per migliorare il benessere psicologico (Biofilia)."
+
+  filtraggio_acqua:
+    bottiglia:
+      lifestyle:
+        - "Preferire bottiglie in vetro o acciaio per evitare l'ingestione di microplastiche e ftalati."
+        - "Non lasciare le bottiglie di plastica al sole o al caldo."
+
+  # ============================
+  # FATTORI SOCIOECONOMICI
+  # ============================
+  barriere_accesso:
+    spesso:
+      lifestyle:
+        - "Informarsi sui servizi sanitari pubblici, consultori e associazioni che offrono supporto gratuito."
+        - "Prioritizzare la prevenzione primaria (dieta povera, movimento) che ha costo zero ma alto impatto."
+      clinical:
+        - "Discutere con il medico di base le difficoltà per trovare alternative terapeutiche accessibili o generici equivalenti."
+
+  percorso_scolastico:
+    irregolare:
+      lifestyle:
+        - "Investire nell'alfabetizzazione sanitaria (Health Literacy) per comprendere meglio le scelte di salute."
+      clinical:
+        - "Il medico dovrebbe adottare un linguaggio chiaro e verificare la comprensione delle terapie."

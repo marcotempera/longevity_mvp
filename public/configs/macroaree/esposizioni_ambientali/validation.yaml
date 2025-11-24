@@ -1,0 +1,58 @@
+macroarea: esposizioni_ambientali
+version: 1.0
+
+rules:
+  # ===== AMBIENTE LAVORATIVO E RISCHI =====
+  - feature: rischi_lavorativi
+    rule: "if includes 'basso_rischio' then set to ['basso_rischio']"
+  - feature: rischi_lavorativi
+    rule: "if includes 'non_lavoro' then set to ['non_lavoro']"
+
+  - feature: sostanze_tossiche
+    rule: "if includes 'no' then set to ['no']"
+
+  - feature: ritmi_lavorativi
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== AMBIENTE DOMESTICO E URBANO =====
+  - feature: ambiente_salubre
+    rule: "if includes 'ambiente_salubre' then set to ['ambiente_salubre']"
+  - feature: ambiente_salubre
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: inquinamento_zona
+    rule: "if includes 'no' then set to ['no']"
+  - feature: inquinamento_zona
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: rumore_abitazione
+    rule: "if includes 'no' then set to ['no']"
+
+  # ===== QUALITÀ ARIA E MATERIALI =====
+  - feature: dispositivi_aria
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: ventilazione_casa
+    rule: "if includes 'nessuna' then set to ['nessuna']"
+
+  # ===== STILE DI VITA E ACCESSO =====
+  - feature: filtraggio_acqua
+    rule: "if includes 'rubinetto' then set to ['rubinetto']"
+
+  - feature: ambienti_chiusi
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: accesso_natura
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== FATTORI SOCIOECONOMICI =====
+  - feature: barriere_accesso
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: barriere_accesso
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: percorso_scolastico
+    rule: "if includes 'regolare' then set to ['regolare']"
+
+missing:
+  strategy: "per_feature_policy"

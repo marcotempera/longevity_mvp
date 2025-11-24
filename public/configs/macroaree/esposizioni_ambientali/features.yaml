@@ -1,0 +1,152 @@
+macroarea: esposizioni_ambientali
+version: 1.0
+description: >
+  Configurazione per esposizioni ambientali e fattori socioeconomici.
+  Scoring: Punteggi positivi indicano RISCHIO (inquinamento, tossicità, disagio),
+  punteggi negativi indicano PROTEZIONE (natura, ambiente salubre).
+
+features:
+
+  # ============================
+  # AMBIENTE LAVORATIVO E RISCHI
+  # ============================
+  - name: rischi_lavorativi
+    type: categorical
+    allowed: [basso_rischio, rischi_sotto_controllo, rischi_regolari, non_lavoro]
+    map_to_score: {basso_rischio: -1, rischi_sotto_controllo: 0, rischi_regolari: 3, non_lavoro: 0}
+    notes: "L'esposizione occupazionale è un determinante chiave di salute a lungo termine."
+
+  - name: sostanze_tossiche
+    type: categorical
+    allowed: [attualmente, passato, no]
+    map_to_score: {attualmente: 5, passato: 2, no: 0}
+    red_flag_if_in: [attualmente]
+    related_pathologies: [HER290, HER291, HER294]
+    notes: "Esposizione a metalli pesanti, solventi o pesticidi richiede sorveglianza sanitaria."
+
+  - name: note_sostanze_tossiche
+    type: text
+    store: true
+
+  - name: ritmi_lavorativi
+    type: categorical
+    allowed: [frequente, occasionale, mai]
+    map_to_score: {frequente: 2, occasionale: 1, mai: 0}
+    related_pathologies: [HER224, HER225]
+    notes: "Turni e lavoro notturno alterano i ritmi circadiani (rischio IARC 2A)."
+
+  - name: note_ritmi_lavorativi
+    type: text
+    store: true
+
+  # ============================
+  # AMBIENTE DOMESTICO E URBANO
+  # ============================
+  - name: ambiente_salubre
+    type: categorical
+    allowed: [ambiente_salubre, alcuni_fattori, ambiente_nocivo, non_so]
+    map_to_score: {ambiente_salubre: -2, alcuni_fattori: 1, ambiente_nocivo: 3, non_so: 0}
+
+  - name: inquinamento_zona
+    type: categorical
+    allowed: [attualmente, passato, no, non_so]
+    map_to_score: {attualmente: 4, passato: 1, no: 0, non_so: 0}
+    red_flag_if_in: [attualmente]
+    related_pathologies: [HER160, HER030]
+    notes: "Vivere in aree ad alto inquinamento aumenta il rischio cardiorespiratorio e oncologico."
+
+  - name: note_inquinamento_zona
+    type: text
+    store: true
+
+  - name: area_abitata
+    type: categorical
+    allowed: [centro_urbano, zona_semi_urbana, zona_rurale, costiera_montana]
+    map_to_score: {centro_urbano: 2, zona_semi_urbana: 1, zona_rurale: -1, costiera_montana: -2}
+    related_pathologies: [HER302]
+
+  - name: rumore_abitazione
+    type: categorical
+    allowed: [molto, moderato, poco, no]
+    map_to_score: {molto: 3, moderato: 1, poco: 0, no: -1}
+    related_pathologies: [HER300, HER301]
+    notes: "L'inquinamento acustico cronico è correlato a ipertensione e disturbi del sonno."
+
+  - name: note_rumore_abitazione
+    type: text
+    store: true
+
+  # ============================
+  # QUALITÀ ARIA E MATERIALI
+  # ============================
+  - name: qualita_aria_casa
+    type: categorical
+    allowed: [buona, moderata, scarsa]
+    map_to_score: {buona: -1, moderata: 1, scarsa: 3}
+    red_flag_if_in: [scarsa]
+    notes: "Muffe e scarsa ventilazione indoor contribuiscono alla 'Sick Building Syndrome'."
+
+  - name: dispositivi_aria
+    type: categorical
+    allowed: [regolarmente, occasionalmente, mai]
+    map_to_score: {regolarmente: -1, occasionalmente: 0, mai: 0}
+
+  - name: ventilazione_casa
+    type: categorical
+    allowed: [naturale, climatizzazione, ventilazione_meccanica, nessuna]
+    map_to_score: {naturale: 0, climatizzazione: 0, ventilazione_meccanica: -1, nessuna: 2}
+
+  - name: materiali_tessuti
+    type: categorical
+    allowed: [naturali, misti, sintetici]
+    map_to_score: {naturali: -1, misti: 0, sintetici: 1}
+    notes: "Alcuni sintetici possono rilasciare microplastiche o contenere interferenti endocrini."
+
+  # ============================
+  # STILE DI VITA E ACCESSO
+  # ============================
+  - name: filtraggio_acqua
+    type: categorical
+    allowed: [depuratore, rubinetto, bottiglia]
+    map_to_score: {depuratore: -1, rubinetto: 0, bottiglia: 1}
+    notes: "L'acqua in bottiglia di plastica può contenere ftalati/BPA (interferenti endocrini)."
+
+  - name: ambienti_chiusi
+    type: categorical
+    allowed: [meno_4, tra_4_8, oltre_8, non_so]
+    map_to_score: {meno_4: -1, tra_4_8: 0, oltre_8: 2, non_so: 0}
+
+  - name: note_ambienti_chiusi
+    type: text
+    store: true
+
+  - name: accesso_natura
+    type: categorical
+    allowed: [quotidiano, settimanale, raramente, mai]
+    map_to_score: {quotidiano: -3, settimanale: -1, raramente: 1, mai: 2}
+    notes: "L'esposizione al verde riduce lo stress e migliora il sistema immunitario."
+
+  - name: note_accesso_natura
+    type: text
+    store: true
+
+  # ============================
+  # FATTORI SOCIOECONOMICI
+  # ============================
+  - name: barriere_accesso
+    type: categorical
+    allowed: [spesso, a_volte, mai, non_so]
+    map_to_score: {spesso: 5, a_volte: 2, mai: -2, non_so: 0}
+    red_flag_if_in: [spesso]
+    related_pathologies: [HER303, HER304, HER305]
+    notes: "Le difficoltà economiche nell'accesso alle cure sono un forte predittore di esiti negativi."
+
+  - name: note_barriere_accesso
+    type: text
+    store: true
+
+  - name: percorso_scolastico
+    type: categorical
+    allowed: [regolare, difficoltà, irregolare]
+    map_to_score: {regolare: -1, difficoltà: 1, irregolare: 2}
+    notes: "Il livello di istruzione è correlato alla 'Health Literacy' e all'aspettativa di vita."
