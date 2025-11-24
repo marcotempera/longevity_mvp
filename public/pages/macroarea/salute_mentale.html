@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Salute Mentale e Relazionale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h5{font-weight:400;color:var(--muted);margin-top:-10px;margin-bottom:20px;line-height:1.5}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:24px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      width: 16px; 
+      height: 16px;
+    }
+    textarea, input[type="text"]{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      margin-top: 12px;
+      resize: vertical;
+    }
+    textarea:focus, input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">🧘 Salute Mentale e Relazionale</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>🌬️ Stress e Benessere Quotidiano</h2>
+        <h5 style="margin-bottom: 24px;">Se disponi di un test o di un’analisi recente (es. cortisolo), le risposte ci aiuteranno a elaborare un report ancora più preciso.</h5>
+
+        <div class="field">
+          <label>196. Quanto spesso ti senti stressato o sopraffatto dalle situazioni della vita quotidiana?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="stress_di_vita_quotidiana" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="stress_di_vita_quotidiana" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="stress_di_vita_quotidiana" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="stress_di_vita_quotidiana" value="spesso"> Spesso</label>
+            <label class="option-label"><input type="checkbox" name="stress_di_vita_quotidiana" value="sempre"> Sempre / tutti i giorni</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>197. Hai mai notato uno o più di questi sintomi legati allo stress?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_legati_allo_stress" value="tachicardia"> Tachicardia o palpitazioni</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_legati_allo_stress" value="insonnia"> Insonnia o risvegli</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_legati_allo_stress" value="ansia"> Irritabilità o ansia</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_legati_allo_stress" value="gastrointestinali"> Disturbi gastrointestinali</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_legati_allo_stress" value="stanchezza"> Stanchezza cronica</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_legati_allo_stress" value="nessuno"> Nessuno di questi</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>199. Hai mai praticato mindfulness o meditazione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="mindfulness_e_meditazione" value="1"> Sì, programma strutturato</label>
+            <label class="option-label"><input type="checkbox" name="mindfulness_e_meditazione" value="2"> Sì, occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="mindfulness_e_meditazione" value="3"> Ne ho sentito parlare</label>
+            <label class="option-label"><input type="checkbox" name="mindfulness_e_meditazione" value="4"> No, mai praticata</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>201. Senti il bisogno di ridurre stress o ansia in modo naturale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="bisogno_riduzione_stress" value="1"> Sì, ho patologie correlate</label>
+            <label class="option-label"><input type="checkbox" name="bisogno_riduzione_stress" value="2"> Sì, per benessere generale</label>
+            <label class="option-label"><input type="checkbox" name="bisogno_riduzione_stress" value="3"> No, ma incuriosito</label>
+            <label class="option-label"><input type="checkbox" name="bisogno_riduzione_stress" value="4"> No, non mi interessa</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>204. Hai mai utilizzato l’arte o la musica per gestire lo stress?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="arte_o_musica_anti_stress" value="spesso"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="arte_o_musica_anti_stress" value="qualche_volta"> Sì, qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="arte_o_musica_anti_stress" value="mai_ma_interessato"> No, ma interessato</label>
+            <label class="option-label"><input type="checkbox" name="arte_o_musica_anti_stress" value="non_credo"> No, non credo aiuti</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>205. Riesci a percepire un buon equilibrio tra corpo e mente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="equilibrio_corpo_mente" value="spesso_in_equilibrio"> Sì, spesso in equilibrio</label>
+            <label class="option-label"><input type="checkbox" name="equilibrio_corpo_mente" value="dipende_dal_periodo"> A volte, dipende</label>
+            <label class="option-label"><input type="checkbox" name="equilibrio_corpo_mente" value="raramente_in_equilibrio"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="equilibrio_corpo_mente" value="no_disconnessione"> No, avverto disconnessione</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🌩️ Umore e Disregolazione</h2>
+
+        <div class="field">
+          <label>200. Hai mai sofferto di episodi depressivi o ruminazione negativa?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="episodi_depressivi_ricorrenti" value="1"> Sì, episodi multipli</label>
+            <label class="option-label"><input type="checkbox" name="episodi_depressivi_ricorrenti" value="2"> Sì, qualche episodio</label>
+            <label class="option-label"><input type="checkbox" name="episodi_depressivi_ricorrenti" value="3"> A volte giù, ma no diagnosi</label>
+            <label class="option-label"><input type="checkbox" name="episodi_depressivi_ricorrenti" value="4"> No, mai avuto problemi</label>
+          </div>
+          <textarea name="episodi_depressivi_ricorrenti_tempo" rows="2" placeholder="Quanto tempo fa e per quanto tempo?"></textarea>
+        </div>
+
+        <div class="field">
+          <label>202. Hai difficoltà a dormire o ti senti spesso agitato/impulsivo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="difficolta" value="sonno"> Problemi di sonno</label>
+            <label class="option-label"><input type="checkbox" name="difficolta" value="irrequieto"> Irrequietezza/agitazione</label>
+            <label class="option-label"><input type="checkbox" name="difficolta" value="interessato"> No, ma voglio migliorare</label>
+            <label class="option-label"><input type="checkbox" name="difficolta" value="nessun_problema"> No, nessun problema</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>203. Hai mai sofferto di depressione resistente o dolore cronico?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="depressione_resistente_farmaci" value="diagnosi_depressione"> Sì, diagnosi resistente</label>
+            <label class="option-label"><input type="checkbox" name="depressione_resistente_farmaci" value="dolore_cronico"> Sì, dolore cronico</label>
+            <label class="option-label"><input type="checkbox" name="depressione_resistente_farmaci" value="interessato_trattamenti"> No, ma interessato</label>
+            <label class="option-label"><input type="checkbox" name="depressione_resistente_farmaci" value="nessun_problema"> No, mai</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>208. Ti sei sentito spesso triste o svuotato nelle ultime settimane?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="umore_basso" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="umore_basso" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="umore_basso" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="umore_basso" value="mai"> Mai</label>
+          </div>
+          <textarea name="note_umore_basso" rows="2" placeholder="Note su durata o eventi..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>213. Ti capita di essere molto critico verso te stesso (autocritica)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="autocritica" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="autocritica" value="moderata"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="autocritica" value="rara"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="autocritica" value="mai"> Mai</label>
+          </div>
+          <textarea name="note_autocritica" rows="2" placeholder="Contesti ricorrenti..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🩺 Sintomi Specifici e Diagnosi</h2>
+
+        <div class="field">
+          <label>206. Hai mai sensazione di “testa vuota” o confusione (Brain Fog)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="brainfog" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="brainfog" value="occasionale"> Sì, occasionale</label>
+            <label class="option-label"><input type="checkbox" name="brainfog" value="frequente"> Sì, frequente</label>
+            <label class="option-label"><input type="checkbox" name="brainfog" value="cronico"> Sì, cronico</label>
+            <label class="option-label"><input type="checkbox" name="brainfog" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_brainfog" rows="2" placeholder="Quando si manifesta?"></textarea>
+        </div>
+
+        <div class="field">
+          <label>207. Tendi a mangiare per stress o noia (fame emotiva)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="fame_emotiva" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="fame_emotiva" value="qualche_volta"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="fame_emotiva" value="spesso"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="fame_emotiva" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_fame_emotiva" rows="2" placeholder="Contesto e cibi..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>209. Hai mai ricevuto una diagnosi di depressione o ansia?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="diagnosi_mentale" value="depressione"> Sì, depressione</label>
+            <label class="option-label"><input type="checkbox" name="diagnosi_mentale" value="ansia"> Sì, ansia</label>
+            <label class="option-label"><input type="checkbox" name="diagnosi_mentale" value="altro"> Sì, altro</label>
+            <label class="option-label"><input type="checkbox" name="diagnosi_mentale" value="nessuna"> No, nessuna</label>
+            <label class="option-label"><input type="checkbox" name="diagnosi_mentale" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_diagnosi_mentale" rows="2" placeholder="Dettagli..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>211. Hai mai avuto attacchi di panico o ansia improvvisa?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attacchi_ansia" value="diagnosi"> Sì, diagnosticati</label>
+            <label class="option-label"><input type="checkbox" name="attacchi_ansia" value="episodi_frequenti"> Sì, frequenti (no diagnosi)</label>
+            <label class="option-label"><input type="checkbox" name="attacchi_ansia" value="rari"> Rari</label>
+            <label class="option-label"><input type="checkbox" name="attacchi_ansia" value="no"> No, mai</label>
+          </div>
+          <textarea name="note_attacchi_ansia" rows="2" placeholder="Quando si verificano?"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🤝 Relazioni e Supporto</h2>
+
+        <div class="field">
+          <label>198. Quanto ti senti supportato dalle persone intorno a te?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="supporto_persone_vicine" value="1"> Molto supportato</label>
+            <label class="option-label"><input type="checkbox" name="supporto_persone_vicine" value="2"> Abbastanza</label>
+            <label class="option-label"><input type="checkbox" name="supporto_persone_vicine" value="3"> Spesso solo</label>
+            <label class="option-label"><input type="checkbox" name="supporto_persone_vicine" value="4"> Nessun supporto</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>210. Ti senti spesso solo o hai difficoltà a creare relazioni?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="isolamento_sociale" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="isolamento_sociale" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="isolamento_sociale" value="no"> No</label>
+            <label class="option-label"><input type="checkbox" name="isolamento_sociale" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_isolamento_sociale" rows="2" placeholder="Descrivi come ti senti..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>212. Nelle relazioni, ti senti insicuro o temi l'abbandono?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="relazioni_insicure" value="spesso"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="relazioni_insicure" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="relazioni_insicure" value="mai"> No, mi sento sicuro</label>
+            <label class="option-label"><input type="checkbox" name="relazioni_insicure" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_relazioni_insicure" rows="2" placeholder="Pattern ricorrenti..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>214. Hai mai seguito un percorso psicoterapeutico?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="psicoterapia" value="attualmente"> Sì, attualmente</label>
+            <label class="option-label"><input type="checkbox" name="psicoterapia" value="passato"> Sì, in passato</label>
+            <label class="option-label"><input type="checkbox" name="psicoterapia" value="interessato"> No, ma interessato</label>
+            <label class="option-label"><input type="checkbox" name="psicoterapia" value="non_interessato"> No, non interessato</label>
+            <label class="option-label"><input type="checkbox" name="psicoterapia" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_psicoterapia" rows="2" placeholder="Note..."></textarea>
+        </div>
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const macroarea = 'salute_mentale';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Helper per checkbox esclusivi
+    function setupExclusiveCheckboxes(groupName, noneValues = ['no', 'mai', 'nessuno', 'nessuna', 'non_so', 'nessun_problema', 'non_credo', 'non_interessato']) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const isNone = noneValues.includes(cb.value);
+          if (isNone && cb.checked) {
+            checkboxes.forEach(other => { if (other !== cb) other.checked = false; });
+          } else if (cb.checked) {
+            checkboxes.forEach(other => { if (noneValues.includes(other.value)) other.checked = false; });
+          }
+        });
+      });
+    }
+
+    // Applica logica esclusiva
+    const exclusiveGroups = [
+      'stress_di_vita_quotidiana', 'sintomi_notati_legati_allo_stress',
+      'supporto_persone_vicine', 'mindfulness_e_meditazione', 'bisogno_riduzione_stress',
+      'episodi_depressivi_ricorrenti', 'depressione_resistente_farmaci',
+      'arte_o_musica_anti_stress', 'equilibrio_corpo_mente', 'brainfog',
+      'fame_emotiva', 'umore_basso', 'diagnosi_mentale', 'isolamento_sociale',
+      'attacchi_ansia', 'relazioni_insicure', 'autocritica', 'psicoterapia',
+      'difficolta'
+    ];
+
+    exclusiveGroups.forEach(g => setupExclusiveCheckboxes(g));
+
+    // Progress bar
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Submit
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        if (!resp.ok) throw new Error(`Errore LLM (${resp.status})`);
+        const { report } = await resp.json();
+        updateProgress(70);
+
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score, 
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Errore:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+macroarea: salute_mentale
+version: 1.0
+
+rules:
+  # ===== STRESS E BENESSERE QUOTIDIANO =====
+  - feature: stress_di_vita_quotidiana
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: sintomi_notati_legati_allo_stress
+    rule: "if includes 'nessuno' then set to ['nessuno']"
+
+  - feature: supporto_persone_vicine
+    rule: "if includes '4' then set to ['4']"
+
+  - feature: mindfulness_e_meditazione
+    rule: "if includes '4' then set to ['4']"
+
+  - feature: bisogno_riduzione_stress
+    rule: "if includes '4' then set to ['4']"
+
+  - feature: arte_o_musica_anti_stress
+    rule: "if includes 'non_credo' then set to ['non_credo']"
+
+  - feature: equilibrio_corpo_mente
+    rule: "if includes 'no_disconnessione' then set to ['no_disconnessione']"
+
+  # ===== UMORE E DISREGOLAZIONE =====
+  - feature: episodi_depressivi_ricorrenti
+    rule: "if includes '4' then set to ['4']"
+
+  - feature: difficolta
+    rule: "if includes 'nessun_problema' then set to ['nessun_problema']"
+
+  - feature: depressione_resistente_farmaci
+    rule: "if includes 'nessun_problema' then set to ['nessun_problema']"
+
+  - feature: umore_basso
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: autocritica
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== SINTOMI SPECIFICI E DIAGNOSI =====
+  - feature: brainfog
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: fame_emotiva
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: diagnosi_mentale
+    rule: "if includes 'nessuna' then set to ['nessuna']"
+
+  - feature: attacchi_ansia
+    rule: "if includes 'no' then set to ['no']"
+
+  # ===== RELAZIONI E SUPPORTO =====
+  - feature: isolamento_sociale
+    rule: "if includes 'no' then set to ['no']"
+  - feature: isolamento_sociale
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: relazioni_insicure
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: relazioni_insicure
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: psicoterapia
+    rule: "if includes 'non_interessato' then set to ['non_interessato']"
+  - feature: psicoterapia
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+missing:
+  strategy: "per_feature_policy"

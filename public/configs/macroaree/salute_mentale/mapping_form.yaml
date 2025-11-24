@@ -1,0 +1,195 @@
+macroarea: salute_mentale
+version: 1.0
+
+map:
+  # ===== STRESS E BENESSERE QUOTIDIANO =====
+  stress_di_vita_quotidiana[]:
+    feature: stress_di_vita_quotidiana
+    values:
+      mai: mai
+      raramente: raramente
+      qualche_volta: qualche_volta
+      spesso: spesso
+      sempre: sempre
+
+  sintomi_notati_legati_allo_stress[]:
+    feature: sintomi_notati_legati_allo_stress
+    values:
+      tachicardia: tachicardia
+      insonnia: insonnia
+      ansia: ansia
+      gastrointestinali: gastrointestinali
+      stanchezza: stanchezza
+      nessuno: nessuno
+
+  supporto_persone_vicine[]:
+    feature: supporto_persone_vicine
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+
+  mindfulness_e_meditazione[]:
+    feature: mindfulness_e_meditazione
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+
+  bisogno_riduzione_stress[]:
+    feature: bisogno_riduzione_stress
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+
+  arte_o_musica_anti_stress[]:
+    feature: arte_o_musica_anti_stress
+    values:
+      spesso: spesso
+      qualche_volta: qualche_volta
+      mai_ma_interessato: mai_ma_interessato
+      non_credo: non_credo
+
+  equilibrio_corpo_mente[]:
+    feature: equilibrio_corpo_mente
+    values:
+      spesso_in_equilibrio: spesso_in_equilibrio
+      dipende_dal_periodo: dipende_dal_periodo
+      raramente_in_equilibrio: raramente_in_equilibrio
+      no_disconnessione: no_disconnessione
+
+  # ===== UMORE E DISREGOLAZIONE =====
+  episodi_depressivi_ricorrenti[]:
+    feature: episodi_depressivi_ricorrenti
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+  episodi_depressivi_ricorrenti_tempo:
+    feature: episodi_depressivi_ricorrenti_tempo
+    passthrough: true
+
+  difficolta[]:
+    feature: difficolta
+    values:
+      sonno: sonno
+      irrequieto: irrequieto
+      interessato: interessato
+      nessun_problema: nessun_problema
+
+  depressione_resistente_farmaci[]:
+    feature: depressione_resistente_farmaci
+    values:
+      diagnosi_depressione: diagnosi_depressione
+      dolore_cronico: dolore_cronico
+      interessato_trattamenti: interessato_trattamenti
+      nessun_problema: nessun_problema
+
+  umore_basso[]:
+    feature: umore_basso
+    values:
+      frequente: frequente
+      qualche_volta: qualche_volta
+      raramente: raramente
+      mai: mai
+  note_umore_basso:
+    feature: note_umore_basso
+    passthrough: true
+
+  autocritica[]:
+    feature: autocritica
+    values:
+      frequente: frequente
+      moderata: moderata
+      rara: rara
+      mai: mai
+  note_autocritica:
+    feature: note_autocritica
+    passthrough: true
+
+  # ===== SINTOMI SPECIFICI E DIAGNOSI =====
+  brainfog[]:
+    feature: brainfog
+    values:
+      mai: mai
+      occasionale: occasionale
+      frequente: frequente
+      cronico: cronico
+      non_so: non_so
+  note_brainfog:
+    feature: note_brainfog
+    passthrough: true
+
+  fame_emotiva[]:
+    feature: fame_emotiva
+    values:
+      mai: mai
+      qualche_volta: qualche_volta
+      spesso: spesso
+      non_so: non_so
+  note_fame_emotiva:
+    feature: note_fame_emotiva
+    passthrough: true
+
+  diagnosi_mentale[]:
+    feature: diagnosi_mentale
+    values:
+      depressione: depressione
+      ansia: ansia
+      altro: altro
+      nessuna: nessuna
+      non_so: non_so
+  note_diagnosi_mentale:
+    feature: note_diagnosi_mentale
+    passthrough: true
+
+  attacchi_ansia[]:
+    feature: attacchi_ansia
+    values:
+      diagnosi: diagnosi
+      episodi_frequenti: episodi_frequenti
+      rari: rari
+      no: no
+  note_attacchi_ansia:
+    feature: note_attacchi_ansia
+    passthrough: true
+
+  # ===== RELAZIONI E SUPPORTO =====
+  isolamento_sociale[]:
+    feature: isolamento_sociale
+    values:
+      frequente: frequente
+      a_volte: a_volte
+      no: no
+      non_so: non_so
+  note_isolamento_sociale:
+    feature: note_isolamento_sociale
+    passthrough: true
+
+  relazioni_insicure[]:
+    feature: relazioni_insicure
+    values:
+      spesso: spesso
+      a_volte: a_volte
+      mai: mai
+      non_so: non_so
+  note_relazioni_insicure:
+    feature: note_relazioni_insicure
+    passthrough: true
+
+  psicoterapia[]:
+    feature: psicoterapia
+    values:
+      attualmente: attualmente
+      passato: passato
+      interessato: interessato
+      non_interessato: non_interessato
+      non_so: non_so
+  note_psicoterapia:
+    feature: note_psicoterapia
+    passthrough: true

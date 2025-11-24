@@ -1,0 +1,129 @@
+macroarea: salute_mentale
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # ===== STRESS E BENESSERE (Peso Alto) =====
+    stress_di_vita_quotidiana: 1.5
+    sintomi_notati_legati_allo_stress: 1.2
+    equilibrio_corpo_mente: 1.0
+    bisogno_riduzione_stress: 0.8
+
+    # ===== UMORE E DISREGOLAZIONE (Peso Molto Alto) =====
+    episodi_depressivi_ricorrenti: 2.5  # Forte predittore di recidiva
+    umore_basso: 2.5                    # Sintomo attuale critico
+    depressione_resistente_farmaci: 2.0
+    difficolta: 1.5                     # Agitazione/Sonno
+    autocritica: 1.2
+
+    # ===== SINTOMI SPECIFICI E DIAGNOSI (Peso Alto) =====
+    diagnosi_mentale: 2.0
+    attacchi_ansia: 2.0
+    brainfog: 1.2                       # Sintomo cognitivo-stressogeno
+    fame_emotiva: 1.0
+
+    # ===== RELAZIONI E SUPPORTO (Peso Alto - Fattore Sociale) =====
+    isolamento_sociale: 2.5             # Grave fattore di rischio per mortalità
+    supporto_persone_vicine: 1.5        # Mancanza di supporto = rischio
+    relazioni_insicure: 1.2
+
+    # ===== COPING E TERAPIA (Peso Medio - Fattori protettivi/modulatori) =====
+    psicoterapia: 0.5
+    mindfulness_e_meditazione: 0.5
+    arte_o_musica_anti_stress: 0.5
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  # Risk Score: 0 = Ottimo (Benessere), 100 = Pessimo (Disagio/Patologia)
+  low:
+    max: 25        # Buon equilibrio psicologico e sociale
+  medium:
+    min: 26
+    max: 55        # Stress moderato o disagio emotivo gestibile
+  high:
+    min: 56        # Sintomi depressivi/ansiosi rilevanti o isolamento
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 5
+  show_percent_contribution: true
+  group_by_domain: true
+
+  overall_narratives:
+    low: >
+      Il tuo stato di salute mentale e relazionale appare solido. Disponi di buone risorse 
+      di coping, una rete sociale di supporto e un equilibrio emotivo stabile. 
+      Continuare a coltivare queste aree è la migliore prevenzione.
+    medium: >
+      Sono emersi segnali di stress o disagio emotivo che meritano attenzione. 
+      Potresti trovarti in una fase di sovraccarico o sperimentare difficoltà relazionali/umorali 
+      che, se trascurate, potrebbero impattare sulla qualità della vita.
+    high: >
+      Il quadro evidenzia un carico significativo di stress, sintomi depressivi/ansiosi o isolamento. 
+      Questi fattori rappresentano un rischio concreto per il benessere psicofisico e richiedono 
+      un supporto professionale per essere gestiti adeguatamente.
+
+  driver_templates:
+    # ==== Stress ====
+    stress_di_vita_quotidiana: >
+      Alti livelli di stress percepito cronico, un fattore che accelera l'invecchiamento cellulare e il rischio cardiovascolare.
+    sintomi_notati_legati_allo_stress: >
+      Presenza di somatizzazioni (es. tachicardia, disturbi gastrointestinali) che indicano un sovraccarico del sistema nervoso.
+
+    # ==== Umore ====
+    umore_basso: >
+      Persistenza di deflessione del tono dell'umore, un segnale cardine di possibile depressione o burnout.
+    episodi_depressivi_ricorrenti: >
+      Storia di episodi depressivi pregressi, che aumenta la vulnerabilità a nuove fasi critiche.
+    autocritica: >
+      Tendenza all'autocritica severa, un fattore di mantenimento per ansia e depressione.
+
+    # ==== Ansia e Diagnosi ====
+    attacchi_ansia: >
+      Episodi di ansia acuta o panico che limitano la serenità e l'autonomia quotidiana.
+    diagnosi_mentale: >
+      Presenza di una condizione clinica diagnosticata che richiede gestione continuativa.
+
+    # ==== Sociale ====
+    isolamento_sociale: >
+      Percezione di solitudine o isolamento, fattore di rischio paragonabile al fumo per la salute a lungo termine.
+    supporto_persone_vicine: >
+      Mancanza di una rete di supporto solida su cui contare nei momenti di difficoltà.
+
+  class_explanations:
+    low: >
+      Benessere psicologico e resilienza elevati.
+    medium: >
+      Vulnerabilità allo stress o disagio emotivo moderato (es. {top_driver_names}).
+    high: >
+      Compromissione del benessere mentale con sintomi rilevanti (es. {top_driver_names}).
+
+red_flags:
+  # ==== Rischio Depressivo ====
+  - condition: "umore_basso in ['frequente']"
+    action: "Valutazione specialistica psicologica o psichiatrica per escludere un episodio depressivo maggiore."
+  
+  - condition: "episodi_depressivi_ricorrenti in ['1']"
+    action: "Considerare un monitoraggio periodico o una terapia di mantenimento per prevenire ricadute."
+
+  # ==== Ansia e Panico ====
+  - condition: "attacchi_ansia in ['diagnosi', 'episodi_frequenti']"
+    action: "Consultare uno specialista per gestire i sintomi d'ansia ed evitare comportamenti di evitamento."
+
+  # ==== Isolamento ====
+  - condition: "isolamento_sociale in ['frequente']"
+    action: "Attivare strategie di ri-connessione sociale o supporto psicologico per rompere il ciclo della solitudine."
+
+  # ==== Resistenza Farmacologica / Cronicità ====
+  - condition: "depressione_resistente_farmaci in ['diagnosi_depressione', 'dolore_cronico']"
+    action: "Valutare con lo psichiatra opzioni terapeutiche avanzate o approcci integrati."

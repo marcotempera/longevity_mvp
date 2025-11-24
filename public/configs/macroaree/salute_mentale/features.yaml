@@ -1,0 +1,182 @@
+macroarea: salute_mentale
+version: 1.0
+description: >
+  Configurazione per la valutazione della salute mentale e relazionale.
+  Scoring: Punteggi positivi indicano RISCHIO (disturbi, stress),
+  punteggi negativi indicano PROTEZIONE (resilienza, supporto).
+
+features:
+
+  # ============================
+  # STRESS E BENESSERE QUOTIDIANO
+  # ============================
+  - name: stress_di_vita_quotidiana
+    type: categorical
+    allowed: [mai, raramente, qualche_volta, spesso, sempre]
+    map_to_score: {mai: -1, raramente: 0, qualche_volta: 1, spesso: 3, sempre: 5}
+    related_pathologies: [HER055, HER183]
+    notes: "Alti livelli di stress percepito cronico sono correlati a burnout e patologie sistemiche."
+
+  - name: sintomi_notati_legati_allo_stress
+    type: categorical_multi
+    allowed: [tachicardia, insonnia, ansia, gastrointestinali, stanchezza, nessuno]
+    per_item_score: {tachicardia: 1, insonnia: 1, ansia: 1, gastrointestinali: 1, stanchezza: 1, nessuno: 0}
+    cap_score: 4
+    missing_policy: "none_is_zero"
+    notes: "Sintomi somatici da stress indicano un carico allostatico elevato."
+
+  - name: supporto_persone_vicine
+    type: categorical
+    allowed: ["1", "2", "3", "4"]
+    map_to_score: {"1": -2, "2": -1, "3": 2, "4": 4}
+    red_flag_if_in: ["4"]
+    related_pathologies: [HER280]
+    notes: "La mancanza di supporto sociale è un fattore di rischio maggiore per la mortalità."
+
+  - name: mindfulness_e_meditazione
+    type: categorical
+    allowed: ["1", "2", "3", "4"]
+    map_to_score: {"1": -2, "2": -1, "3": 0, "4": 0}
+    notes: "La mindfulness è un fattore protettivo validato per la regolazione emotiva."
+
+  - name: bisogno_riduzione_stress
+    type: categorical
+    allowed: ["1", "2", "3", "4"]
+    map_to_score: {"1": 2, "2": 0, "3": 0, "4": 0}
+
+  - name: arte_o_musica_anti_stress
+    type: categorical
+    allowed: [spesso, qualche_volta, mai_ma_interessato, non_credo]
+    map_to_score: {spesso: -1, qualche_volta: 0, mai_ma_interessato: 0, non_credo: 0}
+
+  - name: equilibrio_corpo_mente
+    type: categorical
+    allowed: [spesso_in_equilibrio, dipende_dal_periodo, raramente_in_equilibrio, no_disconnessione]
+    map_to_score: {spesso_in_equilibrio: -2, dipende_dal_periodo: 0, raramente_in_equilibrio: 2, no_disconnessione: 3}
+
+  # ============================
+  # UMORE E DISREGOLAZIONE
+  # ============================
+  - name: episodi_depressivi_ricorrenti
+    type: categorical
+    allowed: ["1", "2", "3", "4"]
+    map_to_score: {"1": 5, "2": 3, "3": 1, "4": 0}
+    red_flag_if_in: ["1"]
+    related_pathologies: [HER020, HER262]
+    notes: "La ricorrenza degli episodi depressivi aumenta il rischio di cronicizzazione."
+
+  - name: episodi_depressivi_ricorrenti_tempo
+    type: text
+    store: true
+
+  - name: difficolta
+    type: categorical
+    allowed: [sonno, irrequieto, interessato, nessun_problema]
+    map_to_score: {sonno: 2, irrequieto: 2, interessato: 0, nessun_problema: 0}
+
+  - name: depressione_resistente_farmaci
+    type: categorical
+    allowed: [diagnosi_depressione, dolore_cronico, interessato_trattamenti, nessun_problema]
+    map_to_score: {diagnosi_depressione: 5, dolore_cronico: 4, interessato_trattamenti: 0, nessun_problema: 0}
+    red_flag_if_in: [diagnosi_depressione]
+    related_pathologies: [HER066]
+
+  - name: umore_basso
+    type: categorical
+    allowed: [frequente, qualche_volta, raramente, mai]
+    map_to_score: {frequente: 4, qualche_volta: 2, raramente: 1, mai: 0}
+    red_flag_if_in: [frequente]
+    related_pathologies: [HER020, HER262]
+    notes: "Umore depresso persistente è il sintomo cardine della depressione maggiore."
+
+  - name: note_umore_basso
+    type: text
+    store: true
+
+  - name: autocritica
+    type: categorical
+    allowed: [frequente, moderata, rara, mai]
+    map_to_score: {frequente: 3, moderata: 1, rara: 0, mai: 0}
+
+  - name: note_autocritica
+    type: text
+    store: true
+
+  # ============================
+  # SINTOMI SPECIFICI E DIAGNOSI
+  # ============================
+  - name: brainfog
+    type: categorical
+    allowed: [mai, occasionale, frequente, cronico, non_so]
+    map_to_score: {mai: 0, occasionale: 1, frequente: 3, cronico: 4, non_so: 0}
+    related_pathologies: [HER243, HER182]
+
+  - name: note_brainfog
+    type: text
+    store: true
+
+  - name: fame_emotiva
+    type: categorical
+    allowed: [mai, qualche_volta, spesso, non_so]
+    map_to_score: {mai: 0, qualche_volta: 1, spesso: 3, non_so: 0}
+    related_pathologies: [HER192]
+
+  - name: note_fame_emotiva
+    type: text
+    store: true
+
+  - name: diagnosi_mentale
+    type: categorical
+    allowed: [depressione, ansia, altro, nessuna, non_so]
+    map_to_score: {depressione: 4, ansia: 3, altro: 2, nessuna: 0, non_so: 0}
+    related_pathologies: [HER020, HER042]
+
+  - name: note_diagnosi_mentale
+    type: text
+    store: true
+
+  - name: attacchi_ansia
+    type: categorical
+    allowed: [diagnosi, episodi_frequenti, rari, no]
+    map_to_score: {diagnosi: 4, episodi_frequenti: 4, rari: 1, no: 0}
+    red_flag_if_in: [diagnosi, episodi_frequenti]
+    related_pathologies: [HER042, HER266]
+
+  - name: note_attacchi_ansia
+    type: text
+    store: true
+
+  # ============================
+  # RELAZIONI E SUPPORTO
+  # ============================
+  - name: isolamento_sociale
+    type: categorical
+    allowed: [frequente, a_volte, no, non_so]
+    map_to_score: {frequente: 5, a_volte: 2, no: -2, non_so: 0}
+    red_flag_if_in: [frequente]
+    related_pathologies: [HER280]
+    notes: "L'isolamento sociale cronico ha un impatto sulla mortalità paragonabile al fumo."
+
+  - name: note_isolamento_sociale
+    type: text
+    store: true
+
+  - name: relazioni_insicure
+    type: categorical
+    allowed: [spesso, a_volte, mai, non_so]
+    map_to_score: {spesso: 3, a_volte: 1, mai: -1, non_so: 0}
+    related_pathologies: [HER281, HER274]
+
+  - name: note_relazioni_insicure
+    type: text
+    store: true
+
+  - name: psicoterapia
+    type: categorical
+    allowed: [attualmente, passato, interessato, non_interessato, non_so]
+    map_to_score: {attualmente: 0, passato: 0, interessato: 0, non_interessato: 0, non_so: 0}
+    notes: "Dato informativo sull'approccio alla cura."
+
+  - name: note_psicoterapia
+    type: text
+    store: true

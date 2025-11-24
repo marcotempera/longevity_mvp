@@ -1,0 +1,154 @@
+macroarea: salute_mentale
+version: 1.0
+description: "Interventi per la gestione dello stress, dell'umore e del benessere relazionale."
+
+actions:
+
+  # ============================
+  # STRESS E SOMATIZZAZIONI
+  # ============================
+  stress_di_vita_quotidiana:
+    sempre:
+      lifestyle:
+        - "Introdurre pause di decompressione di 5 minuti ogni 2 ore (respirazione quadrata o stretching)."
+        - "Valutare una riorganizzazione del carico lavorativo o familiare (delega, confini)."
+      nutraceutical:
+        - "Valutare con il medico adattogeni come Ashwagandha o Rodiola per migliorare la resistenza allo stress."
+      clinical:
+        - "Consulto psicologico per apprendere tecniche di gestione dello stress e prevenzione del burnout."
+
+  sintomi_notati_legati_allo_stress:
+    tachicardia:
+      lifestyle:
+        - "Ridurre drasticamente caffeina e altri eccitanti."
+        - "Praticare tecniche di rilassamento progressivo di Jacobson."
+      clinical:
+        - "Escludere cause cardiache o tiroidee con il medico curante."
+
+    gastrointestinali:
+      lifestyle:
+        - "Mangiare lentamente e in ambiente tranquillo (asse intestino-cervello)."
+      clinical:
+        - "Valutare disbiosi o IBS da stress con un gastroenterologo."
+
+    insonnia:
+      lifestyle:
+        - "Creare una routine serale rilassante (lettura, bagno caldo) lontana dagli schermi."
+      nutraceutical:
+        - "Valutare Melatonina o Magnesio bisglicinato prima di dormire."
+
+  equilibrio_corpo_mente:
+    no_disconnessione:
+      lifestyle:
+        - "Pratiche di embodiment (Yoga, Tai Chi) per riconnettere le sensazioni fisiche alle emozioni."
+
+  # ============================
+  # UMORE E DEPRESSIONE
+  # ============================
+  umore_basso:
+    frequente:
+      lifestyle:
+        - "Esporsi alla luce solare mattutina per almeno 20 minuti per stimolare la serotonina."
+        - "Mantenere un'attività fisica aerobica regolare (effetto antidepressivo naturale)."
+      nutraceutical:
+        - "Omega-3 (EPA > 1g) e Vitamina D (se carente) possono supportare il tono dell'umore (parere medico)."
+      clinical:
+        - "VISITA SPECIALISTICA: non sottovalutare un calo dell'umore persistente; valutare psicoterapia o farmacoterapia."
+
+  episodi_depressivi_ricorrenti:
+    "1":
+      lifestyle:
+        - "Monitorare i ritmi circadiani (sonno/veglia) che spesso precedono le ricadute."
+        - "Evitare l'isolamento sociale nei momenti di difficoltà."
+      clinical:
+        - "Mantenere un contatto regolare con lo psichiatra anche nelle fasi di benessere (prevenzione ricadute)."
+
+  autocritica:
+    frequente:
+      lifestyle:
+        - "Praticare la 'Self-Compassion': trattarsi come si tratterebbe un caro amico in difficoltà."
+        - "Tenere un diario della gratitudine per spostare il focus sul positivo."
+      clinical:
+        - "Psicoterapia Cognitivo-Comportamentale (CBT) per ristrutturare i pensieri automatici negativi."
+
+  depressione_resistente_farmaci:
+    diagnosi_depressione:
+      clinical:
+        - "Valutare con lo specialista opzioni di seconda linea o terapie di neurostimolazione (es. TMS) se indicate."
+
+  # ============================
+  # ANSIA E ATTACCHI
+  # ============================
+  attacchi_ansia:
+    episodi_frequenti:
+      lifestyle:
+        - "Imparare tecniche di grounding (es. tecnica 5-4-3-2-1) per gestire l'acuzie."
+        - "Evitare l'evitamento delle situazioni temute, che rinforza l'ansia."
+      clinical:
+        - "Psicoterapia (CBT) specifica per disturbo di panico."
+        - "Valutazione psichiatrica per eventuale supporto farmacologico."
+
+  difficolta:
+    irrequieto:
+      lifestyle:
+        - "Scarica l'energia in eccesso con attività fisica intensa ma regolare."
+        - "Ridurre zuccheri semplici che possono causare picchi di ipereccitabilità."
+
+  # ============================
+  # SINTOMI COGNITIVI EMOTIVI
+  # ============================
+  brainfog:
+    frequente:
+      lifestyle:
+        - "Priorità al sonno di qualità e all'idratazione."
+        - "Praticare il 'digital detox' per ridurre il sovraccarico cognitivo."
+      clinical:
+        - "Escludere cause organiche (tiroide, carenze vitaminiche, post-virale) con il medico."
+
+  fame_emotiva:
+    spesso:
+      lifestyle:
+        - "Identificare il trigger emotivo (noia, ansia, tristezza) prima di mangiare ('Pause & Check')."
+        - "Non tenere 'comfort food' ipercalorici a portata di mano."
+      clinical:
+        - "Consulto con psicologo esperto in comportamento alimentare."
+
+  # ============================
+  # RELAZIONI E SUPPORTO
+  # ============================
+  isolamento_sociale:
+    frequente:
+      lifestyle:
+        - "Porsi piccoli obiettivi di interazione sociale (es. un caffè con un amico, una telefonata)."
+        - "Iscriversi a corsi o gruppi di interesse (sport, hobby) per incontrare persone con passioni comuni."
+      clinical:
+        - "Gruppi di supporto o terapia di gruppo per migliorare le abilità sociali in un ambiente protetto."
+
+  relazioni_insicure:
+    spesso:
+      lifestyle:
+        - "Lavorare sull'autostima e sull'indipendenza emotiva."
+      clinical:
+        - "Psicoterapia a orientamento relazionale o sistemico."
+
+  supporto_persone_vicine:
+    "4":
+      lifestyle:
+        - "Cercare supporto nella comunità (associazioni, volontariato, gruppi spirituali)."
+      clinical:
+        - "Il supporto professionale (terapeuta) diventa cruciale in assenza di rete familiare/amicale."
+
+  # ============================
+  # COPING E TERAPIA
+  # ============================
+  mindfulness_e_meditazione:
+    "4":
+      lifestyle:
+        - "Provare app di meditazione guidata per 5-10 minuti al giorno per iniziare."
+
+  psicoterapia:
+    interessato:
+      lifestyle:
+        - "Informarsi sui diversi approcci terapeutici (CBT, psicodinamica, sistemica) per trovare quello più adatto."
+      clinical:
+        - "Prenotare un primo colloquio conoscitivo."
