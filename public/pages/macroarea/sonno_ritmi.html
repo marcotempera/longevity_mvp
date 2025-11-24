@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Sonno e Ritmi Circadiani</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h3{font-size:1.1rem;margin-top:24px;margin-bottom:12px;color:var(--accent)}
+    h5{font-weight:400;color:var(--muted);margin-top:-10px;margin-bottom:20px;line-height:1.5}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:24px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      width: 16px; 
+      height: 16px;
+    }
+    textarea, input[type="text"], input[type="number"], input[type="time"], select{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      margin-top: 8px;
+    }
+    textarea:focus, input:focus, select:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+    .subcard{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:10px;
+      padding:16px;
+      margin-top:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">😴 Qualità del Sonno e Ritmi</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>🕰️ Orari e Routine</h2>
+        <h5>Se disponi di un test o di un’analisi recente (es. polisonnografia, dati wearable), le risposte aiuteranno a personalizzare il report.</h5>
+
+        <div class="field">
+          <label>155. Hai orari regolari per il sonno e i pasti durante la settimana?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="orari_sonno_e_pasti" value="orari_regolari"> Sì, quasi sempre uguali</label>
+            <label class="option-label"><input type="checkbox" name="orari_sonno_e_pasti" value="cerco_routine"> Cerco routine, con variazioni</label>
+            <label class="option-label"><input type="checkbox" name="orari_sonno_e_pasti" value="orari_variano"> Cambiano spesso</label>
+            <label class="option-label"><input type="checkbox" name="orari_sonno_e_pasti" value="ritmo_irregolare"> No, irregolari</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>177. Quanto è regolare il tuo ritmo diurno-notturno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="ritmocircadiano" value="molto_regolare"> Molto regolare</label>
+            <label class="option-label"><input type="checkbox" name="ritmocircadiano" value="moderatamente_regolare"> Abbastanza regolare</label>
+            <label class="option-label"><input type="checkbox" name="ritmocircadiano" value="variabile"> Variabile</label>
+            <label class="option-label"><input type="checkbox" name="ritmocircadiano" value="molto_irregolare"> Molto irregolare</label>
+            <label class="option-label"><input type="checkbox" name="ritmocircadiano" value="non_so"> Non ci ho fatto caso</label>
+          </div>
+          <textarea name="note_ritmocircadiano" rows="2" placeholder="Note su orari e variazioni..."></textarea>
+        </div>
+
+        <div class="field" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px">
+          <div>
+            <label>158. A che ora vai a letto?</label>
+            <input type="time" name="ora_letto">
+          </div>
+          <div>
+            <label>160. A che ora ti svegli?</label>
+            <input type="time" name="ora_sveglia">
+          </div>
+        </div>
+
+        <div class="field" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px">
+          <div>
+            <label>159. Tempo per addormentarsi (min)?</label>
+            <input type="number" name="tempo_addormentamento" placeholder="Minuti">
+          </div>
+          <div>
+            <label>161. Ore di sonno effettive?</label>
+            <input type="number" name="ore_effettive_sonno" step="0.1" placeholder="Ore">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>157. Quante ore dormi in media ogni notte?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="ore_sonno" value="meno_5"> < 5 ore</label>
+            <label class="option-label"><input type="checkbox" name="ore_sonno" value="5_6"> 5-6 ore</label>
+            <label class="option-label"><input type="checkbox" name="ore_sonno" value="6_7"> 6-7 ore</label>
+            <label class="option-label"><input type="checkbox" name="ore_sonno" value="7_8"> 7-8 ore</label>
+            <label class="option-label"><input type="checkbox" name="ore_sonno" value="piu_9"> > 8 ore</label>
+            <label class="option-label"><input type="checkbox" name="ore_sonno" value="non_so"> Non so</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🌙 Qualità del Sonno e Disturbi</h2>
+
+        <div class="field">
+          <label>156. Negli ultimi 30 giorni, come valuteresti la qualità del tuo sonno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="qualita_sonno" value="ottima"> Ottima</label>
+            <label class="option-label"><input type="checkbox" name="qualita_sonno" value="buona"> Buona</label>
+            <label class="option-label"><input type="checkbox" name="qualita_sonno" value="discreta"> Discreta</label>
+            <label class="option-label"><input type="checkbox" name="qualita_sonno" value="scarsa"> Scarsa</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>172. Come valuti complessivamente la qualità del tuo sonno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="qualita_del_sonno" value="molto_buona"> Molto buona</label>
+            <label class="option-label"><input type="checkbox" name="qualita_del_sonno" value="abbastanza_buona"> Abbastanza buona</label>
+            <label class="option-label"><input type="checkbox" name="qualita_del_sonno" value="abbastanza_cattiva"> Abbastanza cattiva</label>
+            <label class="option-label"><input type="checkbox" name="qualita_del_sonno" value="cattiva"> Cattiva</label>
+          </div>
+        </div>
+
+        <h3>Quanto spesso hai problemi di sonno dovuti a...</h3>
+        
+        <div class="field">
+          <label>162. Non riuscire ad addormentarsi entro 30 minuti</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="non_addormentarsi_entro_30_minuti" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="non_addormentarsi_entro_30_minuti" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="non_addormentarsi_entro_30_minuti" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="non_addormentarsi_entro_30_minuti" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>163. Risvegli notturni o precoci senza riaddormentarsi</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="sveglia_nella_notte" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="sveglia_nella_notte" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="sveglia_nella_notte" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="sveglia_nella_notte" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>164. Alzarsi per andare in bagno (Nicturia)</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="svegliarsi_per_andare_in_bagno" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="svegliarsi_per_andare_in_bagno" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="svegliarsi_per_andare_in_bagno" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="svegliarsi_per_andare_in_bagno" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>165. Non riuscire a respirare bene</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="non_respirare_bene_di_notte" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="non_respirare_bene_di_notte" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="non_respirare_bene_di_notte" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="non_respirare_bene_di_notte" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>166. Tossire o russare forte</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="tosse_e_russare" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="tosse_e_russare" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="tosse_e_russare" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="tosse_e_russare" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>167. Sentire troppo freddo</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="freddo_di_notte" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="freddo_di_notte" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="freddo_di_notte" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="freddo_di_notte" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>168. Sentire troppo caldo</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="caldo_la_notte" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="caldo_la_notte" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="caldo_la_notte" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="caldo_la_notte" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>169. Fare brutti sogni</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="brutti_sogni" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="brutti_sogni" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="brutti_sogni" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="brutti_sogni" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>170. Avere dolori</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="dolori_la_notte" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="dolori_la_notte" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="dolori_la_notte" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="dolori_la_notte" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>171. Altri problemi che disturbano il sonno?</label>
+          <textarea name="altri_problemi_che_disturbano_sonno" rows="2" placeholder="Descrivi..."></textarea>
+          <div class="grid-options" style="margin-top:10px">
+            <label class="option-label"><input type="checkbox" name="altri_problemi_che_disturbano_sonno_frequenza" value="meno_1"> < 1 volta/sett</label>
+            <label class="option-label"><input type="checkbox" name="altri_problemi_che_disturbano_sonno_frequenza" value="1_2"> 1-2 volte/sett</label>
+            <label class="option-label"><input type="checkbox" name="altri_problemi_che_disturbano_sonno_frequenza" value="3_plus"> 3+ volte/sett</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>☀️ Sintomi Diurni e Diagnosi</h2>
+
+        <div class="field">
+          <label>174. Difficoltà a rimanere sveglio (guida, attività sociali)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="difficolta_a_rimanere_sveglio" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_a_rimanere_sveglio" value="poche_volte"> Poche volte</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_a_rimanere_sveglio" value="spesso"> Spesso</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_a_rimanere_sveglio" value="ogni_giorno"> Ogni giorno</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>175. Problemi di energie sufficienti per le attività?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="energie_insufficienti" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="energie_insufficienti" value="poche_volte"> Poche volte</label>
+            <label class="option-label"><input type="checkbox" name="energie_insufficienti" value="spesso"> Spesso</label>
+            <label class="option-label"><input type="checkbox" name="energie_insufficienti" value="ogni_giorno"> Ogni giorno</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>178. Ti svegli sudato o con battito accelerato?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="sudorazione_notturna" value="mai"> No</label>
+            <label class="option-label"><input type="checkbox" name="sudorazione_notturna" value="raro"> Sì, raramente</label>
+            <label class="option-label"><input type="checkbox" name="sudorazione_notturna" value="frequente"> Sì, frequente</label>
+            <label class="option-label"><input type="checkbox" name="sudorazione_notturna" value="solo_stress"> Solo se stressato</label>
+            <label class="option-label"><input type="checkbox" name="sudorazione_notturna" value="non_so"> Non so</label>
+          </div>
+          <textarea name="note_sudorazione_notturna" rows="2" placeholder="Contesto..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>176. Hai mai ricevuto diagnosi per disturbi del sonno (insonnia, apnee)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="disturbi_del_sonno_diagnosticati" value="si"> Sì</label>
+            <label class="option-label"><input type="checkbox" name="disturbi_del_sonno_diagnosticati" value="no"> No</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>💊 Farmaci e Supporti</h2>
+
+        <div class="field">
+          <label>173. Hai mai assunto farmaci/integratori per dormire?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="assunzione_farmaci_sonno" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="assunzione_farmaci_sonno" value="occasionale"> Occasionale</label>
+            <label class="option-label"><input type="checkbox" name="assunzione_farmaci_sonno" value="frequente"> Frequente</label>
+            <label class="option-label"><input type="checkbox" name="assunzione_farmaci_sonno" value="uso_continuativo"> Uso continuativo</label>
+          </div>
+          
+          <div id="farmaci_details" class="subcard" style="display:none">
+            <div class="field">
+              <label>Quali farmaci/integratori?</label>
+              <input type="text" name="tipologia_farmaci_sonno" placeholder="Es. Melatonina, Benzodiazepine...">
+            </div>
+            <div class="field">
+              <label>Li assumi attualmente?</label>
+              <select name="assunzione_attuale_farmaci_sonno">
+                <option value="">-- Seleziona --</option>
+                <option value="si">Sì</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Per quanto tempo?</label>
+              <input type="text" name="durata_assunzione_farmaci_sonno" placeholder="Es. 6 mesi">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const macroarea = 'sonno_ritmi';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Helper per checkbox esclusivi
+    function setupExclusiveCheckboxes(groupName, noneValues = ['mai', 'no', 'non_so']) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const isNone = noneValues.includes(cb.value);
+          if (isNone && cb.checked) {
+            checkboxes.forEach(other => { if (other !== cb) other.checked = false; });
+          } else if (cb.checked) {
+            checkboxes.forEach(other => { if (noneValues.includes(other.value)) other.checked = false; });
+          }
+        });
+      });
+    }
+
+    // Applica logica esclusiva
+    const exclusiveGroups = [
+      'orari_sonno_e_pasti', 'qualita_sonno', 'ore_sonno', 
+      'non_addormentarsi_entro_30_minuti', 'sveglia_nella_notte', 
+      'svegliarsi_per_andare_in_bagno', 'non_respirare_bene_di_notte',
+      'tosse_e_russare', 'freddo_di_notte', 'caldo_la_notte',
+      'brutti_sogni', 'dolori_la_notte', 'altri_problemi_che_disturbano_sonno_frequenza',
+      'qualita_del_sonno', 'assunzione_farmaci_sonno',
+      'difficolta_a_rimanere_sveglio', 'energie_insufficienti',
+      'disturbi_del_sonno_diagnosticati', 'ritmocircadiano', 'sudorazione_notturna'
+    ];
+
+    exclusiveGroups.forEach(g => setupExclusiveCheckboxes(g));
+
+    // Toggle dettagli farmaci
+    const farmaciInputs = document.querySelectorAll('input[name="assunzione_farmaci_sonno"]');
+    const farmaciDetails = $('#farmaci_details');
+    farmaciInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        const selected = document.querySelector('input[name="assunzione_farmaci_sonno"]:checked')?.value;
+        if (selected && selected !== 'mai') {
+          farmaciDetails.style.display = 'block';
+        } else {
+          farmaciDetails.style.display = 'none';
+        }
+      });
+    });
+
+    // Progress bar
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Submit
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        if (!resp.ok) throw new Error(`Errore LLM (${resp.status})`);
+        const { report } = await resp.json();
+        updateProgress(70);
+
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score, 
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Errore:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>

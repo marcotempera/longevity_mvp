@@ -1,0 +1,134 @@
+macroarea: sonno_ritmi
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # ===== ORARI E ROUTINE (Peso Medio-Alto) =====
+    orari_sonno_e_pasti: 1.5        # La regolarità è fondamentale per i ritmi circadiani
+    ritmocircadiano: 1.5
+    ore_sonno: 2.0                  # La durata è un parametro base di salute
+
+    # ===== QUALITÀ E DISTURBI (Peso Alto) =====
+    qualita_sonno: 1.5
+    qualita_del_sonno: 1.0          # Conferma soggettiva
+    
+    # Sintomi Insonnia
+    non_addormentarsi_entro_30_minuti: 1.5
+    sveglia_nella_notte: 1.5
+    
+    # Sintomi Respiratori / Apnee (Peso Alto - Rischio Clinico)
+    non_respirare_bene_di_notte: 2.5
+    tosse_e_russare: 2.0
+    
+    # Altri disturbi
+    svegliarsi_per_andare_in_bagno: 1.0
+    dolori_la_notte: 1.2
+    brutti_sogni: 0.8
+    freddo_di_notte: 0.5
+    caldo_la_notte: 0.5
+
+    # ===== SINTOMI DIURNI E DIAGNOSI (Peso Alto) =====
+    difficolta_a_rimanere_sveglio: 2.0 # Eccessiva sonnolenza diurna (EDS) è grave
+    energie_insufficienti: 1.5
+    disturbi_del_sonno_diagnosticati: 1.0
+    sudorazione_notturna: 1.2       # Possibile segno di apnee o disfunzioni ormonali
+
+    # ===== FARMACI (Peso Medio) =====
+    assunzione_farmaci_sonno: 1.5   # L'uso cronico può indicare dipendenza o problema irrisolto
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  # Risk Score: 0 = Ottimo (Sano), 100 = Pessimo (Rischio)
+  low:
+    max: 25        # Sonno ristoratore e regolare
+  medium:
+    min: 26
+    max: 55        # Disturbi lievi o cattiva igiene del sonno
+  high:
+    min: 56        # Insonnia grave, sospette apnee o EDS
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 5
+  show_percent_contribution: true
+  group_by_domain: true
+
+  overall_narratives:
+    low: >
+      Il tuo sonno è di ottima qualità e i tuoi ritmi circadiani sono ben allineati. 
+      Questo è un pilastro fondamentale per la rigenerazione cellulare, la salute cerebrale 
+      e la longevità. Mantieni queste abitudini.
+    medium: >
+      Ci sono aspetti del tuo sonno che necessitano attenzione. Potresti soffrire di una 
+      routine irregolare, di risvegli notturni o di una qualità del riposo non ottimale. 
+      Migliorare l'igiene del sonno potrebbe avere un impatto significativo sulla tua energia diurna.
+    high: >
+      I dati indicano problemi significativi legati al sonno (insonnia, sospette apnee, 
+      eccessiva sonnolenza). Il sonno frammentato o insufficiente è un forte fattore di stress 
+      sistemico e richiede una valutazione specialistica per escludere patologie sottostanti.
+
+  driver_templates:
+    # ==== Routine ====
+    orari_sonno_e_pasti: >
+      L'irregolarità negli orari crea un "jet lag sociale" cronico che stressa il metabolismo.
+    ritmocircadiano: >
+      Disallineamento del ritmo sonno-veglia, possibile causa di stanchezza e alterazioni ormonali.
+    ore_sonno: >
+      Durata del sonno insufficiente (<6 ore) o eccessiva, entrambe associate a rischi per la salute.
+
+    # ==== Disturbi ====
+    non_respirare_bene_di_notte: >
+      Segnalazione di difficoltà respiratorie notturne, un possibile indicatore di apnee ostruttive (OSAS).
+    tosse_e_russare: >
+      Il russamento frequente o la tosse notturna possono frammentare il sonno e ridurre l'ossigenazione.
+    non_addormentarsi_entro_30_minuti: >
+      Difficoltà nell'addormentamento (insonnia iniziale), spesso legata a stress o iperattivazione serale.
+    sveglia_nella_notte: >
+      Sonno frammentato (insonnia di mantenimento) che impedisce di raggiungere le fasi profonde rigenerative.
+
+    # ==== Diurno ====
+    difficolta_a_rimanere_sveglio: >
+      Eccessiva sonnolenza diurna, sintomo che il sonno notturno non è ristoratore o sufficiente.
+    assunzione_farmaci_sonno: >
+      Uso frequente di aiuti farmacologici per dormire, che può mascherare le cause alla radice del disturbo.
+
+  class_explanations:
+    low: >
+      Ritmi sonno-veglia sani e riposanti.
+    medium: >
+      Qualità del sonno compromessa da abitudini o disturbi lievi (es. {top_driver_names}).
+    high: >
+      Disturbi del sonno rilevanti che impattano la salute (es. {top_driver_names}).
+
+red_flags:
+  # ==== Sospette Apnee Notturne (OSAS) ====
+  - condition: "non_respirare_bene_di_notte in ['3_plus', '1_2']"
+    action: "Valutazione medica urgente per sospette apnee notturne (Polisonnografia)."
+  
+  - condition: "tosse_e_russare in ['3_plus'] and difficolta_a_rimanere_sveglio in ['spesso', 'ogni_giorno']"
+    action: "Consultare un pneumologo o esperto del sonno: russamento associato a sonnolenza è un forte predittore di OSAS."
+
+  # ==== Insonnia Cronica ====
+  - condition: "non_addormentarsi_entro_30_minuti in ['3_plus']"
+    action: "Valutare tecniche cognitivo-comportamentali per l'insonnia (CBT-I) e igiene del sonno."
+
+  - condition: "sveglia_nella_notte in ['3_plus']"
+    action: "Indagare cause di insonnia di mantenimento (stress, disturbi metabolici, ambiente)."
+
+  # ==== Eccessiva Sonnolenza Diurna (EDS) ====
+  - condition: "difficolta_a_rimanere_sveglio in ['ogni_giorno', 'spesso']"
+    action: "Pericolo per la sicurezza (es. guida). Necessario approfondimento neurologico."
+
+  # ==== Farmaci ====
+  - condition: "assunzione_farmaci_sonno in ['uso_continuativo']"
+    action: "Discutere con il medico la strategia a lungo termine e possibili effetti di dipendenza/assuefazione."

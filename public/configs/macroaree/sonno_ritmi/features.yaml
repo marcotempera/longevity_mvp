@@ -1,0 +1,188 @@
+macroarea: sonno_ritmi
+version: 1.0
+description: >
+  Configurazione per qualità del sonno e ritmi circadiani.
+  Scoring: Punteggi positivi indicano RISCHIO (disturbi, irregolarità),
+  punteggi negativi indicano PROTEZIONE (buon sonno, regolarità).
+
+features:
+
+  # ============================
+  # ORARI E ROUTINE
+  # ============================
+  - name: orari_sonno_e_pasti
+    type: categorical
+    allowed: [orari_regolari, cerco_routine, orari_variano, ritmo_irregolare]
+    map_to_score: {orari_regolari: -2, cerco_routine: -1, orari_variano: 1, ritmo_irregolare: 3}
+    notes: "La regolarità degli orari (Zeitgebers) è fondamentale per l'allineamento circadiano."
+
+  - name: ritmocircadiano
+    type: categorical
+    allowed: [molto_regolare, moderatamente_regolare, variabile, molto_irregolare, non_so]
+    map_to_score: {molto_regolare: -2, moderatamente_regolare: -1, variabile: 1, molto_irregolare: 3, non_so: 0}
+    related_pathologies: [HER224, HER225, HER226]
+
+  - name: note_ritmocircadiano
+    type: text
+    store: true
+
+  - name: ora_letto
+    type: time
+    store: true
+
+  - name: ora_sveglia
+    type: time
+    store: true
+
+  - name: tempo_addormentamento
+    type: number
+    store: true
+    notes: "Latenza del sonno ideale: 10-20 minuti."
+
+  - name: ore_effettive_sonno
+    type: number
+    store: true
+
+  - name: ore_sonno
+    type: categorical
+    allowed: [meno_5, 5_6, 6_7, 7_8, piu_9, non_so]
+    map_to_score: {meno_5: 3, 5_6: 1, 6_7: 0, 7_8: -2, piu_9: 1, non_so: 0}
+    notes: "La durata ottimale per la longevità è tipicamente tra 7 e 8 ore."
+
+  # ============================
+  # QUALITÀ E DISTURBI
+  # ============================
+  - name: qualita_sonno
+    type: categorical
+    allowed: [ottima, buona, discreta, scarsa]
+    map_to_score: {ottima: -2, buona: -1, discreta: 1, scarsa: 3}
+
+  - name: qualita_del_sonno
+    type: categorical
+    allowed: [molto_buona, abbastanza_buona, abbastanza_cattiva, cattiva]
+    map_to_score: {molto_buona: -2, abbastanza_buona: -1, abbastanza_cattiva: 1, cattiva: 3}
+
+  # --- Sintomi Insonnia ---
+  - name: non_addormentarsi_entro_30_minuti
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 1, 1_2: 2, 3_plus: 4}
+    red_flag_if_in: [3_plus]
+    related_pathologies: [HER222, HER047]
+    notes: "Indicatore di insonnia iniziale."
+
+  - name: sveglia_nella_notte
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 1, 1_2: 2, 3_plus: 4}
+    red_flag_if_in: [3_plus]
+    related_pathologies: [HER222, HER047]
+    notes: "Indicatore di insonnia di mantenimento."
+
+  # --- Sintomi Respiratori / Apnee ---
+  - name: non_respirare_bene_di_notte
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 2, 1_2: 4, 3_plus: 6}
+    red_flag_if_in: [3_plus, 1_2]
+    related_pathologies: [HER173, HER227, HER002]
+    notes: "Forte indicatore di rischio per OSAS (Apnee Ostruttive del Sonno)."
+
+  - name: tosse_e_russare
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 1, 1_2: 2, 3_plus: 4}
+    red_flag_if_in: [3_plus]
+    related_pathologies: [HER173]
+
+  # --- Altri disturbi ---
+  - name: svegliarsi_per_andare_in_bagno
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 0, 1_2: 1, 3_plus: 2}
+    notes: "Nicturia: può indicare problemi prostatici, metabolici o cardiaci."
+
+  - name: freddo_di_notte
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 0, 1_2: 1, 3_plus: 2}
+
+  - name: caldo_la_notte
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 0, 1_2: 1, 3_plus: 2}
+
+  - name: brutti_sogni
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 0, 1_2: 1, 3_plus: 2}
+    related_pathologies: [HER040, HER041, HER042]
+
+  - name: dolori_la_notte
+    type: categorical
+    allowed: [mai, raramente, 1_2, 3_plus]
+    map_to_score: {mai: 0, raramente: 1, 1_2: 2, 3_plus: 3}
+    related_pathologies: [HER043, HER049]
+
+  - name: altri_problemi_che_disturbano_sonno
+    type: text
+    store: true
+
+  - name: altri_problemi_che_disturbano_sonno_frequenza
+    type: categorical
+    allowed: [meno_1, 1_2, 3_plus]
+    map_to_score: {meno_1: 0, 1_2: 1, 3_plus: 2}
+
+  # ============================
+  # SINTOMI DIURNI E DIAGNOSI
+  # ============================
+  - name: difficolta_a_rimanere_sveglio
+    type: categorical
+    allowed: [mai, poche_volte, spesso, ogni_giorno]
+    map_to_score: {mai: 0, poche_volte: 1, spesso: 4, ogni_giorno: 6}
+    red_flag_if_in: [spesso, ogni_giorno]
+    related_pathologies: [HER220, HER173, HER223]
+    notes: "EDS (Eccessiva Sonnolenza Diurna) è un sintomo cardine delle patologie del sonno."
+
+  - name: energie_insufficienti
+    type: categorical
+    allowed: [mai, poche_volte, spesso, ogni_giorno]
+    map_to_score: {mai: 0, poche_volte: 1, spesso: 2, ogni_giorno: 3}
+
+  - name: sudorazione_notturna
+    type: categorical
+    allowed: [mai, raro, frequente, solo_stress, non_so]
+    map_to_score: {mai: 0, raro: 0, frequente: 2, solo_stress: 1, non_so: 0}
+    notes: "Può essere legata ad apnee, menopausa, infezioni o linfomi."
+
+  - name: note_sudorazione_notturna
+    type: text
+    store: true
+
+  - name: disturbi_del_sonno_diagnosticati
+    type: categorical
+    allowed: [si, no]
+    map_to_score: {si: 2, no: 0}
+
+  # ============================
+  # FARMACI
+  # ============================
+  - name: assunzione_farmaci_sonno
+    type: categorical
+    allowed: [mai, occasionale, frequente, uso_continuativo]
+    map_to_score: {mai: 0, occasionale: 1, frequente: 2, uso_continuativo: 4}
+    red_flag_if_in: [uso_continuativo]
+    notes: "L'uso cronico di ipnotici può alterare l'architettura del sonno e creare dipendenza."
+
+  - name: tipologia_farmaci_sonno
+    type: text
+    store: true
+
+  - name: assunzione_attuale_farmaci_sonno
+    type: categorical
+    allowed: [si, no]
+    store: true
+
+  - name: durata_assunzione_farmaci_sonno
+    type: text
+    store: true

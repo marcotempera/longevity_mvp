@@ -1,0 +1,62 @@
+macroarea: sonno_ritmi
+version: 1.0
+
+rules:
+  # ===== ORARI E ROUTINE =====
+  # Selezionando "Non so", le altre opzioni vengono ignorate
+  - feature: ore_sonno
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: ritmocircadiano
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== QUALITÀ E DISTURBI (Scale di frequenza) =====
+  # Se il problema non si presenta "Mai", deve essere l'unica scelta
+  - feature: non_addormentarsi_entro_30_minuti
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: sveglia_nella_notte
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: svegliarsi_per_andare_in_bagno
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: non_respirare_bene_di_notte
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: tosse_e_russare
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: freddo_di_notte
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: caldo_la_notte
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: brutti_sogni
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: dolori_la_notte
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== SINTOMI DIURNI E DIAGNOSI =====
+  - feature: difficolta_a_rimanere_sveglio
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: energie_insufficienti
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: disturbi_del_sonno_diagnosticati
+    rule: "if includes 'no' then set to ['no']"
+
+  - feature: sudorazione_notturna
+    rule: "if includes 'mai' then set to ['mai']"
+  - feature: sudorazione_notturna
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== FARMACI =====
+  - feature: assunzione_farmaci_sonno
+    rule: "if includes 'mai' then set to ['mai']"
+
+missing:
+  strategy: "per_feature_policy"

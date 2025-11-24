@@ -1,0 +1,124 @@
+macroarea: sonno_ritmi
+version: 1.0
+description: "Azioni correttive per igiene del sonno, ritmi circadiani e disturbi notturni."
+
+actions:
+
+  # ============================
+  # ORARI E ROUTINE
+  # ============================
+  orari_sonno_e_pasti:
+    ritmo_irregolare:
+      lifestyle:
+        - "Fissare un orario di risveglio costante (+/- 30 min) anche nel weekend per ancorare il ritmo circadiano."
+        - "Esporsi alla luce solare diretta entro 30 minuti dal risveglio per sopprimere la melatonina."
+      nutraceutical:
+        - "Valutare con il medico l'uso di Melatonina (1-3 mg) a orario fisso serale per risincronizzare il ciclo."
+      clinical:
+        - "Se l'irregolarità è dovuta a turni di lavoro, consultare un esperto di medicina del sonno per strategie di 'Shift Work'."
+
+  ore_sonno:
+    meno_5:
+      lifestyle:
+        - "Priorità assoluta al sonno: il recupero cognitivo e fisico è compromesso sotto le 6 ore."
+        - "Introdurre un 'wind-down' (rilassamento) di 60 minuti prima di letto senza schermi."
+      clinical:
+        - "Valutare con il medico se la carenza è volontaria (comportamentale) o dovuta a insonnia clinica."
+
+  ritmocircadiano:
+    molto_irregolare:
+      lifestyle:
+        - "Cenare almeno 3 ore prima di coricarsi per non attivare il metabolismo durante la fase di riposo."
+        - "Utilizzare occhiali blue-blocker o filtri notturni sui dispositivi dopo il tramonto."
+
+  # ============================
+  # QUALITÀ E DISTURBI RESPIRATORI (OSAS)
+  # ============================
+  non_respirare_bene_di_notte:
+    3_plus:
+      lifestyle:
+        - "Evitare assolutamente alcol e sedativi la sera, che peggiorano il collasso delle vie aeree."
+        - "Dormire sul fianco (terapia posizionale) può ridurre temporaneamente le apnee rispetto alla posizione supina."
+      clinical:
+        - "VISITA PNEUMOLOGICA / POLISONNOGRAFIA URGENTE: sospetta Sindrome delle Apnee Ostruttive del Sonno (OSAS)."
+        - "Valutazione Otorinolaringoiatrica per escludere ostruzioni meccaniche (setto, tonsille)."
+
+  tosse_e_russare:
+    3_plus:
+      lifestyle:
+        - "Mantenere il peso forma: l'accumulo di adipe nel collo è un fattore di rischio primario per il russamento."
+        - "Umidificare la stanza se l'aria è secca."
+      clinical:
+        - "Se associato a sonnolenza diurna o ipertensione, è indicata una Polisonnografia."
+
+  # ============================
+  # INSONNIA E RISVEGLI
+  # ============================
+  non_addormentarsi_entro_30_minuti:
+    3_plus:
+      lifestyle:
+        - "Applicare la regola dei 20 minuti: se non dormi, alzati e fai attività rilassante finché non torna il sonno."
+        - "Evitare caffeina dopo le ore 14:00."
+      nutraceutical:
+        - "Valutare Magnesio Bisglicinato o estratti di Valeriana/Passiflora per favorire il rilassamento serale."
+      clinical:
+        - "Valutare percorso di CBT-I (Terapia Cognitivo-Comportamentale per l'Insonnia), il gold standard clinico."
+
+  sveglia_nella_notte:
+    3_plus:
+      lifestyle:
+        - "Mantenere la camera buia e fresca (18-20°C)."
+        - "Evitare di guardare l'orologio durante i risvegli per non attivare ansia da prestazione."
+      nutraceutical:
+        - "L'Inositolo o la Glicina (3g) pre-nanna possono migliorare la qualità del sonno profondo (parere medico)."
+      clinical:
+        - "Indagare cause metaboliche (es. cali glicemici notturni) o ormonali (tiroide, cortisolo)."
+
+  svegliarsi_per_andare_in_bagno:
+    3_plus:
+      lifestyle:
+        - "Ridurre drasticamente l'assunzione di liquidi 2-3 ore prima di dormire."
+        - "Ridurre il sale a cena."
+      clinical:
+        - "VISITA UROLOGICA (uomini: prostata; donne: vescica iperattiva) o controllo glicemia (diabete)."
+
+  # ============================
+  # ALTRI SINTOMI
+  # ============================
+  dolori_la_notte:
+    3_plus:
+      lifestyle:
+        - "Valutare l'ergonomia del sistema letto (materasso/cuscino)."
+        - "Stretching leggero o bagno caldo prima di dormire."
+      clinical:
+        - "Visita Reumatologica o Fisiatrica se il dolore è infiammatorio (peggiora a riposo)."
+
+  sudorazione_notturna:
+    frequente:
+      lifestyle:
+        - "Utilizzare biancheria da letto in fibre naturali (cotone, lino)."
+        - "Mantenere la temperatura della stanza sotto i 19°C."
+      clinical:
+        - "CHECK-UP MEDICO: escludere cause infettive, ormonali (menopausa, ipertiroidismo) o ematologiche."
+
+  # ============================
+  # SINTOMI DIURNI (CONSEGUENZE)
+  # ============================
+  difficolta_a_rimanere_sveglio:
+    ogni_giorno:
+      lifestyle:
+        - "Evitare di mettersi alla guida se si avverte sonnolenza."
+        - "Programmare brevi 'power nap' (15-20 min) nel primo pomeriggio, non oltre."
+      clinical:
+        - "VISITA NEUROLOGICA O CENTRO DEL SONNO: escludere Narcolessia o Ipersonnia idiopatica."
+
+  # ============================
+  # FARMACI
+  # ============================
+  assunzione_farmaci_sonno:
+    uso_continuativo:
+      lifestyle:
+        - "Non sospendere bruscamente i farmaci senza supervisione."
+        - "Introdurre parallelamente tecniche di rilassamento (training autogeno, respirazione 4-7-8)."
+      clinical:
+        - "Pianificare con il medico un eventuale 'decalage' (riduzione graduale) o switch terapeutico."
