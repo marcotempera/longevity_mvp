@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Segni Vitali e Monitoraggio Continuo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h5{font-size:0.95rem; font-weight:400; color:var(--accent); margin-bottom:24px; line-height:1.5;}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:20px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:.85rem;
+      margin:8px 0 12px;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); /* Leggermente più largo per testi lunghi */
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:flex-start; /* Allinea in alto per testi lunghi */
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      margin-top: 3px; /* Allineamento ottico con il testo */
+    }
+    textarea, input[type="text"], input[type="number"], select{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      box-sizing: border-box; /* Fix per width 100% */
+    }
+    textarea:focus, input:focus, select:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+    .subcard{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:10px;
+      padding:16px;
+      margin-top:12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">💓 Segni Vitali e Monitoraggio</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>Segni Vitali e Monitoraggio Continuo</h2>
+        <h5>Se disponi di un test o di un’analisi recente relativa ai Segni Vitali e Monitoraggio Continuo, puoi inviarla: ci aiuterà a elaborare un report ancora più preciso e personalizzato.</h5>
+
+        <div class="field">
+          <label>94. Hai mai notato uno o più dei seguenti sintomi in modo frequente (almeno 1-2 volte a settimana)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="gonfiore"> Gonfiore o tensione addominale</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="feci_irregolari"> Feci irregolari</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="pancia_pesante"> Sensazione di “pancia pesante” dopo i pasti</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="infezioni"> Infezioni ricorrenti</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="sensibilita"> Sensibilità a cibi fermentati o zuccheri</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="umore"> Sbalzi d’umore, ansia o calo della concentrazione</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_notati_frequentemente" value="nessuno"> Nessuno di questi</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Quanto tempo fa e per quanto tempo?</label>
+            <textarea name="sintomi_notati_frequentemente_tempo" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>95. Hai mai notato segnali ricorrenti tra questi, che potrebbero indicare un accumulo di “scorie cellulari”?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="segnali_ricorrenti_che_indicano_scorie_cellulari" value="stanchezza"> Sensazione di stanchezza persistente anche dopo il riposo</label>
+            <label class="option-label"><input type="checkbox" name="segnali_ricorrenti_che_indicano_scorie_cellulari" value="digestione_lenta"> Gonfiore o digestione lenta</label>
+            <label class="option-label"><input type="checkbox" name="segnali_ricorrenti_che_indicano_scorie_cellulari" value="dolori"> Dolori muscolari o articolari non spiegati</label>
+            <label class="option-label"><input type="checkbox" name="segnali_ricorrenti_che_indicano_scorie_cellulari" value="concentrazione"> Difficoltà di concentrazione</label>
+            <label class="option-label"><input type="checkbox" name="segnali_ricorrenti_che_indicano_scorie_cellulari" value="cutanei"> Problemi cutanei</label>
+            <label class="option-label"><input type="checkbox" name="segnali_ricorrenti_che_indicano_scorie_cellulari" value="nessuno"> Nessuno di questi sintomi</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Quanto tempo fa e per quanto tempo?</label>
+            <textarea name="segnali_ricorrenti_che_indicano_scorie_cellulari_tempo" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>96. Hai mai avuto sintomi che potrebbero suggerire un’alterazione della barriera intestinale?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="sintomi_alterazione_barriera_intestinale" value="frequentemente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_alterazione_barriera_intestinale" value="a_volte"> A volte, ma non ho mai approfondito</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_alterazione_barriera_intestinale" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_alterazione_barriera_intestinale" value="mai"> Mai</label>
+            <label class="option-label"><input type="checkbox" name="sintomi_alterazione_barriera_intestinale" value="non_so"> Non so cosa significhi</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Quanto tempo fa e per quanto tempo?</label>
+            <textarea name="sintomi_alterazione_barriera_intestinale_tempo" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>97. Hai un’attività intestinale regolare?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attività_intestinale" value="regolare1"> Sì, evacuo 1 o più volte al giorno senza difficoltà</label>
+            <label class="option-label"><input type="checkbox" name="attività_intestinale" value="regolare2_3"> Sì, evacuo ogni 2-3 giorni senza difficoltà</label>
+            <label class="option-label"><input type="checkbox" name="attività_intestinale" value="stitichezza"> No, soffro spesso di stitichezza (meno di 3 evacuazioni a settimana)</label>
+            <label class="option-label"><input type="checkbox" name="attività_intestinale" value="diarrea"> No, ho frequenti episodi di diarrea (più di 3 evacuazioni al giorno)</label>
+            <label class="option-label"><input type="checkbox" name="attività_intestinale" value="alternanza"> Alterno episodi di stitichezza e diarrea</label>
+            <label class="option-label"><input type="checkbox" name="attività_intestinale" value="non_so"> Non so / Non ho mai prestato attenzione</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>98. Misuri mai la tua pressione arteriosa a casa o in farmacia?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="pressione_domiciliare" value="no_mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="pressione_domiciliare" value="occasionalmente"> Sì, occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="pressione_domiciliare" value="regolarmente_normale"> Sì, regolarmente (valori nella norma)</label>
+            <label class="option-label"><input type="checkbox" name="pressione_domiciliare" value="regolarmente_alta"> Sì, regolarmente (con valori alti o variabili)</label>
+            <label class="option-label"><input type="checkbox" name="pressione_domiciliare" value="non_ricordo"> Non ricordo / Non so interpretare i valori</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Annotazioni personali o valori medi registrati:</label>
+            <textarea name="note_pessione_domiciliare" rows="3" placeholder="Es. Media 130/80..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>99. Ti capita di percepire il battito cardiaco in modo anomalo (es. palpitazioni, battiti saltati, accelerazioni improvvise)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="aritmie_percepite" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="aritmie_percepite" value="raramente"> Sì, raramente (meno di 1 volta al mese)</label>
+            <label class="option-label"><input type="checkbox" name="aritmie_percepite" value="frequentemente"> Sì, frequentemente (almeno 1 volta a settimana)</label>
+            <label class="option-label"><input type="checkbox" name="aritmie_percepite" value="durante_sforzi"> Sì, durante o dopo sforzi fisici</label>
+            <label class="option-label"><input type="checkbox" name="aritmie_percepite" value="sotto_stress"> Sì, in condizioni di stress o ansia</label>
+            <label class="option-label"><input type="checkbox" name="aritmie_percepite" value="non_saprei"> Non saprei riconoscerlo</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Hai mai fatto accertamenti (es. ECG, Holter)?</label>
+            <textarea name="note_aritmie_percepite" rows="3" placeholder="Descrivi accertamenti o sensazioni..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>100. Ti capita di avere mani o piedi freddi o sudati anche in condizioni ambientali normali?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="termoregolazione" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione" value="qualche_volta"> Sì, occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione" value="sotto_stress"> Sì, sotto stress o emozioni forti</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione" value="non_ricordo"> Non ci ho mai fatto caso</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Note o contesto in cui succede:</label>
+            <textarea name="note_termoregolazione" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>101. In quali momenti della giornata ti senti meno lucido o più affaticato mentalmente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="momentidown" value="mattina"> Al mattino</label>
+            <label class="option-label"><input type="checkbox" name="momentidown" value="pomeriggio"> Dopo pranzo / primo pomeriggio</label>
+            <label class="option-label"><input type="checkbox" name="momentidown" value="sera"> La sera</label>
+            <label class="option-label"><input type="checkbox" name="momentidown" value="nessun_momento"> Nessun momento in particolare</label>
+            <label class="option-label"><input type="checkbox" name="momentidown" value="varia"> Varia durante la settimana o in base all’alimentazione</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Descrivi eventuali pattern che hai notato:</label>
+            <textarea name="note_momentidown" rows="3" placeholder="Es. Sempre dopo aver mangiato carboidrati..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>102. Monitori o hai mai monitorato regolarmente la tua frequenza cardiaca o il sonno con smartwatch o dispositivi simili?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="wearable_monitoring" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="wearable_monitoring" value="uso_saltuario"> Sì, ma uso saltuario</label>
+            <label class="option-label"><input type="checkbox" name="wearable_monitoring" value="uso_regolare"> Sì, monitoraggio regolare (es. sonno, battito, stress)</label>
+            <label class="option-label"><input type="checkbox" name="wearable_monitoring" value="uso_intensivo"> Sì, uso quotidiano con analisi dettagliate</label>
+            <label class="option-label"><input type="checkbox" name="wearable_monitoring" value="non_ricordo"> Non ricordo o non interpreto i dati</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Note (es. tipo di dispositivo, parametri rilevati):</label>
+            <textarea name="note_wearable_monitoring" rows="3" placeholder="Es. Apple Watch, Oura Ring..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>103. Ti capita di avere variazioni significative di peso (più di 2-3 kg) in breve tempo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="variazioni_peso" value="no"> No</label>
+            <label class="option-label"><input type="checkbox" name="variazioni_peso" value="rara_fluttuazione"> Sì, raramente e in modo lieve</label>
+            <label class="option-label"><input type="checkbox" name="variazioni_peso" value="frequente"> Sì, spesso e senza causa apparente</label>
+            <label class="option-label"><input type="checkbox" name="variazioni_peso" value="da_stress_o_ciclo"> Sì, legato a stress, ciclo mestruale o dieta</label>
+            <label class="option-label"><input type="checkbox" name="variazioni_peso" value="non_so"> Non so / Non controllo spesso il peso</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Eventuali cause o osservazioni:</label>
+            <textarea name="note_variazioni_peso" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>104. Hai mai avuto la sensazione di svenire, o episodi di vertigine improvvisa?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="svenimenti" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="svenimenti" value="raro"> Sì, raramente</label>
+            <label class="option-label"><input type="checkbox" name="svenimenti" value="frequente"> Sì, frequentemente o in condizioni specifiche (es. caldo, digiuno, posizione eretta)</label>
+            <label class="option-label"><input type="checkbox" name="svenimenti" value="in_situazioni_specifiche"> Sì, solo in alcune circostanze (es. bagno caldo, cambio di posizione rapido)</label>
+            <label class="option-label"><input type="checkbox" name="svenimenti" value="non_so"> Non so / difficile da interpretare</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Descrivi quando ti è successo:</label>
+            <textarea name="note_svenimenti" rows="3" placeholder="Es. Quando mi alzo velocemente..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>105. In ambienti caldi o dopo sforzi fisici, come reagisce il tuo corpo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="reazione_caldo" value="normale"> Tendo a sudare in modo normale</label>
+            <label class="option-label"><input type="checkbox" name="reazione_caldo" value="eccessiva"> Sudorazione eccessiva o affanno anche per sforzi lievi</label>
+            <label class="option-label"><input type="checkbox" name="reazione_caldo" value="ridotta"> Faccio fatica a sudare o mi sento subito debole</label>
+            <label class="option-label"><input type="checkbox" name="reazione_caldo" value="non_so"> Non ho mai notato particolari reazioni</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Osservazioni o contesto:</label>
+            <textarea name="note_reazione_caldo" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>106. Il tuo battito cardiaco a riposo (a letto o seduto) è in media:</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="meno_60"> Inferiore a 60 bpm</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="60_75"> Tra 60 e 75 bpm</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="75_90"> Tra 75 e 90 bpm</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="oltre_90"> Oltre 90 bpm</label>
+            <label class="option-label"><input type="checkbox" name="fc_riposo" value="non_misurato"> Non lo so / non misuro mai</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Note personali o medie rilevate:</label>
+            <textarea name="note_fc_riposo" rows="3" placeholder="Es. Di solito 65 bpm la mattina..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>107. Il tuo respiro a riposo è:</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="respiro_riposo" value="regolare"> Regolare e silenzioso</label>
+            <label class="option-label"><input type="checkbox" name="respiro_riposo" value="affannoso"> Tendo ad avere respiro corto o affannoso anche da fermo</label>
+            <label class="option-label"><input type="checkbox" name="respiro_riposo" value="rumoroso"> Talvolta rumoroso o con sibilo (es. durante allergie)</label>
+            <label class="option-label"><input type="checkbox" name="respiro_riposo" value="non_so"> Non ho mai prestato attenzione</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Note o contesto in cui si manifesta:</label>
+            <textarea name="note_respiro_riposo" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>108. Misuri mai la saturazione dell’ossigeno (SpO₂) a riposo o durante sforzi?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="spo2" value="mai"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="spo2" value="occasionale"> Sì, saltuariamente</label>
+            <label class="option-label"><input type="checkbox" name="spo2" value="regolare_normale"> Sì, con valori normali (>96%)</label>
+            <label class="option-label"><input type="checkbox" name="spo2" value="regolare_bassi"> Sì, con valori bassi o oscillanti (&lt;95%)</label>
+            <label class="option-label"><input type="checkbox" name="spo2" value="non_so"> Non so interpretarli</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Note su valori e condizioni:</label>
+            <textarea name="note_spo2" rows="3" placeholder="Es. Valori di solito 98%..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>109. Hai mai avuto febbricola persistente o alterazioni della temperatura corporea senza apparente infezione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="termoregolazione_alterata" value="mai"> No</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione_alterata" value="febbricola"> Sì, febbricola ricorrente o persistente (oltre 3 giorni)</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione_alterata" value="ipo_temperatura"> Sì, temperatura tendenzialmente bassa (&lt;36°C)</label>
+            <label class="option-label"><input type="checkbox" name="termoregolazione_alterata" value="non_so"> Non saprei</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Note o misurazioni:</label>
+            <textarea name="note_termoregolazione_alterata" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>110. Durante la giornata, ti capita di avere oscillazioni marcate di energia o umore apparentemente senza motivo?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="oscillazioni_umore_energia" value="no"> No, in genere sono stabile</label>
+            <label class="option-label"><input type="checkbox" name="oscillazioni_umore_energia" value="moderato"> Sì, ma lievi e gestibili</label>
+            <label class="option-label"><input type="checkbox" name="oscillazioni_umore_energia" value="frequente"> Sì, frequentemente (mi condizionano la giornata)</label>
+            <label class="option-label"><input type="checkbox" name="oscillazioni_umore_energia" value="associato_fame_sonno"> Sì, in relazione a fame, sonno o stress</label>
+            <label class="option-label"><input type="checkbox" name="oscillazioni_umore_energia" value="non_so"> Non saprei</label>
+          </div>
+          <div class="subcard">
+            <label class="hint">Contesto o momenti in cui succede:</label>
+            <textarea name="note_oscillazioni_umore_energia" rows="3" placeholder="Descrivi qui..."></textarea>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const macroarea = 'segni_vitali_monitoraggio'; // Identificativo della macroarea
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Progress bar iniziale
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Gestione submit
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        // 1. Carica configurazioni YAML per questa macroarea
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        // 2. Calcola score (se definito nei file yaml)
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        // 3. Prepara dati per LLM
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        // 4. Genera report
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        const text = await resp.text();
+        if (!resp.ok) {
+          console.error('generate-report error:', resp.status, text);
+          throw new Error(`Errore generazione report LLM (${resp.status})`);
+        }
+        const { report } = JSON.parse(text);
+        updateProgress(70);
+
+        // 5. Salva su Supabase
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score,
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        // 6. Aggiorna stato progresso utente
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        // 7. Redirect
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Processing error:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>

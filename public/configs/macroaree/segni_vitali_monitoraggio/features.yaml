@@ -1,0 +1,221 @@
+macroarea: segni_vitali_monitoraggio
+version: 1.0
+features:
+
+  # ====== GASTROINTESTINALE E SISTEMICO ======
+  - name: sintomi_notati_frequentemente
+    type: categorical_multi
+    allowed: [gonfiore, feci_irregolari, pancia_pesante, infezioni, sensibilita, umore, nessuno]
+    per_item_score: {gonfiore: 1, feci_irregolari: 1, pancia_pesante: 1, infezioni: 2, sensibilita: 1, umore: 1, nessuno: 0}
+    cap_score: 4
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER094, HER114, HER023, HER048]
+    notes: "Sintomi frequenti suggeriscono disbiosi o infiammazione intestinale cronica."
+
+  - name: sintomi_notati_frequentemente_tempo
+    type: text
+    store: true
+
+  - name: segnali_ricorrenti_che_indicano_scorie_cellulari
+    type: categorical_multi
+    allowed: [stanchezza, digestione_lenta, dolori, concentrazione, cutanei, nessuno]
+    per_item_score: {stanchezza: 1, digestione_lenta: 1, dolori: 1, concentrazione: 1, cutanei: 1, nessuno: 0}
+    cap_score: 4
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER097, HER080, HER123]
+    notes: "Indici aspecifici di sovraccarico tossinico o ridotta clearance metabolica."
+
+  - name: segnali_ricorrenti_che_indicano_scorie_cellulari_tempo
+    type: text
+    store: true
+
+  - name: sintomi_alterazione_barriera_intestinale
+    type: categorical_multi
+    allowed: [frequentemente, a_volte, raramente, mai, non_so]
+    per_item_score: {frequentemente: 3, a_volte: 1, raramente: 0, mai: 0, non_so: 0}
+    red_flag_if_in: [frequentemente]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER101, HER114, HER023]
+    notes: "Sospetta permeabilità intestinale ('Leaky Gut')."
+
+  - name: sintomi_alterazione_barriera_intestinale_tempo
+    type: text
+    store: true
+
+  - name: attività_intestinale
+    type: categorical_multi
+    allowed: [regolare1, regolare2_3, stitichezza, diarrea, alternanza, non_so]
+    per_item_score: {regolare1: 0, regolare2_3: 0, stitichezza: 1, diarrea: 2, alternanza: 2, non_so: 0}
+    red_flag_if_in: [diarrea, alternanza]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER094, HER017]
+    notes: "Alterazioni dell'alvo croniche richiedono approfondimento."
+
+  # ====== PRESSIONE ARTERIOSA ======
+  - name: pressione_domiciliare
+    type: categorical_multi
+    allowed: [no_mai, occasionalmente, regolarmente_normale, regolarmente_alta, non_ricordo]
+    per_item_score: {no_mai: 1, occasionalmente: 0, regolarmente_normale: -1, regolarmente_alta: 4, non_ricordo: 0}
+    red_flag_if_in: [regolarmente_alta]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER139, HER140, HER144, VITAL014, VITAL015]
+    notes: "Ipertensione rilevata a domicilio conferma rischio cardiovascolare elevato."
+
+  - name: note_pessione_domiciliare
+    type: text
+    store: true
+
+  # ====== CARDIOVASCOLARE E ARITMIE ======
+  - name: aritmie_percepite
+    type: categorical_multi
+    allowed: [mai, raramente, frequentemente, durante_sforzi, sotto_stress, non_saprei]
+    per_item_score: {mai: 0, raramente: 1, frequentemente: 3, durante_sforzi: 2, sotto_stress: 1, non_saprei: 0}
+    red_flag_if_in: [frequentemente, durante_sforzi]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER129, HER131, HER132, HER179, VITAL001, VITAL003, VITAL004]
+    notes: "Palpitazioni frequenti o da sforzo richiedono ECG/Holter."
+
+  - name: note_aritmie_percepite
+    type: text
+    store: true
+
+  - name: termoregolazione
+    type: categorical_multi
+    allowed: [mai, qualche_volta, frequente, sotto_stress, non_ricordo]
+    per_item_score: {mai: 0, qualche_volta: 0, frequente: 2, sotto_stress: 1, non_ricordo: 0}
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER141, HER145, VITAL006, VITAL016]
+    notes: "Mani/piedi freddi possono indicare vasocostrizione periferica o disautonomia."
+
+  - name: note_termoregolazione
+    type: text
+    store: true
+
+  # ====== ENERGIA E METABOLISMO ======
+  - name: momentidown
+    type: categorical_multi
+    allowed: [mattina, pomeriggio, sera, nessun_momento, varia]
+    per_item_score: {mattina: 2, pomeriggio: 1, sera: 0, nessun_momento: 0, varia: 0}
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER047, HER117, HER123, VITAL049]
+    notes: "Calo energetico mattutino: sospetto sonno non ristoratore/apnee. Pomeridiano: gestione glicemica."
+
+  - name: note_momentidown
+    type: text
+    store: true
+
+  - name: wearable_monitoring
+    type: categorical_multi
+    allowed: [mai, uso_saltuario, uso_regolare, uso_intensivo, non_ricordo]
+    per_item_score: {mai: 1, uso_saltuario: 0, uso_regolare: -1, uso_intensivo: -2, non_ricordo: 0}
+    missing_policy: "none_is_zero"
+    notes: "Il monitoraggio attivo è un fattore protettivo per la consapevolezza della salute."
+
+  - name: note_wearable_monitoring
+    type: text
+    store: true
+
+  - name: variazioni_peso
+    type: categorical_multi
+    allowed: [no, rara_fluttuazione, frequente, da_stress_o_ciclo, non_so]
+    per_item_score: {no: 0, rara_fluttuazione: 0, frequente: 3, da_stress_o_ciclo: 1, non_so: 0}
+    red_flag_if_in: [frequente]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER046, HER050, HER088, HER117, VITAL073]
+    notes: "Variazioni rapide di peso idrico o metabolico suggeriscono instabilità ormonale o renale."
+
+  - name: note_variazioni_peso
+    type: text
+    store: true
+
+  # ====== SINTOMI NEUROVEGETATIVI ======
+  - name: svenimenti
+    type: categorical_multi
+    allowed: [mai, raro, frequente, in_situazioni_specifiche, non_so]
+    per_item_score: {mai: 0, raro: 1, frequente: 4, in_situazioni_specifiche: 2, non_so: 0}
+    red_flag_if_in: [frequente]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER134, HER141, HER187, VITAL006, VITAL016, VITAL074]
+    notes: "Sincope ricorrente richiede valutazione cardiologica e neurologica (Tilt Test)."
+
+  - name: note_svenimenti
+    type: text
+    store: true
+
+  - name: reazione_caldo
+    type: categorical_multi
+    allowed: [normale, eccessiva, ridotta, non_so]
+    per_item_score: {normale: 0, eccessiva: 1, ridotta: 2, non_so: 0}
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER145, VITAL020, VITAL032]
+    notes: "Intolleranza al caldo o anidrosi possono indicare disfunzione autonomica."
+
+  - name: note_reazione_caldo
+    type: text
+    store: true
+
+  # ====== PARAMETRI OGGETTIVI ======
+  - name: fc_riposo
+    type: categorical_multi
+    allowed: [meno_60, 60_75, 75_90, oltre_90, non_misurato]
+    per_item_score: {meno_60: 0, 60_75: 0, 75_90: 1, oltre_90: 3, non_misurato: 0}
+    red_flag_if_in: [oltre_90]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER129, HER130, VITAL001, VITAL002]
+    notes: "Tachicardia a riposo (>90 bpm) è un fattore di rischio cardiovascolare indipendente."
+
+  - name: note_fc_riposo
+    type: text
+    store: true
+
+  - name: respiro_riposo
+    type: categorical_multi
+    allowed: [regolare, affannoso, rumoroso, non_so]
+    per_item_score: {regolare: 0, affannoso: 3, rumoroso: 2, non_so: 0}
+    red_flag_if_in: [affannoso]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER160, HER173, VITAL035, VITAL049]
+    notes: "Dispnea a riposo è un sintomo di allarme respiratorio o cardiaco."
+
+  - name: note_respiro_riposo
+    type: text
+    store: true
+
+  - name: spo2
+    type: categorical_multi
+    allowed: [mai, occasionale, regolare_normale, regolare_bassi, non_so]
+    per_item_score: {mai: 0, occasionale: 0, regolare_normale: -1, regolare_bassi: 3, non_so: 0}
+    red_flag_if_in: [regolare_bassi]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER160, HER168, VITAL035, VITAL044]
+    notes: "Saturazione <95% cronica richiede emogasanalisi e visita pneumologica."
+
+  - name: note_spo2
+    type: text
+    store: true
+
+  - name: termoregolazione_alterata
+    type: categorical_multi
+    allowed: [mai, febbricola, ipo_temperatura, non_so]
+    per_item_score: {mai: 0, febbricola: 3, ipo_temperatura: 1, non_so: 0}
+    red_flag_if_in: [febbricola]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER065, HER158, HER159, VITAL033, VITAL034]
+    notes: "Febbricola persistente richiede indagini per infezioni occulte, autoimmunità o neoplasie."
+
+  - name: note_termoregolazione_alterata
+    type: text
+    store: true
+
+  - name: oscillazioni_umore_energia
+    type: categorical_multi
+    allowed: [no, moderato, frequente, associato_fame_sonno, non_so]
+    per_item_score: {no: 0, moderato: 1, frequente: 3, associato_fame_sonno: 2, non_so: 0}
+    red_flag_if_in: [frequente]
+    missing_policy: "none_is_zero"
+    related_pathologies: [HER041, HER055, HER069, HER085]
+    notes: "Oscillazioni marcate possono indicare instabilità glicemica o disturbi dell'umore."
+
+  - name: note_oscillazioni_umore_energia
+    type: text
+    store: true

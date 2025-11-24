@@ -1,0 +1,246 @@
+macroarea: segni_vitali_monitoraggio
+version: 1.0
+sections:
+  - title: "Segni Vitali e Monitoraggio Continuo"
+    fields:
+      # ====== SINTOMI GASTROINTESTINALI/SISTEMICI ======
+      - name: sintomi_notati_frequentemente
+        type: checkbox
+        label: "94. Hai mai notato uno o più dei seguenti sintomi in modo frequente?"
+        options:
+          - { value: "gonfiore", label: "Gonfiore o tensione addominale" }
+          - { value: "feci_irregolari", label: "Feci irregolari" }
+          - { value: "pancia_pesante", label: "Sensazione di “pancia pesante” dopo i pasti" }
+          - { value: "infezioni", label: "Infezioni ricorrenti" }
+          - { value: "sensibilita", label: "Sensibilità a cibi fermentati o zuccheri" }
+          - { value: "umore", label: "Sbalzi d’umore, ansia o calo della concentrazione" }
+          - { value: "nessuno", label: "Nessuno di questi" }
+
+      - name: sintomi_notati_frequentemente_tempo
+        type: text
+        label: "Dettagli (quanto tempo fa e durata)"
+
+      - name: segnali_ricorrenti_che_indicano_scorie_cellulari
+        type: checkbox
+        label: "95. Hai mai notato segnali ricorrenti che potrebbero indicare un accumulo di “scorie cellulari”?"
+        options:
+          - { value: "stanchezza", label: "Sensazione di stanchezza persistente anche dopo il riposo" }
+          - { value: "digestione_lenta", label: "Gonfiore o digestione lenta" }
+          - { value: "dolori", label: "Dolori muscolari o articolari non spiegati" }
+          - { value: "concentrazione", label: "Difficoltà di concentrazione" }
+          - { value: "cutanei", label: "Problemi cutanei" }
+          - { value: "nessuno", label: "Nessuno di questi sintomi" }
+
+      - name: segnali_ricorrenti_che_indicano_scorie_cellulari_tempo
+        type: text
+        label: "Dettagli (quanto tempo fa e durata)"
+
+      - name: sintomi_alterazione_barriera_intestinale
+        type: checkbox
+        label: "96. Hai mai avuto sintomi che potrebbero suggerire un’alterazione della barriera intestinale?"
+        options:
+          - { value: "frequentemente", label: "Sì, frequentemente" }
+          - { value: "a_volte", label: "A volte, ma non ho mai approfondito" }
+          - { value: "raramente", label: "Raramente" }
+          - { value: "mai", label: "Mai" }
+          - { value: "non_so", label: "Non so cosa significhi" }
+
+      - name: sintomi_alterazione_barriera_intestinale_tempo
+        type: text
+        label: "Dettagli (quanto tempo fa e durata)"
+
+      - name: attività_intestinale
+        type: checkbox
+        label: "97. Hai un’attività intestinale regolare?"
+        options:
+          - { value: "regolare1", label: "Sì, evacuo 1 o più volte al giorno senza difficoltà" }
+          - { value: "regolare2_3", label: "Sì, evacuo ogni 2-3 giorni senza difficoltà" }
+          - { value: "stitichezza", label: "No, soffro spesso di stitichezza (meno di 3 evacuazioni a settimana)" }
+          - { value: "diarrea", label: "No, ho frequenti episodi di diarrea (più di 3 evacuazioni al giorno)" }
+          - { value: "alternanza", label: "Alterno episodi di stitichezza e diarrea" }
+          - { value: "non_so", label: "Non so / Non ho mai prestato attenzione" }
+
+      # ====== PRESSIONE ARTERIOSA ======
+      - name: pressione_domiciliare
+        type: checkbox
+        label: "98. Misuri mai la tua pressione arteriosa a casa o in farmacia?"
+        options:
+          - { value: "no_mai", label: "No, mai" }
+          - { value: "occasionalmente", label: "Sì, occasionalmente" }
+          - { value: "regolarmente_normale", label: "Sì, regolarmente (valori nella norma)" }
+          - { value: "regolarmente_alta", label: "Sì, regolarmente (con valori alti o variabili)" }
+          - { value: "non_ricordo", label: "Non ricordo / Non so interpretare i valori" }
+
+      - name: note_pessione_domiciliare
+        type: text
+        label: "Annotazioni personali o valori medi registrati"
+
+      # ====== CARDIOVASCOLARE E ARITMIE ======
+      - name: aritmie_percepite
+        type: checkbox
+        label: "99. Ti capita di percepire il battito cardiaco in modo anomalo?"
+        options:
+          - { value: "mai", label: "No, mai" }
+          - { value: "raramente", label: "Sì, raramente (meno di 1 volta al mese)" }
+          - { value: "frequentemente", label: "Sì, frequentemente (almeno 1 volta a settimana)" }
+          - { value: "durante_sforzi", label: "Sì, durante o dopo sforzi fisici" }
+          - { value: "sotto_stress", label: "Sì, in condizioni di stress o ansia" }
+          - { value: "non_saprei", label: "Non saprei riconoscerlo" }
+
+      - name: note_aritmie_percepite
+        type: text
+        label: "Hai mai fatto accertamenti (es. ECG, Holter)?"
+
+      - name: termoregolazione
+        type: checkbox
+        label: "100. Ti capita di avere mani o piedi freddi o sudati anche in condizioni ambientali normali?"
+        options:
+          - { value: "mai", label: "No, mai" }
+          - { value: "qualche_volta", label: "Sì, occasionalmente" }
+          - { value: "frequente", label: "Sì, frequentemente" }
+          - { value: "sotto_stress", label: "Sì, sotto stress o emozioni forti" }
+          - { value: "non_ricordo", label: "Non ci ho mai fatto caso" }
+
+      - name: note_termoregolazione
+        type: text
+        label: "Note o contesto in cui succede"
+
+      # ====== ENERGIA E METABOLISMO ======
+      - name: momentidown
+        type: checkbox
+        label: "101. In quali momenti della giornata ti senti meno lucido o più affaticato mentalmente?"
+        options:
+          - { value: "mattina", label: "Al mattino" }
+          - { value: "pomeriggio", label: "Dopo pranzo / primo pomeriggio" }
+          - { value: "sera", label: "La sera" }
+          - { value: "nessun_momento", label: "Nessun momento in particolare" }
+          - { value: "varia", label: "Varia durante la settimana o in base all’alimentazione" }
+
+      - name: note_momentidown
+        type: text
+        label: "Descrivi eventuali pattern che hai notato"
+
+      - name: wearable_monitoring
+        type: checkbox
+        label: "102. Monitori o hai mai monitorato regolarmente la tua frequenza cardiaca o il sonno con smartwatch?"
+        options:
+          - { value: "mai", label: "No, mai" }
+          - { value: "uso_saltuario", label: "Sì, ma uso saltuario" }
+          - { value: "uso_regolare", label: "Sì, monitoraggio regolare (es. sonno, battito, stress)" }
+          - { value: "uso_intensivo", label: "Sì, uso quotidiano con analisi dettagliate" }
+          - { value: "non_ricordo", label: "Non ricordo o non interpreto i dati" }
+
+      - name: note_wearable_monitoring
+        type: text
+        label: "Note (es. tipo di dispositivo, parametri rilevati)"
+
+      - name: variazioni_peso
+        type: checkbox
+        label: "103. Ti capita di avere variazioni significative di peso (più di 2-3 kg) in breve tempo?"
+        options:
+          - { value: "no", label: "No" }
+          - { value: "rara_fluttuazione", label: "Sì, raramente e in modo lieve" }
+          - { value: "frequente", label: "Sì, spesso e senza causa apparente" }
+          - { value: "da_stress_o_ciclo", label: "Sì, legato a stress, ciclo mestruale o dieta" }
+          - { value: "non_so", label: "Non so / Non controllo spesso il peso" }
+
+      - name: note_variazioni_peso
+        type: text
+        label: "Eventuali cause o osservazioni"
+
+      # ====== SINTOMI NEUROVEGETATIVI ======
+      - name: svenimenti
+        type: checkbox
+        label: "104. Hai mai avuto la sensazione di svenire, o episodi di vertigine improvvisa?"
+        options:
+          - { value: "mai", label: "No, mai" }
+          - { value: "raro", label: "Sì, raramente" }
+          - { value: "frequente", label: "Sì, frequentemente o in condizioni specifiche" }
+          - { value: "in_situazioni_specifiche", label: "Sì, solo in alcune circostanze" }
+          - { value: "non_so", label: "Non so / difficile da interpretare" }
+
+      - name: note_svenimenti
+        type: text
+        label: "Descrivi quando ti è successo"
+
+      - name: reazione_caldo
+        type: checkbox
+        label: "105. In ambienti caldi o dopo sforzi fisici, come reagisce il tuo corpo?"
+        options:
+          - { value: "normale", label: "Tendo a sudare in modo normale" }
+          - { value: "eccessiva", label: "Sudorazione eccessiva o affanno anche per sforzi lievi" }
+          - { value: "ridotta", label: "Faccio fatica a sudare o mi sento subito debole" }
+          - { value: "non_so", label: "Non ho mai notato particolari reazioni" }
+
+      - name: note_reazione_caldo
+        type: text
+        label: "Osservazioni o contesto"
+
+      # ====== PARAMETRI OGGETTIVI ======
+      - name: fc_riposo
+        type: checkbox
+        label: "106. Il tuo battito cardiaco a riposo (a letto o seduto) è in media:"
+        options:
+          - { value: "meno_60", label: "Inferiore a 60 bpm" }
+          - { value: "60_75", label: "Tra 60 e 75 bpm" }
+          - { value: "75_90", label: "Tra 75 e 90 bpm" }
+          - { value: "oltre_90", label: "Oltre 90 bpm" }
+          - { value: "non_misurato", label: "Non lo so / non misuro mai" }
+
+      - name: note_fc_riposo
+        type: text
+        label: "Note personali o medie rilevate"
+
+      - name: respiro_riposo
+        type: checkbox
+        label: "107. Il tuo respiro a riposo è:"
+        options:
+          - { value: "regolare", label: "Regolare e silenzioso" }
+          - { value: "affannoso", label: "Tendo ad avere respiro corto o affannoso anche da fermo" }
+          - { value: "rumoroso", label: "Talvolta rumoroso o con sibilo (es. durante allergie)" }
+          - { value: "non_so", label: "Non ho mai prestato attenzione" }
+
+      - name: note_respiro_riposo
+        type: text
+        label: "Note o contesto in cui si manifesta"
+
+      - name: spo2
+        type: checkbox
+        label: "108. Misuri mai la saturazione dell’ossigeno (SpO₂) a riposo o durante sforzi?"
+        options:
+          - { value: "mai", label: "No, mai" }
+          - { value: "occasionale", label: "Sì, saltuariamente" }
+          - { value: "regolare_normale", label: "Sì, con valori normali (>96%)" }
+          - { value: "regolare_bassi", label: "Sì, con valori bassi o oscillanti (<95%)" }
+          - { value: "non_so", label: "Non so interpretarli" }
+
+      - name: note_spo2
+        type: text
+        label: "Note su valori e condizioni"
+
+      - name: termoregolazione_alterata
+        type: checkbox
+        label: "109. Hai mai avuto febbricola persistente o alterazioni della temperatura corporea senza apparente infezione?"
+        options:
+          - { value: "mai", label: "No" }
+          - { value: "febbricola", label: "Sì, febbricola ricorrente o persistente (oltre 3 giorni)" }
+          - { value: "ipo_temperatura", label: "Sì, temperatura tendenzialmente bassa (<36°C)" }
+          - { value: "non_so", label: "Non saprei" }
+
+      - name: note_termoregolazione_alterata
+        type: text
+        label: "Note o misurazioni"
+
+      - name: oscillazioni_umore_energia
+        type: checkbox
+        label: "110. Durante la giornata, ti capita di avere oscillazioni marcate di energia o umore apparentemente senza motivo?"
+        options:
+          - { value: "no", label: "No, in genere sono stabile" }
+          - { value: "moderato", label: "Sì, ma lievi e gestibili" }
+          - { value: "frequente", label: "Sì, frequentemente (mi condizionano la giornata)" }
+          - { value: "associato_fame_sonno", label: "Sì, in relazione a fame, sonno o stress" }
+          - { value: "non_so", label: "Non saprei" }
+
+      - name: note_oscillazioni_umore_energia
+        type: text
+        label: "Contesto o momenti in cui succede"

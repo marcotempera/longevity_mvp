@@ -177,16 +177,18 @@
     };
 
     function getRiskClass(score) {
-      if (score < 5) return 'low';
-      if (score < 10) return 'medium';
-      return 'high';
+      // Logica invertita: Punteggio alto (es. > 7) = Basso Rischio ('low')
+      if (score >= 7.5) return 'low';     // Verde (Ottima salute)
+      if (score >= 4.5) return 'medium';  // Giallo (Attenzione)
+      return 'high';                      // Rosso (Critico)
     }
 
+    // Aggiorna le etichette per parlare di Salute
     function getRiskLabel(riskClass) {
       const labels = {
-        low: '✅ Basso rischio',
-        medium: '⚠️ Rischio moderato',
-        high: '🚨 Richiede attenzione'
+        low: '✅ Ottima Salute',      // Era "Basso rischio"
+        medium: '⚠️ Salute Discreta', // Era "Rischio moderato"
+        high: '🚨 Attenzione Richiesta' // Era "Richiede attenzione"
       };
       return labels[riskClass] || '';
     }
