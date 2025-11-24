@@ -1,0 +1,133 @@
+macroarea: attivita_stile_vita
+version: 1.0
+description: "Azioni correttive e raccomandazioni per stile di vita, attività fisica e gestione dell'invecchiamento."
+
+actions:
+
+  # ============================
+  # ABITUDINI E SOSTANZE
+  # ============================
+  fumo_nicotina:
+    fumatore_regolare:
+      lifestyle:
+        - "Pianificare una data di cessazione ('quit date') entro i prossimi 30 giorni."
+        - "Identificare i trigger emotivi o sociali che spingono a fumare e sostituire il gesto con azioni sane (bere acqua, respirazione)."
+      nutraceutical:
+        - "Valutare antiossidanti (Vitamina C, N-Acetilcisteina) per contrastare lo stress ossidativo da fumo, previo parere medico."
+      clinical:
+        - "CONSULTO PNEUMOLOGICO per spirometria e valutazione del danno funzionale."
+        - "Screening per tumore polmonare (TC torace a bassa dose) se indicata per età e anni/pacchetto."
+        - "Valutare percorso presso Centro Antifumo per supporto farmacologico e psicologico."
+
+    fumatore_occasionale:
+      lifestyle:
+        - "Eliminare completamente le sigarette 'sociali' o da stress: non esiste una soglia di sicurezza per il fumo."
+      clinical:
+        - "Controllo cardiovascolare per valutare l'impatto sui vasi sanguigni (rigidità arteriosa)."
+
+  consumo_alcol:
+    oltre_14_drink_settimana:
+      lifestyle:
+        - "Ridurre drasticamente il consumo, introducendo almeno 3-4 giorni 'alcohol-free' a settimana."
+        - "Evitare il binge drinking (bere molto in poco tempo) che è estremamente dannoso per fegato e cervello."
+      nutraceutical:
+        - "Valutare con il medico epatoprotettori (es. Cardo Mariano, Glutatione) e Vitamine del gruppo B."
+      clinical:
+        - "VISITA EPATOLOGICA con ecografia fegato e fibroscan per escludere steatosi o fibrosi."
+        - "Esami del sangue completi (Transaminasi, GGT, MCV)."
+
+  # ============================
+  # ATTIVITÀ FISICA
+  # ============================
+  attività_fisica_settimanale:
+    nessuna:
+      lifestyle:
+        - "Rompere la sedentarietà: alzarsi ogni 45 minuti e fare 5 minuti di movimento."
+        - "Iniziare con camminate di 20 minuti a passo svelto a giorni alterni, aumentando gradualmente."
+      nutraceutical:
+        - "Se presente stanchezza cronica, valutare carenze di Magnesio o Ferro con il medico."
+      clinical:
+        - "VISITA MEDICO SPORTIVA o Cardiologica prima di iniziare attività intensa se si è sedentari da anni."
+        - "Valutazione metabolica (glicemia, lipidi) per escludere sindrome metabolica."
+
+    meno_di_2:
+      lifestyle:
+        - "Integrare esercizi di forza (pesi, corpo libero) almeno 1 volta a settimana per prevenire la sarcopenia."
+        - "Aumentare l'intensità dell'attività aerobica per raggiungere la zona cardio allenante."
+      clinical:
+        - "Fisiatra o Posturologo se dolori articolari limitano l'aumento dell'attività."
+
+  attivita_spontanea:
+    meno_1:
+      lifestyle:
+        - "Adottare strategie NEAT (Non-Exercise Activity Thermogenesis): usare le scale, parcheggiare lontano, stare in piedi al telefono."
+      clinical:
+        - "Monitoraggio del peso e della circonferenza addominale con il medico curante."
+
+  rampe_scale:
+    nessuna:
+      lifestyle:
+        - "Introdurre gradualmente le scale: iniziare facendole in discesa (meno faticoso per il fiato, utile per le ossa) e poi in salita."
+      clinical:
+        - "Se la causa è il fiato corto: Visita Pneumologica o Cardiologica."
+        - "Se la causa è il dolore: Visita Ortopedica (ginocchia/anche)."
+
+  # ============================
+  # RECUPERO E RIGENERAZIONE
+  # ============================
+  minzione:
+    difficoltà_urinare:
+      lifestyle:
+        - "Evitare di trattenere l'urina troppo a lungo e limitare liquidi serali."
+        - "Ridurre caffeina, alcol e cibi piccanti che irritano la vescica."
+      nutraceutical:
+        - "Per l'uomo: valutare integratori a base di Serenoa Repens solo dopo conferma medica di ipertrofia prostatica benigna."
+      clinical:
+        - "VISITA UROLOGICA URGENTE: difficoltà a urinare può indicare ostruzione prostatica o stenosi uretrale."
+        - "Ecografia apparato urinario e dosaggio PSA (per l'uomo)."
+
+    incontinenza:
+      lifestyle:
+        - "Eseguire esercizi di Kegel per il rinforzo del pavimento pelvico."
+        - "Mantenere un peso corporeo adeguato per ridurre la pressione intraddominale."
+      clinical:
+        - "Visita Urologica o Uroginecologica per definire il tipo di incontinenza (sforzo, urgenza)."
+
+  tempo_di_recupero_post_sforzo:
+    faccio_fatica:
+      lifestyle:
+        - "Priorità assoluta al sonno (7-9 ore) e all'idratazione."
+        - "Introdurre giorni di riposo attivo (stretching, yoga) tra gli allenamenti."
+      nutraceutical:
+        - "Valutare adattogeni (Ashwagandha, Rodiola) o Coenzima Q10 per supporto energetico mitocondriale, sotto guida medica."
+      clinical:
+        - "CHECK-UP COMPLETO: escludere anemia, disfunzioni tiroidee (TSH), problemi cardiaci o insufficienza surrenalica."
+        - "Test da sforzo cardiopolmonare (CPET) per valutare la soglia anaerobica."
+
+  stress_volontari_controllati:
+    no:
+      lifestyle:
+        - "Considerare l'introduzione graduale di docce fredde (30 secondi a fine doccia) o sauna per stimolare l'ormesi."
+      clinical:
+        - "Nessuna visita specifica, ma parlarne con il medico se si hanno patologie cardiovascolari prima di iniziare esposizione al freddo/caldo estremo."
+
+  # ============================
+  # INFIAMMAZIONE E LONGEVITÀ
+  # ============================
+  strategie_riduzione_infiammazione_cronica:
+    no:
+      lifestyle:
+        - "Adottare una dieta antinfiammatoria: ricca di Omega-3 (pesce azzurro), verdure a foglia verde, frutti rossi, olio EVO."
+        - "Ridurre drasticamente zuccheri raffinati, farine bianche e oli vegetali industriali (mais, soia)."
+      nutraceutical:
+        - "Valutare integrazione di Omega-3 (EPA/DHA) di alta qualità e Curcumina (biodisponibile) come supporto antinfiammatorio."
+      clinical:
+        - "Misurare i marker di infiammazione sistemica: PCR ad alta sensibilità (hs-CRP), Omocisteina, Ferritina, Fibrinogeno."
+
+  infiammazione_età:
+    no:
+      lifestyle:
+        - "Praticare il digiuno intermittente (es. 12-14 ore di riposo alimentare notturno) se sostenibile, per favorire l'autofagia."
+        - "Mantenere la massa muscolare attiva (organo endocrino antinfiammatorio) con esercizi di resistenza."
+      clinical:
+        - "Visita con specialista in Medicina Preventiva o Anti-Aging per valutare età biologica e rischi futuri."

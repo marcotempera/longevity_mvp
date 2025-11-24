@@ -1,0 +1,128 @@
+macroarea: attivita_stile_vita
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # ===== ABITUDINI E SOSTANZE (Peso Alto) =====
+    fumo_nicotina: 2.5           # Driver critico di rischio
+    consumo_alcol: 1.8           # Importante fattore tossico
+
+    # ===== ATTIVITÀ FISICA STRUTTURATA (Peso Alto) =====
+    attivita_fisica_moderata: 1.6
+    attività_fisica_settimanale: 1.6
+
+    # ===== MOVIMENTO QUOTIDIANO (Peso Medio) =====
+    attivita_spontanea: 1.2      # Sedentarietà di base
+    attivita_tempo_libero: 1.0
+    mezzo_spostamento: 0.8
+    rampe_scale: 0.6
+    lavori_domestici: 0.5
+    attivita_aperto: 0.5
+    ascensore_scale: 0.5
+
+    # ===== RECUPERO E RIGENERAZIONE (Peso Medio) =====
+    tempo_di_recupero_post_sforzo: 1.2 # Indicatore di resilienza
+    minzione: 0.8
+    stress_volontari_controllati: 0.7
+    rigenerazione_tessuti: 0.8
+
+    # ===== INFIAMMAZIONE E LONGEVITÀ (Peso Medio - Strategico) =====
+    strategie_riduzione_infiammazione_cronica: 1.0
+    infiammazione_bassa: 1.0
+    infiammazione_età: 1.0
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  # Risk Score: 0 = Ottimo (Sano), 100 = Pessimo (Rischio)
+  low:
+    max: 30        # Stile di vita attivo e sano
+  medium:
+    min: 31
+    max: 65        # Sedentarietà o vizi moderati
+  high:
+    min: 66        # Gravi fattori di rischio (fumo, immobilità, alcol)
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 5
+  show_percent_contribution: true
+  group_by_domain: true
+
+  overall_narratives:
+    low: >
+      Il tuo stile di vita è eccellente. Sei attivo, eviti sostanze nocive e adotti strategie 
+      avanzate per la longevità e il recupero. Continua così per massimizzare la tua salute a lungo termine.
+    medium: >
+      Ci sono margini di miglioramento nel tuo stile di vita. Potresti essere troppo sedentario 
+      o avere abitudini (come fumo o alcol) che riducono il tuo potenziale di salute. 
+      Piccoli cambiamenti quotidiani possono fare una grande differenza.
+    high: >
+      Il tuo stile di vita presenta fattori di rischio significativi. La combinazione di sedentarietà, 
+      abitudini nocive o mancanza di strategie preventive richiede un intervento immediato per prevenire 
+      patologie croniche.
+
+  driver_templates:
+    # ==== Vizi ====
+    fumo_nicotina: >
+      L'uso di tabacco o nicotina è il principale ostacolo alla tua longevità e salute cardiovascolare.
+    consumo_alcol: >
+      Il consumo di alcol supera le soglie di sicurezza, aumentando il rischio epatico e neurotossico.
+
+    # ==== Movimento ====
+    attivita_fisica_moderata: >
+      Carenza di attività fisica strutturata, fondamentale per mantenere la fitness cardiorespiratoria.
+    attività_fisica_settimanale: >
+      Volume di esercizio settimanale insufficiente rispetto alle linee guida internazionali.
+    attivita_spontanea: >
+      Eccessiva sedentarietà nelle ore quotidiane, un fattore di rischio indipendente dall'allenamento.
+    attivita_tempo_libero: >
+      Il tempo libero trascorso in modo sedentario non stimola il metabolismo.
+
+    # ==== Recupero e Infiammazione ====
+    tempo_di_recupero_post_sforzo: >
+      Recupero lento dopo sforzi, possibile segnale di stress sistemico o scarsa forma fisica.
+    strategie_riduzione_infiammazione_cronica: >
+      Mancata adozione di strategie contro l'infiammazione cronica, un driver chiave dell'invecchiamento.
+    infiammazione_età: >
+      Assenza di misure per contrastare l'Inflammaging (invecchiamento infiammatorio).
+
+  class_explanations:
+    low: >
+      Stile di vita proattivo e protettivo.
+    medium: >
+      Presenza di abitudini miste con alcuni fattori di rischio (es. {top_driver_names}).
+    high: >
+      Stile di vita a rischio elevato, dominato da (es. {top_driver_names}).
+
+red_flags:
+  # ==== Fumo e Alcol ====
+  - condition: "fumo_nicotina in ['fumatore_regolare', 'fumatore_occasionale']"
+    action: "Pianificare immediatamente un percorso di cessazione del fumo."
+  
+  - condition: "consumo_alcol in ['oltre_14_drink_settimana', '8_14_drink_settimana']"
+    action: "Ridurre drasticamente l'alcol o consultare un medico per supporto."
+
+  # ==== Sedentarietà Grave ====
+  - condition: "attività_fisica_settimanale in ['nessuna']"
+    action: "Iniziare subito a muoversi, anche solo camminando 30 minuti al giorno."
+
+  - condition: "attivita_spontanea in ['meno_1']"
+    action: "Interrompere la sedentarietà ogni ora con brevi pause attive."
+
+  # ==== Recupero ====
+  - condition: "tempo_di_recupero_post_sforzo in ['faccio_fatica']"
+    action: "Valutare con un medico possibili cause metaboliche o cardiache della fatica cronica."
+
+  # ==== Problemi Urinari ====
+  - condition: "minzione in ['difficoltà_urinare', 'incontinenza', 'disuria']"
+    action: "Consultare un urologo per approfondire i disturbi della minzione."

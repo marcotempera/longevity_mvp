@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Attività Fisica e Stile di Vita</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h5{font-weight:400;color:var(--muted);margin-top:-10px;margin-bottom:20px;line-height:1.5}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:24px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      width: 16px; 
+      height: 16px;
+    }
+    textarea, input[type="text"]{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      margin-top: 12px;
+      resize: vertical;
+    }
+    textarea:focus, input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">🏃 Attività Fisica e Stile di Vita</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>🚲 Movimento e Abitudini Quotidiane</h2>
+        <h5 style="margin-bottom: 24px;">Se disponi di un test o di un’analisi recente relativa all'attività fisica, le risposte ci aiuteranno a elaborare un report ancora più preciso.</h5>
+
+        <div class="field">
+          <label>111. Nella vita di tutti i giorni, come ti sposti prevalentemente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="mezzo_spostamento" value="a_piedi"> A piedi</label>
+            <label class="option-label"><input type="checkbox" name="mezzo_spostamento" value="bicicletta"> In bicicletta</label>
+            <label class="option-label"><input type="checkbox" name="mezzo_spostamento" value="macchina_moto"> In macchina o moto</label>
+            <label class="option-label"><input type="checkbox" name="mezzo_spostamento" value="mezzi_pubblici"> Mezzi pubblici</label>
+            <label class="option-label"><input type="checkbox" name="mezzo_spostamento" value="alterno_mezzi"> Alterno diversi mezzi</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>112. Quante rampe di scale percorri mediamente ogni giorno?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="rampe_scale" value="nessuna"> Nessuna</label>
+            <label class="option-label"><input type="checkbox" name="rampe_scale" value="1_2"> 1–2 rampe</label>
+            <label class="option-label"><input type="checkbox" name="rampe_scale" value="3_5"> 3–5 rampe</label>
+            <label class="option-label"><input type="checkbox" name="rampe_scale" value="piu_5"> Più di 5 rampe</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>113. Quanto frequentemente svolgi lavori domestici?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="lavori_domestici" value="quasi_ogni_giorno"> Quasi ogni giorno</label>
+            <label class="option-label"><input type="checkbox" name="lavori_domestici" value="2_3_settimana"> 2–3 volte a settimana</label>
+            <label class="option-label"><input type="checkbox" name="lavori_domestici" value="1_settimana"> 1 volta a settimana</label>
+            <label class="option-label"><input type="checkbox" name="lavori_domestici" value="raramente_mai"> Raramente o mai</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>114. Svolgi regolarmente attività all’aperto come giardinaggio, orticoltura o simili?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attivita_aperto" value="settimanale"> Sì, almeno 1 volta a settimana</label>
+            <label class="option-label"><input type="checkbox" name="attivita_aperto" value="occasionale"> Sì, ma solo occasionalmente</label>
+            <label class="option-label"><input type="checkbox" name="attivita_aperto" value="mai"> No, mai</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>115. Quante ore alla settimana dedichi ad attività fisiche spontanee?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attivita_spontanea" value="meno_1"> Meno di 1 ora</label>
+            <label class="option-label"><input type="checkbox" name="attivita_spontanea" value="1_3"> 1–3 ore</label>
+            <label class="option-label"><input type="checkbox" name="attivita_spontanea" value="4_6"> 4–6 ore</label>
+            <label class="option-label"><input type="checkbox" name="attivita_spontanea" value="piu_6"> Più di 6 ore</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>116. Quando possibile, preferisci:</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="ascensore_scale" value="ascensore"> Prendere l’ascensore</label>
+            <label class="option-label"><input type="checkbox" name="ascensore_scale" value="scale"> Usare le scale</label>
+            <label class="option-label"><input type="checkbox" name="ascensore_scale" value="dipende"> Dipende dalla situazione</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>117. Durante il tempo libero, preferisci attività:</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attivita_tempo_libero" value="sedentarie"> Sedentarie (TV, computer, lettura)</label>
+            <label class="option-label"><input type="checkbox" name="attivita_tempo_libero" value="moderatamente_attive"> Moderatamente attive (passeggiate, shopping)</label>
+            <label class="option-label"><input type="checkbox" name="attivita_tempo_libero" value="attive"> Attive (escursioni, giardinaggio, sport)</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🏋️ Attività Fisica Strutturata</h2>
+
+        <div class="field">
+          <label>118. Quanto spesso svolgi attività fisica moderata o intensa durante la settimana?</label>
+          <p class="muted" style="margin-bottom: 12px;">(Moderata = camminata veloce, bicicletta tranquilla. Intensa = corsa, HIIT, sport agonistico)</p>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attivita_fisica_moderata" value="mai"> Mai o quasi mai</label>
+            <label class="option-label"><input type="checkbox" name="attivita_fisica_moderata" value="1_volta"> 1 volta a settimana</label>
+            <label class="option-label"><input type="checkbox" name="attivita_fisica_moderata" value="2_3_volte"> 2-3 volte a settimana</label>
+            <label class="option-label"><input type="checkbox" name="attivita_fisica_moderata" value="4_plus"> 4 o più volte a settimana</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>119. Quanta attività fisica svolgi mediamente ogni settimana?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attività_fisica_settimanale" value="nessuna"> Nessuna o quasi nessuna (meno di 1 volta a settimana)</label>
+            <label class="option-label"><input type="checkbox" name="attività_fisica_settimanale" value="meno_di_2"> Meno di 2 volte a settimana (moderata) o 1 volta (intensa)</label>
+            <label class="option-label"><input type="checkbox" name="attività_fisica_settimanale" value="meno_di_3"> Meno di 3 volte a settimana (moderata) o 2 volte (intensa)</label>
+            <label class="option-label"><input type="checkbox" name="attività_fisica_settimanale" value="più_di_3"> Più di 3 volte a settimana (moderata) o più di 2 volte (intensa)</label>
+            <label class="option-label"><input type="checkbox" name="attività_fisica_settimanale" value="non_so"> Non so / Non monitoro</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🚬 Abitudini e Sostanze</h2>
+
+        <div class="field">
+          <label>120. Hai mai fumato sigarette o usato prodotti contenenti nicotina?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="fumo_nicotina" value="mai_fumato"> No, mai</label>
+            <label class="option-label"><input type="checkbox" name="fumo_nicotina" value="ex_fumatore_oltre_12_mesi"> Sì, smesso da > 12 mesi</label>
+            <label class="option-label"><input type="checkbox" name="fumo_nicotina" value="ex_fumatore_meno_12_mesi"> Sì, smesso da < 12 mesi</label>
+            <label class="option-label"><input type="checkbox" name="fumo_nicotina" value="fumatore_occasionale"> Sì, occasionale (< 5/die)</label>
+            <label class="option-label"><input type="checkbox" name="fumo_nicotina" value="fumatore_regolare"> Sì, regolare (5+ /die)</label>
+            <label class="option-label"><input type="checkbox" name="fumo_nicotina" value="dispositivi_alternativi"> Dispositivi alternativi (svapo, iqos)</label>
+          </div>
+          <input type="text" name="dettagli_fumo" placeholder="Se vuoi, specifica da quanto tempo fumi/hai smesso e tipo di prodotti">
+        </div>
+
+        <div class="field">
+          <label>121. Consumi bevande alcoliche?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="consumo_alcol" value="no"> No</label>
+            <label class="option-label"><input type="checkbox" name="consumo_alcol" value="meno_1_drink_settimana"> < 1 bicchiere a settimana</label>
+            <label class="option-label"><input type="checkbox" name="consumo_alcol" value="1_7_drink_settimana"> 1-7 bicchieri a settimana</label>
+            <label class="option-label"><input type="checkbox" name="consumo_alcol" value="8_14_drink_settimana"> 8-14 bicchieri a settimana</label>
+            <label class="option-label"><input type="checkbox" name="consumo_alcol" value="oltre_14_drink_settimana"> > 14 bicchieri a settimana</label>
+            <label class="option-label"><input type="checkbox" name="consumo_alcol" value="smetto"> Ho smesso di consumare alcol</label>
+          </div>
+          <input type="text" name="tipo_alcolici" placeholder="Specifica tipo (es. vino rosso) e frequenza">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🔋 Recupero e Rigenerazione</h2>
+
+        <div class="field">
+          <label>122. Hai una minzione regolare e senza difficoltà?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="minzione" value="regolare"> Sì, regolare (4–7 volte/die)</label>
+            <label class="option-label"><input type="checkbox" name="minzione" value="pollachiuria"> Urgenza frequente (pollachiuria)</label>
+            <label class="option-label"><input type="checkbox" name="minzione" value="difficoltà_urinare"> Difficoltà / svuotamento incompleto</label>
+            <label class="option-label"><input type="checkbox" name="minzione" value="disuria"> Bruciore o dolore (disuria)</label>
+            <label class="option-label"><input type="checkbox" name="minzione" value="variazioni_urine"> Variazioni colore/odore/quantità</label>
+            <label class="option-label"><input type="checkbox" name="minzione" value="incontinenza"> Incontinenza / perdite</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>123. Quanto rapidamente ti senti di recuperare dopo uno sforzo o stress?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="tempo_di_recupero_post_sforzo" value="molto_rapidamente"> Molto rapidamente (poche ore)</label>
+            <label class="option-label"><input type="checkbox" name="tempo_di_recupero_post_sforzo" value="abbastanza_rapidamente"> Abbastanza rapidamente (1 giorno)</label>
+            <label class="option-label"><input type="checkbox" name="tempo_di_recupero_post_sforzo" value="lentamente"> Lentamente (2-3 giorni)</label>
+            <label class="option-label"><input type="checkbox" name="tempo_di_recupero_post_sforzo" value="faccio_fatica"> Faccio fatica, spesso stanco</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>124. Esponi volontariamente il tuo corpo a stress controllati (es. freddo, digiuno, HIIT)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="stress_volontari_controllati" value="regolarmente"> Sì, regolarmente</label>
+            <label class="option-label"><input type="checkbox" name="stress_volontari_controllati" value="ogni_tanto"> Ogni tanto</label>
+            <label class="option-label"><input type="checkbox" name="stress_volontari_controllati" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="stress_volontari_controllati" value="no"> No, mai</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>125. Hai mai adottato pratiche che favoriscono la rigenerazione dei tessuti corporei?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="rigenerazione_tessuti" value="attività_fisica_moderata"> Attività fisica moderata</label>
+            <label class="option-label"><input type="checkbox" name="rigenerazione_tessuti" value="sonno_ottimizzato"> Ottimizzazione del sonno</label>
+            <label class="option-label"><input type="checkbox" name="rigenerazione_tessuti" value="nutrizione_ricca_antiossidanti"> Dieta antiossidante</label>
+            <label class="option-label"><input type="checkbox" name="rigenerazione_tessuti" value="gestione_stress"> Gestione stress (meditazione)</label>
+            <label class="option-label"><input type="checkbox" name="rigenerazione_tessuti" value="terapie_rigenerative"> Terapie specifiche (es. ozono)</label>
+            <label class="option-label"><input type="checkbox" name="rigenerazione_tessuti" value="no"> Nessuna pratica specifica</label>
+          </div>
+          <input type="text" name="durata_rigenerazione" placeholder="Se sì, da quanto tempo? (es. yoga da 2 anni)">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🔥 Infiammazione e Longevità</h2>
+
+        <div class="field">
+          <label>126. Hai adottato strategie per ridurre l'infiammazione cronica sistemica?</label>
+          <p class="muted" style="margin-bottom: 12px;">(Es: dieta antinfiammatoria, attività fisica, riduzione zuccheri, integrazione omega-3)</p>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="strategie_riduzione_infiammazione_cronica" value="stile_vita_completo"> Sì, approccio completo</label>
+            <label class="option-label"><input type="checkbox" name="strategie_riduzione_infiammazione_cronica" value="stile_vita_parziale"> Sì, solo alcuni aspetti</label>
+            <label class="option-label"><input type="checkbox" name="strategie_riduzione_infiammazione_cronica" value="interessato"> No, ma interessato</label>
+            <label class="option-label"><input type="checkbox" name="strategie_riduzione_infiammazione_cronica" value="no"> No, nessuna strategia</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>127. Adotti abitudini utili a ridurre l'infiammazione cronica di basso grado?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="infiammazione_bassa" value="completo"> Sì, stile di vita completo</label>
+            <label class="option-label"><input type="checkbox" name="infiammazione_bassa" value="parziale"> In parte (es. solo dieta)</label>
+            <label class="option-label"><input type="checkbox" name="infiammazione_bassa" value="interessato"> No, ma interessato</label>
+            <label class="option-label"><input type="checkbox" name="infiammazione_bassa" value="no"> No</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>128. Adotti strategie per ridurre l'infiammazione cronica legata all’invecchiamento (Inflammaging)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="infiammazione_età" value="completo"> Sì, stile di vita completo</label>
+            <label class="option-label"><input type="checkbox" name="infiammazione_età" value="parziale"> In parte</label>
+            <label class="option-label"><input type="checkbox" name="infiammazione_età" value="interessato"> No, ma interessato</label>
+            <label class="option-label"><input type="checkbox" name="infiammazione_età" value="no"> No</label>
+          </div>
+          <textarea name="domanda128_tempo" rows="2" placeholder="Quanto tempo fa hai iniziato e per quanto tempo?"></textarea>
+        </div>
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    // Configurazione Supabase
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Identificativo della macroarea corrente
+    const macroarea = 'attivita_stile_vita';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Helper per checkbox esclusivi (es. se selezioni "Mai", deseleziona gli altri)
+    function setupExclusiveCheckboxes(groupName, noneValues = ['no', 'mai', 'nessuna', 'raramente_mai']) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const isNone = noneValues.includes(cb.value);
+          if (isNone && cb.checked) {
+            checkboxes.forEach(other => { if (other !== cb) other.checked = false; });
+          } else if (cb.checked) {
+            checkboxes.forEach(other => { if (noneValues.includes(other.value)) other.checked = false; });
+          }
+        });
+      });
+    }
+
+    // Applica comportamento esclusivo dove necessario
+    setupExclusiveCheckboxes('fumo_nicotina', ['mai_fumato']);
+    setupExclusiveCheckboxes('consumo_alcol', ['no']);
+    setupExclusiveCheckboxes('stress_volontari_controllati', ['no']);
+    setupExclusiveCheckboxes('rigenerazione_tessuti', ['no']);
+    setupExclusiveCheckboxes('strategie_riduzione_infiammazione_cronica', ['no']);
+
+    // Barra di avanzamento
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Tasto Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Gestione Invio Form
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Verifica utente
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      // Raccolta risposte
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        // 1. Carica configurazioni YAML
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        // 2. Calcola score
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        // 3. Prepara dati per LLM
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        // 4. Genera report con LLM
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        if (!resp.ok) {
+          const text = await resp.text();
+          throw new Error(`Errore generazione report LLM (${resp.status})`);
+        }
+
+        const { report } = await resp.json();
+        updateProgress(70);
+
+        // 5. Salva su Supabase
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score, 
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        // 6. Aggiorna progress globale
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        // 7. Redirect al report
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Errore durante il salvataggio:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>

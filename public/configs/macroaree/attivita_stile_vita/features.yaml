@@ -1,0 +1,146 @@
+macroarea: attivita_stile_vita
+version: 1.0
+description: >
+  Configurazione per attività fisica e stile di vita.
+  Scoring: Punteggi positivi indicano RISCHIO (sedentarietà, vizi), 
+  punteggi negativi indicano PROTEZIONE (movimento, abitudini sane).
+
+features:
+
+  # ====== MOVIMENTO QUOTIDIANO ======
+  - name: mezzo_spostamento
+    type: categorical_multi
+    allowed: [a_piedi, bicicletta, macchina_moto, mezzi_pubblici, alterno_mezzi]
+    per_item_score: {a_piedi: -1, bicicletta: -1, macchina_moto: 1, mezzi_pubblici: 0, alterno_mezzi: -0.5}
+    cap_score: 2
+    notes: "La mobilità attiva quotidiana è un fattore protettivo cardiovascolare di base."
+
+  - name: rampe_scale
+    type: categorical
+    allowed: [nessuna, 1_2, 3_5, piu_5]
+    map_to_score: {nessuna: 1, 1_2: 0, 3_5: -1, piu_5: -2}
+    notes: "Salire le scale è un indicatore di capacità funzionale e fitness cardiorespiratoria."
+
+  - name: lavori_domestici
+    type: categorical
+    allowed: [quasi_ogni_giorno, 2_3_settimana, 1_settimana, raramente_mai]
+    map_to_score: {quasi_ogni_giorno: -1, 2_3_settimana: -0.5, 1_settimana: 0, raramente_mai: 1}
+
+  - name: attivita_aperto
+    type: categorical
+    allowed: [settimanale, occasionale, mai]
+    map_to_score: {settimanale: -1, occasionale: 0, mai: 0.5}
+
+  - name: attivita_spontanea
+    type: categorical
+    allowed: [meno_1, 1_3, 4_6, piu_6]
+    map_to_score: {meno_1: 2, 1_3: 0, 4_6: -1, piu_6: -2}
+    red_flag_if_in: [meno_1]
+    notes: "La sedentarietà (meno di 1 ora di attività spontanea) è un fattore di rischio indipendente."
+
+  - name: ascensore_scale
+    type: categorical
+    allowed: [ascensore, scale, dipende]
+    map_to_score: {ascensore: 1, scale: -1, dipende: 0}
+
+  - name: attivita_tempo_libero
+    type: categorical
+    allowed: [sedentarie, moderatamente_attive, attive]
+    map_to_score: {sedentarie: 2, moderatamente_attive: -0.5, attive: -1.5}
+    red_flag_if_in: [sedentarie]
+
+  # ====== ATTIVITÀ STRUTTURATA ======
+  - name: attivita_fisica_moderata
+    type: categorical
+    allowed: [mai, 1_volta, 2_3_volte, 4_plus]
+    map_to_score: {mai: 3, 1_volta: 1, 2_3_volte: -1, 4_plus: -2}
+    red_flag_if_in: [mai]
+    notes: "L'assenza di attività fisica strutturata aumenta il rischio di tutte le cause di mortalità."
+
+  - name: attività_fisica_settimanale
+    type: categorical
+    allowed: [nessuna, meno_di_2, meno_di_3, più_di_3, non_so]
+    map_to_score: {nessuna: 3, meno_di_2: 1, meno_di_3: 0, più_di_3: -2, non_so: 0}
+    red_flag_if_in: [nessuna]
+
+  # ====== ABITUDINI E SOSTANZE ======
+  - name: fumo_nicotina
+    type: categorical
+    allowed: [mai_fumato, ex_fumatore_oltre_12_mesi, ex_fumatore_meno_12_mesi, fumatore_occasionale, fumatore_regolare, dispositivi_alternativi]
+    map_to_score: {mai_fumato: 0, ex_fumatore_oltre_12_mesi: 0, ex_fumatore_meno_12_mesi: 1, fumatore_occasionale: 3, fumatore_regolare: 6, dispositivi_alternativi: 2}
+    red_flag_if_in: [fumatore_regolare, fumatore_occasionale]
+    related_pathologies: [HER001, HER002, HER030, HER033]
+    notes: "Il fumo è il principale fattore di rischio modificabile per la longevità."
+
+  - name: dettagli_fumo
+    type: text
+    store: true
+
+  - name: consumo_alcol
+    type: categorical
+    allowed: [no, meno_1_drink_settimana, 1_7_drink_settimana, 8_14_drink_settimana, oltre_14_drink_settimana, smetto]
+    map_to_score: {no: 0, meno_1_drink_settimana: 0, 1_7_drink_settimana: 1, 8_14_drink_settimana: 3, oltre_14_drink_settimana: 5, smetto: 0}
+    red_flag_if_in: [oltre_14_drink_settimana]
+    related_pathologies: [HER056, HER059]
+    notes: "Consumo eccessivo (>14 unità/settimana) è epatotossico e neurotossico."
+
+  - name: tipo_alcolici
+    type: text
+    store: true
+
+  # ====== RECUPERO E RIGENERAZIONE ======
+  - name: minzione
+    type: categorical_multi
+    allowed: [regolare, pollachiuria, difficoltà_urinare, disuria, variazioni_urine, incontinenza]
+    per_item_score: {regolare: 0, pollachiuria: 1, difficoltà_urinare: 2, disuria: 2, variazioni_urine: 1, incontinenza: 2}
+    cap_score: 4
+    red_flag_if_in: [difficoltà_urinare, incontinenza]
+    missing_policy: "none_is_zero"
+    notes: "Selezionare 'regolare' dovrebbe escludere le altre opzioni tramite validation."
+
+  - name: tempo_di_recupero_post_sforzo
+    type: categorical
+    allowed: [molto_rapidamente, abbastanza_rapidamente, lentamente, faccio_fatica]
+    map_to_score: {molto_rapidamente: -1, abbastanza_rapidamente: 0, lentamente: 1, faccio_fatica: 3}
+    red_flag_if_in: [faccio_fatica]
+    notes: "Un recupero lento può indicare stress sistemico, decondizionamento o problemi metabolici."
+
+  - name: stress_volontari_controllati
+    type: categorical
+    allowed: [regolarmente, ogni_tanto, raramente, no]
+    map_to_score: {regolarmente: -1.5, ogni_tanto: -0.5, raramente: 0, no: 0}
+    notes: "L'ormesi (stress controllato) stimola i meccanismi di riparazione cellulare."
+
+  - name: rigenerazione_tessuti
+    type: categorical_multi
+    allowed: [attività_fisica_moderata, sonno_ottimizzato, nutrizione_ricca_antiossidanti, gestione_stress, terapie_rigenerative, no]
+    per_item_score: {attività_fisica_moderata: -0.5, sonno_ottimizzato: -0.5, nutrizione_ricca_antiossidanti: -0.5, gestione_stress: -0.5, terapie_rigenerative: -0.5, no: 0}
+    cap_score: -2.5
+    notes: "Pratiche rigenerative riducono l'età biologica."
+
+  - name: durata_rigenerazione
+    type: text
+    store: true
+
+  # ====== INFIAMMAZIONE E LONGEVITÀ ======
+  - name: strategie_riduzione_infiammazione_cronica
+    type: categorical
+    allowed: [stile_vita_completo, stile_vita_parziale, interessato, no]
+    map_to_score: {stile_vita_completo: -2, stile_vita_parziale: -1, interessato: 0, no: 1}
+    red_flag_if_in: [no]
+
+  - name: infiammazione_bassa
+    type: categorical
+    allowed: [completo, parziale, interessato, no]
+    map_to_score: {completo: -2, parziale: -1, interessato: 0, no: 1}
+
+  - name: infiammazione_età
+    type: categorical
+    allowed: [completo, parziale, interessato, no]
+    map_to_score: {completo: -2, parziale: -1, interessato: 0, no: 1}
+    red_flag_if_in: [no]
+    notes: "L'Inflammaging è un driver chiave dell'invecchiamento accelerato."
+
+  - name: domanda128_tempo
+    type: text
+    store: true

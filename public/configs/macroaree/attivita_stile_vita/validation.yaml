@@ -1,0 +1,52 @@
+macroarea: attivita_stile_vita
+version: 1.0
+
+rules:
+  # ===== MOVIMENTO QUOTIDIANO =====
+  # Se "nessuna" rampe scale, ignora altre selezioni (es. 1-2)
+  - feature: rampe_scale
+    rule: "if includes 'nessuna' then set to ['nessuna']"
+
+  - feature: lavori_domestici
+    rule: "if includes 'raramente_mai' then set to ['raramente_mai']"
+
+  - feature: attivita_aperto
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== ATTIVITÀ STRUTTURATA =====
+  - feature: attivita_fisica_moderata
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: attività_fisica_settimanale
+    rule: "if includes 'nessuna' then set to ['nessuna']"
+
+  # ===== ABITUDINI E SOSTANZE =====
+  - feature: fumo_nicotina
+    rule: "if includes 'mai_fumato' then set to ['mai_fumato']"
+
+  - feature: consumo_alcol
+    rule: "if includes 'no' then set to ['no']"
+
+  # ===== RECUPERO E RIGENERAZIONE =====
+  # Se la minzione è regolare, non possono esserci disfunzioni
+  - feature: minzione
+    rule: "if includes 'regolare' then set to ['regolare']"
+
+  - feature: stress_volontari_controllati
+    rule: "if includes 'no' then set to ['no']"
+
+  - feature: rigenerazione_tessuti
+    rule: "if includes 'no' then set to ['no']"
+
+  # ===== INFIAMMAZIONE E LONGEVITÀ =====
+  - feature: strategie_riduzione_infiammazione_cronica
+    rule: "if includes 'no' then set to ['no']"
+
+  - feature: infiammazione_bassa
+    rule: "if includes 'no' then set to ['no']"
+
+  - feature: infiammazione_età
+    rule: "if includes 'no' then set to ['no']"
+
+missing:
+  strategy: "per_feature_policy"

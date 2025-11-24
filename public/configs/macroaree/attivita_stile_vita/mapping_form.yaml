@@ -1,0 +1,173 @@
+map:
+
+  # ====== MOVIMENTO QUOTIDIANO ======
+  mezzo_spostamento[]:
+    feature: mezzo_spostamento
+    values:
+      a_piedi: a_piedi
+      bicicletta: bicicletta
+      macchina_moto: macchina_moto
+      mezzi_pubblici: mezzi_pubblici
+      alterno_mezzi: alterno_mezzi
+
+  rampe_scale[]:
+    feature: rampe_scale
+    values:
+      nessuna: nessuna
+      1_2: 1_2
+      3_5: 3_5
+      piu_5: piu_5
+
+  lavori_domestici[]:
+    feature: lavori_domestici
+    values:
+      quasi_ogni_giorno: quasi_ogni_giorno
+      2_3_settimana: 2_3_settimana
+      1_settimana: 1_settimana
+      raramente_mai: raramente_mai
+
+  attivita_aperto[]:
+    feature: attivita_aperto
+    values:
+      settimanale: settimanale
+      occasionale: occasionale
+      mai: mai
+
+  attivita_spontanea[]:
+    feature: attivita_spontanea
+    values:
+      meno_1: meno_1
+      1_3: 1_3
+      4_6: 4_6
+      piu_6: piu_6
+
+  ascensore_scale[]:
+    feature: ascensore_scale
+    values:
+      ascensore: ascensore
+      scale: scale
+      dipende: dipende
+
+  attivita_tempo_libero[]:
+    feature: attivita_tempo_libero
+    values:
+      sedentarie: sedentarie
+      moderatamente_attive: moderatamente_attive
+      attive: attive
+
+  # ====== ATTIVITÀ STRUTTURATA ======
+  attivita_fisica_moderata[]:
+    feature: attivita_fisica_moderata
+    values:
+      mai: mai
+      1_volta: 1_volta
+      2_3_volte: 2_3_volte
+      4_plus: 4_plus
+
+  attività_fisica_settimanale[]:
+    feature: attività_fisica_settimanale
+    values:
+      nessuna: nessuna
+      meno_di_2: meno_di_2
+      meno_di_3: meno_di_3
+      più_di_3: più_di_3
+      non_so: non_so
+
+  # ====== ABITUDINI E SOSTANZE ======
+  fumo_nicotina[]:
+    feature: fumo_nicotina
+    values:
+      mai_fumato: mai_fumato
+      ex_fumatore_oltre_12_mesi: ex_fumatore_oltre_12_mesi
+      ex_fumatore_meno_12_mesi: ex_fumatore_meno_12_mesi
+      fumatore_occasionale: fumatore_occasionale
+      fumatore_regolare: fumatore_regolare
+      dispositivi_alternativi: dispositivi_alternativi
+
+  dettagli_fumo:
+    feature: dettagli_fumo
+    passthrough: true
+
+  consumo_alcol[]:
+    feature: consumo_alcol
+    values:
+      no: no
+      meno_1_drink_settimana: meno_1_drink_settimana
+      1_7_drink_settimana: 1_7_drink_settimana
+      8_14_drink_settimana: 8_14_drink_settimana
+      oltre_14_drink_settimana: oltre_14_drink_settimana
+      smetto: smetto
+
+  tipo_alcolici:
+    feature: tipo_alcolici
+    passthrough: true
+
+  # ====== RECUPERO E RIGENERAZIONE ======
+  minzione[]:
+    feature: minzione
+    values:
+      regolare: regolare
+      pollachiuria: pollachiuria
+      difficoltà_urinare: difficoltà_urinare
+      disuria: disuria
+      variazioni_urine: variazioni_urine
+      incontinenza: incontinenza
+
+  tempo_di_recupero_post_sforzo[]:
+    feature: tempo_di_recupero_post_sforzo
+    values:
+      molto_rapidamente: molto_rapidamente
+      abbastanza_rapidamente: abbastanza_rapidamente
+      lentamente: lentamente
+      faccio_fatica: faccio_fatica
+
+  stress_volontari_controllati[]:
+    feature: stress_volontari_controllati
+    values:
+      regolarmente: regolarmente
+      ogni_tanto: ogni_tanto
+      raramente: raramente
+      no: no
+
+  rigenerazione_tessuti[]:
+    feature: rigenerazione_tessuti
+    values:
+      attività_fisica_moderata: attività_fisica_moderata
+      sonno_ottimizzato: sonno_ottimizzato
+      nutrizione_ricca_antiossidanti: nutrizione_ricca_antiossidanti
+      gestione_stress: gestione_stress
+      terapie_rigenerative: terapie_rigenerative
+      no: no
+
+  durata_rigenerazione:
+    feature: durata_rigenerazione
+    passthrough: true
+
+  # ====== INFIAMMAZIONE E LONGEVITÀ ======
+  strategie_riduzione_infiammazione_cronica[]:
+    feature: strategie_riduzione_infiammazione_cronica
+    values:
+      stile_vita_completo: stile_vita_completo
+      stile_vita_parziale: stile_vita_parziale
+      interessato: interessato
+      no: no
+
+  infiammazione_bassa[]:
+    feature: infiammazione_bassa
+    values:
+      completo: completo
+      parziale: parziale
+      interessato: interessato
+      no: no
+
+  infiammazione_età[]:
+    feature: infiammazione_età
+    values:
+      completo: completo
+      parziale: parziale
+      interessato: interessato
+      no: no
+
+  domanda128_tempo:
+    feature: domanda128_tempo
+    passthrough: true
