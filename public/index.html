@@ -3,240 +3,415 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Health Risk — Prevenzione personalizzata</title>
-  <meta name="description" content="Questionari intelligenti, scoring del rischio e consigli personalizzati su base familiare, genetica ed epigenetica." />
-  <link rel="stylesheet" href="/css/app.css" />
-  <link rel="icon" href="/favicon.ico" />
+  <title>HealthInsight — Longevity & Prevention</title>
+  <meta name="description" content="La piattaforma avanzata per la medicina preventiva e la longevità personalizzata." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  
   <style>
     :root{
-      --bg: #0b0f14; /* dark navy */
+      --bg: #0b0f14;
       --card: #111823;
       --muted: #94a3b8;
-      --primary: #7c4dff; /* violet */
-      --accent: #36d1dc; /* cyan */
-      --success: #22c55e;
-      --ring: rgba(124,77,255,.35);
+      --primary: #7c4dff;
+      --accent: #36d1dc;
+      --text: #eaf6ff;
+      --gradient: linear-gradient(135deg, var(--primary), var(--accent));
     }
-    html,body{background: var(--bg); color:#e5e7eb; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";}
-    a{color:inherit; text-decoration:none}
-    .container{max-width:1100px; margin-inline:auto; padding-inline:20px}
-    .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.2rem; border-radius:14px; background:linear-gradient(90deg,var(--primary),var(--accent)); color:white; box-shadow:0 10px 30px rgba(54,209,220,.15); font-weight:600}
-    .btn.secondary{background:#0f172a;border:1px solid #1f2937}
-    header{position:sticky; top:0; z-index:40; backdrop-filter:saturate(180%) blur(10px); background:linear-gradient(to bottom, rgba(11,15,20,.8), rgba(11,15,20,.35)); border-bottom:1px solid rgba(124,77,255,.08)}
-    nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    nav .brand{display:flex; align-items:center; gap:.7rem; font-weight:700}
-    nav .brand .logo{width:34px;height:34px; display:grid;place-items:center; border-radius:10px; background:radial-gradient(120px 60px at 30% 20%, var(--accent), transparent 60%), radial-gradient(120px 60px at 80% 80%, var(--primary), transparent 60%); box-shadow:0 0 0 1px rgba(124,77,255,.25) inset}
-    nav ul{display:flex; gap:1.2rem; list-style:none}
-    nav a.link{color:#cbd5e1; font-weight:500}
-    nav a.link:hover{color:white}
-    .hero{position:relative; overflow:hidden}
-    .hero .wrap{display:grid; grid-template-columns:1.2fr 1fr; gap:2rem; align-items:center; padding:70px 0 40px}
-    .badge{display:inline-flex; gap:.5rem; align-items:center; color:#cbd5e1; padding:.35rem .65rem; border-radius:999px; border:1px solid rgba(124,77,255,.25); background:rgba(17,24,35,.6)}
-    h1{font-size: clamp(2rem, 5vw, 3.25rem); line-height:1.1; margin:.6rem 0}
-    .lead{color:#cbd5e1; font-size:1.07rem; max-width:56ch}
-    .cta{display:flex; gap:.8rem; margin-top:1.2rem; flex-wrap:wrap}
-    .glass{background:linear-gradient(180deg, rgba(124,77,255,.08), rgba(54,209,220,.06)); border:1px solid rgba(124,77,255,.12); border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,.25)}
-    .card{padding:18px}
-    .kpi{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.5rem}
-    .kpi .tile{padding:14px 16px}
-    .kpi .tile h3{font-size:.95rem; color:#a5b4fc; font-weight:600}
-    .kpi .tile p{font-size:1.35rem; font-weight:800}
-    .hero-visual{position:relative; aspect-ratio:1/1; border-radius:20px; background:radial-gradient(100% 60% at 30% 10%, rgba(124,77,255,.25), transparent 60%), radial-gradient(90% 70% at 80% 80%, rgba(54,209,220,.18), transparent 60%), linear-gradient(180deg,#0b0f14,#0b1220); border:1px solid rgba(124,77,255,.15)}
-    .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1rem}
-    section{scroll-margin-top:80px}
-    .section{padding:70px 0}
-    h2{font-size: clamp(1.6rem, 3vw, 2.1rem); margin-bottom: .6rem}
-    .muted{color: var(--muted)}
-    .feature{padding:18px}
-    .feature h3{font-size:1.05rem; margin:.35rem 0}
-    .footer{padding:24px 0; color:#94a3b8; border-top:1px solid rgba(124,77,255,.08)}
-    .chip{display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border-radius:999px; border:1px solid rgba(124,77,255,.25); color:#cbd5e1; font-size:.85rem}
-    .visually-hidden{position:absolute!important; height:1px;width:1px;overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap}
-    @media (max-width: 980px){ .hero .wrap{grid-template-columns:1fr} .grid{grid-template-columns:1fr} .kpi{grid-template-columns:1fr;}}
+    
+    /* --- BASE & TYPOGRAPHY --- */
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      margin: 0; padding: 0;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; margin: 0; line-height: 1.1; }
+    a { text-decoration: none; color: inherit; transition: 0.3s; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .muted { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+    
+    /* --- ANIMATIONS --- */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* --- COMPONENTS --- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px; border-radius: 8px; font-weight: 600; letter-spacing: 0.5px;
+      transition: all 0.3s ease; cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--text); color: var(--bg);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+    
+    .btn-accent {
+      background: var(--gradient); color: #0b0f14;
+    }
+    .btn-accent:hover { box-shadow: 0 0 20px rgba(54, 209, 220, 0.4); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--text); background: rgba(255,255,255,0.05); }
+
+    /* --- HEADER --- */
+    header {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(11, 15, 20, 0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    nav {
+      display: flex; justify-content: space-between; align-items: center; height: 80px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; }
+    .logo-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--gradient);
+      display: grid; place-items: center;
+    }
+    .nav-links { display: flex; gap: 30px; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; opacity: 0.7; }
+    .nav-links a:hover { opacity: 1; color: var(--accent); }
+    
+    @media(max-width: 768px) { .nav-links { display: none; } }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      padding: 160px 0 100px;
+      background: radial-gradient(circle at 50% 0%, rgba(124, 77, 255, 0.15), transparent 70%);
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #fff, #94a3b8);
+      background-clip: border-box;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; }
+    
+    /* --- BENTO GRID (WHY US) --- */
+    .section { padding: 100px 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    .section-header { max-width: 600px; margin-bottom: 60px; }
+    .section-header h2 { font-size: 2.5rem; margin-bottom: 16px; }
+    .bento-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+    }
+    .card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px; padding: 32px; position: relative; overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .card:hover { border-color: rgba(255,255,255,0.2); }
+    .card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+    .card-icon {
+      font-size: 2rem; margin-bottom: 20px; display: inline-block;
+      background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px;
+    }
+
+    /* --- MACROAREE (SCROLL LIST) --- */
+    .macro-list {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    .macro-item {
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px; border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid transparent;
+      transition: 0.3s;
+    }
+    .macro-item:hover { background: rgba(255,255,255,0.06); border-color: var(--accent); transform: translateX(10px); }
+    .macro-num { font-family: 'Space Grotesk'; color: var(--accent); font-weight: 700; font-size: 1.2rem; }
+
+    /* --- COMPARISON TABLE --- */
+    .comparison-table {
+      width: 100%; border-collapse: collapse; margin-top: 40px;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .comparison-table th { text-align: left; font-weight: 400; color: var(--muted); }
+    .comparison-table th:first-child { width: 40%; color: var(--text); font-size: 1.1rem; font-weight: 600; }
+    .check { color: var(--accent); font-size: 1.2rem; }
+    .cross { color: #ef4444; opacity: 0.5; }
+
+    /* --- PRICING --- */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; align-items: center; }
+    .pricing-card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px; padding: 40px 30px; text-align: center;
+    }
+    .pricing-card.featured {
+      border: 2px solid var(--primary);
+      background: linear-gradient(180deg, rgba(124,77,255,0.05), var(--card));
+      transform: scale(1.05);
+    }
+    .price { font-size: 3rem; font-weight: 700; font-family: 'Space Grotesk'; margin: 20px 0; }
+    .period { font-size: 1rem; color: var(--muted); font-weight: 400; }
+    .plan-features { list-style: none; padding: 0; margin: 30px 0; text-align: left; }
+    .plan-features li { margin-bottom: 12px; display: flex; gap: 10px; color: var(--muted); }
+    .plan-features li::before { content: "✓"; color: var(--accent); }
+
+    /* --- FOOTER --- */
+    footer { padding: 60px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: var(--muted); }
+    
+    @media(max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .macro-list { grid-template-columns: 1fr; }
+      .pricing-card.featured { transform: scale(1); }
+    }
   </style>
 </head>
 <body>
-  <a href="#contenuto" class="visually-hidden">Salta al contenuto</a>
+
   <header>
     <div class="container">
       <nav>
-        <div class="brand" aria-label="AI Health Risk">
-          <div class="logo" aria-hidden="true">
-            <!-- inline medical + futuristic cross -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12 3v18M3 12h18" stroke="#c7d2fe" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="12" cy="12" r="9" stroke="#99f6e4" stroke-opacity=".5"/>
-            </svg>
+        <a href="#" class="brand">
+          <div class="logo-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           </div>
-          <span>AI Health Risk</span>
+          <span>HealthInsight</span>
+        </a>
+        <div class="nav-links">
+          <a href="#mission">Perché noi</a>
+          <a href="#macroaree">Cosa monitoriamo</a>
+          <a href="#pricing">Piani</a>
         </div>
-        <ul>
-          <li><a class="link" href="#home">Home</a></li>
-          <li><a class="link" href="#chi-siamo">Chi siamo</a></li>
-          <li><a class="link" href="#contatti">Contatti</a></li>
-        </ul>
-        <div style="display:flex; gap:.5rem">
-          <a class="btn" id="cta-accesso" href="/pages/login.html" aria-label="Accedi">Accedi</a>
+        <div>
+          <a href="/pages/login.html" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.9rem;">Accedi</a>
+          <a href="/pages/register.html" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.9rem; margin-left: 10px;">Inizia ora</a>
         </div>
       </nav>
     </div>
   </header>
 
-  <main id="contenuto">
-    <!-- HERO / HOME -->
-    <section id="home" class="hero section">
-      <div class="container">
-        <div class="wrap">
-          <div>
-            <span class="badge">🧬 Prevenzione personalizzata con AI</span>
-            <h1>Trasforma la tua storia familiare in <span style="color:var(--accent)">insight clinici</span>.</h1>
-            <p class="lead">Dieci macroaree, un’unica dashboard. Compila i questionari, ottieni <strong>risk score</strong> spiegati in modo chiaro e azioni pratiche su <em>stile di vita</em>, <em>follow‑up</em> e <em>nutraceutica</em> — alimentati da YAML configurabili e LLM.</p>
-            <div class="cta">
-              <a class="btn" href="/pages/login.html">Inizia ora</a>
-              <a class="btn secondary" href="#chi-siamo" aria-label="Scopri come funziona">Come funziona</a>
-            </div>
+  <section class="hero">
+    <div class="container fade-up">
+      <span style="color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; font-size: 0.8rem;">Longevity & Prevention AI</span>
+      <h1>Sblocca il tuo<br>potenziale biologico.</h1>
+      <p class="muted">
+        Una piattaforma scientifica che trasforma la tua storia clinica, genetica e stile di vita in un piano d'azione personalizzato per vivere più a lungo e meglio.
+      </p>
+      <div style="display: flex; gap: 16px; justify-content: center; margin-top: 30px;">
+        <a href="/pages/register.html" class="btn btn-accent">Calcola il tuo rischio</a>
+        <a href="#macroaree" class="btn btn-outline">Scopri come funziona</a>
+      </div>
+    </div>
+  </section>
 
-            <div class="kpi">
-              <div class="glass card tile">
-                <h3>Macroaree</h3>
-                <p>10</p>
-                <span class="muted">Genetica, cardio-metabolico, mente-corpo e altro</span>
-              </div>
-              <div class="glass card tile">
-                <h3>Spiegazioni</h3>
-                <p>Trasparenti</p>
-                <span class="muted">Driver principali + red flags</span>
-              </div>
-              <div class="glass card tile">
-                <h3>Consigli</h3>
-                <p>Mirati</p>
-                <span class="muted">Lifestyle • Follow‑up • Nutraceutica*</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-visual glass card" aria-hidden="true">
-            <!-- Simple animated grid / pulse dots -->
-            <svg viewBox="0 0 420 420" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="g1" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#7c4dff" stop-opacity=".9"/>
-                  <stop offset="60%" stop-color="#36d1dc" stop-opacity=".35"/>
-                  <stop offset="100%" stop-color="#0b0f14" stop-opacity="0"/>
-                </radialGradient>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#g1)" opacity=".15"/>
-              <g fill="#99f6e4" fill-opacity=".8">
-                <!-- medical heartbeat polyline -->
-                <polyline points="0,210 40,210 70,150 95,270 130,210 180,210 210,120 240,300 280,210 420,210" stroke="#a78bfa" stroke-width="3" fill="none"/>
-              </g>
-              <!-- nodes -->
-              <g>
-                <circle cx="210" cy="120" r="6">
-                  <animate attributeName="r" values="6;9;6" dur="2.4s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="240" cy="300" r="5">
-                  <animate attributeName="r" values="5;8;5" dur="3s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="95" cy="270" r="4">
-                  <animate attributeName="r" values="4;7;4" dur="2.6s" repeatCount="indefinite"/>
-                </circle>
-              </g>
-            </svg>
-          </div>
+  <section id="mission" class="section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>Non è solo un check-up.<br>È la tua roadmap.</h2>
+        <p class="muted">La medicina tradizionale interviene quando sei malato. Noi ti diamo gli strumenti per non diventarlo.</p>
+      </div>
+      
+      <div class="bento-grid">
+        <div class="card fade-up">
+          <div class="card-icon">🧬</div>
+          <h3>Approccio Olistico</h3>
+          <p class="muted">Non guardiamo solo il sangue. Analizziamo 10 dimensioni della tua salute, dalla genetica all'ambiente in cui vivi.</p>
+        </div>
+        <div class="card fade-up" style="transition-delay: 0.1s">
+          <div class="card-icon">🤖</div>
+          <h3>Intelligenza Artificiale</h3>
+          <p class="muted">I nostri algoritmi incrociano migliaia di dati per individuare "Red Flags" invisibili a occhio nudo.</p>
+        </div>
+        <div class="card fade-up" style="transition-delay: 0.2s">
+          <div class="card-icon">🎯</div>
+          <h3>Azioni Concrete</h3>
+          <p class="muted">Niente gergo medico incomprensibile. Ricevi istruzioni chiare su lifestyle, nutraceutica e controlli da fare.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CHI SIAMO -->
-    <section id="chi-siamo" class="section">
-      <div class="container">
-        <h2>Chi siamo</h2>
-        <p class="muted" style="max-width:70ch">Siamo un team che unisce competenze di <strong>biomedicina</strong>, <strong>data science</strong> e <strong>product design</strong>. La nostra missione è rendere la <em>prevenzione</em> e la <em>consapevolezza del rischio</em> accessibili e comprensibili, con logiche trasparenti basate su <code>YAML</code>, scoring tracciabile e spiegazioni human‑readable.</p>
-        <div class="grid" style="margin-top:1.2rem">
-          <div class="glass feature">
-            <span class="chip">🔍 Trasparenza</span>
-            <h3>Scoring dichiarativo</h3>
-            <p class="muted">Pesi e regole sono definiti in file YAML versionati. Nessun “black box”: sai sempre da dove arriva ogni punto.</p>
-          </div>
-          <div class="glass feature">
-            <span class="chip">🧩 Modulare</span>
-            <h3>10 macroaree</h3>
-            <p class="muted">Ogni macroarea ha questionari dedicati, driver di rischio e azioni mirate (lifestyle, follow‑up, nutraceutica).</p>
-          </div>
-          <div class="glass feature">
-            <span class="chip">🤖 + 🧑‍⚕️</span>
-            <h3>AI al servizio del clinico</h3>
-            <p class="muted">LLM per rendere i risultati chiari; le decisioni finali spettano sempre al professionista sanitario.</p>
-          </div>
+  <section class="section" style="background: linear-gradient(180deg, var(--bg), rgba(124, 77, 255, 0.05));">
+    <div class="container">
+      <div class="section-header fade-up">
+        <h2>Per chi è HealthInsight?</h2>
+      </div>
+      <div class="bento-grid">
+        <div class="card fade-up">
+          <h3>Biohacker & Atleti</h3>
+          <p class="muted">Per chi vuole ottimizzare le performance e spingere il proprio corpo al massimo potenziale.</p>
+        </div>
+        <div class="card fade-up">
+          <h3>Longevity Seekers</h3>
+          <p class="muted">Per chi vuole rallentare l'invecchiamento e prevenire patologie ereditarie o ambientali.</p>
+        </div>
+        <div class="card fade-up">
+          <h3>Aziende (Corporate)</h3>
+          <p class="muted">Per le imprese che vogliono monitorare e migliorare il benessere della propria forza lavoro.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTATTI -->
-    <section id="contatti" class="section">
-      <div class="container">
-        <h2>Contatti</h2>
-        <p class="muted">Hai domande, vuoi collaborare o testare l’MVP con il tuo team? Scrivici.</p>
-        <form class="glass card" style="margin-top:1rem; display:grid; gap:12px" onsubmit="event.preventDefault(); notify();">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
-            <label>Nome<br><input required type="text" name="nome" placeholder="Es. Laura" class="input"/></label>
-            <label>Email<br><input required type="email" name="email" placeholder="laura@email.it" class="input"/></label>
-          </div>
-          <label>Messaggio<br><textarea required rows="4" name="msg" placeholder="Raccontaci brevemente la tua esigenza" class="input"></textarea></label>
-          <div style="display:flex; gap:.6rem; align-items:center; justify-content:space-between">
-            <small class="muted">Risponderemo entro 2–3 giorni lavorativi.</small>
-            <button class="btn" type="submit">Invia</button>
-          </div>
-        </form>
+  <section id="macroaree" class="section">
+    <div class="container">
+      <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+        <div class="fade-up">
+          <h2>10 Dimensioni della Salute.</h2>
+          <p class="muted" style="margin-bottom: 30px;">Il nostro algoritmo analizza ogni aspetto della tua vita per creare il tuo "Health Score".</p>
+          <a href="/pages/register.html" class="btn btn-primary">Inizia l'analisi completa</a>
+        </div>
+        
+        <div class="macro-list fade-up">
+          <div class="macro-item"><span class="macro-num">01</span> Genetica e Storia Familiare</div>
+          <div class="macro-item"><span class="macro-num">02</span> Dati Clinici e Biochimici</div>
+          <div class="macro-item"><span class="macro-num">03</span> Imaging e Funzione</div>
+          <div class="macro-item"><span class="macro-num">04</span> Segni Vitali</div>
+          <div class="macro-item"><span class="macro-num">05</span> Attività Fisica</div>
+          <div class="macro-item"><span class="macro-num">06</span> Nutrizione e Idratazione</div>
+          <div class="macro-item"><span class="macro-num">07</span> Sonno e Ritmi</div>
+          <div class="macro-item"><span class="macro-num">08</span> Funzioni Cognitive</div>
+          <div class="macro-item"><span class="macro-num">09</span> Salute Mentale</div>
+          <div class="macro-item"><span class="macro-num">10</span> Ambiente</div>
+        </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <footer class="footer">
-    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap">
-      <div style="display:flex; align-items:center; gap:.6rem">
-        <div class="logo" style="width:26px;height:26px" aria-hidden="true"></div>
-        <span>© <span id="anno"></span> AI Health Risk</span>
+  <section class="section">
+    <div class="container fade-up">
+      <h2 style="text-align: center; margin-bottom: 40px;">Perché siamo diversi</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Funzionalità</th>
+            <th>Check-up Classico</th>
+            <th>App Generiche</th>
+            <th style="color: var(--accent); font-weight: 700;">HealthInsight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Analisi Genetica e Familiare</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Scoring Algoritmico Trasparente</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Report AI in linguaggio naturale</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Integrazione 10 Macroaree</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Piano d'azione pratico (Lifestyle)</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="pricing" class="section">
+    <div class="container">
+      <div class="section-header fade-up" style="text-align: center; margin: 0 auto 60px;">
+        <h2>Investi nel tuo futuro</h2>
+        <p class="muted">Scegli il piano adatto alle tue esigenze.</p>
       </div>
-      <div style="display:flex; gap:1rem; color:#64748b">
-        <a href="#chi-siamo">Informazioni</a>
-        <a href="#contatti">Contatti</a>
-        <a href="/pages/login.html">Accedi</a>
+
+      <div class="pricing-grid">
+        <div class="pricing-card fade-up">
+          <h3>Starter</h3>
+          <div class="price">Gratis<span class="period">/sempre</span></div>
+          <p class="muted">Per iniziare a conoscere il tuo corpo.</p>
+          <ul class="plan-features">
+            <li>Accesso a 3 Macroaree</li>
+            <li>Score di rischio base</li>
+            <li>Report sintetico</li>
+          </ul>
+          <a href="/pages/register.html" class="btn btn-outline" style="width: 100%">Iscriviti</a>
+        </div>
+
+        <div class="pricing-card featured fade-up" style="transition-delay: 0.1s">
+          <div style="color: var(--primary); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px;">CONSIGLIATO</div>
+          <h3>Longevity Pro</h3>
+          <div class="price">€29<span class="period">/mese</span></div>
+          <p class="muted">Analisi completa a 360 gradi.</p>
+          <ul class="plan-features">
+            <li>Accesso a tutte le 10 Macroaree</li>
+            <li>Report AI approfondito</li>
+            <li>Piano d'azione Nutraceutico</li>
+            <li>Export PDF per il medico</li>
+          </ul>
+          <a href="/pages/register.html" class="btn btn-accent" style="width: 100%">Inizia la prova</a>
+        </div>
+
+        <div class="pricing-card fade-up" style="transition-delay: 0.2s">
+          <h3>Corporate</h3>
+          <div class="price">Su misura</div>
+          <p class="muted">Per il benessere dei tuoi dipendenti.</p>
+          <ul class="plan-features">
+            <li>Dashboard aggregata anonima</li>
+            <li>Reportistica per HR</li>
+            <li>Supporto dedicato</li>
+            <li>Inviti via email gestiti</li>
+          </ul>
+          <a href="mailto:info@healthinsight.com" class="btn btn-outline" style="width: 100%">Contattaci</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div style="margin-bottom: 20px;">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <p>© 2024 HealthInsight. Tutti i diritti riservati.</p>
+      <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+        <a href="#" class="muted">Privacy</a>
+        <a href="#" class="muted">Termini</a>
+        <a href="#" class="muted">Contatti</a>
       </div>
     </div>
   </footer>
 
-  <!-- Script minimi per UX -->
   <script>
-    // Smooth scroll per anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const id=a.getAttribute('href');
-        if(id.length>1){ e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); }
-      });
+    // Scroll Animation Script
+    document.addEventListener('DOMContentLoaded', () => {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      const elements = document.querySelectorAll('.fade-up');
+      elements.forEach(el => observer.observe(el));
     });
-
-    // CTA adattivo: se c'è una sessione, punta alla dashboard
-    (function(){
-      try{
-        const token = localStorage.getItem('authToken');
-        const cta = document.getElementById('cta-accesso');
-        if(token){ cta.textContent='Vai alla dashboard'; cta.href='/pages/dashboard.html'; }
-      }catch{ /* ignore */ }
-    })();
-
-    // piccolo feedback "inviato" per il form contatti (placeholder, poi collegherai /api)
-    function notify(){
-      const b = document.createElement('div');
-      b.textContent = 'Messaggio inviato! Ti ricontatteremo a breve.';
-      b.style.position='fixed'; b.style.right='20px'; b.style.bottom='20px'; b.style.padding='12px 14px'; b.style.borderRadius='12px'; b.style.background='linear-gradient(90deg,var(--primary),var(--accent))'; b.style.boxShadow='0 12px 30px rgba(0,0,0,.3)';
-      document.body.appendChild(b);
-      setTimeout(()=>b.remove(), 2600);
-    }
-
-    // Anno footer
-    document.getElementById('anno').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
