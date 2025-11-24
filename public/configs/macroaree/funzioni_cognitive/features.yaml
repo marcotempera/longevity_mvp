@@ -1,0 +1,197 @@
+macroarea: funzioni_cognitive
+version: 1.0
+description: >
+  Configurazione per la valutazione delle funzioni cognitive.
+  Scoring: Punteggi positivi indicano RISCHIO (deficit, sintomi),
+  punteggi negativi indicano PROTEZIONE (buone performance, training).
+
+features:
+
+  # ============================
+  # ATTENZIONE E IMPULSIVITÀ
+  # ============================
+  - name: difficolta_concentrazione
+    type: categorical
+    allowed: ["1", "2", "3", "4"]
+    map_to_score: {"1": 4, "2": 2, "3": -1, "4": -2}
+    red_flag_if_in: ["1"]
+    related_pathologies: [HER257, HER043]
+    notes: "Deficit di attenzione nell'adulto possono indicare ADHD non diagnosticato o stress cronico."
+
+  - name: difficolta_concentrazione_tempo
+    type: text
+    store: true
+
+  - name: difficolta_controllo_impulsivita_e_attenzione
+    type: categorical
+    allowed: ["1", "2", "3", "4"]
+    map_to_score: {"1": 4, "2": 2, "3": -1, "4": -2}
+    red_flag_if_in: ["1"]
+    related_pathologies: [HER257, HER229]
+    notes: "L'impulsività può essere legata a disfunzioni del lobo frontale o disturbi del neurosviluppo."
+
+  - name: difficolta_controllo_impulsivita_e_attenzione_tempo
+    type: text
+    store: true
+
+  - name: attenzione_durata
+    type: categorical
+    allowed: [oltre_30_min, 15_30_min, meno_15, variabile]
+    map_to_score: {oltre_30_min: -2, 15_30_min: 0, meno_15: 3, variabile: 1}
+    notes: "Una ridotta capacità di attenzione sostenuta è un marker precoce di affaticamento cognitivo."
+
+  - name: note_attenzione_durata
+    type: text
+    store: true
+
+  - name: multitasking_difficoltà
+    type: categorical
+    allowed: [frequente, a_volte, no, non_so]
+    map_to_score: {frequente: 2, a_volte: 1, no: -1, non_so: 0}
+    notes: "La difficoltà nel multitasking riflette l'efficienza delle funzioni esecutive e della memoria di lavoro."
+
+  - name: note_multitasking_difficoltà
+    type: text
+    store: true
+
+  - name: rilettura_testo
+    type: categorical
+    allowed: [frequente, qualche_volta, raramente, mai]
+    map_to_score: {frequente: 3, qualche_volta: 1, raramente: 0, mai: -1}
+    related_pathologies: [HER257, HER243]
+
+  - name: note_rilettura_testo
+    type: text
+    store: true
+
+  # ============================
+  # MEMORIA E LUCIDITÀ
+  # ============================
+  - name: dimenticanze_quotidiane
+    type: categorical
+    allowed: [frequente, occasionale, raro, mai]
+    map_to_score: {frequente: 3, occasionale: 1, raro: 0, mai: -2}
+    related_pathologies: [HER012, HER242]
+    notes: "Dimenticanze frequenti (memoria prospettica) possono indicare sovraccarico o declino cognitivo lieve."
+
+  - name: note_dimenticanze_quotidiane
+    type: text
+    store: true
+
+  - name: dimenticanze_nominali
+    type: categorical
+    allowed: [frequente, qualche_volta, raro, mai]
+    map_to_score: {frequente: 2, qualche_volta: 1, raro: 0, mai: -1}
+
+  - name: note_dimenticanze_nominali
+    type: text
+    store: true
+
+  - name: cambiamenti_mentali
+    type: categorical
+    allowed: [peggiorato, invariato, migliorato, non_so]
+    map_to_score: {peggiorato: 4, invariato: 0, migliorato: -2, non_so: 0}
+    red_flag_if_in: [peggiorato]
+    related_pathologies: [HER242, HER243, HER244]
+    notes: "Il declino cognitivo soggettivo (SCD) è un potenziale precursore di MCI."
+
+  - name: note_cambiamenti_mentali
+    type: text
+    store: true
+
+  - name: rallentamento_mentale
+    type: categorical
+    allowed: [molto, leggero, no, non_so]
+    map_to_score: {molto: 4, leggero: 2, no: -1, non_so: 0}
+    red_flag_if_in: [molto]
+    related_pathologies: [HER243, HER251, HER116]
+    notes: "La bradifrenia (rallentamento) è comune in patologie vascolari, metaboliche o depressive."
+
+  - name: note_rallentamento_mentale
+    type: text
+    store: true
+
+  # ============================
+  # LINGUAGGIO E FUNZIONI ESECUTIVE
+  # ============================
+  - name: anomia_linguaggio
+    type: categorical
+    allowed: [frequente, qualche_volta, raro, mai]
+    map_to_score: {frequente: 4, qualche_volta: 1, raro: 0, mai: -1}
+    red_flag_if_in: [frequente]
+    related_pathologies: [HER234, HER011]
+    notes: "L'anomia (difficoltà a trovare le parole) persistente richiede valutazione neuropsicologica."
+
+  - name: note_anomia_linguaggio
+    type: text
+    store: true
+
+  - name: discorso_filo
+    type: categorical
+    allowed: [spesso, a_volte, raro, mai]
+    map_to_score: {spesso: 3, a_volte: 1, raro: 0, mai: -1}
+
+  - name: note_discorso_filo
+    type: text
+    store: true
+
+  - name: difficoltà_pianificazione
+    type: categorical
+    allowed: [frequente, a_volte, no, non_so]
+    map_to_score: {frequente: 3, a_volte: 1, no: -2, non_so: 0}
+    notes: "Deficit nelle funzioni esecutive (pianificazione) sono tipici dell'invecchiamento frontale o stress."
+
+  - name: note_difficoltà_pianificazione
+    type: text
+    store: true
+
+  # ============================
+  # SINTOMI SENSORIALI E NEUROLOGICI
+  # ============================
+  - name: allucinazioni_uditive_acufene_PTSD
+    type: categorical
+    allowed: [diagnosi_confermata, sintomi_non_trattati, problemi_passati, mai_avuti]
+    map_to_score: {diagnosi_confermata: 5, sintomi_non_trattati: 5, problemi_passati: 2, mai_avuti: 0}
+    red_flag_if_in: [diagnosi_confermata, sintomi_non_trattati]
+    related_pathologies: [HER040, HER231, HER235]
+    notes: "Sintomi neuropsichiatrici complessi richiedono gestione specialistica."
+
+  - name: allucinazioni_uditive_acufene_PTSD_tempo
+    type: text
+    store: true
+
+  - name: disorientamento
+    type: categorical
+    allowed: [frequente, a_volte, raro, mai]
+    map_to_score: {frequente: 6, a_volte: 3, raro: 1, mai: 0}
+    red_flag_if_in: [frequente]
+    related_pathologies: [HER011, HER235]
+    notes: "Il disorientamento spaziale è un sintomo di allarme per patologie neurodegenerative."
+
+  - name: note_disorientamento
+    type: text
+    store: true
+
+  - name: valutazione_neuropsico
+    type: categorical
+    allowed: [si_formale, si_screening, no, non_so]
+    map_to_score: {si_formale: 0, si_screening: 0, no: 0, non_so: 0}
+    notes: "Dato informativo sulla storia clinica."
+
+  - name: note_valutazione_neuropsico
+    type: text
+    store: true
+
+  # ============================
+  # TRAINING COGNITIVO
+  # ============================
+  - name: giochi_miglioramento_memoria_attenzione
+    type: categorical
+    allowed: [uso_regolare, uso_passato, conosco_ma_mai_provati, non_conosco]
+    map_to_score: {uso_regolare: -2, uso_passato: -1, conosco_ma_mai_provati: 0, non_conosco: 0}
+    notes: "L'allenamento cognitivo regolare è un fattore protettivo per la riserva cognitiva."
+
+  - name: seguire_programma_migliora_memoria
+    type: categorical
+    allowed: [seguito_programma, interessato, conosco_ma_dubbi, non_interessato]
+    map_to_score: {seguito_programma: -2, interessato: -1, conosco_ma_dubbi: 0, non_interessato: 0}

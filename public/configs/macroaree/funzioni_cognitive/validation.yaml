@@ -1,0 +1,72 @@
+macroarea: funzioni_cognitive
+version: 1.0
+
+rules:
+  # ===== ATTENZIONE E IMPULSIVITÀ =====
+  - feature: difficolta_concentrazione
+    rule: "if includes '4' then set to ['4']"
+
+  - feature: difficolta_controllo_impulsivita_e_attenzione
+    rule: "if includes '4' then set to ['4']"
+
+  - feature: attenzione_durata
+    rule: "if includes 'variabile' then set to ['variabile']"
+
+  - feature: multitasking_difficoltà
+    rule: "if includes 'no' then set to ['no']"
+  - feature: multitasking_difficoltà
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: rilettura_testo
+    rule: "if includes 'mai' then set to ['mai']"
+
+  # ===== MEMORIA E LUCIDITÀ =====
+  - feature: dimenticanze_quotidiane
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: dimenticanze_nominali
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: cambiamenti_mentali
+    rule: "if includes 'invariato' then set to ['invariato']"
+  - feature: cambiamenti_mentali
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  - feature: rallentamento_mentale
+    rule: "if includes 'no' then set to ['no']"
+  - feature: rallentamento_mentale
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== LINGUAGGIO E PIANIFICAZIONE =====
+  - feature: anomia_linguaggio
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: discorso_filo
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: difficoltà_pianificazione
+    rule: "if includes 'no' then set to ['no']"
+  - feature: difficoltà_pianificazione
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== SINTOMI SENSORIALI E NEUROLOGICI =====
+  - feature: allucinazioni_uditive_acufene_PTSD
+    rule: "if includes 'mai_avuti' then set to ['mai_avuti']"
+
+  - feature: disorientamento
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: valutazione_neuropsico
+    rule: "if includes 'no' then set to ['no']"
+  - feature: valutazione_neuropsico
+    rule: "if includes 'non_so' then set to ['non_so']"
+
+  # ===== TRAINING COGNITIVO =====
+  - feature: giochi_miglioramento_memoria_attenzione
+    rule: "if includes 'non_conosco' then set to ['non_conosco']"
+
+  - feature: seguire_programma_migliora_memoria
+    rule: "if includes 'non_interessato' then set to ['non_interessato']"
+
+missing:
+  strategy: "per_feature_policy"

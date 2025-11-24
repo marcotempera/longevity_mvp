@@ -1,0 +1,189 @@
+macroarea: funzioni_cognitive
+version: 1.0
+
+map:
+  # ===== ATTENZIONE E IMPULSIVITÀ =====
+  difficolta_concentrazione[]:
+    feature: difficolta_concentrazione
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+  difficolta_concentrazione_tempo:
+    feature: difficolta_concentrazione_tempo
+    passthrough: true
+
+  difficolta_controllo_impulsivita_e_attenzione[]:
+    feature: difficolta_controllo_impulsivita_e_attenzione
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+  difficolta_controllo_impulsivita_e_attenzione_tempo:
+    feature: difficolta_controllo_impulsivita_e_attenzione_tempo
+    passthrough: true
+
+  allucinazioni_uditive_acufene_PTSD[]:
+    feature: allucinazioni_uditive_acufene_PTSD
+    values:
+      diagnosi_confermata: diagnosi_confermata
+      sintomi_non_trattati: sintomi_non_trattati
+      problemi_passati: problemi_passati
+      mai_avuti: mai_avuti
+  allucinazioni_uditive_acufene_PTSD_tempo:
+    feature: allucinazioni_uditive_acufene_PTSD_tempo
+    passthrough: true
+
+  # ===== TRAINING COGNITIVO =====
+  giochi_miglioramento_memoria_attenzione[]:
+    feature: giochi_miglioramento_memoria_attenzione
+    values:
+      uso_regolare: uso_regolare
+      uso_passato: uso_passato
+      conosco_ma_mai_provati: conosco_ma_mai_provati
+      non_conosco: non_conosco
+
+  seguire_programma_migliora_memoria[]:
+    feature: seguire_programma_migliora_memoria
+    values:
+      seguito_programma: seguito_programma
+      interessato: interessato
+      conosco_ma_dubbi: conosco_ma_dubbi
+      non_interessato: non_interessato
+
+  # ===== MEMORIA E LUCIDITÀ =====
+  dimenticanze_quotidiane[]:
+    feature: dimenticanze_quotidiane
+    values:
+      frequente: frequente
+      occasionale: occasionale
+      raro: raro
+      mai: mai
+  note_dimenticanze_quotidiane:
+    feature: note_dimenticanze_quotidiane
+    passthrough: true
+
+  dimenticanze_nominali[]:
+    feature: dimenticanze_nominali
+    values:
+      frequente: frequente
+      qualche_volta: qualche_volta
+      raro: raro
+      mai: mai
+  note_dimenticanze_nominali:
+    feature: note_dimenticanze_nominali
+    passthrough: true
+
+  cambiamenti_mentali[]:
+    feature: cambiamenti_mentali
+    values:
+      peggiorato: peggiorato
+      invariato: invariato
+      migliorato: migliorato
+      non_so: non_so
+  note_cambiamenti_mentali:
+    feature: note_cambiamenti_mentali
+    passthrough: true
+
+  rallentamento_mentale[]:
+    feature: rallentamento_mentale
+    values:
+      molto: molto
+      leggero: leggero
+      no: no
+      non_so: non_so
+  note_rallentamento_mentale:
+    feature: note_rallentamento_mentale
+    passthrough: true
+
+  # ===== LINGUAGGIO E FUNZIONI ESECUTIVE =====
+  anomia_linguaggio[]:
+    feature: anomia_linguaggio
+    values:
+      frequente: frequente
+      qualche_volta: qualche_volta
+      raro: raro
+      mai: mai
+  note_anomia_linguaggio:
+    feature: note_anomia_linguaggio
+    passthrough: true
+
+  discorso_filo[]:
+    feature: discorso_filo
+    values:
+      spesso: spesso
+      a_volte: a_volte
+      raro: raro
+      mai: mai
+  note_discorso_filo:
+    feature: note_discorso_filo
+    passthrough: true
+
+  attenzione_durata[]:
+    feature: attenzione_durata
+    values:
+      oltre_30_min: oltre_30_min
+      15_30_min: 15_30_min
+      meno_15: meno_15
+      variabile: variabile
+  note_attenzione_durata:
+    feature: note_attenzione_durata
+    passthrough: true
+
+  multitasking_difficoltà[]:
+    feature: multitasking_difficoltà
+    values:
+      frequente: frequente
+      a_volte: a_volte
+      no: no
+      non_so: non_so
+  note_multitasking_difficoltà:
+    feature: note_multitasking_difficoltà
+    passthrough: true
+
+  rilettura_testo[]:
+    feature: rilettura_testo
+    values:
+      frequente: frequente
+      qualche_volta: qualche_volta
+      raramente: raramente
+      mai: mai
+  note_rilettura_testo:
+    feature: note_rilettura_testo
+    passthrough: true
+
+  difficoltà_pianificazione[]:
+    feature: difficoltà_pianificazione
+    values:
+      frequente: frequente
+      a_volte: a_volte
+      no: no
+      non_so: non_so
+  note_difficoltà_pianificazione:
+    feature: note_difficoltà_pianificazione
+    passthrough: true
+
+  # ===== SINTOMI SENSORIALI E NEUROLOGICI =====
+  disorientamento[]:
+    feature: disorientamento
+    values:
+      frequente: frequente
+      a_volte: a_volte
+      raro: raro
+      mai: mai
+  note_disorientamento:
+    feature: note_disorientamento
+    passthrough: true
+
+  valutazione_neuropsico[]:
+    feature: valutazione_neuropsico
+    values:
+      si_formale: si_formale
+      si_screening: si_screening
+      no: no
+      non_so: non_so
+  note_valutazione_neuropsico:
+    feature: note_valutazione_neuropsico
+    passthrough: true

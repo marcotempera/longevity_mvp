@@ -1,0 +1,127 @@
+macroarea: funzioni_cognitive
+version: 1.0
+
+aggregation:
+  method: weighted_sum
+  weights:
+    # ===== ATTENZIONE E IMPULSIVITÀ (Peso Alto) =====
+    difficolta_concentrazione: 2.0
+    difficolta_controllo_impulsivita_e_attenzione: 2.0
+    attenzione_durata: 1.5
+    multitasking_difficoltà: 1.2
+    rilettura_testo: 1.2
+
+    # ===== MEMORIA E LUCIDITÀ (Peso Alto) =====
+    dimenticanze_quotidiane: 1.5
+    dimenticanze_nominali: 1.0
+    cambiamenti_mentali: 2.5        # Indicatore critico di declino
+    rallentamento_mentale: 2.0
+
+    # ===== LINGUAGGIO E PIANIFICAZIONE (Peso Medio-Alto) =====
+    anomia_linguaggio: 1.8
+    discorso_filo: 1.5
+    difficoltà_pianificazione: 1.8  # Funzioni esecutive
+
+    # ===== SINTOMI SENSORIALI E NEUROLOGICI (Peso Molto Alto) =====
+    allucinazioni_uditive_acufene_PTSD: 3.0
+    disorientamento: 3.0            # Red flag importante
+    valutazione_neuropsico: 1.0     # Informativo
+
+    # ===== TRAINING COGNITIVO (Peso Basso - Fattori protettivi) =====
+    giochi_miglioramento_memoria_attenzione: 0.5
+    seguire_programma_migliora_memoria: 0.5
+
+  cap_total: 100
+
+modulation:
+  apply_sex_factor: false
+  apply_age_window: false
+  caps:
+    per_pathology_factor_max: 1.8
+    global_factor_max: 2.0
+
+classification:
+  # Risk Score: 0 = Ottimo (Cognitivamente Sano), 100 = Pessimo (Declino/Patologia)
+  low:
+    max: 25        # Funzioni cognitive preservate
+  medium:
+    min: 26
+    max: 60        # Difficoltà lievi o soggettive (SCI/MCI iniziale)
+  high:
+    min: 61        # Sintomi significativi o patologie diagnosticate
+
+explanations:
+  top_k_drivers: 5
+  include_negative_drivers: true
+  min_contribution_pct: 5
+  show_percent_contribution: true
+  group_by_domain: true
+
+  overall_narratives:
+    low: >
+      Le tue funzioni cognitive appaiono ben preservate. Non si evidenziano difficoltà significative 
+      in memoria, attenzione o linguaggio. Mantenere uno stile di vita attivo e stimolante è la 
+      strategia migliore per preservare questa condizione nel tempo.
+    medium: >
+      Sono presenti alcune difficoltà cognitive (es. memoria, concentrazione o velocità di elaborazione) 
+      che potrebbero indicare un sovraccarico mentale, stress o un inizio di declino soggettivo. 
+      È consigliabile monitorare l'evoluzione e potenziare le riserve cognitive.
+    high: >
+      Il profilo evidenzia criticità importanti nelle funzioni cognitive superiori o sintomi 
+      neurologici specifici (es. disorientamento, allucinazioni, diagnosi pregresse). 
+      È fortemente raccomandato un approfondimento clinico per escludere patologie neurodegenerative o psichiatriche.
+
+  driver_templates:
+    # ==== Attenzione ====
+    difficolta_concentrazione: >
+      Problemi di attenzione e concentrazione che interferiscono con le attività quotidiane (sospetto ADHD o deficit attentivo).
+    difficolta_controllo_impulsivita_e_attenzione: >
+      Difficoltà nella regolazione degli impulsi o diagnosi neurologiche che impattano sull'autocontrollo.
+    
+    # ==== Memoria e Lucidità ====
+    cambiamenti_mentali: >
+      Percezione soggettiva di peggioramento della lucidità (Brain Fog) o delle capacità mentali rispetto al passato.
+    rallentamento_mentale: >
+      Sensazione di rallentamento nella velocità di elaborazione del pensiero, marker sensibile di invecchiamento cerebrale.
+    dimenticanze_quotidiane: >
+      Frequenti episodi di dimenticanza che impattano sulla gestione della vita quotidiana (memoria prospettica).
+
+    # ==== Funzioni Esecutive e Linguaggio ====
+    difficoltà_pianificazione: >
+      Deficit nelle funzioni esecutive (pianificazione, organizzazione), spesso legati al lobo frontale.
+    anomia_linguaggio: >
+      Difficoltà nel trovare le parole (anomia), possibile segnale di affaticamento o disturbi del linguaggio.
+    disorientamento: >
+      Episodi di confusione o disorientamento spaziale, un sintomo che richiede sempre attenzione medica.
+
+    # ==== Neurologico ====
+    allucinazioni_uditive_acufene_PTSD: >
+      Presenza di sintomi neuropsichiatrici o sensoriali complessi che richiedono gestione specialistica.
+
+  class_explanations:
+    low: >
+      Performance cognitiva ottimale e assenza di sintomi rilevanti.
+    medium: >
+      Presenza di disturbi cognitivi lievi o specifici (es. {top_driver_names}).
+    high: >
+      Compromissione significativa di domini cognitivi chiave, guidata da (es. {top_driver_names}).
+
+red_flags:
+  # ==== Sintomi Neurologici Maggiori ====
+  - condition: "disorientamento in ['frequente']"
+    action: "VISITA NEUROLOGICA URGENTE: Il disorientamento frequente può indicare patologie neurodegenerative o metaboliche."
+  
+  - condition: "allucinazioni_uditive_acufene_PTSD in ['diagnosi_confermata', 'sintomi_non_trattati']"
+    action: "Consultare uno specialista (Neurologo/Psichiatra) per valutare o adeguare la terapia."
+
+  # ==== Declino Cognitivo Rapido ====
+  - condition: "cambiamenti_mentali in ['peggiorato'] and rallentamento_mentale in ['molto']"
+    action: "Valutazione Neuropsicologica completa per oggettivare il declino cognitivo (MCI vs invecchiamento)."
+
+  # ==== ADHD / Impulsività Adulto ====
+  - condition: "difficolta_concentrazione in ['1'] or difficolta_controllo_impulsivita_e_attenzione in ['1']"
+    action: "Se la diagnosi è confermata ma non trattata, valutare supporto specialistico per la gestione dei sintomi."
+
+  # ==== Linguaggio ====
+  - condition: "anomia_linguaggio in ['frequente']"
+    action: "Monitorare le difficoltà di linguaggio; se peggiorano, richiedere valutazione logopedica o neurologica."

@@ -1,0 +1,115 @@
+macroarea: funzioni_cognitive
+version: 1.0
+description: "Azioni per il supporto delle funzioni cognitive, la gestione dello stress mentale e il monitoraggio del declino cognitivo."
+
+actions:
+
+  # ============================
+  # ATTENZIONE E IMPULSIVITÀ
+  # ============================
+  difficolta_concentrazione:
+    "1":
+      lifestyle:
+        - "Adottare tecniche di gestione del tempo (es. Tecnica Pomodoro) per strutturare le sessioni di lavoro."
+        - "Minimizzare le distrazioni ambientali e digitali durante le attività che richiedono focus."
+      clinical:
+        - "VISITA SPECIALISTICA (Psichiatra/Neurologo esperto in ADHD adulto) per confermare diagnosi e valutare terapia."
+        - "Valutazione neuropsicologica per quantificare il deficit attentivo."
+
+  difficolta_controllo_impulsivita_e_attenzione:
+    "1":
+      lifestyle:
+        - "Praticare regolarmente la Mindfulness per migliorare la regolazione emotiva e l'autocontrollo."
+      clinical:
+        - "Monitoraggio neurologico se presente diagnosi di epilessia o disturbi del controllo degli impulsi."
+
+  attenzione_durata:
+    meno_15:
+      lifestyle:
+        - "Allenare l'attenzione con sessioni brevi e incrementali di lettura o ascolto attivo."
+      nutraceutical:
+        - "Valutare con il medico l'integrazione di Omega-3 (EPA/DHA) per il supporto delle membrane neuronali."
+      clinical:
+        - "Escludere cause organiche di affaticabilità mentale (es. apnee del sonno, carenze vitaminiche)."
+
+  # ============================
+  # MEMORIA E LUCIDITÀ
+  # ============================
+  cambiamenti_mentali:
+    peggiorato:
+      lifestyle:
+        - "Priorità assoluta al sonno e all'esercizio fisico aerobico (che stimola il BDNF e la neuroplasticità)."
+        - "Ridurre il carico di stress cronico che impatta negativamente sull'ippocampo (memoria)."
+      nutraceutical:
+        - "Considerare, previo parere medico, integratori neurotrofici (es. Citicolina, Fosfatidilserina)."
+      clinical:
+        - "VISITA NEUROLOGICA per 'Declino Cognitivo Soggettivo' (SCD) o sospetto MCI (Mild Cognitive Impairment)."
+        - "Dosaggio vitamina B12, Folati, TSH e Omocisteina."
+
+  dimenticanze_quotidiane:
+    frequente:
+      lifestyle:
+        - "Utilizzare ausili esterni (agende, promemoria digitali) per scaricare il carico cognitivo."
+        - "Creare routine fisse per gli oggetti di uso comune (chiavi, portafoglio)."
+      clinical:
+        - "Test di screening cognitivo (es. MoCA o MMSE) per valutare la memoria a breve termine."
+
+  rallentamento_mentale:
+    molto:
+      lifestyle:
+        - "Mantenere una vita sociale attiva per stimolare la velocità di elaborazione."
+        - "Evitare l'isolamento."
+      clinical:
+        - "Approfondimento per escludere depressione (pseudodemenza) o patologie metaboliche."
+
+  # ============================
+  # LINGUAGGIO E FUNZIONI ESECUTIVE
+  # ============================
+  anomia_linguaggio:
+    frequente:
+      lifestyle:
+        - "Leggere ad alta voce e praticare cruciverba o giochi di parole."
+      clinical:
+        - "Se il disturbo peggiora, richiedere una valutazione logopedica o neurologica specifica."
+
+  difficoltà_pianificazione:
+    frequente:
+      lifestyle:
+        - "Scomporre i compiti complessi in step più piccoli e gestibili (chunking)."
+      clinical:
+        - "Valutazione delle funzioni esecutive (lobo frontale)."
+
+  # ============================
+  # SINTOMI SENSORIALI E NEUROLOGICI
+  # ============================
+  disorientamento:
+    frequente:
+      lifestyle:
+        - "Evitare di uscire da soli in ambienti nuovi o non familiari finché non si è valutati."
+      clinical:
+        - "VISITA NEUROLOGICA URGENTE: il disorientamento topografico è un segno di allarme importante."
+        - "Neuroimaging (Risonanza Magnetica Encefalo) se indicato dallo specialista."
+
+  allucinazioni_uditive_acufene_PTSD:
+    diagnosi_confermata:
+      lifestyle:
+        - "Evitare l'uso di sostanze psicoattive (alcol, droghe) che possono peggiorare i sintomi."
+      clinical:
+        - "Aderenza stretta alla terapia farmacologica o psicoterapica prescritta."
+
+    sintomi_non_trattati:
+      clinical:
+        - "Consulto Psichiatrico o Neurologico immediato per inquadramento diagnostico."
+
+  # ============================
+  # TRAINING E PREVENZIONE
+  # ============================
+  giochi_miglioramento_memoria_attenzione:
+    non_conosco:
+      lifestyle:
+        - "Considerare l'apprendimento di una nuova abilità (lingua, strumento musicale) come miglior forma di neuroprotezione."
+
+  seguire_programma_migliora_memoria:
+    interessato:
+      lifestyle:
+        - "Esplorare corsi di ginnastica mentale o app validate scientificamente per il training cognitivo."

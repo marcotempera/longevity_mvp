@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Questionario — Funzioni Cognitive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#111823;
+      --muted:#94a3b8;
+      --primary:#7c4dff;
+      --accent:#36d1dc;
+      --success:#22c55e;
+    }
+    body{
+      background:radial-gradient(1000px 600px at 80% -10%, #0f1d2e, var(--bg) 60%);
+      color:#eaf6ff;
+      font-family:Poppins,sans-serif;
+      margin:0;
+      padding:0;
+    }
+    .wrap{max-width:1100px;margin:40px auto;padding:0 20px 60px}
+    .card{
+      background:rgba(255,255,255,0.06);
+      border:1px solid #1a324a;
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:20px;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      color:#0d1624;
+      border:0;
+      border-radius:10px;
+      padding:12px 20px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform .2s;
+    }
+    .cta:hover{transform:translateY(-2px)}
+    .cta.secondary{
+      background:#1a324a;
+      color:#eaf6ff;
+    }
+    .progress-bar{
+      background:#1a324a;
+      height:8px;
+      border-radius:5px;
+      margin:15px 0;
+      overflow:hidden;
+    }
+    .progress-bar>div{
+      background:linear-gradient(90deg,var(--accent),#0077ff);
+      height:100%;
+      width:10%;
+      border-radius:5px;
+      transition:width .3s;
+    }
+    h1,h2{font-family:'Space Grotesk',sans-serif;margin-top:0}
+    h2{font-size:1.4rem;margin-bottom:20px}
+    h5{font-weight:400;color:var(--muted);margin-top:-10px;margin-bottom:20px;line-height:1.5}
+    .muted{color:var(--muted);font-size:.9rem}
+    .field{margin:24px 0}
+    .field>label{
+      display:block;
+      font-weight:600;
+      margin-bottom:12px;
+      font-size:1rem;
+    }
+    .grid-options{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+    }
+    .option-label{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      cursor:pointer;
+      transition:all .2s;
+      font-size: 0.95rem;
+    }
+    .option-label:hover{
+      border-color:var(--accent);
+      background:rgba(54,209,220,0.1);
+    }
+    .option-label input{
+      accent-color:var(--accent);
+      width: 16px; 
+      height: 16px;
+    }
+    textarea, input[type="text"]{
+      width:100%;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      color:#eaf6ff;
+      font-family:inherit;
+      font-size:.95rem;
+      margin-top: 8px;
+    }
+    textarea:focus, input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(54,209,220,0.2);
+    }
+    .actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .error{
+      background:rgba(239,68,68,0.1);
+      border:1px solid #ef4444;
+      color:#fca5a5;
+      padding:12px;
+      border-radius:10px;
+      margin:16px 0;
+      display:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h1 style="margin:0">🧠 Funzioni Cognitive</h1>
+        <p class="muted">Compila questa macroarea. Le risposte verranno salvate automaticamente.</p>
+        <div class="progress-bar"><div id="progressFill"></div></div>
+      </div>
+      <a class="cta secondary" href="/pages/dashboard.html">← Dashboard</a>
+    </div>
+
+    <div class="error" id="errorBox"></div>
+
+    <form id="macroForm">
+      
+      <div class="card">
+        <h2>⚡ Diagnosi e Sintomi Specifici</h2>
+        <h5>Se disponi di un test neuropsicologico recente, i dati ci aiuteranno a personalizzare il report.</h5>
+
+        <div class="field">
+          <label>179. Hai mai sperimentato difficoltà di concentrazione o impulsività che interferiscono con lavoro/studio?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="difficolta_concentrazione" value="1"> Sì, diagnosticato/sospetto ADHD</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_concentrazione" value="2"> Sì, ma senza diagnosi</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_concentrazione" value="3"> No, ma voglio potenziare il focus</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_concentrazione" value="4"> No, nessun problema</label>
+          </div>
+          <textarea name="difficolta_concentrazione_tempo" rows="2" placeholder="Quanto tempo fa e per quanto tempo?"></textarea>
+        </div>
+
+        <div class="field">
+          <label>180. Hai difficoltà a controllare l’impulsività o l’attenzione, o soffri di epilessia resistente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="difficolta_controllo_impulsivita_e_attenzione" value="1"> Sì, diagnosi ADHD/Epilessia</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_controllo_impulsivita_e_attenzione" value="2"> Sì, sintomi simili senza diagnosi</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_controllo_impulsivita_e_attenzione" value="3"> No, ma vorrei migliorare l'autoregolazione</label>
+            <label class="option-label"><input type="checkbox" name="difficolta_controllo_impulsivita_e_attenzione" value="4"> No, nessun problema</label>
+          </div>
+          <textarea name="difficolta_controllo_impulsivita_e_attenzione_tempo" rows="2" placeholder="Dettagli temporali..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>181. Hai mai sofferto di allucinazioni uditive, acufene cronico o PTSD?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="allucinazioni_uditive_acufene_PTSD" value="diagnosi_confermata"> Sì, diagnosi confermata</label>
+            <label class="option-label"><input type="checkbox" name="allucinazioni_uditive_acufene_PTSD" value="sintomi_non_trattati"> Sì, sintomi non trattati</label>
+            <label class="option-label"><input type="checkbox" name="allucinazioni_uditive_acufene_PTSD" value="problemi_passati"> In passato</label>
+            <label class="option-label"><input type="checkbox" name="allucinazioni_uditive_acufene_PTSD" value="mai_avuti"> No, mai</label>
+          </div>
+          <textarea name="allucinazioni_uditive_acufene_PTSD_tempo" rows="2" placeholder="Dettagli temporali..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🎮 Training e Potenziamento</h2>
+
+        <div class="field">
+          <label>182. Usi giochi/app per allenare la mente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="giochi_miglioramento_memoria_attenzione" value="uso_regolare"> Sì, regolarmente</label>
+            <label class="option-label"><input type="checkbox" name="giochi_miglioramento_memoria_attenzione" value="uso_passato"> Sì, in passato</label>
+            <label class="option-label"><input type="checkbox" name="giochi_miglioramento_memoria_attenzione" value="conosco_ma_mai_provati"> Mai provati</label>
+            <label class="option-label"><input type="checkbox" name="giochi_miglioramento_memoria_attenzione" value="non_conosco"> Non conosco</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>183. Saresti interessato a un programma strutturato per la memoria?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="seguire_programma_migliora_memoria" value="seguito_programma"> Già seguito</label>
+            <label class="option-label"><input type="checkbox" name="seguire_programma_migliora_memoria" value="interessato"> Sì, interessato</label>
+            <label class="option-label"><input type="checkbox" name="seguire_programma_migliora_memoria" value="conosco_ma_dubbi"> Ho dubbi</label>
+            <label class="option-label"><input type="checkbox" name="seguire_programma_migliora_memoria" value="non_interessato"> No</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🧠 Memoria e Lucidità Quotidiana</h2>
+
+        <div class="field">
+          <label>184. Dimentichi frequentemente appuntamenti o dove hai lasciato oggetti?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="dimenticanze_quotidiane" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="dimenticanze_quotidiane" value="occasionale"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="dimenticanze_quotidiane" value="raro"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="dimenticanze_quotidiane" value="mai"> Mai / Quasi mai</label>
+          </div>
+          <input type="text" name="note_dimenticanze_quotidiane" placeholder="Usi promemoria?">
+        </div>
+
+        <div class="field">
+          <label>185. Hai difficoltà a trovare le parole giuste (anomia) o completare frasi?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="anomia_linguaggio" value="frequente"> Sì, frequente</label>
+            <label class="option-label"><input type="checkbox" name="anomia_linguaggio" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="anomia_linguaggio" value="raro"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="anomia_linguaggio" value="mai"> Mai</label>
+          </div>
+          <input type="text" name="note_anomia_linguaggio" placeholder="Note...">
+        </div>
+
+        <div class="field">
+          <label>186. Quanto riesci a mantenere l’attenzione su un compito senza distrazioni?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="attenzione_durata" value="oltre_30_min"> > 30 min con facilità</label>
+            <label class="option-label"><input type="checkbox" name="attenzione_durata" value="15_30_min"> 15–30 minuti</label>
+            <label class="option-label"><input type="checkbox" name="attenzione_durata" value="meno_15"> < 15 minuti</label>
+            <label class="option-label"><input type="checkbox" name="attenzione_durata" value="variabile"> Dipende dal contesto</label>
+          </div>
+          <input type="text" name="note_attenzione_durata" placeholder="Note su strategie usate">
+        </div>
+
+        <div class="field">
+          <label>187. Hai notato cambiamenti nella lucidità mentale (brain fog, confusione)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="cambiamenti_mentali" value="peggiorato"> Sì, peggiorato</label>
+            <label class="option-label"><input type="checkbox" name="cambiamenti_mentali" value="invariato"> Stabile</label>
+            <label class="option-label"><input type="checkbox" name="cambiamenti_mentali" value="migliorato"> Migliorato</label>
+            <label class="option-label"><input type="checkbox" name="cambiamenti_mentali" value="non_so"> Non so</label>
+          </div>
+          <input type="text" name="note_cambiamenti_mentali" placeholder="Possibili cause?">
+        </div>
+
+        <div class="field">
+          <label>188. Ti senti disorientato o confuso in ambienti nuovi o affollati?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="disorientamento" value="frequente"> Sì, frequente</label>
+            <label class="option-label"><input type="checkbox" name="disorientamento" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="disorientamento" value="raro"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="disorientamento" value="mai"> Mai</label>
+          </div>
+          <input type="text" name="note_disorientamento" placeholder="Contesto...">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Funzioni Esecutive e Valutazione</h2>
+
+        <div class="field">
+          <label>189. Hai mai ricevuto una valutazione neuropsicologica?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="valutazione_neuropsico" value="si_formale"> Sì, clinica</label>
+            <label class="option-label"><input type="checkbox" name="valutazione_neuropsico" value="si_screening"> Sì, screening</label>
+            <label class="option-label"><input type="checkbox" name="valutazione_neuropsico" value="no"> No</label>
+            <label class="option-label"><input type="checkbox" name="valutazione_neuropsico" value="non_so"> Non so</label>
+          </div>
+          <input type="text" name="note_valutazione_neuropsico" placeholder="Risultati...">
+        </div>
+
+        <div class="field">
+          <label>190. Hai difficoltà a gestire più attività contemporaneamente (multitasking)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="multitasking_difficoltà" value="frequente"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="multitasking_difficoltà" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="multitasking_difficoltà" value="no"> No, gestisco bene</label>
+            <label class="option-label"><input type="checkbox" name="multitasking_difficoltà" value="non_so"> Non saprei</label>
+          </div>
+          <input type="text" name="note_multitasking_difficoltà" placeholder="Note su impatto quotidiano">
+        </div>
+
+        <div class="field">
+          <label>191. Ti capita di rileggere più volte lo stesso testo per mantenere l’attenzione?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="rilettura_testo" value="frequente"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="rilettura_testo" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="rilettura_testo" value="raramente"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="rilettura_testo" value="mai"> Mai</label>
+          </div>
+          <input type="text" name="note_rilettura_testo" placeholder="Note su tipo di testi">
+        </div>
+
+        <div class="field">
+          <label>192. Dimentichi nomi di persone o eventi recenti in modo ricorrente?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="dimenticanze_nominali" value="frequente"> Sì, frequentemente</label>
+            <label class="option-label"><input type="checkbox" name="dimenticanze_nominali" value="qualche_volta"> Qualche volta</label>
+            <label class="option-label"><input type="checkbox" name="dimenticanze_nominali" value="raro"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="dimenticanze_nominali" value="mai"> Mai</label>
+          </div>
+          <input type="text" name="note_dimenticanze_nominali" placeholder="Contesto...">
+        </div>
+
+        <div class="field">
+          <label>193. Ti capita di perdere il filo del discorso mentre parli?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="discorso_filo" value="spesso"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="discorso_filo" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="discorso_filo" value="raro"> Raramente</label>
+            <label class="option-label"><input type="checkbox" name="discorso_filo" value="mai"> Mai</label>
+          </div>
+          <input type="text" name="note_discorso_filo" placeholder="Situazioni tipiche">
+        </div>
+
+        <div class="field">
+          <label>194. Ti senti rallentato/a nei pensieri o nelle decisioni rispetto al passato?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="rallentamento_mentale" value="molto"> Sì, molto</label>
+            <label class="option-label"><input type="checkbox" name="rallentamento_mentale" value="leggero"> Un po'</label>
+            <label class="option-label"><input type="checkbox" name="rallentamento_mentale" value="no"> No</label>
+            <label class="option-label"><input type="checkbox" name="rallentamento_mentale" value="non_so"> Non so</label>
+          </div>
+          <input type="text" name="note_rallentamento_mentale" placeholder="Durata e impatto">
+        </div>
+
+        <div class="field">
+          <label>195. Hai difficoltà a pianificare attività complesse (es. viaggi, finanze)?</label>
+          <div class="grid-options">
+            <label class="option-label"><input type="checkbox" name="difficoltà_pianificazione" value="frequente"> Sì, spesso</label>
+            <label class="option-label"><input type="checkbox" name="difficoltà_pianificazione" value="a_volte"> A volte</label>
+            <label class="option-label"><input type="checkbox" name="difficoltà_pianificazione" value="no"> No</label>
+            <label class="option-label"><input type="checkbox" name="difficoltà_pianificazione" value="non_so"> Non so</label>
+          </div>
+          <input type="text" name="note_difficoltà_pianificazione" placeholder="Esempi recenti">
+        </div>
+      </div>
+
+      <div class="card actions">
+        <a class="cta secondary" id="cancelBtn">Annulla</a>
+        <button type="submit" class="cta">💾 Salva & Prosegui</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    import { loadYAMLConfigs, computeScore, prepareForLLM } from '/js/scoring-engine.js';
+
+    const SUPABASE_URL = "https://dcdccwtkblubmdolkqey.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZGNjd3RrYmx1Ym1kb2xrcWV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE3Mzk4MzksImV4cCI6MjA3NzMxNTgzOX0.v_iuUfnW7CBi0SP0VOzKCk_iRrGKYsEqaSoM3Exz1zo";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const macroarea = 'funzioni_cognitive';
+
+    const $ = (s) => document.querySelector(s);
+    const progressFill = $('#progressFill');
+    const errorBox = $('#errorBox');
+
+    // Helper per checkbox esclusivi
+    function setupExclusiveCheckboxes(groupName) {
+      const checkboxes = Array.from(document.querySelectorAll(`input[name="${groupName}"]`));
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          if (cb.checked) {
+            checkboxes.forEach(other => { if (other !== cb) other.checked = false; });
+          }
+        });
+      });
+    }
+
+    // Applica comportamento esclusivo
+    const exclusiveGroups = [
+      'difficolta_concentrazione', 'difficolta_controllo_impulsivita_e_attenzione',
+      'allucinazioni_uditive_acufene_PTSD', 'giochi_miglioramento_memoria_attenzione',
+      'seguire_programma_migliora_memoria', 'dimenticanze_quotidiane',
+      'anomia_linguaggio', 'attenzione_durata', 'cambiamenti_mentali',
+      'disorientamento', 'valutazione_neuropsico', 'multitasking_difficoltà',
+      'rilettura_testo', 'dimenticanze_nominali', 'discorso_filo',
+      'rallentamento_mentale', 'difficoltà_pianificazione'
+    ];
+
+    exclusiveGroups.forEach(g => setupExclusiveCheckboxes(g));
+
+    // Progress bar
+    function updateProgress(pct) {
+      progressFill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+    }
+    updateProgress(10);
+
+    // Annulla
+    $('#cancelBtn')?.addEventListener('click', () => {
+      window.location.href = '/pages/dashboard.html';
+    });
+
+    // Submit
+    $('#macroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        errorBox.style.display = 'block';
+        errorBox.textContent = '⚠️ Devi effettuare il login per salvare le risposte.';
+        setTimeout(() => window.location.href = '/pages/login.html', 2000);
+        return;
+      }
+
+      const fd = new FormData(e.target);
+      const answers = {};
+      for (const [k, v] of fd.entries()) {
+        if (answers[k] !== undefined) {
+          if (!Array.isArray(answers[k])) answers[k] = [answers[k]];
+          answers[k].push(v);
+        } else {
+          answers[k] = v;
+        }
+      }
+
+      updateProgress(30);
+
+      try {
+        const configs = await loadYAMLConfigs(macroarea);
+        updateProgress(40);
+
+        const scoreResult = computeScore(answers, configs);
+        updateProgress(50);
+
+        const llmInput = prepareForLLM(scoreResult, answers);
+        updateProgress(60);
+
+        const resp = await fetch('/api/generate-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ macroarea, yamlOutput: llmInput, rawAnswers: answers })
+        });
+
+        if (!resp.ok) throw new Error(`Errore LLM (${resp.status})`);
+        const { report } = await resp.json();
+        updateProgress(70);
+
+        const { error } = await supabase
+          .from('assessments')
+          .upsert({
+            user_id: user.id,
+            macroarea,
+            answers,
+            score: scoreResult.score, 
+            drivers: scoreResult.drivers,
+            red_flags: scoreResult.redFlags,
+            report,
+            completed_at: new Date().toISOString()
+          }, { onConflict: 'user_id,macroarea' });
+
+        if (error) throw error;
+        updateProgress(80);
+
+        const { data: prog } = await supabase
+          .from('progress')
+          .select('completed_macroaree')
+          .eq('user_id', user.id)
+          .single();
+
+        const completed = new Set(prog?.completed_macroaree || []);
+        completed.add(macroarea);
+
+        await supabase
+          .from('progress')
+          .upsert({
+            user_id: user.id,
+            completed_macroaree: Array.from(completed),
+            fully_completed: completed.size >= 10
+          }, { onConflict: 'user_id' });
+
+        updateProgress(100);
+
+        setTimeout(() => {
+          window.location.href = `/pages/macroarea/report.html?m=${macroarea}`;
+        }, 800);
+
+      } catch (err) {
+        console.error('Errore:', err);
+        errorBox.style.display = 'block';
+        errorBox.textContent = '❌ Errore: ' + err.message;
+        updateProgress(10);
+      }
+    });
+  </script>
+</body>
+</html>
