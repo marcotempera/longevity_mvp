@@ -3,7 +3,7 @@ version: 1.0
 
 map:
   # ===== ATTENZIONE E IMPULSIVITÀ =====
-  difficolta_concentrazione[]:
+  difficolta_concentrazione:
     feature: difficolta_concentrazione
     values:
       "1": "1"
@@ -14,7 +14,7 @@ map:
     feature: difficolta_concentrazione_tempo
     passthrough: true
 
-  difficolta_controllo_impulsivita_e_attenzione[]:
+  difficolta_controllo_impulsivita_e_attenzione:
     feature: difficolta_controllo_impulsivita_e_attenzione
     values:
       "1": "1"
@@ -25,7 +25,7 @@ map:
     feature: difficolta_controllo_impulsivita_e_attenzione_tempo
     passthrough: true
 
-  allucinazioni_uditive_acufene_PTSD[]:
+  allucinazioni_uditive_acufene_PTSD:
     feature: allucinazioni_uditive_acufene_PTSD
     values:
       diagnosi_confermata: diagnosi_confermata
@@ -37,7 +37,7 @@ map:
     passthrough: true
 
   # ===== TRAINING COGNITIVO =====
-  giochi_miglioramento_memoria_attenzione[]:
+  giochi_miglioramento_memoria_attenzione:
     feature: giochi_miglioramento_memoria_attenzione
     values:
       uso_regolare: uso_regolare
@@ -45,7 +45,7 @@ map:
       conosco_ma_mai_provati: conosco_ma_mai_provati
       non_conosco: non_conosco
 
-  seguire_programma_migliora_memoria[]:
+  seguire_programma_migliora_memoria:
     feature: seguire_programma_migliora_memoria
     values:
       seguito_programma: seguito_programma
@@ -54,7 +54,7 @@ map:
       non_interessato: non_interessato
 
   # ===== MEMORIA E LUCIDITÀ =====
-  dimenticanze_quotidiane[]:
+  dimenticanze_quotidiane:
     feature: dimenticanze_quotidiane
     values:
       frequente: frequente
@@ -65,7 +65,7 @@ map:
     feature: note_dimenticanze_quotidiane
     passthrough: true
 
-  dimenticanze_nominali[]:
+  dimenticanze_nominali:
     feature: dimenticanze_nominali
     values:
       frequente: frequente
@@ -76,7 +76,7 @@ map:
     feature: note_dimenticanze_nominali
     passthrough: true
 
-  cambiamenti_mentali[]:
+  cambiamenti_mentali:
     feature: cambiamenti_mentali
     values:
       peggiorato: peggiorato
@@ -87,7 +87,7 @@ map:
     feature: note_cambiamenti_mentali
     passthrough: true
 
-  rallentamento_mentale[]:
+  rallentamento_mentale:
     feature: rallentamento_mentale
     values:
       molto: molto
@@ -99,7 +99,7 @@ map:
     passthrough: true
 
   # ===== LINGUAGGIO E FUNZIONI ESECUTIVE =====
-  anomia_linguaggio[]:
+  anomia_linguaggio:
     feature: anomia_linguaggio
     values:
       frequente: frequente
@@ -110,7 +110,7 @@ map:
     feature: note_anomia_linguaggio
     passthrough: true
 
-  discorso_filo[]:
+  discorso_filo:
     feature: discorso_filo
     values:
       spesso: spesso
@@ -121,7 +121,7 @@ map:
     feature: note_discorso_filo
     passthrough: true
 
-  attenzione_durata[]:
+  attenzione_durata:
     feature: attenzione_durata
     values:
       oltre_30_min: oltre_30_min
@@ -132,7 +132,7 @@ map:
     feature: note_attenzione_durata
     passthrough: true
 
-  multitasking_difficoltà[]:
+  multitasking_difficoltà:
     feature: multitasking_difficoltà
     values:
       frequente: frequente
@@ -143,7 +143,7 @@ map:
     feature: note_multitasking_difficoltà
     passthrough: true
 
-  rilettura_testo[]:
+  rilettura_testo:
     feature: rilettura_testo
     values:
       frequente: frequente
@@ -154,7 +154,7 @@ map:
     feature: note_rilettura_testo
     passthrough: true
 
-  difficoltà_pianificazione[]:
+  difficoltà_pianificazione:
     feature: difficoltà_pianificazione
     values:
       frequente: frequente
@@ -166,7 +166,7 @@ map:
     passthrough: true
 
   # ===== SINTOMI SENSORIALI E NEUROLOGICI =====
-  disorientamento[]:
+  disorientamento:
     feature: disorientamento
     values:
       frequente: frequente
@@ -177,7 +177,7 @@ map:
     feature: note_disorientamento
     passthrough: true
 
-  valutazione_neuropsico[]:
+  valutazione_neuropsico:
     feature: valutazione_neuropsico
     values:
       si_formale: si_formale
