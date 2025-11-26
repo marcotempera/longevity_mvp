@@ -1,173 +1,68 @@
 macroarea: segni_vitali_monitoraggio
-version: 1.0
+version: 1.1
 
 actions:
 
   # ============================
-  # PRESSIONE ARTERIOSA
+  # PRESSIONE
   # ============================
-  pressione_valori:
-    iper_grado1:
+  pressione_domiciliare:
+    regolarmente_alta:
+      clinical:
+        - "Consultare il medico per valutare l'inizio di una terapia antipertensiva o l'adeguamento di quella in corso."
+        - "Eseguire un Holter pressorio 24h per confermare il quadro."
       lifestyle:
-        - "Adottare dieta DASH (basso contenuto di sodio, ricca di potassio, magnesio e fibre da frutta e verdura)."
-        - "Praticare attività aerobica moderata (es. camminata veloce) per almeno 150 minuti a settimana."
-        - "Ridurre il consumo di alcol e caffeina, che possono innalzare transitoriamente la pressione."
+        - "Ridurre drasticamente il sale e aumentare l'apporto di potassio (frutta/verdura)."
+
+  # ============================
+  # CUORE E RITMO
+  # ============================
+  aritmie_percepite:
+    frequentemente:
+      clinical:
+        - "Eseguire un Holter ECG dinamico per catturare le aritmie durante la giornata."
+      lifestyle:
+        - "Ridurre stimolanti (caffè, alcol) e gestire lo stress."
+    durante_sforzi:
+      clinical:
+        - "Test da sforzo cardiologico raccomandato per escludere aritmie indotte dall'esercizio."
+
+  fc_riposo:
+    oltre_90:
+      clinical:
+        - "Valutare funzione tiroidea (TSH) e presenza di anemia."
+      lifestyle:
+        - "Introdurre attività aerobica graduale per migliorare il tono vagale."
+
+  svenimenti:
+    frequente:
+      clinical:
+        - "Visita neurologica o cardiologica (Tilt Test) per indagare le cause della sincope."
+
+  # ============================
+  # RESPIRAZIONE
+  # ============================
+  spo2:
+    regolare_bassi:
+      clinical:
+        - "Visita pneumologica urgente: la desaturazione a riposo non è fisiologica."
+
+  respiro_riposo:
+    affannoso:
+      clinical:
+        - "Valutare funzionalità polmonare (spirometria) e cardiaca."
+
+  # ============================
+  # GASTROINTESTINALE
+  # ============================
+  attività_intestinale:
+    diarrea:
+      clinical:
+        - "Escludere intolleranze alimentari o malattie infiammatorie intestinali."
       nutraceutical:
-        - "Valutare con il medico integratori a base di Magnesio, Potassio (se funzione renale integra) o estratti di Aglio invecchiato."
-      clinical:
-        - "Programmare una visita cardiologica per confermare l'ipertensione e valutare eventuale danno d'organo."
-        - "Monitorare la pressione a domicilio (diario pressorio) mattina e sera per 7 giorni prima della visita."
+        - "Probiotici specifici (es. Saccharomyces boulardii) possono aiutare la regolarità."
 
-    iper_grado2:
+  sintomi_alterazione_barriera_intestinale:
+    frequentemente:
       lifestyle:
-        - "Riduzione rigorosa del sale aggiunto (<5g sale/die) e dei cibi processati/insaccati."
-        - "Gestione attiva dello stress (tecniche di respirazione lenta, mindfulness) per ridurre il carico simpatico."
-      nutraceutical:
-        - "Evitare liquirizia e integratori stimolanti (es. ginseng, guaranà) che possono peggiorare il quadro."
-      clinical:
-        - "CONSULTO MEDICO NECESSARIO a breve termine per impostare o adeguare terapia farmacologica."
-        - "Valutare esecuzione di Holter Pressorio 24h ed Ecocardiogramma."
-
-    iper_grado3:
-      lifestyle:
-        - "Evitare sforzi fisici intensi o isometrici (sollevamento pesi massimali) fino a stabilizzazione."
-        - "Riposo e ambiente tranquillo in caso di rialzo acuto."
-      clinical:
-        - "URGENZA: Contattare immediatamente il medico o recarsi in pronto soccorso se associato a sintomi (cefalea, disturbi visivi, dolore toracico)."
-        - "Necessaria terapia farmacologica immediata e monitoraggio stretto."
-
-  picchi_ipertensivi:
-    si:
-      lifestyle:
-        - "Identificare i trigger (stress emotivo, dolore, eccesso di sale, cattiva qualità del sonno)."
-      clinical:
-        - "Riferire al medico per valutare l'instabilità pressoria (ipertensione labile) o cause secondarie (es. renali, endocrine)."
-
-  controllo_pressione_domiciliare:
-    mai:
-      lifestyle:
-        - "Acquistare un misuratore di pressione validato da braccio e imparare la tecnica corretta di misurazione."
-      clinical:
-        - "L'assenza di monitoraggio è un fattore di rischio 'silenzioso': iniziare controlli periodici (almeno 1 volta al mese se sani)."
-
-  # ============================
-  # FREQUENZA CARDIACA
-  # ============================
-  frequenza_riposo:
-    tachicardia_lieve:
-      lifestyle:
-        - "Migliorare l'idratazione e ridurre stimolanti (caffè, tè forte, fumo)."
-        - "Curare la qualità del sonno (7-8 ore per notte) per favorire il recupero vagale."
-      nutraceutical:
-        - "Valutare integrazione di Magnesio bisglicinato per il rilassamento muscolare e nervoso."
-        - "Biancospino può essere utile per la regolazione del ritmo (parlarne con il medico)."
-      clinical:
-        - "Eseguire un ECG a riposo per escludere aritmie e controllare la funzione tiroidea (TSH)."
-
-    tachicardia_marcata:
-      lifestyle:
-        - "Sospendere attività fisica intensa fino a valutazione medica."
-      clinical:
-        - "Visita cardiologica con ECG e/o Holter cardiaco per indagare la causa (aritmia, anemia, ipertiroidismo, stress)."
-
-  palpitazioni_riposo:
-    frequenti:
-      lifestyle:
-        - "Tenere un diario delle palpitazioni (durata, momento della giornata, trigger)."
-        - "Praticare la respirazione diaframmatica profonda durante gli episodi per stimolare il nervo vago."
-      clinical:
-        - "Indispensabile Holter ECG dinamico (24/48h) per 'catturare' l'aritmia."
-
-  recupero_battito:
-    lento:
-      lifestyle:
-        - "Introdurre protocolli di allenamento a intervalli (HIIT) supervisionati per migliorare la fitness cardiovascolare."
-      clinical:
-        - "Può indicare scarso tono vagale o decondizionamento; valutare Test da Sforzo massimale."
-
-  # ============================
-  # HRV (Variabilità Cardiaca)
-  # ============================
-  hrv_status:
-    molto_bassa:
-      lifestyle:
-        - "Priorità assoluta al recupero: aumentare le ore di sonno e introdurre 'power naps' diurni se possibile."
-        - "Praticare quotidianamente la Coerenza Cardiaca (respirazione a 5.5 respiri/minuto) per 10-20 minuti."
-        - "Ridurre il carico di allenamento (se sportivi) per evitare l'overtraining."
-      nutraceutical:
-        - "Valutare adattogeni come Ashwagandha o Rodiola (con parere medico) per modulare la risposta al cortisolo."
-        - "Omega-3 (EPA/DHA) ad alto dosaggio per supporto anti-infiammatorio e neurovegetativo."
-      clinical:
-        - "Se persiste bassa senza causa apparente, valutare stato infiammatorio sistemico (PCR) e metabolismo glucidico."
-
-  monitoraggio_hrv:
-    no:
-      lifestyle:
-        - "Considerare l'uso di wearable (smartwatch/ring) per monitorare l'HRV notturno come indice di longevità e stress."
-
-  # ============================
-  # OSSIGENAZIONE (SpO2)
-  # ============================
-  saturazione_riposo:
-    bassa_90_94:
-      lifestyle:
-        - "Esercizi di respirazione profonda per migliorare la ventilazione polmonare."
-        - "Evitare di dormire supini se si sospettano apnee, preferire il decubito laterale."
-      clinical:
-        - "Valutazione pneumologica (spirometria) e polisonnografia se associata a russamento o sonnolenza diurna."
-
-    ipossia_sotto_90:
-      lifestyle:
-        - "Evitare altitudini elevate e viaggi aerei senza consulto medico."
-      clinical:
-        - "URGENZA: Emogasanalisi arteriosa e visita pneumologica immediata. Necessario identificare la causa (BPCO, fibrosi, cuore)."
-
-  desaturazione_sforzo:
-    si:
-      lifestyle:
-        - "Interrompere l'attività fisica che provoca desaturazione."
-      clinical:
-        - "Eseguire test del cammino dei 6 minuti (6MWT) o test da sforzo cardiopolmonare (CPET) per quantificare il deficit."
-
-  # ============================
-  # MONITORAGGIO METABOLICO
-  # ============================
-  glicemia_digiuno_media:
-    alta_costante:
-      lifestyle:
-        - "Camminata di 15-20 minuti subito dopo i pasti principali per appiattire la curva glicemica."
-        - "Dieta a basso carico glicemico: privilegiare verdure, proteine e grassi sani prima dei carboidrati."
-        - "Digiuno intermittente (es. 12-14 ore notturne) se sostenibile e approvato dal medico."
-      nutraceutical:
-        - "Berberina o Acido Alfa Lipoico possono migliorare la sensibilità insulinica (valutare col diabetologo)."
-        - "Aceto di mele prima dei pasti (un cucchiaio in acqua) può ridurre il picco glicemico."
-      clinical:
-        - "Eseguire Emoglobina Glicata (HbA1c) e Insulina a digiuno (HOMA Index)."
-
-    diabete:
-      lifestyle:
-        - "Aderenza stretta al piano nutrizionale e motorio concordato."
-      clinical:
-        - "Presa in carico diabetologica completa per prevenzione complicanze micro/macrovascolari."
-
-  picchi_glicemici:
-    si:
-      lifestyle:
-        - "Modificare la sequenza dei pasti: Fibre -> Proteine/Grassi -> Carboidrati."
-        - "Ridurre drasticamente zuccheri semplici, succhi di frutta e farine raffinate."
-      clinical:
-        - "Se frequenti, valutare monitoraggio continuo del glucosio (CGM) per 14 giorni per capire la risposta individuale ai cibi."
-
-  monitoraggio_cgm:
-    no:
-      lifestyle:
-        - "Per un approccio 'Longevity', considerare l'uso di un sensore CGM per 2 settimane all'anno per conoscere il proprio metabolismo."
-
-  # ============================
-  # TEMPERATURA
-  # ============================
-  temperatura_basale:
-    alterata:
-      clinical:
-        - "Se costantemente bassa (<36°C) valutare funzionalità tiroidea (ipotiroidismo subclinico)."
-        - "Se febbricola persistente, valutare indici di flogosi e cause infettive/autoimmuni."
+        - "Dieta a eliminazione temporanea (sotto guida nutrizionista) per identificare trigger infiammatori."

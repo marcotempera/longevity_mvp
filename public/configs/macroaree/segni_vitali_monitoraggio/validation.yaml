@@ -1,42 +1,36 @@
 macroarea: segni_vitali_monitoraggio
-version: 1.0
+version: 1.1
 
 rules:
-  # ===== PRESSIONE ARTERIOSA =====
-  # Se si seleziona "Mai misurata" o "Non so", deve essere l'unica scelta
-  - feature: pressione_valori
-    rule: "if includes 'mai_misurata' then set to ['mai_misurata']"
+  - feature: pressione_domiciliare
+    rule: "if includes 'no_mai' then set to ['no_mai']"
 
-  - feature: controllo_pressione_domiciliare
+  - feature: aritmie_percepite
     rule: "if includes 'mai' then set to ['mai']"
 
-  # ===== FREQUENZA CARDIACA =====
-  - feature: frequenza_riposo
-    rule: "if includes 'mai_misurata' then set to ['mai_misurata']"
-
-  - feature: palpitazioni_riposo
+  - feature: termoregolazione
     rule: "if includes 'mai' then set to ['mai']"
 
-  # ===== HRV (Variabilità Cardiaca) =====
-  - feature: hrv_status
-    rule: "if includes 'non_so' then set to ['non_so']"
+  - feature: wearable_monitoring
+    rule: "if includes 'mai' then set to ['mai']"
 
-  # ===== OSSIGENAZIONE =====
-  - feature: saturazione_riposo
-    rule: "if includes 'mai_misurata' then set to ['mai_misurata']"
-
-  # ===== MONITORAGGIO METABOLICO =====
-  - feature: glicemia_digiuno_media
-    rule: "if includes 'mai_misurata' then set to ['mai_misurata']"
-
-  - feature: monitoraggio_cgm
+  - feature: variazioni_peso
     rule: "if includes 'no' then set to ['no']"
 
-  # ===== TEMPERATURA E SONNO =====
-  - feature: temperatura_basale
-    rule: "if includes 'mai_misurata' then set to ['mai_misurata']"
+  - feature: svenimenti
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: fc_riposo
+    rule: "if includes 'non_misurato' then set to ['non_misurato']"
+
+  - feature: respiro_riposo
+    rule: "if includes 'regolare' then set to ['regolare']"
+
+  - feature: spo2
+    rule: "if includes 'mai' then set to ['mai']"
+
+  - feature: termoregolazione_alterata
+    rule: "if includes 'mai' then set to ['mai']"
 
 missing:
-  # Se un campo non viene inviato (es. utente salta la domanda), 
-  # il motore di scoring userà la policy definita nella feature (es. "assume_zero")
   strategy: "per_feature_policy"
