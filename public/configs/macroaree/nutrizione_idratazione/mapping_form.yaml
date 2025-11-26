@@ -3,7 +3,7 @@ version: 1.0
 
 map:
   # ===== EQUILIBRIO E ABITUDINI =====
-  dieta_equilibrata[]:
+  dieta_equilibrata:
     feature: dieta_equilibrata
     values:
       dieta_varia: dieta_varia
@@ -11,7 +11,7 @@ map:
       dieta_sbilanciata: dieta_sbilanciata
       non_so: non_so
 
-  abitudini_alimentari[]:
+  abitudini_alimentari:
     feature: abitudini_alimentari
     values:
       equilibrata: equilibrata
@@ -19,7 +19,7 @@ map:
       salto_o_monotona: salto_o_monotona
       disordinate: disordinate
 
-  porzioni_frutta_verdura[]:
+  porzioni_frutta_verdura:
     feature: porzioni_frutta_verdura
     values:
       0_1: 0_1
@@ -27,7 +27,7 @@ map:
       4_5: 4_5
       6_plus: 6_plus
 
-  influenza_stile_alimentare_su_efficienza_metabolica[]:
+  influenza_stile_alimentare_su_efficienza_metabolica:
     feature: influenza_stile_alimentare_su_efficienza_metabolica
     values:
       alto: alto
@@ -35,7 +35,7 @@ map:
       basso: basso
       ignoto: ignoto
 
-  etichette[]:
+  etichette:
     feature: etichette
     values:
       sempre: sempre
@@ -46,7 +46,7 @@ map:
     feature: note_etichette
     passthrough: true
 
-  pasti_giornalieri[]:
+  pasti_giornalieri:
     feature: pasti_giornalieri
     values:
       "3": "3"
@@ -57,7 +57,7 @@ map:
     feature: note_pasti_giornalieri
     passthrough: true
 
-  colazione[]:
+  colazione:
     feature: colazione
     values:
       mai: mai
@@ -69,7 +69,7 @@ map:
     passthrough: true
 
   # ===== STRATEGIE METABOLICHE =====
-  digiuno_intermittente[]:
+  digiuno_intermittente:
     feature: digiuno_intermittente
     values:
       attualmente: attualmente
@@ -80,7 +80,7 @@ map:
     feature: digiuno_intermittente_note
     passthrough: true
 
-  restrizione_calorica[]:
+  restrizione_calorica:
     feature: restrizione_calorica
     values:
       attualmente: attualmente
@@ -91,7 +91,7 @@ map:
     feature: restrizione_calorica_note
     passthrough: true
 
-  ipoglicemia[]:
+  ipoglicemia:
     feature: ipoglicemia
     values:
       mai: mai
@@ -103,7 +103,7 @@ map:
     feature: note_ipoglicemia
     passthrough: true
 
-  monitoraggio_glicemia[]:
+  monitoraggio_glicemia:
     feature: monitoraggio_glicemia
     values:
       no: no
@@ -115,7 +115,7 @@ map:
     passthrough: true
 
   # ===== QUALITÀ E SCELTE =====
-  fonte_proteica[]:
+  fonte_proteica:
     feature: fonte_proteica
     values:
       carne: carne
@@ -127,7 +127,7 @@ map:
     feature: note_fonte_proteica
     passthrough: true
 
-  dolcificanti[]:
+  dolcificanti:
     feature: dolcificanti
     values:
       mai: mai
@@ -138,7 +138,7 @@ map:
     feature: note_dolcificanti
     passthrough: true
 
-  junk_food[]:
+  junk_food:
     feature: junk_food
     values:
       mai: mai
@@ -149,7 +149,7 @@ map:
     feature: note_junk_food
     passthrough: true
 
-  bevande_zuccherate[]:
+  bevande_zuccherate:
     feature: bevande_zuccherate
     values:
       mai: mai
@@ -161,7 +161,7 @@ map:
     passthrough: true
 
   # ===== IDRATAZIONE E MICRONUTRIENTI =====
-  acqua_giornaliera[]:
+  acqua_giornaliera:
     feature: acqua_giornaliera
     values:
       si_regolare: si_regolare
@@ -172,7 +172,7 @@ map:
     feature: note_acqua_giornaliera
     passthrough: true
 
-  carenze_micronutrienti[]:
+  carenze_micronutrienti:
     feature: carenze_micronutrienti
     values:
       mai: mai
@@ -183,7 +183,7 @@ map:
     feature: note_carenze_micronutrienti
     passthrough: true
 
-  idratazione_attività[]:
+  idratazione_attività:
     feature: idratazione_attività
     values:
       si: si
@@ -194,7 +194,7 @@ map:
     feature: note_idratazione_attività
     passthrough: true
 
-  sintomi_disidratazione[]:
+  sintomi_disidratazione:
     feature: sintomi_disidratazione
     values:
       mai: mai
@@ -206,7 +206,7 @@ map:
     passthrough: true
 
   # ===== DIGESTIONE E SINTOMI =====
-  colore_lingua[]:
+  colore_lingua:
     feature: colore_lingua
     values:
       rosa_normale: rosa_normale
@@ -220,7 +220,7 @@ map:
     feature: colore_lingua_note
     passthrough: true
 
-  masticazione[]:
+  masticazione:
     feature: masticazione
     values:
       si_sempre: si_sempre
@@ -231,7 +231,7 @@ map:
     feature: note_masticazione
     passthrough: true
 
-  intolleranze[]:
+  intolleranze:
     feature: intolleranze
     values:
       nessuna: nessuna
@@ -242,7 +242,7 @@ map:
     feature: note_intolleranze
     passthrough: true
 
-  gonfiore_post_pasto[]:
+  gonfiore_post_pasto:
     feature: gonfiore_post_pasto
     values:
       mai: mai
@@ -253,7 +253,7 @@ map:
     feature: note_gonfiore_post_pasto
     passthrough: true
 
-  post_prandiale[]:
+  post_prandiale:
     feature: post_prandiale
     values:
       mai: mai
@@ -265,7 +265,7 @@ map:
     passthrough: true
 
   # ===== INTEGRAZIONE E RITMI =====
-  spuntini_notturni[]:
+  spuntini_notturni:
     feature: spuntini_notturni
     values:
       mai: mai
@@ -276,7 +276,7 @@ map:
     feature: note_spuntini_notturni
     passthrough: true
 
-  integratori[]:
+  integratori:
     feature: integratori
     values:
       mai: mai
