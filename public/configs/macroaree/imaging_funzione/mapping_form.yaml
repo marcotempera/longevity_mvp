@@ -1,5 +1,5 @@
 map:
-  eco_cardio[]:
+  eco_cardio:
     feature: eco_cardio
     values:
       mai_eseguito: mai_eseguito
@@ -12,7 +12,7 @@ map:
     feature: note_eco_cardio
     passthrough: true
 
-  test_respiro[]:
+  test_respiro:
     feature: test_respiro
     values:
       mai_eseguito: mai_eseguito
@@ -24,7 +24,7 @@ map:
     feature: note_test_respiro
     passthrough: true
 
-  ecg[]:
+  ecg:
     feature: ecg
     values:
       mai_ecg: mai_ecg
@@ -36,7 +36,7 @@ map:
     feature: note_ecg
     passthrough: true
 
-  test_sforzo[]:
+  test_sforzo:
     feature: test_sforzo
     values:
       mai_svolto: mai_svolto
@@ -48,7 +48,7 @@ map:
     feature: note_test_sforzo
     passthrough: true
 
-  imaging_funzionale[]:
+  imaging_funzionale:
     feature: imaging_funzionale
     values:
       mai_fatto: mai_fatto
@@ -60,7 +60,7 @@ map:
     feature: note_imaging_funzionale
     passthrough: true
 
-  saturazione[]:
+  saturazione:
     feature: saturazione
     values:
       mai: mai
@@ -71,7 +71,7 @@ map:
     feature: note_saturazione
     passthrough: true
 
-  fc_riposo[]:
+  fc_riposo:
     feature: fc_riposo
     values:
       non_misurata: non_misurata
@@ -83,7 +83,7 @@ map:
     feature: note_fc_riposo
     passthrough: true
 
-  rmn_cuore_polmoni[]:
+  rmn_cuore_polmoni:
     feature: rmn_cuore_polmoni
     values:
       mai: mai
@@ -94,7 +94,7 @@ map:
     feature: note_rmn_cuore_polmoni
     passthrough: true
 
-  holter[]:
+  holter:
     feature: holter
     values:
       mai: mai
@@ -105,7 +105,7 @@ map:
     feature: note_holter
     passthrough: true
 
-  holter_pressorio[]:
+  holter_pressorio:
     feature: holter_pressorio
     values:
       mai: mai
@@ -117,7 +117,7 @@ map:
     feature: note_holter_pressorio
     passthrough: true
 
-  cpet[]:
+  cpet:
     feature: cpet
     values:
       mai: mai
@@ -128,7 +128,7 @@ map:
     feature: note_cpet
     passthrough: true
 
-  6mwt[]:
+  6mwt:
     feature: 6mwt
     values:
       mai: mai
@@ -139,7 +139,7 @@ map:
     feature: note_6mwt
     passthrough: true
 
-  eco_fegato[]:
+  eco_fegato:
     feature: eco_fegato
     values:
       mai: mai
@@ -151,7 +151,7 @@ map:
     feature: note_eco_fegato
     passthrough: true
 
-  riflesso_autonomico[]:
+  riflesso_autonomico:
     feature: riflesso_autonomico
     values:
       mai: mai
@@ -162,7 +162,7 @@ map:
     feature: note_riflesso_autonomico
     passthrough: true
 
-  polisonnografia[]:
+  polisonnografia:
     feature: polisonnografia
     values:
       mai: mai
@@ -173,7 +173,7 @@ map:
     feature: note_polisonnografia
     passthrough: true
 
-  hrv[]:
+  hrv:
     feature: hrv
     values:
       mai: mai
@@ -184,7 +184,7 @@ map:
     feature: note_hrv
     passthrough: true
 
-  dlco[]:
+  dlco:
     feature: dlco
     values:
       mai: mai
