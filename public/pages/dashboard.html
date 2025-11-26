@@ -167,8 +167,15 @@
 
     function getRiskClass(score) {
       if (score == null) return 'pending';
-      if (score < 5) return 'low';
-      if (score < 10) return 'medium';
+      
+      // NUOVA LOGICA:
+      // Score >= 9: Ottimo (Verde -> classe 'low' nel CSS esistente)
+      if (score >= 9.0) return 'low';
+      
+      // Score tra 6 e 9: Attenzione (Giallo/Arancio -> classe 'medium')
+      if (score >= 6.0) return 'medium';
+      
+      // Score < 6: Pericolo (Rosso -> classe 'high')
       return 'high';
     }
 
