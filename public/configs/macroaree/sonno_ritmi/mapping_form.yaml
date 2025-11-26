@@ -3,7 +3,7 @@ version: 1.0
 
 map:
   # ===== ORARI E ROUTINE =====
-  orari_sonno_e_pasti[]:
+  orari_sonno_e_pasti:
     feature: orari_sonno_e_pasti
     values:
       orari_regolari: orari_regolari
@@ -11,7 +11,7 @@ map:
       orari_variano: orari_variano
       ritmo_irregolare: ritmo_irregolare
 
-  ritmocircadiano[]:
+  ritmocircadiano:
     feature: ritmocircadiano
     values:
       molto_regolare: molto_regolare
@@ -39,7 +39,7 @@ map:
     feature: ore_effettive_sonno
     passthrough: true
 
-  ore_sonno[]:
+  ore_sonno:
     feature: ore_sonno
     values:
       meno_5: meno_5
@@ -50,7 +50,7 @@ map:
       non_so: non_so
 
   # ===== QUALITÀ E DISTURBI =====
-  qualita_sonno[]:
+  qualita_sonno:
     feature: qualita_sonno
     values:
       ottima: ottima
@@ -58,7 +58,7 @@ map:
       discreta: discreta
       scarsa: scarsa
 
-  qualita_del_sonno[]:
+  qualita_del_sonno:
     feature: qualita_del_sonno
     values:
       molto_buona: molto_buona
@@ -67,7 +67,7 @@ map:
       cattiva: cattiva
 
   # --- Sintomi specifici ---
-  non_addormentarsi_entro_30_minuti[]:
+  non_addormentarsi_entro_30_minuti:
     feature: non_addormentarsi_entro_30_minuti
     values:
       mai: mai
@@ -75,7 +75,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  sveglia_nella_notte[]:
+  sveglia_nella_notte:
     feature: sveglia_nella_notte
     values:
       mai: mai
@@ -83,7 +83,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  svegliarsi_per_andare_in_bagno[]:
+  svegliarsi_per_andare_in_bagno:
     feature: svegliarsi_per_andare_in_bagno
     values:
       mai: mai
@@ -91,7 +91,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  non_respirare_bene_di_notte[]:
+  non_respirare_bene_di_notte:
     feature: non_respirare_bene_di_notte
     values:
       mai: mai
@@ -99,7 +99,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  tosse_e_russare[]:
+  tosse_e_russare:
     feature: tosse_e_russare
     values:
       mai: mai
@@ -107,7 +107,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  freddo_di_notte[]:
+  freddo_di_notte:
     feature: freddo_di_notte
     values:
       mai: mai
@@ -115,7 +115,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  caldo_la_notte[]:
+  caldo_la_notte:
     feature: caldo_la_notte
     values:
       mai: mai
@@ -123,7 +123,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  brutti_sogni[]:
+  brutti_sogni:
     feature: brutti_sogni
     values:
       mai: mai
@@ -131,7 +131,7 @@ map:
       1_2: 1_2
       3_plus: 3_plus
 
-  dolori_la_notte[]:
+  dolori_la_notte:
     feature: dolori_la_notte
     values:
       mai: mai
@@ -143,7 +143,7 @@ map:
     feature: altri_problemi_che_disturbano_sonno
     passthrough: true
 
-  altri_problemi_che_disturbano_sonno_frequenza[]:
+  altri_problemi_che_disturbano_sonno_frequenza:
     feature: altri_problemi_che_disturbano_sonno_frequenza
     values:
       meno_1: meno_1
@@ -151,7 +151,7 @@ map:
       3_plus: 3_plus
 
   # ===== SINTOMI DIURNI E DIAGNOSI =====
-  difficolta_a_rimanere_sveglio[]:
+  difficolta_a_rimanere_sveglio:
     feature: difficolta_a_rimanere_sveglio
     values:
       mai: mai
@@ -159,7 +159,7 @@ map:
       spesso: spesso
       ogni_giorno: ogni_giorno
 
-  energie_insufficienti[]:
+  energie_insufficienti:
     feature: energie_insufficienti
     values:
       mai: mai
@@ -167,7 +167,7 @@ map:
       spesso: spesso
       ogni_giorno: ogni_giorno
 
-  sudorazione_notturna[]:
+  sudorazione_notturna:
     feature: sudorazione_notturna
     values:
       mai: mai
@@ -179,14 +179,14 @@ map:
     feature: note_sudorazione_notturna
     passthrough: true
 
-  disturbi_del_sonno_diagnosticati[]:
+  disturbi_del_sonno_diagnosticati:
     feature: disturbi_del_sonno_diagnosticati
     values:
       si: si
       no: no
 
   # ===== FARMACI =====
-  assunzione_farmaci_sonno[]:
+  assunzione_farmaci_sonno:
     feature: assunzione_farmaci_sonno
     values:
       mai: mai
