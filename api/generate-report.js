@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
     const prompt = buildPrompt(macroarea, safeYaml, rawAnswers || {});
     
-    // ✅ USA UN MODELLO VALIDO (gpt-4o-mini è economico e veloce)
+    // ✅ USA UN MODELLO VALIDO
     const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
     
     const report = await generateWithOpenAI({
@@ -65,103 +65,129 @@ function buildPrompt(macroarea, yamlOutput, rawAnswers) {
   const { score, riskClass, narrative, topDrivers, redFlags, actions } = yamlOutput;
 
   const riskLabel =
-    riskClass === 'low' ? 'basso' :
-    riskClass === 'medium' ? 'moderato' :
-    riskClass === 'high' ? 'alto' : 'da definire';
+    riskClass === 'low' ? 'Basso Rischio / Ottima Salute' :
+    riskClass === 'medium' ? 'Rischio Moderato / Salute Discreta' :
+    riskClass === 'high' ? 'Alto Rischio / Attenzione' : 'da definire';
+
+  // Controlla se ci sono segnali critici
+  const hasRedFlags = Array.isArray(redFlags) && redFlags.length > 0;
+  const hasRiskDrivers = topDrivers.some(d => d.contribution > 0); 
 
   const topDriversText = (topDrivers || [])
     .map((d, i) => {
       const feat = d?.feature ?? 'Fattore';
       const contr = d?.contribution ?? 'n/d';
       const expl = d?.explanation ?? '';
-      return `${i + 1}. **${feat}** (contributo: ${contr})\n   - ${expl}`;
+      const prefix = d.contribution > 0 ? "⚠️ FATTORE DI RISCHIO:" : "✅ Fattore protettivo:";
+      return `${i + 1}. **${feat}** (${prefix} impatto ${contr})\n   - ${expl}`;
     })
     .join('\n\n');
 
-  const redFlagsText = Array.isArray(redFlags) && redFlags.length > 0
-    ? `\n## ⚠️ RED FLAGS (Segnali che richiedono attenzione)\n\n${
-        redFlags.map((rf, i) => `${i + 1}. ${rf?.action || rf?.condition || 'Segnale da monitorare'}`).join('\n')
+  const redFlagsText = hasRedFlags
+    ? `\n## ⚠️ RED FLAGS (Segnali CRITICI rilevati)\nQuesti elementi richiedono attenzione IMMEDIATA:\n\n${
+        redFlags.map((rf, i) => `🚨 **${i + 1}. ${rf?.condition || 'Segnale'}**: ${rf?.action || 'Approfondire con il medico'}`).join('\n')
       }\n`
     : '';
 
   const actionsText = formatActions(actions);
-
   const macroareaLabel = macroarea.replace(/_/g, ' ');
 
-  return `Sei un assistente medico specializzato in medicina preventiva. Il tuo compito è generare un report chiaro e comprensibile in italiano per un paziente, basato sui risultati di un questionario sulla macroarea: **${macroareaLabel}**.
+  return `Sei un assistente medico specializzato in medicina preventiva. Il tuo compito è generare un report chiaro, DIRETTO e orientato all'azione per la macroarea: **${macroareaLabel}**.
 
 ## DATI DEL QUESTIONARIO
 
-**Score totale**: ${score}/100  
-**Classe di rischio**: ${riskClass} (${riskLabel})
+**Score totale**: ${score}/10 (10 = Ottima salute, 0 = Grave rischio)
+**Classe**: ${riskLabel}
 
-**Narrativa generale**: ${narrative || '—'}
+**Narrativa tecnica**: ${narrative || '—'}
 
-## TOP DRIVER (Fattori principali che influenzano lo score)
-
+## TOP DRIVER (Elementi determinanti)
 ${topDriversText || 'Nessun driver principale identificato.'}
 
 ${redFlagsText}
-## AZIONI CONSIGLIATE
 
+## AZIONI CONSIGLIATE (Da includere nel piano d'azione)
 ${actionsText}
 
 ---
 
-**ISTRUZIONI PER IL REPORT**:
+**ISTRUZIONI CRITICHE PER IL REPORT**:
 
-1. **Tono**: Professionale ma empatico, chiaro e rassicurante  
-2. **Struttura**: 
-   - Introduzione breve (2–3 frasi) che contestualizza lo score
-   - Sezione "Cosa significa il tuo score" con spiegazione semplice
-   - Sezione "Fattori chiave" che spiega i top driver in linguaggio naturale
-   ${Array.isArray(redFlags) && redFlags.length > 0 ? '- Sezione "⚠️ Segnali da monitorare" per i red flags' : ''}
-   - Sezione "Cosa puoi fare" con consigli pratici divisi per:
-     * 🏃 Stile di vita
-     * 🩺 Follow-up medico
-     * 💊 Nutraceutica (se applicabile)
-   - Conclusione positiva e motivante
-3. **Lunghezza**: 300–500 parole
-4. **Linguaggio**: Evita termini tecnici non necessari, usa analogie quando utile
-5. **Privacy**: Non menzionare dati personali specifici (età, nomi)
+1. **SII SPECIFICO NELLE RACCOMANDAZIONI MEDICHE**:
+   - ❌ NON SCRIVERE MAI frasi generiche come "Consulta il tuo medico per valutare la situazione" se hai un'azione specifica disponibile.
+   - ✅ SCRIVI INVECE: "Si raccomanda una **Visita Cardiologica con ECG**" o "È consigliata una **Spirometria**" (usa le azioni fornite nella sezione 'AZIONI CONSIGLIATE' o 'RED FLAGS').
+   - Se ci sono Red Flags, la visita specialistica deve essere il PRIMO punto del piano d'azione.
 
-Genera il report in **formato Markdown**.`;
+2. **GESTIONE DEI RISCHI SPECIFICI**:
+   - Anche se lo score complessivo è alto (es. 8/10 o 9/10), se c'è una "Red Flag" o un driver negativo, devi dargli **massima priorità**.
+   - Esempio: "Sebbene il tuo stato di salute generale sia ottimo, l'ipertensione non trattata rappresenta un rischio puntuale che va gestito immediatamente con uno specialista."
+
+3. **STRUTTURA DEL REPORT**:
+   - **Sintesi Clinica**: Panoramica dello stato di salute. Se ci sono rischi specifici, citali subito.
+   - **Analisi dei Fattori**: Spiega i driver positivi e negativi.
+   - **⚠️ Punti di Attenzione (Solo se presenti)**: Sezione dedicata ai rischi rilevati. Sii diretto sulle conseguenze se non trattati.
+   - **Piano d'Azione Pratico**:
+     * **🩺 Controlli Medici**: Elenca le visite/esami specifici (es. "Visita Oculistica", "Esami della tiroide").
+     * **🏃 Stile di Vita**: Consigli pratici su dieta, sonno, attività.
+     * **💊 Nutraceutica**: Consigli sugli integratori (se presenti nei dati).
+
+Genera il report in **formato Markdown**. Usa il grassetto per le azioni mediche raccomandate.`;
 }
 
-/** Rende leggibili le azioni per categoria, ignorando quelle vuote */
+/** Rende leggibili le azioni per categoria */
 function formatActions(actions = {}) {
   const titles = {
     lifestyle: '### 🏃 Stile di vita e abitudini',
-    nutraceutica: '### 💊 Nutraceutica (sempre previo parere medico)',
-    specialist: '### 👨‍⚕️ Visite e valutazioni specialistiche'
+    nutraceutical: '### 💊 Nutraceutica', 
+    nutraceutica: '### 💊 Nutraceutica', // Alias
+    clinical: '### 🩺 VISITE E ESAMI RACCOMANDATI (Priorità Alta)',
+    specialist: '### 👨‍⚕️ VISITE E ESAMI RACCOMANDATI (Priorità Alta)' // Alias
   };
 
   let out = '';
+  // Priorità: prima clinical/specialist, poi il resto
+  const orderedCategories = ['clinical', 'specialist', 'lifestyle', 'nutraceutical', 'nutraceutica'];
+  
+  // Raggruppa tutte le azioni
+  const allActions = {};
   for (const [, actionSet] of Object.entries(actions)) {
     for (const [cat, items] of Object.entries(actionSet || {})) {
       if (!Array.isArray(items) || items.length === 0) continue;
-      if (!titles[cat]) continue; // evita categorie non previste
-
-      if (!out.includes(titles[cat])) {
-        out += `\n${titles[cat]}\n\n`;
-      }
-      items.forEach(item => {
-        out += `- ${item}\n`;
-      });
+      if (!allActions[cat]) allActions[cat] = [];
+      allActions[cat].push(...items);
     }
   }
 
-  return out.trim() || [
-    '### 🏃 Stile di vita e abitudini',
-    '- Mantieni uno stile di vita sano e regolare.',
-    '### 👨‍⚕️ Visite e valutazioni specialistiche',
-    '- Concorda con il tuo medico un piano di controlli periodici.'
-  ].join('\n');
+  // Genera testo ordinato
+  for (const cat of orderedCategories) {
+    if (allActions[cat] && allActions[cat].length > 0) {
+        // Deduplica
+        const uniqueItems = [...new Set(allActions[cat])];
+        const title = titles[cat] || `### ${cat.toUpperCase()}`;
+        out += `\n${title}\n\n`;
+        uniqueItems.forEach(item => {
+            out += `- ${item}\n`;
+        });
+        delete allActions[cat]; // Rimuovi per non duplicare se ci sono altre categorie non standard
+    }
+  }
+
+  // Aggiungi eventuali categorie rimaste
+  for (const [cat, items] of Object.entries(allActions)) {
+      if (items.length > 0) {
+        const uniqueItems = [...new Set(items)];
+        out += `\n### ${cat.toUpperCase()}\n\n`;
+        uniqueItems.forEach(item => {
+            out += `- ${item}\n`;
+        });
+      }
+  }
+
+  return out.trim();
 }
 
 /** Chiamata all'OpenAI Chat Completions API */
 async function generateWithOpenAI({ apiKey, prompt, model }) {
-  // ✅ USA L'ENDPOINT CORRETTO: chat/completions
   const resp = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -169,18 +195,18 @@ async function generateWithOpenAI({ apiKey, prompt, model }) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      model, // es: 'gpt-4o-mini' o 'gpt-4-turbo'
+      model, 
       messages: [
         {
           role: 'system',
-          content: 'Sei un assistente medico specializzato in medicina preventiva. Scrivi report chiari, accurati e comprensibili per i pazienti.'
+          content: 'Sei un medico esperto in medicina preventiva. Il tuo obiettivo è fornire piani d\'azione concreti e specifici, evitando consigli generici quando sono presenti indicazioni cliniche precise.'
         },
         { 
           role: 'user', 
           content: prompt 
         }
       ],
-      temperature: 0.7,
+      temperature: 0.5, // Abbassato per essere più deterministico e meno "creativo/vago"
       max_tokens: 1500
     })
   });
@@ -191,14 +217,9 @@ async function generateWithOpenAI({ apiKey, prompt, model }) {
   }
 
   const data = await resp.json();
-
-  // Estrai il testo dalla risposta
   const text = data?.choices?.[0]?.message?.content;
   
-  if (!text) {
-    throw new Error('OpenAI response parsing failed: no content in response');
-  }
-  
+  if (!text) throw new Error('OpenAI response parsing failed: no content');
   return text;
 }
 
