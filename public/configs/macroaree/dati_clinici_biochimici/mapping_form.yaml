@@ -1,828 +1,540 @@
-macroarea: dati_clinici_biochimici
-
-fields:
-  - name: ipotiroidismo
-    label: "35. Hai mai ricevuto una diagnosi di ipotiroidismo?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, mai diagnosticato"
-      - value: primario
-        label: "Sì, ipotiroidismo primario"
-      - value: secondario
-        label: "Sì, ipotiroidismo secondario/terziario"
-      - value: non_so
-        label: "Non so / In attesa di valutazione"
-
-  - name: ipertiroidismo
-    label: "36. Hai mai ricevuto una diagnosi di ipertiroidismo?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, mai diagnosticato"
-      - value: attualmente_in_trattamento
-        label: "Sì, attualmente in trattamento"
-      - value: trattato_risolto
-        label: "Sì, trattato in passato e risolto"
-      - value: non_trattato
-        label: "Sì, ma non sto seguendo alcun trattamento"
-      - value: non_so
-        label: "Non so / In attesa di valutazione"
-
-  - name: nodulo_tiroide
-    label: "37. Ti è mai stato diagnosticato un nodulo alla tiroide?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No"
-      - value: benigno
-        label: "Sì, nodulo benigno e monitorato"
-      - value: sospetto
-        label: "Sì, nodulo sospetto/in attesa di accertamenti"
-      - value: maligno
-        label: "Sì, nodulo maligno (carcinoma tiroideo)"
-      - value: non_so
-        label: "Non so / mai fatto controlli specifici"
-
-  - name: asma
-    label: "38. Ti è mai stata diagnosticata una forma di asma bronchiale..."
-    type: single_choice
-    options:
-      - value: mai
-        label: "No, mai avuto sintomi"
-      - value: diagnosticata_in_trattamento
-        label: "Sì, asma diagnosticata e attualmente in trattamento"
-      - value: episodi_non_diagnosticati
-        label: "Sì, episodi ricorrenti ma non diagnosticati"
-      - value: passato_non_sintomatico
-        label: "Sì, in passato ma non più sintomatico"
-      - value: non_so
-        label: "Non so / in attesa di valutazione"
-
-  - name: farmaci_asma
-    label: "Utilizzi inalatori o farmaci per l'asma?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: sintomi_asma
-    label: "I sintomi peggiorano con lo sforzo fisico o durante la notte?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: spirometria_12_mesi
-    label: "Hai effettuato spirometria o test respiratori negli ultimi 12 mesi?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: bpco
-    label: "39. Hai mai ricevuto una diagnosi di BPCO..."
-    type: single_choice
-    options:
-      - value: nessuna_diagnosi
-        label: "No, nessuna diagnosi né sintomi"
-      - value: diagnosi_bpco
-        label: "Sì, ho una diagnosi di BPCO"
-      - value: sintomi_senza_diagnosi
-        label: "Presento sintomi cronici ma non ho una diagnosi"
-      - value: ex_fumatore_con_sintomi
-        label: "Ex fumatore con sintomi respiratori"
-      - value: non_so
-        label: "Non so / in attesa di accertamenti"
-
-  - name: spirometria_bpco
-    label: "Hai mai effettuato una spirometria?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: fumo_attuale
-    label: "Attualmente fumi sigarette o altri prodotti del tabacco?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: ex_fumatore
-        label: "Ex fumatore"
-
-  - name: difficolta_respiratorie_quotidiane
-    label: "Hai difficoltà respiratorie nello svolgimento di attività quotidiane?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: polmonite
-    label: "40. Hai mai avuto una diagnosi di polmonite..."
-    type: single_choice
-    options:
-      - value: mai
-        label: "No, mai"
-      - value: una_volta
-        label: "Sì, una sola volta"
-      - value: piu_volte
-        label: "Sì, più di una volta"
-      - value: ricovero
-        label: "Sì, con ricovero ospedaliero"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: rischio_polmonite
-    label: "41. Hai condizioni che aumentano il rischio di polmonite..."
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: vaccino_pneumo_influ
-    label: "42. Hai effettuato il vaccino antinfluenzale?"
-    type: single_choice
-    options:
-      - value: si_recentemente
-        label: "Sì, negli ultimi 2 anni"
-      - value: si_passato
-        label: "Sì, in passato ma non recentemente"
-      - value: no
-        label: "No, mai effettuato"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: diarrea_3_mesi
-    label: "43. Hai avuto episodi ricorrenti o prolungati di diarrea negli ultimi 3 mesi?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, mai"
-      - value: episodio_acuto
-        label: "Sì, un episodio acuto (durato meno di 4 giorni)"
-      - value: episodi_brevi
-        label: "Sì, episodi brevi (durati 1-3 settimane)"
-      - value: diarrea_cronica
-        label: "Sì, diarrea cronica (da più di 4 settimane)"
-      - value: non_so
-        label: "Non so"
-
-  - name: sangue_feci
-    label: "Hai notato la presenza di sangue, muco o pus nelle feci?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: perdita_peso
-    label: "Hai perso peso involontariamente?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: associazione_diarrea
-    label: "Hai associato gli episodi a farmaci, alimenti specifici o stress?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-
-  - name: esami_feci
-    label: "Hai mai effettuato uno dei seguenti esami?"
-    type: single_choice
-    options:
-      - value: coprocoltura
-        label: "Coprocoltura"
-      - value: calprotectina
-        label: "Calprotectina fecale"
-      - value: test_celiachia
-        label: "Test per la celiachia"
-      - value: altro
-        label: "Altro"
-
-  - name: altri_esami
-    label: "Se altro, specifica:"
-    type: text_long
-
-  - name: morbillo
-    label: "44. Hai mai avuto il morbillo?"
-    type: single_choice
-    options:
-      - value: bambino_conferma_medico
-        label: "Sì, confermata dal medico"
-      - value: non_certo
-        label: "Sì, ma non sono certo/a"
-      - value: mai_avuto
-        label: "No, non l'ho mai avuto"
-      - value: non_ricordo
-        label: "Non so / Non ricordo"
-
-  - name: varicella
-    label: "45. Hai avuto la varicella?"
-    type: single_choice
-    options:
-      - value: confermata_medico
-        label: "Sì, confermata dal medico"
-      - value: non_sicuro
-        label: "Sì, ma non sono certo/a"
-      - value: mai_avuta
-        label: "No, non l'ho mai avuta"
-      - value: non_ricordo
-        label: "Non so / Non ricordo"
-
-  - name: decorso_varicella
-    label: "Il decorso è stato complicato?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: non_so
-        label: "Non so"
-
-  - name: scarlattina
-    label: "46. Hai mai avuto la scarlattina?"
-    type: single_choice
-    options:
-      - value: diagnosticata_medico
-        label: "Sì, diagnosticata da un medico"
-      - value: senza_conferma
-        label: "Sì, ma senza conferma medica"
-      - value: mai_avuta
-        label: "No, non l'ho mai avuta"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: decorso_scarlattina
-    label: "Il decorso è stato complicato?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: non_so
-        label: "Non so"
-
-  - name: rosolia
-    label: "47. Hai mai avuto la rosolia?"
-    type: single_choice
-    options:
-      - value: confermata_medico
-        label: "Sì, confermata da un medico"
-      - value: senza_conferma
-        label: "Sì, ma senza conferma medica"
-      - value: mai_avuta
-        label: "No, non l'ho mai avuta"
-      - value: non_ricordo
-        label: "Non so / Non ricordo"
-
-  - name: vaccino_test_rosolia
-    label: "Se sei una donna: Sei vaccinata contro la rosolia o hai eseguito il test di immunità (IgG)?"
-    type: single_choice
-    options:
-      - value: vaccinata
-        label: "Sì, vaccinata"
-      - value: test_immune
-        label: "Sì, ho eseguito il test e sono immune"
-      - value: no_non_so
-        label: "No / Non so"
-
-  - name: pertosse
-    label: "48. Hai mai contratto la pertosse (tosse convulsa) durante l'infanzia?"
-    type: single_choice
-    options:
-      - value: diagnosticata_medico
-        label: "Sì, diagnosticata da un medico"
-      - value: non_diagnosticata
-        label: "Sì, ma non diagnosticata ufficialmente"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: difterite
-    label: "49. Hai mai contratto la difterite durante l'infanzia o l'adolescenza?"
-    type: single_choice
-    options:
-      - value: confermata_diagnosi
-        label: "Sì, confermata da diagnosi medica"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non so / Non ricordo"
-
-  - name: vaccino_difterite
-    label: "50. Hai completato il ciclo vaccinale previsto contro la difterite (DTPa o DTP)?"
-    type: single_choice
-    options:
-      - value: bambino
-        label: "Sì, da bambino"
-      - value: richiami_adulto
-        label: "Sì, anche con richiami in età adulta"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: epatite_b_diagnosi
-    label: "51. Hai mai ricevuto una diagnosi di epatite B o sei risultato positivo al test per HBsAg?"
-    type: single_choice
-    options:
-      - value: positivo_cronico
-        label: "Sì, attualmente positivo (cronico)"
-      - value: risolto
-        label: "Sì, in passato ma risolto"
-      - value: mai
-        label: "No, mai"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: vaccino_epatite_b
-    label: "52. Hai effettuato il vaccino contro l'epatite B?"
-    type: single_choice
-    options:
-      - value: bambino
-        label: "Sì, da bambino (vaccinazione obbligatoria)"
-      - value: adulto
-        label: "Sì, da adulto"
-      - value: no
-        label: "No"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: mononucleosi
-    label: "53. Hai mai avuto la mononucleosi infettiva?"
-    type: single_choice
-    options:
-      - value: confermata
-        label: "Sì, confermata con esami del sangue"
-      - value: non_confermata
-        label: "Sì, ma senza conferma diagnostica"
-      - value: no
-        label: "No"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: tubercolosi
-    label: "54. Hai mai avuto una diagnosi di tubercolosi (TBC) o sei mai risultato positivo al test Mantoux o Quantiferon?"
-    type: single_choice
-    options:
-      - value: malattia_conclusa
-        label: "Sì, ho avuto la TBC e ho completato la terapia"
-      - value: test_positivo_senza_malattia
-        label: "Sì, test positivo ma senza malattia attiva"
-      - value: no
-        label: "No"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: covid
-    label: "55. Hai mai contratto il COVID-19 (SARS-CoV-2)?"
-    type: single_choice
-    options:
-      - value: sintomi_lievi
-        label: "Sì, con sintomi lievi"
-      - value: sintomi_moderati_gravi
-        label: "Sì, con sintomi moderati/gravi ma senza ricovero"
-      - value: ricovero
-        label: "Sì, ho avuto un ricovero ospedaliero"
-      - value: terapia_intensiva
-        label: "Sì, ho avuto un ricovero in terapia intensiva"
-      - value: no
-        label: "No"
-      - value: non_sicuro
-        label: "Non sono sicuro/a"
-
-  - name: sequele_covid
-    label: "56. Se hai avuto il COVID, hai avuto sequele o complicazioni persistenti (Long COVID)?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, nessuna"
-      - value: risolte
-        label: "Sì, ma si sono risolte"
-      - value: persistenti
-        label: "Sì, ancora persistenti"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: complicanze_covid_descrizione
-    label: "Se hai avuto complicazioni, quali?"
-    type: text_long
-
-  - name: vaccino_covid
-    label: "57. Sei stato vaccinato contro il COVID-19?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: parziale
-        label: "Solo alcune dosi"
-      - value: non_so
-        label: "Non so / Non ricordo"
-
-  - name: tipo_vaccino_covid
-    label: "Se sì, che tipo di vaccino hai ricevuto?"
-    type: text
-
-  - name: dosi_vaccino_covid
-    label: "Quante dosi hai ricevuto?"
-    type: single_choice
-    options:
-      - value: "1"
-        label: "1 dose"
-      - value: "2"
-        label: "2 dosi"
-      - value: "3"
-        label: "3 dosi"
-      - value: 4_plus
-        label: "4 o più dosi"
-
-  - name: hiv_test
-    label: "58. Ti è mai stata diagnosticata un'infezione da HIV o ti è mai stato consigliato di fare un test per l'HIV?"
-    type: single_choice
-    options:
-      - value: positivo
-        label: "Sì, sono risultato/a positivo/a"
-      - value: negativo
-        label: "Sì, ma il test è risultato negativo"
-      - value: no
-        label: "No"
-
-  - name: terapia_antiretrovirale
-    label: "Se sì, stai attualmente seguendo una terapia antiretrovirale (HAART)?"
-    type: single_choice
-    options:
-      - value: regolare
-        label: "Sì, in modo regolare"
-      - value: difficolta
-        label: "Sì, ma con difficoltà di aderenza"
-      - value: non_iniziato
-        label: "No, non ho iniziato ancora"
-
-  - name: trauma_cranico
-    label: "59. Hai mai riportato un trauma cranico significativo?"
-    type: single_choice
-    options:
-      - value: con_perdita
-        label: "Sì, con perdita di coscienza"
-      - value: senza_perdita
-        label: "Sì, senza perdita di coscienza"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: post_trauma_sintomi
-    label: "Se sì, dopo il trauma hai mai avuto:"
-    type: multi_choice
-    options:
-      - value: convulsioni
-        label: "Convulsioni o crisi epilettiche"
-      - value: disturbi_cognitivi
-        label: "Disturbi cognitivi o della memoria"
-      - value: mal_di_testa
-        label: "Mal di testa ricorrenti o cambiamenti del comportamento"
-
-  - name: fratture_traumi_ortopedici
-    label: "60. Hai mai subito fratture ossee o traumi ortopedici significativi?"
-    type: single_choice
-    options:
-      - value: con_intervento
-        label: "Sì, con intervento chirurgico"
-      - value: senza_intervento
-        label: "Sì, senza intervento chirurgico"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: aree_traumi
-    label: "Se sì, quali aree del corpo sono state coinvolte?"
-    type: text_long
-
-  - name: trauma_toracico
-    label: "61. Hai mai avuto un trauma toracico importante?"
-    type: single_choice
-    options:
-      - value: con_complicanze
-        label: "Sì, con complicanze (es. pneumotorace, emotorace)"
-      - value: senza_complicanze
-        label: "Sì, senza complicanze significative"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: trauma_addominale
-    label: "62. Hai mai subito un trauma addominale?"
-    type: single_choice
-    options:
-      - value: con_lesioni
-        label: "Sì, con lesioni agli organi interni"
-      - value: senza_lesioni
-        label: "Sì, ma senza lesioni rilevanti"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: appendicectomia
-    label: "63. Hai mai subito un'appendicectomia (rimozione dell'appendice)?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: complicanze_appendicectomia
-    label: "Se sì, ricordi se ci sono state complicanze post-operatorie?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: non_so
-        label: "Non so"
-
-  - name: tonsillectomia
-    label: "64. Hai mai subito una tonsillectomia (rimozione delle tonsille)?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: motivo_tonsillectomia
-    label: "Se sì, ricordi il motivo dell'intervento?"
-    type: single_choice
-    options:
-      - value: infezioni_ricorrenti
-        label: "Infezioni ricorrenti (più di 5 all'anno)"
-      - value: apnee_russamento
-        label: "Apnee notturne o russamento grave"
-      - value: altro
-        label: "Altro"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: colecistectomia
-    label: "65. Hai mai subito un intervento di colecistectomia (rimozione della colecisti)?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: motivo_colecistectomia
-    label: "Se sì, ricordi il motivo dell'intervento?"
-    type: single_choice
-    options:
-      - value: coliche_calcoli
-        label: "Coliche biliari o calcoli"
-      - value: colecistite
-        label: "Colecistite (infiammazione della colecisti)"
-      - value: altro
-        label: "Altro"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: ernia_inguinale
-    label: "66. Hai mai subito un intervento di riparazione dell'ernia inguinale?"
-    type: single_choice
-    options:
-      - value: si
-        label: "Sì"
-      - value: recidive
-        label: "Sì, con recidive"
-      - value: dolori_occasionali
-        label: "Sì ed ho ancora dolori occasionali"
-      - value: no
-        label: "No"
-      - value: non_ricordo
-        label: "Non ricordo"
-
-  - name: ernia
-    label: "Hai mai avuto altre ernie? Hai mai subito un intervento per un altro tipo di ernia?"
-    type: text_long
-
-  - name: chirurgia_estetica
-    label: "67. Hai mai subito un intervento di chirurgia estetica?"
-    type: single_choice
-    options:
-      - value: si_uno
-        label: "Sì, uno"
-      - value: si_piu_di_uno
-        label: "Sì, più di uno"
-      - value: no
-        label: "No"
-
-  - name: prostatectomia
-    label: "68. Hai mai subito un intervento di prostatectomia?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No"
-      - value: ipertrofia
-        label: "Sì, per ipertrofia prostatica benigna"
-      - value: tumore
-        label: "Sì, per tumore della prostata"
-      - value: non_ricordo
-        label: "Non ricordo / Non so"
-
-  - name: complicanze_prostatectomia
-    label: "Se sì, hai riscontrato complicanze dopo l'intervento?"
-    type: single_choice
-    options:
-      - value: nessuna
-        label: "Nessuna"
-      - value: incontinenza
-        label: "Incontinenza urinaria"
-      - value: disfunzione_erettile
-        label: "Disfunzione erettile"
-      - value: altri_disturbi
-        label: "Altri disturbi urinari o sessuali"
-
-  - name: ipertensione
-    label: "69. Hai mai avuto valori elevati di pressione arteriosa (ipertensione)?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, mai rilevati valori anomali"
-      - value: occasionale
-        label: "Sì, occasionalmente valori elevati"
-      - value: diagnosi
-        label: "Sì, ho ricevuto diagnosi di ipertensione"
-      - value: non_so
-        label: "Non so / mai misurata"
-
-  - name: trattamento_ipertensione
-    label: "Se sì, stai seguendo un trattamento?"
-    type: single_choice
-    options:
-      - value: nessuno
-        label: "No"
-      - value: farmaci
-        label: "Sì, con farmaci antipertensivi"
-      - value: dieta
-        label: "Sì, con dieta e stile di vita"
-      - value: entrambi
-        label: "Sì, con entrambi"
-
-  - name: glicemia
-    label: "70. Hai mai riscontrato valori elevati di glicemia a digiuno (superiori a 99 mg/dL)?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, mai"
-      - value: occasionalmente
-        label: "Sì, occasionalmente (tra 100-125 mg/dL)"
-      - value: diagnosi
-        label: "Sì, valori costantemente superiori a 125 mg/dL"
-      - value: non_so
-        label: "Non so / non ho mai fatto l'esame"
-
-  - name: approccio_glicemia
-    label: "Se sì, attualmente stai seguendo uno dei seguenti approcci?"
-    type: single_choice
-    options:
-      - value: dieta
-        label: "Dieta a basso contenuto di zuccheri"
-      - value: esercizio
-        label: "Esercizio fisico regolare"
-      - value: farmaci
-        label: "Farmaci ipoglicemizzanti orali"
-      - value: insulina
-        label: "Insulina"
-      - value: nessuno
-        label: "Nessuno"
-      - value: accertamento
-        label: "In fase di accertamento/diagnosi"
-
-  - name: peso
-    label: "Peso (kg)"
-    type: number
-
-  - name: altezza
-    label: "Altezza (cm)"
-    type: number
-
-  - name: bmi
-    label: "BMI (calcolato automaticamente)"
-    type: text_readonly
-
-  - name: alterazioni_livelli_colesterolo
-    label: "71. Hai mai avuto alterazioni nei livelli di colesterolo, LDL o HDL?"
-    type: single_choice
-    options:
-      - value: mai
-        label: "No, sempre risultati normali"
-      - value: passato_controllo
-        label: "Sì, alterati in passato ma ora rientrati nella norma"
-      - value: attuali
-        label: "Sì, attualmente ho livelli alterati"
-      - value: in_trattamento
-        label: "Sì, sono in trattamento farmacologico o dietetico"
-      - value: non_so
-        label: "Non so / Non ho mai eseguito esami specifici"
-
-  - name: valori_colesterolo
-    label: "Se vuoi, specifica il valore più recente"
-    type: text
-
-  - name: valore_bap_test
-    label: "72. Ricordi il valore del tuo BAP test (test antiossidanti)?"
-    type: text
-
-  - name: valore_droms_test
-    label: "73. Ricordi il valore del tuo d-ROMs test (stress ossidativo)?"
-    type: text
-
-  - name: allergie
-    label: "74. Hai mai avuto reazioni allergiche o sei allergico a qualcosa?"
-    type: multi_choice
-    options:
-      - value: no
-        label: "No, non ho mai avuto reazioni allergiche"
-      - value: farmaci
-        label: "Sì, a farmaci"
-      - value: alimenti
-        label: "Sì, ad alimenti"
-      - value: ambientali
-        label: "Sì, ad allergeni ambientali"
-      - value: insetti
-        label: "Sì, a punture di insetti"
-      - value: altre
-        label: "Sì, altre"
-      - value: non_sicuro
-        label: "Non sono sicuro / Non ho mai fatto test allergologici"
-
-  - name: allergie_altre
-    label: "Specifica le allergie"
-    type: text_long
-
-  - name: farmaci_regolari
-    label: "75. Assumi attualmente farmaci su base regolare o continuativa?"
-    type: single_choice
-    options:
-      - value: no
-        label: "No, non assumo farmaci regolarmente"
-      - value: patologia_cronica
-        label: "Sì, per una patologia cronica diagnosticata"
-      - value: terapia_ormonale
-        label: "Sì, come terapia ormonale o contraccettiva"
-      - value: integratori
-        label: "Sì, integratori o prodotti da banco"
-
-  - name: farmaci_specifica
-    label: "Se sì, specifica il nome del farmaco, la posologia e il motivo dell'assunzione"
-    type: text_long
-
-  - name: stato_generale_influenzato_da_infiammazioni_o_infezioni
-    label: "76. Ti capita spesso che un'infiammazione o un'infezione locale sembri influire sul tuo stato generale?"
-    type: single_choice
-    options:
-      - value: frequentemente
-        label: "Sì, frequentemente"
-      - value: qualche_volta
-        label: "Qualche volta"
-      - value: raramente
-        label: "Raramente"
-      - value: mai
-        label: "Mai"
+map:
+  # ===== FUNZIONE TIROIDEA =====
+  ipotiroidismo:
+    feature: ipotiroidismo
+    values:
+      no: no
+      primario: primario
+      secondario: secondario
+      non_so: non_so
+
+  ipertiroidismo:
+    feature: ipertiroidismo
+    values:
+      no: no
+      attualmente_in_trattamento: attualmente_in_trattamento
+      trattato_risolto: trattato_risolto
+      non_trattato: non_trattato
+      non_so: non_so
+
+  nodulo_tiroide:
+    feature: nodulo_tiroide
+    values:
+      no: no
+      benigno: benigno
+      sospetto: sospetto
+      maligno: maligno
+      non_so: non_so
+
+  # ===== APPARATO RESPIRATORIO =====
+  asma:
+    feature: asma
+    values:
+      mai: mai
+      diagnosticata_in_trattamento: diagnosticata_in_trattamento
+      episodi_non_diagnosticati: episodi_non_diagnosticati
+      passato_non_sintomatico: passato_non_sintomatico
+      non_so: non_so
+
+  farmaci_asma:
+    feature: farmaci_asma
+    values:
+      si: si
+      no: no
+
+  sintomi_asma:
+    feature: sintomi_asma
+    values:
+      si: si
+      no: no
+
+  spirometria_12_mesi:
+    feature: spirometria_12_mesi
+    values:
+      si: si
+      no: no
+
+  bpco:
+    feature: bpco
+    values:
+      nessuna_diagnosi: nessuna_diagnosi
+      diagnosi_bpco: diagnosi_bpco
+      sintomi_senza_diagnosi: sintomi_senza_diagnosi
+      ex_fumatore_con_sintomi: ex_fumatore_con_sintomi
+      non_so: non_so
+
+  spirometria_bpco:
+    feature: spirometria_bpco
+    values:
+      si: si
+      no: no
+
+  fumo_attuale:
+    feature: fumo_attuale
+    values:
+      si: si
+      no: no
+      ex_fumatore: ex_fumatore
+
+  difficolta_respiratorie_quotidiane:
+    feature: difficolta_respiratorie_quotidiane
+    values:
+      si: si
+      no: no
+
+  polmonite:
+    feature: polmonite
+    values:
+      mai: mai
+      una_volta: una_volta
+      piu_volte: piu_volte
+      ricovero: ricovero
+      non_ricordo: non_ricordo
+
+  rischio_polmonite:
+    feature: rischio_polmonite
+    values:
+      si: si
+      no: no
+
+  vaccino_pneumo_influ:
+    feature: vaccino_pneumo_influ
+    values:
+      si_recentemente: si_recentemente
+      si_passato: si_passato
+      no: no
+      non_so: non_so
+
+  # ===== APPARATO GASTROINTESTINALE =====
+  diarrea_3_mesi:
+    feature: diarrea_3_mesi
+    values:
+      no: no
+      episodio_acuto: episodio_acuto
+      episodi_brevi: episodi_brevi
+      diarrea_cronica: diarrea_cronica
+      non_so: non_so
+
+  sangue_feci:
+    feature: sangue_feci
+    values:
+      si: si
+      no: no
+
+  perdita_peso:
+    feature: perdita_peso
+    values:
+      si: si
+      no: no
+
+  associazione_diarrea:
+    feature: associazione_diarrea
+    values:
+      si: si
+      no: no
+
+  esami_feci:
+    feature: esami_feci
+    values:
+      coprocoltura: coprocoltura
+      calprotectina: calprotectina
+      test_celiachia: test_celiachia
+      altro: altro
+
+  altri_esami:
+    feature: altri_esami
+    passthrough: true
+
+  # ===== MALATTIE INFETTIVE =====
+  morbillo:
+    feature: morbillo
+    values:
+      bambino_conferma_medico: bambino_conferma_medico
+      non_certo: non_certo
+      mai_avuto: mai_avuto
+      non_ricordo: non_ricordo
+
+  varicella:
+    feature: varicella
+    values:
+      confermata_medico: confermata_medico
+      non_sicuro: non_sicuro
+      mai_avuta: mai_avuta
+      non_ricordo: non_ricordo
+
+  decorso_varicella:
+    feature: decorso_varicella
+    values:
+      si: si
+      no: no
+      non_so: non_so
+
+  scarlattina:
+    feature: scarlattina
+    values:
+      diagnosticata_medico: diagnosticata_medico
+      senza_conferma: senza_conferma
+      mai_avuta: mai_avuta
+      non_ricordo: non_ricordo
+
+  decorso_scarlattina:
+    feature: decorso_scarlattina
+    values:
+      si: si
+      no: no
+      non_so: non_so
+
+  rosolia:
+    feature: rosolia
+    values:
+      confermata_medico: confermata_medico
+      senza_conferma: senza_conferma
+      mai_avuta: mai_avuta
+      non_ricordo: non_ricordo
+
+  vaccino_test_rosolia:
+    feature: vaccino_test_rosolia
+    values:
+      vaccinata: vaccinata
+      test_immune: test_immune
+      no_non_so: no_non_so
+
+  pertosse:
+    feature: pertosse
+    values:
+      diagnosticata_medico: diagnosticata_medico
+      non_diagnosticata: non_diagnosticata
+      no: no
+      non_ricordo: non_ricordo
+
+  difterite:
+    feature: difterite
+    values:
+      confermata_diagnosi: confermata_diagnosi
+      no: no
+      non_ricordo: non_ricordo
+
+  vaccino_difterite:
+    feature: vaccino_difterite
+    values:
+      bambino: bambino
+      richiami_adulto: richiami_adulto
+      no: no
+      non_ricordo: non_ricordo
+
+  epatite_b_diagnosi:
+    feature: epatite_b_diagnosi
+    values:
+      positivo_cronico: positivo_cronico
+      risolto: risolto
+      mai: mai
+      non_so: non_so
+
+  vaccino_epatite_b:
+    feature: vaccino_epatite_b
+    values:
+      bambino: bambino
+      adulto: adulto
+      no: no
+      non_so: non_so
+
+  mononucleosi:
+    feature: mononucleosi
+    values:
+      confermata: confermata
+      non_confermata: non_confermata
+      no: no
+      non_so: non_so
+
+  tubercolosi:
+    feature: tubercolosi
+    values:
+      malattia_conclusa: malattia_conclusa
+      test_positivo_senza_malattia: test_positivo_senza_malattia
+      no: no
+      non_so: non_so
+
+  covid:
+    feature: covid
+    values:
+      sintomi_lievi: sintomi_lievi
+      sintomi_moderati_gravi: sintomi_moderati_gravi
+      ricovero: ricovero
+      terapia_intensiva: terapia_intensiva
+      no: no
+      non_sicuro: non_sicuro
+
+  sequele_covid:
+    feature: sequele_covid
+    values:
+      no: no
+      risolte: risolte
+      persistenti: persistenti
+      non_so: non_so
+
+  complicanze_covid_descrizione:
+    feature: complicanze_covid_descrizione
+    passthrough: true
+
+  vaccino_covid:
+    feature: vaccino_covid
+    values:
+      si: si
+      no: no
+      parziale: parziale
+      non_so: non_so
+
+  tipo_vaccino_covid:
+    feature: tipo_vaccino_covid
+    passthrough: true
+
+  dosi_vaccino_covid:
+    feature: dosi_vaccino_covid
+    values:
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4_plus": "4_plus"
+
+  hiv_test:
+    feature: hiv_test
+    values:
+      positivo: positivo
+      negativo: negativo
+      no: no
+
+  terapia_antiretrovirale:
+    feature: terapia_antiretrovirale
+    values:
+      regolare: regolare
+      difficolta: difficolta
+      non_iniziato: non_iniziato
+
+  # ===== TRAUMI =====
+  trauma_cranico:
+    feature: trauma_cranico
+    values:
+      con_perdita: con_perdita
+      senza_perdita: senza_perdita
+      no: no
+      non_ricordo: non_ricordo
+
+  post_trauma_sintomi[]:
+    feature: post_trauma_sintomi
+    values:
+      convulsioni: convulsioni
+      disturbi_cognitivi: disturbi_cognitivi
+      mal_di_testa: mal_di_testa
+
+  fratture_traumi_ortopedici:
+    feature: fratture_traumi_ortopedici
+    values:
+      con_intervento: con_intervento
+      senza_intervento: senza_intervento
+      no: no
+      non_ricordo: non_ricordo
+
+  aree_traumi:
+    feature: aree_traumi
+    passthrough: true
+
+  trauma_toracico:
+    feature: trauma_toracico
+    values:
+      con_complicanze: con_complicanze
+      senza_complicanze: senza_complicanze
+      no: no
+      non_ricordo: non_ricordo
+
+  trauma_addominale:
+    feature: trauma_addominale
+    values:
+      con_lesioni: con_lesioni
+      senza_lesioni: senza_lesioni
+      no: no
+      non_ricordo: non_ricordo
+
+  # ===== CHIRURGIA =====
+  appendicectomia:
+    feature: appendicectomia
+    values:
+      si: si
+      no: no
+      non_ricordo: non_ricordo
+
+  complicanze_appendicectomia:
+    feature: complicanze_appendicectomia
+    values:
+      si: si
+      no: no
+      non_so: non_so
+
+  tonsillectomia:
+    feature: tonsillectomia
+    values:
+      si: si
+      no: no
+      non_ricordo: non_ricordo
+
+  motivo_tonsillectomia:
+    feature: motivo_tonsillectomia
+    values:
+      infezioni_ricorrenti: infezioni_ricorrenti
+      apnee_russamento: apnee_russamento
+      altro: altro
+      non_ricordo: non_ricordo
+
+  colecistectomia:
+    feature: colecistectomia
+    values:
+      si: si
+      no: no
+      non_ricordo: non_ricordo
+
+  motivo_colecistectomia:
+    feature: motivo_colecistectomia
+    values:
+      coliche_calcoli: coliche_calcoli
+      colecistite: colecistite
+      altro: altro
+      non_ricordo: non_ricordo
+
+  ernia_inguinale:
+    feature: ernia_inguinale
+    values:
+      si: si
+      recidive: recidive
+      dolori_occasionali: dolori_occasionali
+      no: no
+      non_ricordo: non_ricordo
+
+  ernia:
+    feature: ernia
+    passthrough: true
+
+  chirurgia_estetica:
+    feature: chirurgia_estetica
+    values:
+      si_uno: si_uno
+      si_piu_di_uno: si_piu_di_uno
+      no: no
+
+  prostatectomia:
+    feature: prostatectomia
+    values:
+      no: no
+      ipertrofia: ipertrofia
+      tumore: tumore
+      non_ricordo: non_ricordo
+
+  complicanze_prostatectomia:
+    feature: complicanze_prostatectomia
+    values:
+      nessuna: nessuna
+      incontinenza: incontinenza
+      disfunzione_erettile: disfunzione_erettile
+      altri_disturbi: altri_disturbi
+
+  # ===== PARAMETRI VITALI =====
+  ipertensione:
+    feature: ipertensione
+    values:
+      no: no
+      occasionale: occasionale
+      diagnosi: diagnosi
+      non_so: non_so
+
+  trattamento_ipertensione:
+    feature: trattamento_ipertensione
+    values:
+      nessuno: nessuno
+      farmaci: farmaci
+      dieta: dieta
+      entrambi: entrambi
+
+  glicemia:
+    feature: glicemia
+    values:
+      no: no
+      occasionalmente: occasionalmente
+      diagnosi: diagnosi
+      non_so: non_so
+
+  approccio_glicemia:
+    feature: approccio_glicemia
+    values:
+      dieta: dieta
+      esercizio: esercizio
+      farmaci: farmaci
+      insulina: insulina
+      nessuno: nessuno
+      accertamento: accertamento
+
+  peso:
+    feature: peso
+    passthrough: true
+
+  altezza:
+    feature: altezza
+    passthrough: true
+
+  bmi:
+    feature: bmi
+    passthrough: true
+
+  alterazioni_livelli_colesterolo:
+    feature: alterazioni_livelli_colesterolo
+    values:
+      mai: mai
+      passato_controllo: passato_controllo
+      attuali: attuali
+      in_trattamento: in_trattamento
+      non_so: non_so
+
+  valori_colesterolo:
+    feature: valori_colesterolo
+    passthrough: true
+
+  valore_bap_test:
+    feature: valore_bap_test
+    passthrough: true
+
+  valore_droms_test:
+    feature: valore_droms_test
+    passthrough: true
+
+  # ===== ALLERGIE E FARMACI =====
+  allergie[]:
+    feature: allergie
+    values:
+      no: no
+      farmaci: farmaci
+      alimenti: alimenti
+      ambientali: ambientali
+      insetti: insetti
+      altre: altre
+      non_sicuro: non_sicuro
+
+  allergie_altre:
+    feature: allergie_altre
+    passthrough: true
+
+  farmaci_regolari:
+    feature: farmaci_regolari
+    values:
+      no: no
+      patologia_cronica: patologia_cronica
+      terapia_ormonale: terapia_ormonale
+      integratori: integratori
+
+  farmaci_specifica:
+    feature: farmaci_specifica
+    passthrough: true
+
+  stato_generale_influenzato_da_infiammazioni_o_infezioni:
+    feature: stato_generale_influenzato_da_infiammazioni_o_infezioni
+    values:
+      frequentemente: frequentemente
+      qualche_volta: qualche_volta
+      raramente: raramente
+      mai: mai
