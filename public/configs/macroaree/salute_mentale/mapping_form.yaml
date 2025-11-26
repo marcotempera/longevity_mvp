@@ -3,7 +3,7 @@ version: 1.0
 
 map:
   # ===== STRESS E BENESSERE QUOTIDIANO =====
-  stress_di_vita_quotidiana[]:
+  stress_di_vita_quotidiana:
     feature: stress_di_vita_quotidiana
     values:
       mai: mai
@@ -12,7 +12,7 @@ map:
       spesso: spesso
       sempre: sempre
 
-  sintomi_notati_legati_allo_stress[]:
+  sintomi_notati_legati_allo_stress:
     feature: sintomi_notati_legati_allo_stress
     values:
       tachicardia: tachicardia
@@ -22,7 +22,7 @@ map:
       stanchezza: stanchezza
       nessuno: nessuno
 
-  supporto_persone_vicine[]:
+  supporto_persone_vicine:
     feature: supporto_persone_vicine
     values:
       "1": "1"
@@ -30,7 +30,7 @@ map:
       "3": "3"
       "4": "4"
 
-  mindfulness_e_meditazione[]:
+  mindfulness_e_meditazione:
     feature: mindfulness_e_meditazione
     values:
       "1": "1"
@@ -38,7 +38,7 @@ map:
       "3": "3"
       "4": "4"
 
-  bisogno_riduzione_stress[]:
+  bisogno_riduzione_stress:
     feature: bisogno_riduzione_stress
     values:
       "1": "1"
@@ -46,7 +46,7 @@ map:
       "3": "3"
       "4": "4"
 
-  arte_o_musica_anti_stress[]:
+  arte_o_musica_anti_stress:
     feature: arte_o_musica_anti_stress
     values:
       spesso: spesso
@@ -54,7 +54,7 @@ map:
       mai_ma_interessato: mai_ma_interessato
       non_credo: non_credo
 
-  equilibrio_corpo_mente[]:
+  equilibrio_corpo_mente:
     feature: equilibrio_corpo_mente
     values:
       spesso_in_equilibrio: spesso_in_equilibrio
@@ -63,7 +63,7 @@ map:
       no_disconnessione: no_disconnessione
 
   # ===== UMORE E DISREGOLAZIONE =====
-  episodi_depressivi_ricorrenti[]:
+  episodi_depressivi_ricorrenti:
     feature: episodi_depressivi_ricorrenti
     values:
       "1": "1"
@@ -74,7 +74,7 @@ map:
     feature: episodi_depressivi_ricorrenti_tempo
     passthrough: true
 
-  difficolta[]:
+  difficolta:
     feature: difficolta
     values:
       sonno: sonno
@@ -82,7 +82,7 @@ map:
       interessato: interessato
       nessun_problema: nessun_problema
 
-  depressione_resistente_farmaci[]:
+  depressione_resistente_farmaci:
     feature: depressione_resistente_farmaci
     values:
       diagnosi_depressione: diagnosi_depressione
@@ -90,7 +90,7 @@ map:
       interessato_trattamenti: interessato_trattamenti
       nessun_problema: nessun_problema
 
-  umore_basso[]:
+  umore_basso:
     feature: umore_basso
     values:
       frequente: frequente
@@ -101,7 +101,7 @@ map:
     feature: note_umore_basso
     passthrough: true
 
-  autocritica[]:
+  autocritica:
     feature: autocritica
     values:
       frequente: frequente
@@ -113,7 +113,7 @@ map:
     passthrough: true
 
   # ===== SINTOMI SPECIFICI E DIAGNOSI =====
-  brainfog[]:
+  brainfog:
     feature: brainfog
     values:
       mai: mai
@@ -125,7 +125,7 @@ map:
     feature: note_brainfog
     passthrough: true
 
-  fame_emotiva[]:
+  fame_emotiva:
     feature: fame_emotiva
     values:
       mai: mai
@@ -136,7 +136,7 @@ map:
     feature: note_fame_emotiva
     passthrough: true
 
-  diagnosi_mentale[]:
+  diagnosi_mentale:
     feature: diagnosi_mentale
     values:
       depressione: depressione
@@ -148,7 +148,7 @@ map:
     feature: note_diagnosi_mentale
     passthrough: true
 
-  attacchi_ansia[]:
+  attacchi_ansia:
     feature: attacchi_ansia
     values:
       diagnosi: diagnosi
@@ -160,7 +160,7 @@ map:
     passthrough: true
 
   # ===== RELAZIONI E SUPPORTO =====
-  isolamento_sociale[]:
+  isolamento_sociale:
     feature: isolamento_sociale
     values:
       frequente: frequente
@@ -171,7 +171,7 @@ map:
     feature: note_isolamento_sociale
     passthrough: true
 
-  relazioni_insicure[]:
+  relazioni_insicure:
     feature: relazioni_insicure
     values:
       spesso: spesso
@@ -182,7 +182,7 @@ map:
     feature: note_relazioni_insicure
     passthrough: true
 
-  psicoterapia[]:
+  psicoterapia:
     feature: psicoterapia
     values:
       attualmente: attualmente
