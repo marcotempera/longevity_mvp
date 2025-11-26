@@ -1,7 +1,7 @@
 map:
 
   # ====== MOVIMENTO QUOTIDIANO ======
-  mezzo_spostamento[]:
+  mezzo_spostamento:
     feature: mezzo_spostamento
     values:
       a_piedi: a_piedi
@@ -10,7 +10,7 @@ map:
       mezzi_pubblici: mezzi_pubblici
       alterno_mezzi: alterno_mezzi
 
-  rampe_scale[]:
+  rampe_scale:
     feature: rampe_scale
     values:
       nessuna: nessuna
@@ -18,7 +18,7 @@ map:
       3_5: 3_5
       piu_5: piu_5
 
-  lavori_domestici[]:
+  lavori_domestici:
     feature: lavori_domestici
     values:
       quasi_ogni_giorno: quasi_ogni_giorno
@@ -26,14 +26,14 @@ map:
       1_settimana: 1_settimana
       raramente_mai: raramente_mai
 
-  attivita_aperto[]:
+  attivita_aperto:
     feature: attivita_aperto
     values:
       settimanale: settimanale
       occasionale: occasionale
       mai: mai
 
-  attivita_spontanea[]:
+  attivita_spontanea:
     feature: attivita_spontanea
     values:
       meno_1: meno_1
@@ -41,14 +41,14 @@ map:
       4_6: 4_6
       piu_6: piu_6
 
-  ascensore_scale[]:
+  ascensore_scale:
     feature: ascensore_scale
     values:
       ascensore: ascensore
       scale: scale
       dipende: dipende
 
-  attivita_tempo_libero[]:
+  attivita_tempo_libero:
     feature: attivita_tempo_libero
     values:
       sedentarie: sedentarie
@@ -56,7 +56,7 @@ map:
       attive: attive
 
   # ====== ATTIVITÀ STRUTTURATA ======
-  attivita_fisica_moderata[]:
+  attivita_fisica_moderata:
     feature: attivita_fisica_moderata
     values:
       mai: mai
@@ -64,7 +64,7 @@ map:
       2_3_volte: 2_3_volte
       4_plus: 4_plus
 
-  attività_fisica_settimanale[]:
+  attività_fisica_settimanale:
     feature: attività_fisica_settimanale
     values:
       nessuna: nessuna
@@ -74,7 +74,7 @@ map:
       non_so: non_so
 
   # ====== ABITUDINI E SOSTANZE ======
-  fumo_nicotina[]:
+  fumo_nicotina:
     feature: fumo_nicotina
     values:
       mai_fumato: mai_fumato
@@ -88,7 +88,7 @@ map:
     feature: dettagli_fumo
     passthrough: true
 
-  consumo_alcol[]:
+  consumo_alcol:
     feature: consumo_alcol
     values:
       no: no
@@ -103,7 +103,7 @@ map:
     passthrough: true
 
   # ====== RECUPERO E RIGENERAZIONE ======
-  minzione[]:
+  minzione:
     feature: minzione
     values:
       regolare: regolare
@@ -113,7 +113,7 @@ map:
       variazioni_urine: variazioni_urine
       incontinenza: incontinenza
 
-  tempo_di_recupero_post_sforzo[]:
+  tempo_di_recupero_post_sforzo:
     feature: tempo_di_recupero_post_sforzo
     values:
       molto_rapidamente: molto_rapidamente
@@ -121,7 +121,7 @@ map:
       lentamente: lentamente
       faccio_fatica: faccio_fatica
 
-  stress_volontari_controllati[]:
+  stress_volontari_controllati:
     feature: stress_volontari_controllati
     values:
       regolarmente: regolarmente
@@ -129,7 +129,7 @@ map:
       raramente: raramente
       no: no
 
-  rigenerazione_tessuti[]:
+  rigenerazione_tessuti:
     feature: rigenerazione_tessuti
     values:
       attività_fisica_moderata: attività_fisica_moderata
@@ -144,7 +144,7 @@ map:
     passthrough: true
 
   # ====== INFIAMMAZIONE E LONGEVITÀ ======
-  strategie_riduzione_infiammazione_cronica[]:
+  strategie_riduzione_infiammazione_cronica:
     feature: strategie_riduzione_infiammazione_cronica
     values:
       stile_vita_completo: stile_vita_completo
@@ -152,7 +152,7 @@ map:
       interessato: interessato
       no: no
 
-  infiammazione_bassa[]:
+  infiammazione_bassa:
     feature: infiammazione_bassa
     values:
       completo: completo
@@ -160,7 +160,7 @@ map:
       interessato: interessato
       no: no
 
-  infiammazione_età[]:
+  infiammazione_età:
     feature: infiammazione_età
     values:
       completo: completo
