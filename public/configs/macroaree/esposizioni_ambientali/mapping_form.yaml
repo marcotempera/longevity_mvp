@@ -3,7 +3,7 @@ version: 1.0
 
 map:
   # ===== AMBIENTE LAVORATIVO E RISCHI =====
-  rischi_lavorativi[]:
+  rischi_lavorativi:
     feature: rischi_lavorativi
     values:
       basso_rischio: basso_rischio
@@ -11,7 +11,7 @@ map:
       rischi_regolari: rischi_regolari
       non_lavoro: non_lavoro
 
-  sostanze_tossiche[]:
+  sostanze_tossiche:
     feature: sostanze_tossiche
     values:
       attualmente: attualmente
@@ -21,7 +21,7 @@ map:
     feature: note_sostanze_tossiche
     passthrough: true
 
-  ritmi_lavorativi[]:
+  ritmi_lavorativi:
     feature: ritmi_lavorativi
     values:
       frequente: frequente
@@ -32,7 +32,7 @@ map:
     passthrough: true
 
   # ===== AMBIENTE DOMESTICO E URBANO =====
-  ambiente_salubre[]:
+  ambiente_salubre:
     feature: ambiente_salubre
     values:
       ambiente_salubre: ambiente_salubre
@@ -40,7 +40,7 @@ map:
       ambiente_nocivo: ambiente_nocivo
       non_so: non_so
 
-  inquinamento_zona[]:
+  inquinamento_zona:
     feature: inquinamento_zona
     values:
       attualmente: attualmente
@@ -51,7 +51,7 @@ map:
     feature: note_inquinamento_zona
     passthrough: true
 
-  area_abitata[]:
+  area_abitata:
     feature: area_abitata
     values:
       centro_urbano: centro_urbano
@@ -59,7 +59,7 @@ map:
       zona_rurale: zona_rurale
       costiera_montana: costiera_montana
 
-  rumore_abitazione[]:
+  rumore_abitazione:
     feature: rumore_abitazione
     values:
       molto: molto
@@ -71,21 +71,21 @@ map:
     passthrough: true
 
   # ===== QUALITÀ ARIA E MATERIALI =====
-  qualita_aria_casa[]:
+  qualita_aria_casa:
     feature: qualita_aria_casa
     values:
       buona: buona
       moderata: moderata
       scarsa: scarsa
 
-  dispositivi_aria[]:
+  dispositivi_aria:
     feature: dispositivi_aria
     values:
       regolarmente: regolarmente
       occasionalmente: occasionalmente
       mai: mai
 
-  ventilazione_casa[]:
+  ventilazione_casa:
     feature: ventilazione_casa
     values:
       naturale: naturale
@@ -93,7 +93,7 @@ map:
       ventilazione_meccanica: ventilazione_meccanica
       nessuna: nessuna
 
-  materiali_tessuti[]:
+  materiali_tessuti:
     feature: materiali_tessuti
     values:
       naturali: naturali
@@ -101,14 +101,14 @@ map:
       sintetici: sintetici
 
   # ===== STILE DI VITA E ACCESSO =====
-  filtraggio_acqua[]:
+  filtraggio_acqua:
     feature: filtraggio_acqua
     values:
       depuratore: depuratore
       rubinetto: rubinetto
       bottiglia: bottiglia
 
-  ambienti_chiusi[]:
+  ambienti_chiusi:
     feature: ambienti_chiusi
     values:
       meno_4: meno_4
@@ -119,7 +119,7 @@ map:
     feature: note_ambienti_chiusi
     passthrough: true
 
-  accesso_natura[]:
+  accesso_natura:
     feature: accesso_natura
     values:
       quotidiano: quotidiano
@@ -131,7 +131,7 @@ map:
     passthrough: true
 
   # ===== FATTORI SOCIOECONOMICI =====
-  barriere_accesso[]:
+  barriere_accesso:
     feature: barriere_accesso
     values:
       spesso: spesso
@@ -142,7 +142,7 @@ map:
     feature: note_barriere_accesso
     passthrough: true
 
-  percorso_scolastico[]:
+  percorso_scolastico:
     feature: percorso_scolastico
     values:
       regolare: regolare
